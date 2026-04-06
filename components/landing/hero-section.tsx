@@ -90,7 +90,7 @@ export function HeroSection() {
 
         {/* Descripción */}
         <p
-          className={`text-xl lg:text-2xl text-white/50 leading-relaxed max-w-xl mb-10 text-left pl-7 transition-all duration-700 delay-200 ${
+          className={`text-xl lg:text-2xl text-white/70 leading-relaxed max-w-xl mb-10 text-left pl-7 transition-all duration-700 delay-200 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
