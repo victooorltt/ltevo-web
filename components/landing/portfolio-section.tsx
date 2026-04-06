@@ -9,7 +9,7 @@ const projects = [
     title: "CAO",
     description: "Diseño web corporativo con identidad visual moderna y experiencia de usuario optimizada para conversión.",
     url: "https://cao-brown.vercel.app/",
-    image: "/portfolio/cao.png",
+    image: "/portfolio/cao.webp",
     tags: ["Diseño Web", "Identidad Visual"],
   },
   {
@@ -17,7 +17,7 @@ const projects = [
     title: "Jardinería El Cuetu",
     description: "Web para empresa de jardinería local con diseño orgánico, galería de trabajos y formulario de contacto integrado.",
     url: "https://jardineria-elcuetu.vercel.app/",
-    image: "/portfolio/cuetu.png",
+    image: "/portfolio/cuetu.webp",
     tags: ["Diseño Web", "SEO Local"],
   },
 ];
