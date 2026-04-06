@@ -55,7 +55,7 @@ export function HeroSection() {
       >
         {/* Imagen */}
         <img
-          src="/hero.png"
+          src="/hero.webp"
           alt="Diseño web profesional"
           className="w-full h-full object-cover object-center"
         />
