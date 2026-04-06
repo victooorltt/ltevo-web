@@ -16,9 +16,9 @@ const footerLinks = {
     { name: "Rendimiento", href: "#features" },
   ],
   Legal: [
-    { name: "Privacidad",          href: "#" },
-    { name: "Términos de uso",     href: "#" },
-    { name: "Política de cookies", href: "#" },
+    { name: "Privacidad",          href: "/privacidad" },
+    { name: "Términos de uso",     href: "/terminos" },
+    { name: "Política de cookies", href: "/cookies" },
   ],
 };
 
@@ -44,7 +44,7 @@ export function FooterSection() {
                 <span className="text-xs text-white/30 font-mono">™</span>
               </a>
 
-              <p className="text-white/50 leading-relaxed mb-8 max-w-xs">
+              <p className="text-white/70 leading-relaxed mb-8 max-w-xs">
                 Agencia de diseño web en Oviedo. Creamos webs que convierten visitas en clientes.
               </p>
 
