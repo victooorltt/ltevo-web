@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 const footerLinks = {
   Navegación: [
@@ -17,8 +18,8 @@ const footerLinks = {
   ],
   Legal: [
     { name: "Privacidad",          href: "/privacidad" },
-    { name: "Términos de uso",     href: "/terminos" },
-    { name: "Política de cookies", href: "/cookies" },
+    { name: "Términos de uso",     href: "/terminos"   },
+    { name: "Política de cookies", href: "/cookies"    },
   ],
 };
 
@@ -39,10 +40,10 @@ export function FooterSection() {
 
             {/* Brand */}
             <div className="col-span-2">
-              <a href="#" className="inline-flex items-center gap-2 mb-6">
+              <Link href="/" className="inline-flex items-center gap-2 mb-6">
                 <span className="text-2xl font-display text-white">LTEvo</span>
                 <span className="text-xs text-white/30 font-mono">™</span>
-              </a>
+              </Link>
 
               <p className="text-white/70 leading-relaxed mb-8 max-w-xs">
                 Agencia de diseño web en Oviedo. Creamos webs que convierten visitas en clientes.
@@ -53,6 +54,8 @@ export function FooterSection() {
                   <a
                     key={link.name}
                     href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sm text-white/40 hover:text-white transition-colors flex items-center gap-1 group"
                   >
                     {link.name}
@@ -69,12 +72,21 @@ export function FooterSection() {
                 <ul className="space-y-4">
                   {links.map((link) => (
                     <li key={link.name}>
-                      <a
-                        href={link.href}
-                        className="text-sm text-white/40 hover:text-white transition-colors"
-                      >
-                        {link.name}
-                      </a>
+                      {link.href.startsWith("#") ? (
+                        <a
+                          href={link.href}
+                          className="text-sm text-white/40 hover:text-white transition-colors"
+                        >
+                          {link.name}
+                        </a>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="text-sm text-white/40 hover:text-white transition-colors"
+                        >
+                          {link.name}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
