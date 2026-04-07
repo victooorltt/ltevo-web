@@ -29,7 +29,6 @@ const features = [
   },
 ];
 
-// Pre-calculado fuera del componente — mismo valor en server y client
 const AI_NODES = Array.from({ length: 6 }, (_, i) => {
   const angle = (i * 60) * (Math.PI / 180);
   const radius = 50;
@@ -72,17 +71,10 @@ function AIVisual() {
       </circle>
       {AI_NODES.map((node, i) => (
         <g key={i}>
-          <line
-            x1="100" y1="80"
-            x2={node.x} y2={node.y}
-            stroke="currentColor" strokeWidth="1" opacity="0.3"
-          >
+          <line x1="100" y1="80" x2={node.x} y2={node.y} stroke="currentColor" strokeWidth="1" opacity="0.3">
             <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" begin={`${node.delay}s`} repeatCount="indefinite" />
           </line>
-          <circle
-            cx={node.x} cy={node.y}
-            r="6" fill="none" stroke="currentColor" strokeWidth="2"
-          >
+          <circle cx={node.x} cy={node.y} r="6" fill="none" stroke="currentColor" strokeWidth="2">
             <animate attributeName="r" values="6;8;6" dur="2s" begin={`${node.delay}s`} repeatCount="indefinite" />
           </circle>
         </g>
@@ -127,21 +119,12 @@ function CollabVisual() {
 function SecurityVisual() {
   return (
     <svg viewBox="0 0 200 160" className="w-full h-full">
-      <path
-        d="M 100 20 L 150 40 L 150 90 Q 150 130 100 145 Q 50 130 50 90 L 50 40 Z"
-        fill="none" stroke="currentColor" strokeWidth="2"
-      />
-      <path
-        d="M 100 35 L 135 50 L 135 85 Q 135 115 100 128 Q 65 115 65 85 L 65 50 Z"
-        fill="currentColor" opacity="0.1"
-      >
+      <path d="M 100 20 L 150 40 L 150 90 Q 150 130 100 145 Q 50 130 50 90 L 50 40 Z" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M 100 35 L 135 50 L 135 85 Q 135 115 100 128 Q 65 115 65 85 L 65 50 Z" fill="currentColor" opacity="0.1">
         <animate attributeName="opacity" values="0.1;0.2;0.1" dur="2s" repeatCount="indefinite" />
       </path>
       <rect x="85" y="70" width="30" height="25" rx="3" fill="currentColor" />
-      <path
-        d="M 90 70 L 90 60 Q 90 50 100 50 Q 110 50 110 60 L 110 70"
-        fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"
-      />
+      <path d="M 90 70 L 90 60 Q 90 50 100 50 Q 110 50 110 60 L 110 70" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
       <circle cx="100" cy="80" r="4" className="fill-background" />
       <rect x="98" y="82" width="4" height="8" className="fill-background" />
       <line x1="60" y1="60" x2="140" y2="60" stroke="currentColor" strokeWidth="1" opacity="0">
@@ -175,9 +158,6 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
       style={{ transitionDelay: `${index * 100}ms` }}
     >
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 py-12 lg:py-20 border-b border-foreground/10">
-        <div className="shrink-0">
-          <span className="font-mono text-sm text-muted-foreground">{feature.number}</span>
-        </div>
         <div className="flex-1 grid lg:grid-cols-2 gap-8 items-center">
           <div>
             <h3 className="text-3xl lg:text-4xl font-display mb-4 group-hover:translate-x-2 transition-transform duration-500">
@@ -218,10 +198,6 @@ export function FeaturesSection() {
     <section id="servicios" ref={sectionRef} className="relative py-24 lg:py-32">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className="mb-16 lg:mb-24">
-          <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
-            <span className="w-8 h-px bg-foreground/30" />
-            Servicios
-          </span>
           <h2
             className={`text-4xl lg:text-6xl font-display tracking-tight transition-all duration-700 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"

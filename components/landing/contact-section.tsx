@@ -56,10 +56,6 @@ export function ContactSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
-              <span className="w-8 h-px bg-foreground/30" />
-              Contacto
-            </span>
 
             <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-8 leading-[0.95]">
               Hablemos de

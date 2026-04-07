@@ -2,7 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  Layout,
+  SearchCheck,
+  ShoppingBag,
+  Zap,
+  MessageSquareDot,
+  Wrench,
+} from "lucide-react";
 
 export function CtaSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -66,16 +74,21 @@ export function CtaSection() {
                   <Button
                     size="lg"
                     className="bg-foreground hover:bg-foreground/90 text-background px-8 h-14 text-base rounded-full group"
+                    asChild
                   >
-                    Solicitar presupuesto
-                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                    <a href="#contact">
+                      Solicitar presupuesto
+                      <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                    </a>
                   </Button>
+
                   <Button
                     size="lg"
                     variant="outline"
                     className="h-14 px-8 text-base rounded-full border-foreground/20 hover:bg-foreground/5"
+                    asChild
                   >
-                    Ver proyectos
+                    <a href="#portfolio">Ver proyectos</a>
                   </Button>
                 </div>
 
@@ -87,24 +100,27 @@ export function CtaSection() {
               {/* Right — grid de servicios */}
               <div className="hidden lg:grid grid-cols-2 gap-3 w-[360px] shrink-0">
                 {[
-                  { num: "01", label: "Diseño Web"    },
-                  { num: "02", label: "SEO"           },
-                  { num: "03", label: "eCommerce"     },
-                  { num: "04", label: "Rendimiento"   },
-                  { num: "05", label: "Consultoría"   },
-                  { num: "06", label: "Mantenimiento" },
-                ].map((item, i) => (
-                  <div
-                    key={item.num}
-                    className={`border border-foreground/10 p-5 flex flex-col gap-8 transition-all duration-500 hover:border-foreground/30 hover:bg-foreground/[0.02] ${
-                      isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                    }`}
-                    style={{ transitionDelay: `${300 + i * 80}ms` }}
-                  >
-                    <span className="font-mono text-xs text-muted-foreground">{item.num}</span>
-                    <span className="text-sm font-medium">{item.label}</span>
-                  </div>
-                ))}
+                  { icon: Layout,          label: "Diseño Web"    },
+                  { icon: SearchCheck,     label: "SEO"           },
+                  { icon: ShoppingBag,     label: "eCommerce"     },
+                  { icon: Zap,             label: "Rendimiento"   },
+                  { icon: MessageSquareDot,label: "Consultoría"   },
+                  { icon: Wrench,          label: "Mantenimiento" },
+                ].map((item, i) => {
+                  const Icon = item.icon;
+                  return (
+                    <div
+                      key={item.label}
+                      className={`group border border-foreground/10 p-5 flex flex-col gap-8 transition-all duration-500 hover:border-foreground/30 hover:bg-foreground/[0.02] ${
+                        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                      }`}
+                      style={{ transitionDelay: `${300 + i * 80}ms` }}
+                    >
+                      <Icon className="w-6 h-6 text-muted-foreground transition-colors duration-300 group-hover:text-foreground" />
+                      <span className="text-sm font-medium">{item.label}</span>
+                    </div>
+                  );
+                })}
               </div>
 
             </div>

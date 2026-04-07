@@ -5,16 +5,16 @@ import Link from "next/link";
 
 const footerLinks = {
   Navegación: [
-    { name: "Servicios",  href: "#features"    },
+    { name: "Servicios",  href: "#servicios"    },
     { name: "Proceso",    href: "#how-it-works" },
-    { name: "Tecnología", href: "#integrations" },
-    { name: "Resultados", href: "#studio"       },
+    { name: "Portafolio", href: "#portfolio"    },
+    { name: "Resultados", href: "#contacto"     },
   ],
   Servicios: [
-    { name: "Diseño Web",  href: "#features" },
-    { name: "SEO",         href: "#features" },
-    { name: "eCommerce",   href: "#features" },
-    { name: "Rendimiento", href: "#features" },
+    { name: "Diseño Web",  href: "#servicios" },
+    { name: "SEO",         href: "#servicios" },
+    { name: "eCommerce",   href: "#servicios" },
+    { name: "Rendimiento", href: "#servicios" },
   ],
   Legal: [
     { name: "Privacidad",          href: "/privacidad" },
@@ -23,11 +23,6 @@ const footerLinks = {
   ],
 };
 
-const socialLinks = [
-  { name: "Instagram", href: "#" },
-  { name: "LinkedIn",  href: "#" },
-  { name: "Twitter",   href: "#" },
-];
 
 export function FooterSection() {
   return (
@@ -48,21 +43,6 @@ export function FooterSection() {
               <p className="text-white/70 leading-relaxed mb-8 max-w-xs">
                 Agencia de diseño web en Oviedo. Creamos webs que convierten visitas en clientes.
               </p>
-
-              <div className="flex gap-6">
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-white/40 hover:text-white transition-colors flex items-center gap-1 group"
-                  >
-                    {link.name}
-                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                  </a>
-                ))}
-              </div>
             </div>
 
             {/* Link Columns */}

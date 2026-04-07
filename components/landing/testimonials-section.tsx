@@ -11,7 +11,7 @@ const testimonials = [
     metric: "2x más contactos al mes",
   },
   {
-    quote: "Nuestra tienda era lenta y perdíamos ventas. Tras la optimización, la tasa de abandono bajó drásticamente.",
+    quote: "Nuestra tienda era lenta y perdíamos ventas. Tras la optimización, convertimos mucho más.",
     author: "Laura Gómez",
     role: "Propietaria",
     company: "Moda Gómez",
