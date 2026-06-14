@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const testimonials = [
   {
@@ -8,132 +8,134 @@ const testimonials = [
     author: "Carlos Martínez",
     role: "Gerente",
     company: "Inmobiliaria Martínez",
-    metric: "2x más contactos al mes",
   },
   {
     quote: "Nuestra tienda era lenta y perdíamos ventas. Tras la optimización, convertimos mucho más.",
     author: "Laura Gómez",
     role: "Propietaria",
     company: "Moda Gómez",
-    metric: "-35% tasa de abandono",
   },
   {
-    quote: "Empezamos a aparecer en Google para búsquedas clave de nuestro sector. El tráfico no para de crecer.",
+    quote: "Empezamos a aparecer en Google para búsquedas clave. El tráfico no para de crecer.",
     author: "Alejandro Torres",
     role: "Director",
     company: "Clínica Torres",
-    metric: "3x más tráfico orgánico",
   },
   {
     quote: "Proceso muy transparente y resultado por encima de lo esperado. Totalmente recomendable.",
     author: "Marta Iglesias",
     role: "CEO",
     company: "Estudio Iglesias",
-    metric: "Entregado en 3 semanas",
   },
 ];
 
-export function TestimonialsSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
+const cardStyle: React.CSSProperties = {
+  background: "linear-gradient(160deg, #ffffff 0%, #f3f3f3 100%)",
+  boxShadow: `
+    inset 0 1px 0 0 rgba(255,255,255,1),
+    inset 0 -1px 0 0 rgba(0,0,0,0.06),
+    0 4px 6px rgba(0,0,0,0.06),
+    0 12px 28px rgba(0,0,0,0.1)
+  `,
+  borderRadius: "12px",
+  border: "1px solid rgba(0,0,0,0.08)",
+};
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setActiveIndex((prev) => (prev + 1) % testimonials.length);
-        setIsAnimating(false);
-      }, 300);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+const cardHoverStyle: React.CSSProperties = {
+  ...cardStyle,
+  transform: "translateY(-4px)",
+  boxShadow: `
+    inset 0 1px 0 0 rgba(255,255,255,1),
+    inset 0 -1px 0 0 rgba(0,0,0,0.06),
+    0 8px 16px rgba(0,0,0,0.1),
+    0 20px 48px rgba(0,0,0,0.15)
+  `,
+};
 
-  const activeTestimonial = testimonials[activeIndex];
+function StarRating() {
+  return (
+    <div className="flex gap-1">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <svg
+          key={i}
+          width="15"
+          height="15"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          style={{ color: "rgba(0,0,0,0.8)" }}
+        >
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
+function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
+  const [hovered, setHovered] = useState(false);
 
   return (
-    <section className="relative py-32 lg:py-40 border-t border-foreground/10">
+    <div
+      style={{
+        ...(hovered ? cardHoverStyle : cardStyle),
+        transition: "transform 0.25s ease, box-shadow 0.25s ease",
+      }}
+      className="flex flex-col gap-6 p-8"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <StarRating />
+
+      <p className="text-base leading-relaxed flex-1" style={{ color: "rgba(0,0,0,0.75)" }}>
+        "{t.quote}"
+      </p>
+
+      <div
+        className="flex items-center gap-3 pt-5"
+        style={{ borderTop: "1px solid rgba(0,0,0,0.07)" }}
+      >
+        <div
+          className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+          style={{
+            background: "linear-gradient(135deg, rgba(0,0,0,0.06), rgba(0,0,0,0.03))",
+            border: "1px solid rgba(0,0,0,0.08)",
+          }}
+        >
+          <span className="text-sm font-medium" style={{ color: "rgba(0,0,0,0.8)" }}>
+            {t.author.charAt(0)}
+          </span>
+        </div>
+        <div>
+          <p className="text-sm font-medium" style={{ color: "rgba(0,0,0,0.85)" }}>
+            {t.author}
+          </p>
+          <p className="text-xs" style={{ color: "rgba(0,0,0,0.4)" }}>
+            {t.role}, {t.company}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function TestimonialsSection() {
+  return (
+    <section className="py-24 lg:py-32 border-t border-foreground/10">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        {/* Section Label */}
+
         <div className="flex items-center gap-4 mb-16">
           <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
             Lo que dicen nuestros clientes
           </span>
           <div className="flex-1 h-px bg-foreground/10" />
-          <span className="font-mono text-xs text-muted-foreground">
-            {String(activeIndex + 1).padStart(2, "0")} / {String(testimonials.length).padStart(2, "0")}
-          </span>
         </div>
 
-        {/* Main Quote */}
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
-          <div className="lg:col-span-8">
-            <blockquote
-              className={`transition-all duration-300 ${
-                isAnimating ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
-              }`}
-            >
-              <p className="font-display text-4xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tight text-foreground">
-                "{activeTestimonial.quote}"
-              </p>
-            </blockquote>
-
-            {/* Author */}
-            <div
-              className={`mt-12 flex items-center gap-6 transition-all duration-300 delay-100 ${
-                isAnimating ? "opacity-0" : "opacity-100"
-              }`}
-            >
-              <div className="w-16 h-16 rounded-full bg-foreground/5 border border-foreground/10 flex items-center justify-center">
-                <span className="font-display text-2xl text-foreground">
-                  {activeTestimonial.author.charAt(0)}
-                </span>
-              </div>
-              <div>
-                <p className="text-lg font-medium text-foreground">{activeTestimonial.author}</p>
-                <p className="text-muted-foreground">
-                  {activeTestimonial.role}, {activeTestimonial.company}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Metric Highlight */}
-          <div className="lg:col-span-4 flex flex-col justify-center">
-            <div
-              className={`p-8 border border-foreground/10 transition-all duration-300 ${
-                isAnimating ? "opacity-0 scale-95" : "opacity-100 scale-100"
-              }`}
-            >
-              <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase block mb-4">
-                Resultado clave
-              </span>
-              <p className="font-display text-3xl md:text-4xl text-foreground">
-                {activeTestimonial.metric}
-              </p>
-            </div>
-
-            {/* Navigation Dots */}
-            <div className="flex gap-2 mt-8">
-              {testimonials.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    setIsAnimating(true);
-                    setTimeout(() => {
-                      setActiveIndex(idx);
-                      setIsAnimating(false);
-                    }, 300);
-                  }}
-                  className={`h-2 transition-all duration-300 ${
-                    idx === activeIndex
-                      ? "w-8 bg-foreground"
-                      : "w-2 bg-foreground/20 hover:bg-foreground/40"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {testimonials.map((t, idx) => (
+            <TestimonialCard key={idx} t={t} />
+          ))}
         </div>
+
       </div>
     </section>
   );

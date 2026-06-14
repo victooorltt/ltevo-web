@@ -128,13 +128,24 @@ export function HowItWorksSection() {
           </h2>
         </div>
 
-        {/* Grid de dos columnas */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        {/* Mobile View: Rendered in order (1, 2, 3, 4) */}
+        <div className="flex flex-col gap-6 lg:hidden">
+          {steps.map((step, idx) => (
+            <StepCard
+              key={`mobile-${step.number}`}
+              step={step}
+              index={idx}
+            />
+          ))}
+        </div>
+
+        {/* Desktop View: Rendered in columns for the offset look */}
+        <div className="hidden lg:grid grid-cols-2 gap-6">
           {/* Columna izquierda: I y III */}
           <div className="flex flex-col gap-6">
             {leftSteps.map((step) => (
               <StepCard
-                key={step.number}
+                key={`desktop-${step.number}`}
                 step={step}
                 index={steps.indexOf(step)}
               />
@@ -145,7 +156,7 @@ export function HowItWorksSection() {
           <div className="flex flex-col gap-6 lg:mt-24">
             {rightSteps.map((step) => (
               <StepCard
-                key={step.number}
+                key={`desktop-${step.number}`}
                 step={step}
                 index={steps.indexOf(step)}
               />

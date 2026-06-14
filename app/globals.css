@@ -104,11 +104,11 @@
   }
 
   .marquee {
-    animation: marquee 30s linear infinite;
+    animation: marquee 12s linear infinite;
   }
 
   .marquee-reverse {
-    animation: marquee-reverse 25s linear infinite;
+    animation: marquee-reverse 10s linear infinite;
   }
 
   @keyframes marquee {
