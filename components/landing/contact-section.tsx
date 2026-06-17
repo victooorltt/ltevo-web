@@ -8,6 +8,7 @@ export function ContactSection() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -34,8 +35,30 @@ export function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
-    await new Promise((r) => setTimeout(r, 1200));
-    setStatus("success");
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+        setErrorMessage(data.error || "Ocurrió un error inesperado al enviar el mensaje.");
+      }
+    } catch (err) {
+      console.error("Error submitting contact form:", err);
+      setStatus("error");
+      setErrorMessage("No se pudo conectar con el servidor. Revisa tu conexión a internet.");
+    }
   };
 
   const inputClass =
@@ -99,6 +122,7 @@ export function ContactSection() {
                 <button
                   onClick={() => {
                     setStatus("idle");
+                    setErrorMessage(null);
                     setForm({ name: "", email: "", phone: "", message: "" });
                   }}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors font-mono mt-4"
@@ -174,6 +198,13 @@ export function ContactSection() {
                     className={`${inputClass} resize-none`}
                   />
                 </div>
+
+                {/* Mensaje de error */}
+                {status === "error" && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm font-mono rounded">
+                    {errorMessage || "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo."}
+                  </div>
+                )}
 
                 {/* Submit */}
                 <Button
