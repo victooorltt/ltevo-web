@@ -49,19 +49,21 @@ export function HeroSection() {
 
       {/* Foto derecha / Fondo en mobile */}
       <div
-        className={`absolute inset-0 lg:left-auto lg:right-0 lg:w-[52%] h-full transition-all duration-1000 delay-300 hidden lg:block ${
+        className={`absolute inset-0 lg:left-auto lg:right-0 lg:w-[52%] h-full transition-all duration-1000 delay-300 block ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
       >
         {/* Imagen */}
-        <img
-          src="/Hero.webp"
-          alt="Diseño web profesional"
-          className="w-full h-full object-cover object-center"
-        />
+        <picture>
+          <source media="(min-width: 1024px)" srcSet="/Hero.webp" />
+          <img
+            src="/Hero-inicio-mobile.webp"
+            alt="Diseño web profesional"
+            className="w-full h-full object-cover object-center opacity-85 lg:opacity-100"
+          />
+        </picture>
         {/* Fade/Overlay para legibilidad en mobile y fundido en desktop */}
-        <div className="absolute inset-0 bg-black/60 lg:hidden" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-transparent lg:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/40 lg:hidden" />
         <div className="absolute inset-0 bg-gradient-to-r from-black from-0% via-black/50 via-30% to-transparent to-65% hidden lg:block" />
         {/* Fade inferior sutil */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 hidden lg:block" />
@@ -73,7 +75,7 @@ export function HeroSection() {
         {/* Headline */}
         <div className="mb-12 text-left pl-7">
           <h1
-            className={`text-[clamp(4.5rem,11vw,9rem)] font-display leading-[0.95] tracking-tight text-white transition-all duration-1000 ${
+            className={`text-[clamp(3.25rem,16vw,5.5rem)] lg:text-[clamp(4.5rem,11vw,9rem)] font-display leading-[0.95] tracking-tight text-white transition-all duration-1000 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >

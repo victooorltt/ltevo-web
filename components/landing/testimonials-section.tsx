@@ -7,19 +7,19 @@ const testimonials = [
     quote: "Renovaron nuestra web por completo. El primer mes duplicamos los contactos recibidos.",
     author: "Carlos Martínez",
     role: "Gerente",
-    company: "Inmobiliaria Martínez",
+    company: "de inmobiliaria",
   },
   {
     quote: "Nuestra tienda era lenta y perdíamos ventas. Tras la optimización, convertimos mucho más.",
     author: "Laura Gómez",
     role: "Propietaria",
-    company: "Moda Gómez",
+    company: "de e-commerce",
   },
   {
     quote: "Empezamos a aparecer en Google para búsquedas clave. El tráfico no para de crecer.",
     author: "Alejandro Torres",
-    role: "Director",
-    company: "Clínica Torres",
+    role: "Dueño",
+    company: "de clínica",
   },
   {
     quote: "Proceso muy transparente y resultado por encima de lo esperado. Totalmente recomendable.",
@@ -62,7 +62,7 @@ function StarRating() {
           height="15"
           viewBox="0 0 24 24"
           fill="currentColor"
-          style={{ color: "rgba(0,0,0,0.8)" }}
+          className="text-amber-400"
         >
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
         </svg>
@@ -80,7 +80,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
         ...(hovered ? cardHoverStyle : cardStyle),
         transition: "transform 0.25s ease, box-shadow 0.25s ease",
       }}
-      className="flex flex-col gap-6 p-8"
+      className="flex flex-col gap-6 p-8 snap-center shrink-0 w-[85vw] sm:w-auto"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -110,7 +110,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
             {t.author}
           </p>
           <p className="text-xs" style={{ color: "rgba(0,0,0,0.4)" }}>
-            {t.role}, {t.company}
+            {t.role} {t.company}
           </p>
         </div>
       </div>
@@ -130,7 +130,7 @@ export function TestimonialsSection() {
           <div className="flex-1 h-px bg-foreground/10" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none -mx-6 px-6 py-8 -my-8 scroll-px-6 sm:mx-0 sm:px-0 sm:py-0 sm:my-0 sm:overflow-visible sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {testimonials.map((t, idx) => (
             <TestimonialCard key={idx} t={t} />
           ))}

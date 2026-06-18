@@ -126,7 +126,6 @@ function ProjectCard({
             <div>
               {/* Número y flecha */}
               <div className="flex items-center justify-between mb-8">
-                <span className="font-mono text-xs text-muted-foreground">{project.number}</span>
                 <div className={`w-10 h-10 border border-foreground/10 flex items-center justify-center transition-all duration-300 ${
                   isHovered ? "bg-foreground border-foreground" : ""
                 }`}>

@@ -5,16 +5,11 @@ import Link from "next/link";
 
 const footerLinks = {
   Navegación: [
-    { name: "Servicios",  href: "#servicios"    },
-    { name: "Proceso",    href: "#how-it-works" },
-    { name: "Portafolio", href: "#portfolio"    },
-    { name: "Resultados", href: "#contacto"     },
-  ],
-  Servicios: [
-    { name: "Diseño Web",  href: "#servicios" },
-    { name: "SEO",         href: "#servicios" },
-    { name: "eCommerce",   href: "#servicios" },
-    { name: "Rendimiento", href: "#servicios" },
+    { name: "Diseño Web",        href: "/servicios/diseno-web" },
+    { name: "SEO",               href: "/servicios/seo"        },
+    { name: "Mantenimiento Web", href: "/servicios/mantenimiento-web" },
+    { name: "Portafolio",        href: "/#portfolio"            },
+    { name: "Contacto",          href: "/contacto"              },
   ],
   Legal: [
     { name: "Privacidad",          href: "/privacidad" },

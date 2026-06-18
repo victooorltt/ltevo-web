@@ -62,7 +62,7 @@ export function ContactSection() {
   };
 
   const inputClass =
-    "w-full bg-transparent border border-foreground/10 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/40 transition-colors duration-200";
+    "w-full bg-transparent border border-foreground/10 px-4 py-3 text-base md:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/40 transition-colors duration-200";
 
   return (
     <section
