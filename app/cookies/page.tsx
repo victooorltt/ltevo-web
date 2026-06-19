@@ -3,6 +3,9 @@ import Link from "next/link";
 export const metadata = {
   title: "Política de Cookies | LTEvo",
   description: "Información sobre el uso de cookies en ltevo.com conforme a la normativa europea.",
+  alternates: {
+    canonical: "https://ltevo.com/cookies",
+  },
 };
 
 export default function CookiesPage() {

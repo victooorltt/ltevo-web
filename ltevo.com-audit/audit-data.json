@@ -1,0 +1,183 @@
+{
+  "summary": {
+    "health_score": 83,
+    "business_type": "Agencia de Diseño Web y SEO (Local Business / Professional Service)",
+    "top_findings": [
+      "Error de etiquetas canonical en páginas legales: /privacidad, /terminos y /cookies heredan el canonical de la página de inicio (https://ltevo.com), lo que provoca que los buscadores las consideren duplicadas.",
+      "Problema sistemático de espaciado en encabezados (H1 y H2) en todo el sitio, donde las palabras se concatenan sin espacio (ej. 'Websmodernas', 'Diseño Web Profesionala Medida', 'SEOProfesional') debido al uso de etiquetas <br/> o <span> en bloque sin espacio delimitador.",
+      "Contenido relativamente delgado en páginas de servicio clave: /servicios/diseno-web (401 palabras) y /servicios/seo (460 palabras) están muy por debajo de la recomendación de cobertura de 800+ palabras.",
+      "Falta de dimensiones width/height especificadas en 9 imágenes clave (incluyendo las hero images en mobile), lo que puede generar inestabilidad visual y penalización en la métrica Cumulative Layout Shift (CLS).",
+      "Falta de optimización para búsquedas de Inteligencia Artificial (GEO): ausencia de archivo /llms.txt y de bloques de texto citables de 134-167 palabras."
+    ],
+    "quick_wins": [
+      "Corregir el default canonical en app/layout.tsx agregando un alternates.canonical personalizado a app/privacidad/page.tsx, app/terminos/page.tsx y app/cookies/page.tsx.",
+      "Agregar un espacio antes o después de las etiquetas <br/> y dentro de los spans en los encabezados en los componentes de Next.js para evitar concatenaciones de texto en rastreadores.",
+      "Declarar width y height en las 9 imágenes identificadas en el portafolio y hero sliders.",
+      "Crear un archivo /llms.txt en la raíz del proyecto para guiar de forma estructurada a los crawlers de IA."
+    ]
+  },
+  "categories": [
+    {
+      "name": "Technical SEO",
+      "score": 78,
+      "what_works": [
+        "HTTPS correctamente forzado y configurado en el servidor Vercel.",
+        "HSTS habilitado con una duración robusta (max-age=63072000).",
+        "robots.txt existente, válido y con referencia correcta al sitemap.xml.",
+        "Renderizado del lado del servidor (SSR) de Next.js excelente para la accesibilidad de motores de búsqueda clásicos e IA."
+      ],
+      "findings": [
+        {
+          "title": "Configuración de canonicals errónea en páginas secundarias",
+          "severity": "Critical",
+          "description": "Las páginas /privacidad, /terminos y /cookies tienen una etiqueta canonical apuntando a la home (https://ltevo.com). Esto indica a Google que debe ignorar el contenido de estas páginas e indexar solo la home.",
+          "recommendation": "Agregar metadatos alternativos con el canonical self-referential en cada una de estas páginas en Next.js."
+        },
+        {
+          "title": "Ausencia de cabeceras de seguridad CSP y adicionales",
+          "severity": "Medium",
+          "description": "Faltan las cabeceras Content-Security-Policy (CSP), X-Frame-Options, X-Content-Type-Options y Referrer-Policy.",
+          "recommendation": "Configurar estas cabeceras en next.config.mjs en la sección de headers."
+        }
+      ]
+    },
+    {
+      "name": "Content Quality",
+      "score": 82,
+      "what_works": [
+        "Redacción en español fluida, comercialmente enfocada y sin faltas ortográficas.",
+        "Estructura clara de servicios, precios y llamada a la acción."
+      ],
+      "findings": [
+        {
+          "title": "Concatenación de texto en encabezados principales (Typos de renderizado)",
+          "severity": "Critical",
+          "description": "Debido a la maquetación de Next.js, se juntan palabras en los H1 y H2 del sitio, lo que afecta el valor de las palabras clave a indexar (ej. 'Websmodernas', 'SEOProfesional').",
+          "recommendation": "Asegurar que existan espacios antes/después de los cortes de línea (<br/>) y etiquetas span en el código fuente."
+        },
+        {
+          "title": "Contenido escaso en páginas de servicio principales",
+          "severity": "Medium",
+          "description": "Las páginas de diseño web (401 palabras) y SEO (460 palabras) tienen pocas secciones descriptivas. Para búsquedas competitivas, se recomiendan al menos 800 palabras para cubrir a fondo la intención de búsqueda.",
+          "recommendation": "Ampliar las páginas agregando subsecciones de metodología, preguntas frecuentes extendidas, testimonios específicos y ejemplos de casos de éxito."
+        }
+      ]
+    },
+    {
+      "name": "Structured Data",
+      "score": 85,
+      "what_works": [
+        "Implementación correcta de esquemas ProfessionalService y Service con agregados de ofertas.",
+        "Uso de formato JSON-LD, recomendado por Google."
+      ],
+      "findings": [
+        {
+          "title": "Duplicación del bloque ProfessionalService en todas las páginas",
+          "severity": "Low",
+          "description": "El bloque entero de ProfessionalService se inyecta en cada página porque está en el layout.tsx. Aunque no es penalizable, infla innecesariamente el HTML y es redundante.",
+          "recommendation": "Separar el ProfessionalService para que solo se cargue en la página de inicio y contacto, vinculando los servicios específicos mediante IDs relacionales."
+        },
+        {
+          "title": "Uso de FAQPage retirado de resultados enriquecidos de Google",
+          "severity": "Info",
+          "description": "Se detecta FAQPage en /servicios/diseno-web, /servicios/seo y /servicios/mantenimiento-web. Google retiró los FAQ Rich Results de las SERP en mayo de 2026. Sigue siendo útil para IA, pero no generará estrellas ni desplegables en Google.",
+          "recommendation": "Mantener la estructura pero no depender de ella para la optimización de clics (CTR) en la SERP de Google."
+        }
+      ]
+    },
+    {
+      "name": "Performance",
+      "score": 92,
+      "what_works": [
+        "Tiempos de respuesta excelentes en la entrega del servidor (<200ms).",
+        "Uso de tecnologías de alto rendimiento (Next.js con Vercel CDN y renderizado optimizado)."
+      ],
+      "findings": [
+        {
+          "title": "Falta de optimización de imágenes LCP",
+          "severity": "Medium",
+          "description": "Las imágenes de banner principales (Hero) no tienen atributos fetchpriority='high', lo que retrasa el renderizado de la imagen más grande (LCP).",
+          "recommendation": "Añadir fetchpriority='high' en las imágenes LCP y deshabilitar lazy loading si estuviera activo para las imágenes above-the-fold."
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "score": 88,
+      "what_works": [
+        "100% de las imágenes (105 en total) cuentan con etiquetas alt descriptivas.",
+        "Uso generalizado del formato WebP para una compresión eficiente."
+      ],
+      "findings": [
+        {
+          "title": "Ausencia de dimensiones de maquetación (width/height)",
+          "severity": "Medium",
+          "description": "Se identificaron 9 imágenes clave sin dimensiones explícitas, lo que provoca cambios de diseño acumulativos (CLS) perjudiciales para la experiencia de usuario y el SEO.",
+          "recommendation": "Agregar width y height correspondientes a las imágenes del portafolio y de banners principales en Next.js."
+        }
+      ]
+    },
+    {
+      "name": "AI Search Readiness",
+      "score": 75,
+      "what_works": [
+        "Robots.txt permite a los bots de IA de forma abierta.",
+        "Fácil extracción del texto gracias a la maquetación limpia."
+      ],
+      "findings": [
+        {
+          "title": "Falta de archivo de documentación para LLMs (llms.txt)",
+          "severity": "Low",
+          "description": "El archivo /llms.txt es una recomendación moderna para guiar a crawlers de IA como Claude y ChatGPT a entender la estructura del sitio rápidamente.",
+          "recommendation": "Crear un archivo /llms.txt conciso y estructurado en Markdown en la carpeta public de Next.js."
+        },
+        {
+          "title": "Ausencia de bloques de texto citables óptimos",
+          "severity": "Medium",
+          "description": "Los textos no contienen definiciones de marca concisas y auto-contenidas de 134-167 palabras que las IAs adoran citar.",
+          "recommendation": "Rediseñar las introducciones de servicios en forma de respuestas a preguntas de usuario directas."
+        }
+      ]
+    }
+  ],
+  "action_plan": {
+    "phases": [
+      {
+        "name": "Fase 1: Correcciones Críticas",
+        "timeframe": "Semana 1",
+        "items": [
+          "Corregir canonicals erróneos en /privacidad, /terminos y /cookies apuntando a sí mismas (self-referencing).",
+          "Solucionar la concatenación de texto de encabezados (H1/H2) agregando espacios alrededor de las etiquetas de salto de línea (<br/>) y spans block en el código Next.js."
+        ]
+      },
+      {
+        "name": "Fase 2: Optimización de Rendimiento e Imágenes",
+        "timeframe": "Semanas 2-3",
+        "items": [
+          "Definir explícitamente width y height en las 9 imágenes del portafolio y sliders de hero para estabilizar el Cumulative Layout Shift (CLS).",
+          "Implementar fetchpriority='high' en las imágenes LCP above-the-fold del inicio y de servicios."
+        ]
+      },
+      {
+        "name": "Fase 3: Contenido y Autoridad (SEO e IA)",
+        "timeframe": "Mes 1",
+        "items": [
+          "Ampliar el contenido escrito en las páginas /servicios/diseno-web (de 401 a 800+ palabras) y /servicios/seo (de 460 a 800+ palabras).",
+          "Agregar el archivo /llms.txt en el directorio public de Next.js para mejorar la indexabilidad en motores de búsqueda de IA."
+        ]
+      },
+      {
+        "name": "Fase 4: Seguridad y Monitoreo",
+        "timeframe": "Continuo",
+        "items": [
+          "Configurar cabeceras de seguridad CSP, X-Frame-Options y X-Content-Type-Options en next.config.mjs.",
+          "Monitorear la indexación correcta de las páginas legales una vez aplicados los canonicals."
+        ]
+      }
+    ]
+  },
+  "artifacts": {
+    "findings_dir": "findings/",
+    "screenshots_dir": "screenshots/"
+  }
+}

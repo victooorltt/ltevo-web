@@ -3,6 +3,9 @@ import Link from "next/link";
 export const metadata = {
   title: "Términos de Uso | LTEvo",
   description: "Términos y condiciones de uso del sitio web y servicios de LTEvo.",
+  alternates: {
+    canonical: "https://ltevo.com/terminos",
+  },
 };
 
 export default function TerminosPage() {

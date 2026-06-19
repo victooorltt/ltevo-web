@@ -55,11 +55,14 @@ export function HeroSection() {
       >
         {/* Imagen */}
         <picture>
-          <source media="(min-width: 1024px)" srcSet="/Hero.webp" />
+          <source media="(min-width: 1024px)" srcSet="/Hero.webp" width={2816} height={1536} />
           <img
             src="/Hero-inicio-mobile.webp"
+            width={3072}
+            height={5504}
             alt="Diseño web profesional"
             className="w-full h-full object-cover object-center opacity-85 lg:opacity-100"
+            fetchPriority="high"
           />
         </picture>
         {/* Fade/Overlay para legibilidad en mobile y fundido en desktop */}
@@ -79,7 +82,7 @@ export function HeroSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <span className="block">Webs</span>
+            <span className="block">Webs{" "}</span>
             <span
               className="block transition-all duration-300"
               style={{

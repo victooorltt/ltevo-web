@@ -104,7 +104,7 @@ export function MetricsSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Resultados que
+            Resultados que{" "}
             <br />
             <span className="text-muted-foreground">hablan por sí solos.</span>
           </h2>

@@ -301,8 +301,11 @@ export function MantenimientoWebContent() {
         {/* Background Image */}
         <img
           src="/Hero-servicios-mantenimiento.webp"
+          width={2752}
+          height={1536}
           alt="Mantenimiento Web Profesional"
           className="absolute inset-0 w-full h-full object-cover object-center z-0 opacity-75"
+          fetchPriority="high"
         />
 
         {/* Dark Overlay for readability */}
@@ -325,7 +328,7 @@ export function MantenimientoWebContent() {
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col items-center text-center z-10">
           <FadeIn delay={0.1}>
             <h1 className="text-5xl lg:text-7xl font-display italic tracking-tight leading-[0.95] mb-6 text-white text-center">
-              Mantenimiento Web<br />Profesional
+              Mantenimiento Web{" "}<br />Profesional
             </h1>
           </FadeIn>
 
@@ -346,7 +349,7 @@ export function MantenimientoWebContent() {
             <div className="mb-16 lg:mb-24">
               <span className="text-sm font-mono tracking-widest text-muted-foreground uppercase block mb-3">Ventajas del soporte</span>
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
-                Beneficios del Soporte Técnico<br />
+                Beneficios del Soporte Técnico{" "}<br />
                 <span className="text-muted-foreground italic">en tu Mantenimiento Web</span>
               </h2>
             </div>
@@ -389,7 +392,7 @@ export function MantenimientoWebContent() {
             <div className="mb-16 lg:mb-24">
               <span className="text-sm font-mono tracking-widest text-zinc-500 uppercase block mb-3">Prevención correctiva</span>
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-white">
-                ¿Por qué necesitas un plan<br />
+                ¿Por qué necesitas un plan{" "}<br />
                 <span className="text-zinc-400 italic">de Mantenimiento Web?</span>
               </h2>
             </div>

@@ -10,6 +10,8 @@ const projects = [
     description: "Diseño web corporativo con identidad visual moderna y experiencia de usuario optimizada para conversión.",
     url: "https://cao-brown.vercel.app/",
     image: "/portfolio/cao.webp",
+    width: 1782,
+    height: 861,
     tags: ["Diseño Web", "Identidad Visual"],
   },
   {
@@ -18,6 +20,8 @@ const projects = [
     description: "Web para empresa de jardinería local con diseño orgánico, galería de trabajos y formulario de contacto integrado.",
     url: "https://jardineria-elcuetu.vercel.app/",
     image: "/portfolio/cuetu.webp",
+    width: 1340,
+    height: 845,
     tags: ["Diseño Web", "SEO Local"],
   },
 ];
@@ -46,7 +50,7 @@ export function PortfolioSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Proyectos reales.
+            Proyectos reales.{" "}
             <br />
             <span className="text-muted-foreground">Resultados que se ven.</span>
           </h2>
@@ -107,8 +111,11 @@ function ProjectCard({
           <div className="relative overflow-hidden bg-foreground/[0.03] aspect-video lg:aspect-auto lg:min-h-[380px]">
             <img
               src={project.image}
+              width={project.width}
+              height={project.height}
               alt={`Proyecto ${project.title}`}
               className="w-full h-full object-cover object-top transition-transform duration-700 scale-100 group-hover:scale-105"
+              loading="lazy"
             />
             {/* Overlay sutil */}
             <div className="absolute inset-0 bg-foreground transition-opacity duration-500 opacity-[0.04] group-hover:opacity-0" />

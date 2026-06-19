@@ -3,6 +3,9 @@ import Link from "next/link";
 export const metadata = {
   title: "Política de Privacidad | LTEvo",
   description: "Política de privacidad de LTEvo. Información sobre el tratamiento de datos personales conforme al RGPD.",
+  alternates: {
+    canonical: "https://ltevo.com/privacidad",
+  },
 };
 
 export default function PrivacidadPage() {
