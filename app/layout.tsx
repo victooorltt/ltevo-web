@@ -64,29 +64,59 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "LTEvo",
-  description:
-    "Agencia de diseño web en Oviedo especializada en webs profesionales, eCommerce y SEO.",
-  url: "https://ltevo.com",
-  logo: "https://ltevo.com/logo.png",
-  email: "info@ltevo.com",
-  telephone: "+34 634 25 55 41",
-  priceRange: "€€",
-  areaServed: "Asturias",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Oviedo",
-    addressRegion: "Asturias",
-    addressCountry: "ES",
-  },
-  serviceType: [
-    "Diseño Web",
-    "SEO",
-    "eCommerce",
-    "Optimización Web",
-    "Mantenimiento Web",
-  ],
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://ltevo.com/#website",
+      "name": "LTEvo",
+      "url": "https://ltevo.com",
+      "publisher": {
+        "@id": "https://ltevo.com/#business"
+      }
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://ltevo.com/#business",
+      "name": "LTEvo",
+      "url": "https://ltevo.com",
+      "logo": "https://ltevo.com/logo.png",
+      "email": "info@ltevo.com",
+      "telephone": "+34 634 25 55 41",
+      "priceRange": "€€",
+      "areaServed": "España",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Calle Uría, 19",
+        "postalCode": "33003",
+        "addressLocality": "Oviedo",
+        "addressRegion": "Asturias",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 43.3603,
+        "longitude": -5.8448
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/ltevo",
+        "https://www.instagram.com/ltevo.web/",
+        "https://x.com/ltevo_web",
+        "https://www.facebook.com/ltevo.web/"
+      ]
+    }
+  ]
 };
 
 export default function RootLayout({

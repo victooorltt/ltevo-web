@@ -1,87 +1,77 @@
-# Plan de Acción SEO para LTEvo
-**Priorización de tareas basadas en impacto y esfuerzo**
+# SEO Action Plan for ltevo.com
 
-Este documento detalla el plan de acción en fases para solucionar las deficiencias encontradas durante la auditoría SEO y maximizar la visibilidad en motores de búsqueda clásicos (Google) y generativos (IA Search: ChatGPT, Perplexity, Gemini).
+This action plan categorizes recommendations into four operational phases based on severity, ease of implementation, and ranking impact.
 
----
+## Phase 1: Critical Fixes (Week 1)
 
-## Resumen de Prioridades
+✅ No actions required in this phase.
 
-| Tarea | Impacto | Esfuerzo | Prioridad | Estado |
-| :--- | :---: | :---: | :---: | :---: |
-| **Corregir canonicals** en páginas legales | Alto | Muy Bajo | **Crítica** | 🔴 Pendiente |
-| **Solucionar espaciados** en encabezados (H1/H2) | Alto | Bajo | **Crítica** | 🔴 Pendiente |
-| **Añadir dimensiones (width/height)** a imágenes | Medio | Bajo | **Alta** | 🔴 Pendiente |
-| **Optimizar imágenes LCP** con fetchpriority | Medio | Bajo | **Alta** | 🔴 Pendiente |
-| **Crear archivo /llms.txt** para IAs | Medio | Bajo | **Media** | 🔴 Pendiente |
-| **Ampliar contenido** de Diseño Web y SEO | Alto | Medio | **Media** | 🔴 Pendiente |
-| **Configurar cabeceras de seguridad** (next.config) | Bajo | Bajo | **Baja** | 🔴 Pendiente |
-| **Optimizar esquema ProfessionalService** global | Bajo | Bajo | **Baja** | 🔴 Pendiente |
+## Phase 2: High-Impact Improvements (Weeks 2-3)
 
----
+### 🛑 [Content Quality] Thin content pages detected
+- **Impact:** `High` | **Effort:** `Medium`
+- **Issue:** Found 1 pages below recommended word counts. Example: https://ltevo.com/servicios/mantenimiento-web has only 515 words (recommended min: 800)
+- **Action Required:** Expand thin pages with high-quality, unique text. Elaborate on service characteristics, case studies, or process details.
+- **How to Validate:** Verify that the page returns a status 200 and matches standard checks in Google Search Console.
+- **Monitoring Indicator:** Search visibility, crawl frequency in logs.
 
-## Detalle de Fases de Implementación
+### 🛑 [Content Quality] Missing critical E-E-A-T trust signals
+- **Impact:** `High` | **Effort:** `Medium`
+- **Issue:** The website is missing several trust elements: Physical Address / Office Location, Contact Phone Number on the home page or footer.
+- **Action Required:** Add a physical address, phone number, direct email, and links to your privacy policy and terms of service in a global site footer.
+- **How to Validate:** Verify that the page returns a status 200 and matches standard checks in Google Search Console.
+- **Monitoring Indicator:** Search visibility, crawl frequency in logs.
 
-### Fase 1: Correcciones Críticas (Semana 1)
-*Objetivo: Solucionar los bloqueos de indexación y mejorar la legibilidad semántica de los rastreadores.*
+### 🛑 [Schema & Structured Data] Missing Organization or LocalBusiness schema
+- **Impact:** `High` | **Effort:** `Medium`
+- **Issue:** No Organization or LocalBusiness schema was found on the homepage. This is critical for Local SEO and company identity.
+- **Action Required:** Implement LocalBusiness schema on the homepage footer or contact page detailing name, address, telephone, logo, and hours.
+- **How to Validate:** Verify that the page returns a status 200 and matches standard checks in Google Search Console.
+- **Monitoring Indicator:** Search visibility, crawl frequency in logs.
 
-#### 1. Corrección de etiquetas canonical en páginas legales
-* **Qué:** Las páginas `/privacidad`, `/terminos` y `/cookies` heredan el canonical de la home en `app/layout.tsx` apuntando a `https://ltevo.com`.
-* **Cómo:** Define metadatos explícitos en cada página para sobreescribir el canonical por defecto:
-  ```typescript
-  // En app/privacidad/page.tsx, app/terminos/page.tsx y app/cookies/page.tsx
-  export const metadata = {
-    title: "...",
-    description: "...",
-    alternates: {
-      canonical: "/privacidad", // o el path correspondiente
-    }
-  };
-  ```
+### 🛑 [Schema & Structured Data] Missing Service schema on service pages
+- **Impact:** `High` | **Effort:** `Medium`
+- **Issue:** Found 3 service pages without Service schema markup: https://ltevo.com/servicios/diseno-web, https://ltevo.com/servicios/seo, https://ltevo.com/servicios/mantenimiento-web
+- **Action Required:** Implement JSON-LD Service schema on all pages under `/servicios/` to specify service name, description, provider, and areaServed.
+- **How to Validate:** Verify that the page returns a status 200 and matches standard checks in Google Search Console.
+- **Monitoring Indicator:** Search visibility, crawl frequency in logs.
 
-#### 2. Corrección de espaciados en encabezados por etiquetas `<br/>` o spans
-* **Qué:** Varias palabras clave y títulos de páginas se unen de forma incorrecta (ej. `Websmodernas` o `SEOProfesional`) en la extracción de texto debido a maquetaciones en bloque sin delimitador de espacio.
-* **Cómo:** Añadir espacios literales antes o después de la etiqueta `<br/>` o de las etiquetas span en los componentes de Next.js:
-  * *Incorrecto:* `<span class="block">Webs</span><span>modernas</span>`
-  * *Correcto:* `<span class="block">Webs </span><span>modernas</span>` o añadir un espacio intermedio.
-  * *Incorrecto:* `Diseño Web Profesional<br/>a Medida`
-  * *Correcto:* `Diseño Web Profesional <br/>a Medida`
+### 🛑 [AI Search Readiness] Lack of Organization schema blocks semantic entity mapping
+- **Impact:** `High` | **Effort:** `Medium`
+- **Issue:** Without Organization schema, LLMs have difficulty associating your brand name with specific services or locations in knowledge graphs.
+- **Action Required:** Deploy a complete Organization schema detailing brand aliases, parent organization, and legal name.
+- **How to Validate:** Verify that the page returns a status 200 and matches standard checks in Google Search Console.
+- **Monitoring Indicator:** Search visibility, crawl frequency in logs.
 
----
+## Phase 3: Content & Authority (Month 2)
 
-### Fase 2: Rendimiento y UX Visual (Semanas 2-3)
-*Objetivo: Estabilizar el renderizado visual y acelerar el Largest Contentful Paint.*
+### 🛑 [Technical SEO] Mismatched or cross-referenced canonical tags
+- **Impact:** `Medium` | **Effort:** `Low`
+- **Issue:** Found 1 pages where the canonical URL does not match the actual page URL. Example: https://ltevo.com/ -> https://ltevo.com
+- **Action Required:** Verify if the cross-referenced canonicals are intentional (e.g. tracking parameters or pagination). If not, update to self-referential.
+- **How to Validate:** Verify that the page returns a status 200 and matches standard checks in Google Search Console.
+- **Monitoring Indicator:** Search visibility, crawl frequency in logs.
 
-#### 1. Añadir dimensiones explicitas width/height a imágenes del portafolio y hero
-* **Qué:** Se han identificado 9 imágenes sin dimensiones especificadas (incluyendo la hero de mobile).
-* **Cómo:** Modifica el componente Image de Next.js o las etiquetas `<img>` para que incluyan propiedades `width` y `height` proporcionales a su aspecto nativo para evitar saltos de página (CLS).
+### 🛑 [On-Page SEO] Sub-optimal title tag length
+- **Impact:** `Medium` | **Effort:** `Low`
+- **Issue:** Found 2 titles below 30 characters (e.g. 'Términos de Uso | LTEvo' on https://ltevo.com/terminos). 
+- **Action Required:** Optimize title tags to be between 30 and 60 characters to ensure they display fully in search engine results without truncation.
+- **How to Validate:** Verify that the page returns a status 200 and matches standard checks in Google Search Console.
+- **Monitoring Indicator:** Search visibility, crawl frequency in logs.
 
-#### 2. Optimización de imágenes above-the-fold (LCP)
-* **Qué:** Acelerar la carga de la imagen de portada.
-* **Cómo:** Asegura que la imagen de hero de cada página cuente con el atributo `fetchpriority="high"` y la propiedad `priority` en Next.js para cargarse de inmediato. Asegúrate de que **no** use lazy loading.
+### 🛑 [Schema & Structured Data] Missing WebSite schema
+- **Impact:** `Medium` | **Effort:** `Low`
+- **Issue:** No WebSite schema JSON-LD was detected on the homepage. This schema establishes the site name and search box capabilities.
+- **Action Required:** Add JSON-LD WebSite schema to the homepage markup specifying the business name and URL.
+- **How to Validate:** Verify that the page returns a status 200 and matches standard checks in Google Search Console.
+- **Monitoring Indicator:** Search visibility, crawl frequency in logs.
 
----
+## Phase 4: Monitoring & Iteration (Ongoing)
 
-### Fase 3: Contenido y Preparación para IA (Mes 1)
-*Objetivo: Aumentar la relevancia semántica y posicionar como fuente de información para LLMs.*
+### 🛑 [On-Page SEO] Sub-optimal meta description length
+- **Impact:** `Low` | **Effort:** `Low`
+- **Issue:** Found 3 short (< 120 chars) and 1 long (> 160 chars) meta descriptions.
+- **Action Required:** Rewrite meta descriptions to fit in the 120-160 character range.
+- **How to Validate:** Verify that the page returns a status 200 and matches standard checks in Google Search Console.
+- **Monitoring Indicator:** Search visibility, crawl frequency in logs.
 
-#### 1. Ampliación de contenido en Diseño Web y SEO
-* **Qué:** `/servicios/diseno-web` (401 palabras) y `/servicios/seo` (460 palabras) son delgadas.
-* **Cómo:** Ampliar la redacción agregando FAQs estructuradas reales, detalles paso a paso de la metodología, testimonios de clientes locales y tablas comparativas de servicios.
-
-#### 2. Creación del archivo `/llms.txt`
-* **Qué:** Facilitar el análisis del sitio a los bots de IA de forma nativa.
-* **Cómo:** Guardar un archivo `llms.txt` en el directorio `public/` con un mapa estructurado del sitio en formato Markdown.
-
----
-
-### Fase 4: Seguridad y Ajustes Menores (Continuo)
-*Objetivo: Fortalecer el perfil técnico y refinar el SEO semántico.*
-
-#### 1. Configurar cabeceras de seguridad
-* **Qué:** Agregar cabeceras CSP, HSTS, X-Frame-Options y X-Content-Type-Options.
-* **Cómo:** Añadir la sección de configuración de cabeceras en `next.config.mjs` bajo la propiedad `headers()`.
-
-#### 2. Centralización del esquema ProfessionalService
-* **Qué:** Evitar la duplicación de 1.5KB de JSON-LD idéntico en cada subpágina.
-* **Cómo:** Modificar el layout para cargar ProfessionalService condicionalmente solo en la página de inicio (`/`) y la página de contacto.

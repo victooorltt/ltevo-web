@@ -17,9 +17,29 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "name": "Contacto — LTEvo",
+      "description": "Ponte en contacto con LTEvo para solicitar un presupuesto sin compromiso para tu proyecto de diseño web, SEO o mantenimiento.",
+      "url": "https://ltevo.com/contacto",
+      "mainEntity": {
+        "@type": "ProfessionalService",
+        "@id": "https://ltevo.com/#business"
+      }
+    }
+  ]
+};
+
 export default function ContactoPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navigation />
       <ContactoContent />
       <FooterSection />

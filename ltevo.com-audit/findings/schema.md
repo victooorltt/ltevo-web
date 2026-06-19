@@ -1,34 +1,24 @@
-# Hallazgos de Auditoría: Schema Markup & Datos Estructurados
-**Puntuación de Schema: 85/100**
+# Schema & Structured Data Audit Findings
 
-## 1. Esquemas Detectados
+## Score: 45/100
 
-El sitio cuenta con una sólida base de marcado estructurado en JSON-LD (formato preferido por Google).
+## What Works Well
+- No positive elements were identified.
 
-| Página | Tipos de Esquema Habilitados | Estado | Observación |
-| :--- | :--- | :---: | :--- |
-| Home | `ProfessionalService` | ✅ Válido | Información completa de Oviedo, contacto y catálogo de servicios. |
-| Diseño Web | `ProfessionalService`, `Service`, `FAQPage` | ✅ Válido | FAQPage estructurado con 5 preguntas frecuentes. |
-| SEO | `ProfessionalService`, `Service`, `FAQPage` | ✅ Válido | FAQPage estructurado con 5 preguntas frecuentes. |
-| Mantenimiento | `ProfessionalService`, `Service`, `FAQPage` | ✅ Válido | FAQPage estructurado con 5 preguntas frecuentes. Agrega AggregateOffer. |
-| Contacto | `ProfessionalService`, `ContactPage` | ✅ Válido | ContactPage estructurado incluyendo LocalBusiness alternativo. |
-| Legales | `ProfessionalService` | ⚠️ Redundante | Heredado del root layout de Next.js. |
+## Identified Issues & Areas for Improvement
 
----
+### 1. Missing WebSite schema
+- **Severity:** `Medium`
+- **Description:** No WebSite schema JSON-LD was detected on the homepage. This schema establishes the site name and search box capabilities.
+- **Recommendation:** Add JSON-LD WebSite schema to the homepage markup specifying the business name and URL.
 
-## 2. Puntos de Mejora y Cambios de Algoritmo
+### 2. Missing Organization or LocalBusiness schema
+- **Severity:** `High`
+- **Description:** No Organization or LocalBusiness schema was found on the homepage. This is critical for Local SEO and company identity.
+- **Recommendation:** Implement LocalBusiness schema on the homepage footer or contact page detailing name, address, telephone, logo, and hours.
 
-### ⚠️ Retiro de resultados enriquecidos de FAQPage en Google
-* **Contexto Importante (Mayo 2026):** Google ha retirado formalmente la visualización de Rich Results para esquemas de tipo `FAQPage` en todas las páginas de resultados de búsqueda (SERP) a nivel mundial.
-* **Impacto en LTEvo:** Los bloques FAQPage en las páginas de servicios de diseño web, SEO y mantenimiento web ya no generarán desplegables de preguntas bajo el enlace orgánico de Google.
-* **Recomendación:** No es necesario eliminar este marcado, ya que continúa ayudando a la resolución de entidades y la extracción de información por parte de los rastreadores de Inteligencia Artificial (AI Mode / Gemini / ChatGPT), pero se debe ajustar el KPI del sitio para no esperar clics extra desde la SERP por esta vía.
+### 3. Missing Service schema on service pages
+- **Severity:** `High`
+- **Description:** Found 3 service pages without Service schema markup: https://ltevo.com/servicios/diseno-web, https://ltevo.com/servicios/seo, https://ltevo.com/servicios/mantenimiento-web
+- **Recommendation:** Implement JSON-LD Service schema on all pages under `/servicios/` to specify service name, description, provider, and areaServed.
 
-### Redundancia del bloque ProfessionalService
-* **Problema:** En Next.js `app/layout.tsx` se define el marcado `ProfessionalService` de forma estática, inyectándose en el HTML final de **todas** las subpáginas (incluyendo las páginas de cookies, términos y privacidad). Esto es redundante y añade peso innecesario al DOM.
-* **Recomendación:** Cargar este bloque únicamente en la página de inicio (`/`) y la página de contacto. Para el resto de páginas de servicio, basta con referenciar a LTEvo como el `provider` en el esquema de tipo `Service` utilizando la sintaxis de ID:
-  ```json
-  "provider": {
-    "@type": "LocalBusiness",
-    "@id": "https://ltevo.com/#business"
-  }
-  ```

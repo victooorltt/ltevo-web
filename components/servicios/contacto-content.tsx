@@ -54,54 +54,6 @@ function FadeIn({
 }
 
 /* ------------------------------------------------------------------ */
-/*  JSON-LD                                                           */
-/* ------------------------------------------------------------------ */
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "ContactPage",
-      name: "Contacto — LTEvo",
-      description:
-        "Contacta con LTEvo para tu proyecto de diseño web o SEO. Solicita presupuesto sin compromiso.",
-      url: "https://ltevo.com/contacto",
-      mainEntity: {
-        "@type": "LocalBusiness",
-        "@id": "https://ltevo.com/#business",
-        name: "LTEvo",
-        description:
-          "Agencia de diseño web y SEO en Oviedo, Asturias. Creamos sitios web que generan resultados.",
-        url: "https://ltevo.com",
-        telephone: "+34634255541",
-        email: "info@ltevo.com",
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "Oviedo",
-          addressRegion: "Asturias",
-          addressCountry: "ES",
-        },
-        openingHoursSpecification: {
-          "@type": "OpeningHoursSpecification",
-          dayOfWeek: [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-          ],
-          opens: "09:00",
-          closes: "18:00",
-        },
-        areaServed: {
-          "@type": "Country",
-          name: "España",
-        },
-      },
-    },
-  ],
-};
-
-/* ------------------------------------------------------------------ */
 /*  Component                                                         */
 /* ------------------------------------------------------------------ */
 export function ContactoContent() {
@@ -171,11 +123,6 @@ export function ContactoContent() {
 
   return (
     <>
-      {/* JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
 
       {/* ============================================================ */}
       {/*  HERO                                                        */}

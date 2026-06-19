@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Audit Dashboard - ltevo.com</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-500: #64748b;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.5;
+            padding-bottom: 4rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        header {
+            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            color: white;
+            padding: 3rem 0;
+            border-bottom: 4px solid var(--primary);
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .brand-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+        .brand-subtitle {
+            color: var(--slate-300);
+            font-size: 1rem;
+            margin-top: 0.25rem;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .bg-red-soft { background-color: #fee2e2; }
+        .text-red { color: #b91c1c; }
+        .bg-orange-soft { background-color: #ffedd5; }
+        .text-orange { color: #c2410c; }
+        .bg-yellow-soft { background-color: #fef9c3; }
+        .text-yellow { color: #a16207; }
+        .bg-blue-soft { background-color: #dbeafe; }
+        .text-blue { color: #1d4ed8; }
+        .bg-gray-soft { background-color: #f1f5f9; }
+        .text-gray { color: #475569; }
+        
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid var(--slate-200);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--slate-200);
+        }
+        .card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+        .gauge-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            border: 1px solid var(--slate-200);
+            text-align: center;
+        }
+        svg.gauge {
+            width: 140px;
+            height: 140px;
+        }
+        svg.gauge circle {
+            fill: none;
+        }
+        svg.gauge .fg {
+            stroke-dasharray: 251.2;
+            transition: stroke-dashoffset 0.3s ease;
+        }
+        
+        .finding-item {
+            padding: 1rem 0;
+        }
+        .finding-item:last-child {
+            border-bottom: none;
+        }
+        .finding-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .finding-title {
+            font-weight: 600;
+            color: var(--slate-800);
+            font-size: 0.95rem;
+        }
+        .finding-desc {
+            font-size: 0.875rem;
+            color: var(--slate-500);
+            margin-bottom: 0.5rem;
+        }
+        .finding-rec {
+            font-size: 0.875rem;
+            color: var(--primary);
+            background-color: #e0e7ff;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+        }
+        .phase-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .phase-container th {
+            background-color: var(--slate-100);
+            font-weight: 600;
+            color: var(--slate-700);
+            border-bottom: 1px solid var(--slate-200);
+        }
+        .phase-container td, .phase-container th {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--slate-200);
+            text-align: left;
+        }
+        .phase-container tr:last-child td {
+            border-bottom: none;
+        }
+        .screenshot-gallery {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .screenshot-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid var(--slate-200);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        .screenshot-card img {
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid var(--slate-100);
+            margin-top: 0.75rem;
+        }
+        
+        .footer-banner {
+            border-top: 4px solid var(--primary);
+            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            color: white;
+            padding: 2.5rem 0;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .footer-banner a {
+            color: #818cf8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer-banner a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Flex / Utilities */
+        .flex { display: flex; }
+        .justify-between { justify-content: space-between; }
+        .items-center { align-items: center; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .w-full { width: 100%; }
+        .text-center { text-align: center; }
+        .font-bold { font-weight: 700; }
+        .text-lg { font-size: 1.125rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .border-b { border-bottom: 1px solid var(--slate-200); }
+        .border { border: 1px solid var(--slate-200); }
+        .bg-slate-50 { background-color: var(--slate-50); }
+        .bg-slate-100 { background-color: var(--slate-100); }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-xs { font-size: 0.75rem; }
+        .text-slate-400 { color: var(--slate-500); }
+        .text-slate-600 { color: var(--slate-700); }
+        .uppercase { text-transform: uppercase; }
+        .tracking-wider { letter-spacing: 0.05em; }
+        .list-none { list-style: none; }
+        .pl-0 { padding-left: 0; }
+        .border-x { border-left: 1px solid var(--slate-200); border-right: 1px solid var(--slate-200); }
+        .border-b { border-bottom: 1px solid var(--slate-200); }
+        
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            .screenshot-gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div>
+                <h1 class="brand-title">ltevo.com SEO Audit</h1>
+                <p class="brand-subtitle">Business Type: <strong>Agency / Service Business</strong> | Date: June 19, 2026</p>
+            </div>
+            <div class="bg-indigo-900 border border-indigo-700 rounded-lg p-4 text-center">
+                <div class="text-xs uppercase tracking-wider text-slate-300 mb-1">Health Score</div>
+                <div class="text-4xl font-extrabold text-white">84/100</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Overview Grid -->
+        <section class="grid grid-2 mb-6">
+            <div class="gauge-container">
+                <h2 class="text-2xl font-bold mb-6">Overall SEO Health</h2>
+                <svg class="gauge" viewBox="0 0 100 100" style="width: 180px; height: 180px;">
+                    <circle cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="transparent"/>
+                    <circle cx="50" cy="50" r="40" stroke="#10b981" stroke-width="8" fill="transparent"
+                            stroke-dasharray="251.2" stroke-dashoffset="40.19200000000001" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+                    <text x="50" y="55" fill="#0f172a" text-anchor="middle" font-weight="800" font-size="22">84%</text>
+                </svg>
+                <p class="text-slate-600 mt-6" style="max-width: 400px; margin: 1.5rem auto 0;">
+                    Your website ranks with a score of <strong>84/100</strong>. Implementing the action plan below will resolve high-impact issues and help you capture organic search traffic.
+                </p>
+            </div>
+            
+            <div class="card" style="padding: 2rem;">
+                <h2 class="text-2xl font-bold mb-6">Key Insights</h2>
+                <div class="mb-6">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-2">Top Findings</h3>
+                    <ul class="list-none pl-0">
+                        <li class="text-sm text-slate-700 mb-2">🛑 Thin content pages detected</li><li class="text-sm text-slate-700 mb-2">🛑 Missing critical E-E-A-T trust signals</li><li class="text-sm text-slate-700 mb-2">🛑 Missing Organization or LocalBusiness schema</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-2">Recommended Quick Wins</h3>
+                    <ul class="list-none pl-0">
+                        <li class="text-sm text-slate-700 mb-2">⚡ Mismatched or cross-referenced canonical tags</li><li class="text-sm text-slate-700 mb-2">⚡ Sub-optimal title tag length</li><li class="text-sm text-slate-700 mb-2">⚡ Missing WebSite schema</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Plan Section -->
+        <section class="mb-6">
+            <h2 class="text-2xl font-bold mb-6">Prioritized Action Plan</h2>
+            
+    <div class="phase-container mb-6">
+        <div class="phase-header bg-slate-50 border px-4 py-2 font-bold text-slate-700 flex justify-between">
+            <span>Phase 1: Critical Fixes</span>
+            <span class="text-xs font-normal text-slate-500">Timeline: Week 1</span>
+        </div>
+        <table class="w-full border-x border-b">
+            <thead>
+                <tr class="bg-slate-100 text-left text-xs uppercase text-slate-500 border-b">
+                    <th class="px-4 py-2 w-1/4">Issue / Category</th>
+                    <th class="px-4 py-2 w-16">Severity</th>
+                    <th class="px-4 py-2 w-1/2">Recommendation</th>
+                    <th class="px-4 py-2 w-1/6">Validation</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+        <tr>
+            <td colspan="4" class="px-4 py-6 text-center text-sm text-slate-400">✅ No actions needed in this phase.</td>
+        </tr>
+        
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="phase-container mb-6">
+        <div class="phase-header bg-slate-50 border px-4 py-2 font-bold text-slate-700 flex justify-between">
+            <span>Phase 2: High-Impact Improvements</span>
+            <span class="text-xs font-normal text-slate-500">Timeline: Weeks 2-3</span>
+        </div>
+        <table class="w-full border-x border-b">
+            <thead>
+                <tr class="bg-slate-100 text-left text-xs uppercase text-slate-500 border-b">
+                    <th class="px-4 py-2 w-1/4">Issue / Category</th>
+                    <th class="px-4 py-2 w-16">Severity</th>
+                    <th class="px-4 py-2 w-1/2">Recommendation</th>
+                    <th class="px-4 py-2 w-1/6">Validation</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            <tr class="table-row">
+                <td class="px-4 py-3 text-sm font-semibold text-slate-800">[Content Quality] Thin content pages detected</td>
+                <td class="px-4 py-3 text-sm"><span class="badge bg-orange-soft text-orange">High</span></td>
+                <td class="px-4 py-3 text-sm text-slate-600">Expand thin pages with high-quality, unique text. Elaborate on service characteristics, case studies, or process details.</td>
+                <td class="px-4 py-3 text-sm text-slate-500">GSC / Browser inspect</td>
+            </tr>
+            
+            <tr class="table-row">
+                <td class="px-4 py-3 text-sm font-semibold text-slate-800">[Content Quality] Missing critical E-E-A-T trust signals</td>
+                <td class="px-4 py-3 text-sm"><span class="badge bg-orange-soft text-orange">High</span></td>
+                <td class="px-4 py-3 text-sm text-slate-600">Add a physical address, phone number, direct email, and links to your privacy policy and terms of service in a global site footer.</td>
+                <td class="px-4 py-3 text-sm text-slate-500">GSC / Browser inspect</td>
+            </tr>
+            
+            <tr class="table-row">
+                <td class="px-4 py-3 text-sm font-semibold text-slate-800">[Schema & Structured Data] Missing Organization or LocalBusiness schema</td>
+                <td class="px-4 py-3 text-sm"><span class="badge bg-orange-soft text-orange">High</span></td>
+                <td class="px-4 py-3 text-sm text-slate-600">Implement LocalBusiness schema on the homepage footer or contact page detailing name, address, telephone, logo, and hours.</td>
+                <td class="px-4 py-3 text-sm text-slate-500">GSC / Browser inspect</td>
+            </tr>
+            
+            <tr class="table-row">
+                <td class="px-4 py-3 text-sm font-semibold text-slate-800">[Schema & Structured Data] Missing Service schema on service pages</td>
+                <td class="px-4 py-3 text-sm"><span class="badge bg-orange-soft text-orange">High</span></td>
+                <td class="px-4 py-3 text-sm text-slate-600">Implement JSON-LD Service schema on all pages under `/servicios/` to specify service name, description, provider, and areaServed.</td>
+                <td class="px-4 py-3 text-sm text-slate-500">GSC / Browser inspect</td>
+            </tr>
+            
+            <tr class="table-row">
+                <td class="px-4 py-3 text-sm font-semibold text-slate-800">[AI Search Readiness] Lack of Organization schema blocks semantic entity mapping</td>
+                <td class="px-4 py-3 text-sm"><span class="badge bg-orange-soft text-orange">High</span></td>
+                <td class="px-4 py-3 text-sm text-slate-600">Deploy a complete Organization schema detailing brand aliases, parent organization, and legal name.</td>
+                <td class="px-4 py-3 text-sm text-slate-500">GSC / Browser inspect</td>
+            </tr>
+            
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="phase-container mb-6">
+        <div class="phase-header bg-slate-50 border px-4 py-2 font-bold text-slate-700 flex justify-between">
+            <span>Phase 3: Content & Authority</span>
+            <span class="text-xs font-normal text-slate-500">Timeline: Month 2</span>
+        </div>
+        <table class="w-full border-x border-b">
+            <thead>
+                <tr class="bg-slate-100 text-left text-xs uppercase text-slate-500 border-b">
+                    <th class="px-4 py-2 w-1/4">Issue / Category</th>
+                    <th class="px-4 py-2 w-16">Severity</th>
+                    <th class="px-4 py-2 w-1/2">Recommendation</th>
+                    <th class="px-4 py-2 w-1/6">Validation</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            <tr class="table-row">
+                <td class="px-4 py-3 text-sm font-semibold text-slate-800">[Technical SEO] Mismatched or cross-referenced canonical tags</td>
+                <td class="px-4 py-3 text-sm"><span class="badge bg-yellow-soft text-yellow">Medium</span></td>
+                <td class="px-4 py-3 text-sm text-slate-600">Verify if the cross-referenced canonicals are intentional (e.g. tracking parameters or pagination). If not, update to self-referential.</td>
+                <td class="px-4 py-3 text-sm text-slate-500">GSC / Browser inspect</td>
+            </tr>
+            
+            <tr class="table-row">
+                <td class="px-4 py-3 text-sm font-semibold text-slate-800">[On-Page SEO] Sub-optimal title tag length</td>
+                <td class="px-4 py-3 text-sm"><span class="badge bg-yellow-soft text-yellow">Medium</span></td>
+                <td class="px-4 py-3 text-sm text-slate-600">Optimize title tags to be between 30 and 60 characters to ensure they display fully in search engine results without truncation.</td>
+                <td class="px-4 py-3 text-sm text-slate-500">GSC / Browser inspect</td>
+            </tr>
+            
+            <tr class="table-row">
+                <td class="px-4 py-3 text-sm font-semibold text-slate-800">[Schema & Structured Data] Missing WebSite schema</td>
+                <td class="px-4 py-3 text-sm"><span class="badge bg-yellow-soft text-yellow">Medium</span></td>
+                <td class="px-4 py-3 text-sm text-slate-600">Add JSON-LD WebSite schema to the homepage markup specifying the business name and URL.</td>
+                <td class="px-4 py-3 text-sm text-slate-500">GSC / Browser inspect</td>
+            </tr>
+            
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="phase-container mb-6">
+        <div class="phase-header bg-slate-50 border px-4 py-2 font-bold text-slate-700 flex justify-between">
+            <span>Phase 4: Monitoring & Iteration</span>
+            <span class="text-xs font-normal text-slate-500">Timeline: Ongoing</span>
+        </div>
+        <table class="w-full border-x border-b">
+            <thead>
+                <tr class="bg-slate-100 text-left text-xs uppercase text-slate-500 border-b">
+                    <th class="px-4 py-2 w-1/4">Issue / Category</th>
+                    <th class="px-4 py-2 w-16">Severity</th>
+                    <th class="px-4 py-2 w-1/2">Recommendation</th>
+                    <th class="px-4 py-2 w-1/6">Validation</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            <tr class="table-row">
+                <td class="px-4 py-3 text-sm font-semibold text-slate-800">[On-Page SEO] Sub-optimal meta description length</td>
+                <td class="px-4 py-3 text-sm"><span class="badge bg-blue-soft text-blue">Low</span></td>
+                <td class="px-4 py-3 text-sm text-slate-600">Rewrite meta descriptions to fit in the 120-160 character range.</td>
+                <td class="px-4 py-3 text-sm text-slate-500">GSC / Browser inspect</td>
+            </tr>
+            
+            </tbody>
+        </table>
+    </div>
+    
+        </section>
+
+        <!-- Category Breakdown -->
+        <section class="mb-6">
+            <h2 class="text-2xl font-bold mb-6">Detailed Category Breakdown</h2>
+            <div class="grid grid-3">
+                
+    <div class="card" id="cat-technical-seo">
+        <div class="card-header border-b">
+            <h3 class="text-lg font-bold text-slate-800">Technical SEO</h3>
+            
+    <svg class="gauge" viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="transparent"/>
+        <circle class="fg" cx="50" cy="50" r="40" stroke="#10b981" stroke-width="8" fill="transparent"
+                stroke-dasharray="251.2" stroke-dashoffset="7.536000000000001" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text class="text" x="50" y="55" fill="#0f172a" text-anchor="middle" font-weight="700" font-size="20">97</text>
+    </svg>
+    
+        </div>
+        <div class="card-body">
+            <div class="section-column">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">What Works</h4>
+                <ul class="list-none pl-0">
+                    <li class="text-sm text-slate-600 mb-1">✅ Robots.txt is present and configured correctly.</li><li class="text-sm text-slate-600 mb-1">✅ XML Sitemap is referenced in robots.txt and available.</li><li class="text-sm text-slate-600 mb-1">✅ All crawled HTML pages are correctly registered in the sitemap.</li><li class="text-sm text-slate-600 mb-1">✅ SSL/TLS Encryption (HTTPS) is enforced across all analyzed pages.</li><li class="text-sm text-slate-600 mb-1">✅ Zero broken internal links (404 errors) were encountered during the crawl.</li><li class="text-sm text-slate-600 mb-1">✅ All crawled pages contain a self-referential canonical URL tag.</li><li class="text-sm text-slate-600 mb-1">✅ No primary pages are blocked from search indexing.</li>
+                </ul>
+            </div>
+            <div class="section-column mt-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Issues & Recommendations</h4>
+                <div class="findings-list">
+                    
+            <div class="finding-item border-b">
+                <div class="finding-header">
+                    <span class="finding-title">1. Mismatched or cross-referenced canonical tags</span>
+                    <span class="badge bg-yellow-soft text-yellow">Medium</span>
+                </div>
+                <div class="finding-desc">Found 1 pages where the canonical URL does not match the actual page URL. Example: https://ltevo.com/ -> https://ltevo.com</div>
+                <div class="finding-rec"><strong>Fix:</strong> Verify if the cross-referenced canonicals are intentional (e.g. tracking parameters or pagination). If not, update to self-referential.</div>
+            </div>
+            
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" id="cat-content-quality">
+        <div class="card-header border-b">
+            <h3 class="text-lg font-bold text-slate-800">Content Quality</h3>
+            
+    <svg class="gauge" viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="transparent"/>
+        <circle class="fg" cx="50" cy="50" r="40" stroke="#f59e0b" stroke-width="8" fill="transparent"
+                stroke-dasharray="251.2" stroke-dashoffset="60.28799999999998" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text class="text" x="50" y="55" fill="#0f172a" text-anchor="middle" font-weight="700" font-size="20">76</text>
+    </svg>
+    
+        </div>
+        <div class="card-body">
+            <div class="section-column">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">What Works</h4>
+                <ul class="list-none pl-0">
+                    <li class="text-sm text-slate-600 mb-1">✅ All content is written in clear, natural Spanish suitable for local Spanish business clients.</li>
+                </ul>
+            </div>
+            <div class="section-column mt-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Issues & Recommendations</h4>
+                <div class="findings-list">
+                    
+            <div class="finding-item border-b">
+                <div class="finding-header">
+                    <span class="finding-title">1. Thin content pages detected</span>
+                    <span class="badge bg-orange-soft text-orange">High</span>
+                </div>
+                <div class="finding-desc">Found 1 pages below recommended word counts. Example: https://ltevo.com/servicios/mantenimiento-web has only 515 words (recommended min: 800)</div>
+                <div class="finding-rec"><strong>Fix:</strong> Expand thin pages with high-quality, unique text. Elaborate on service characteristics, case studies, or process details.</div>
+            </div>
+            
+            <div class="finding-item border-b">
+                <div class="finding-header">
+                    <span class="finding-title">2. Missing critical E-E-A-T trust signals</span>
+                    <span class="badge bg-orange-soft text-orange">High</span>
+                </div>
+                <div class="finding-desc">The website is missing several trust elements: Physical Address / Office Location, Contact Phone Number on the home page or footer.</div>
+                <div class="finding-rec"><strong>Fix:</strong> Add a physical address, phone number, direct email, and links to your privacy policy and terms of service in a global site footer.</div>
+            </div>
+            
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" id="cat-on-page-seo">
+        <div class="card-header border-b">
+            <h3 class="text-lg font-bold text-slate-800">On-Page SEO</h3>
+            
+    <svg class="gauge" viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="transparent"/>
+        <circle class="fg" cx="50" cy="50" r="40" stroke="#10b981" stroke-width="8" fill="transparent"
+                stroke-dasharray="251.2" stroke-dashoffset="20.095999999999975" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text class="text" x="50" y="55" fill="#0f172a" text-anchor="middle" font-weight="700" font-size="20">92</text>
+    </svg>
+    
+        </div>
+        <div class="card-body">
+            <div class="section-column">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">What Works</h4>
+                <ul class="list-none pl-0">
+                    <li class="text-sm text-slate-600 mb-1">✅ All crawled pages have a defined title tag.</li><li class="text-sm text-slate-600 mb-1">✅ All crawled pages have a meta description tag.</li><li class="text-sm text-slate-600 mb-1">✅ All crawled pages have exactly one H1 tag.</li>
+                </ul>
+            </div>
+            <div class="section-column mt-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Issues & Recommendations</h4>
+                <div class="findings-list">
+                    
+            <div class="finding-item border-b">
+                <div class="finding-header">
+                    <span class="finding-title">1. Sub-optimal title tag length</span>
+                    <span class="badge bg-yellow-soft text-yellow">Medium</span>
+                </div>
+                <div class="finding-desc">Found 2 titles below 30 characters (e.g. 'Términos de Uso | LTEvo' on https://ltevo.com/terminos). </div>
+                <div class="finding-rec"><strong>Fix:</strong> Optimize title tags to be between 30 and 60 characters to ensure they display fully in search engine results without truncation.</div>
+            </div>
+            
+            <div class="finding-item border-b">
+                <div class="finding-header">
+                    <span class="finding-title">2. Sub-optimal meta description length</span>
+                    <span class="badge bg-blue-soft text-blue">Low</span>
+                </div>
+                <div class="finding-desc">Found 3 short (< 120 chars) and 1 long (> 160 chars) meta descriptions.</div>
+                <div class="finding-rec"><strong>Fix:</strong> Rewrite meta descriptions to fit in the 120-160 character range.</div>
+            </div>
+            
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" id="cat-schema-and-structured-data">
+        <div class="card-header border-b">
+            <h3 class="text-lg font-bold text-slate-800">Schema & Structured Data</h3>
+            
+    <svg class="gauge" viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="transparent"/>
+        <circle class="fg" cx="50" cy="50" r="40" stroke="#ef4444" stroke-width="8" fill="transparent"
+                stroke-dasharray="251.2" stroke-dashoffset="138.16" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text class="text" x="50" y="55" fill="#0f172a" text-anchor="middle" font-weight="700" font-size="20">45</text>
+    </svg>
+    
+        </div>
+        <div class="card-body">
+            <div class="section-column">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">What Works</h4>
+                <ul class="list-none pl-0">
+                    
+                </ul>
+            </div>
+            <div class="section-column mt-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Issues & Recommendations</h4>
+                <div class="findings-list">
+                    
+            <div class="finding-item border-b">
+                <div class="finding-header">
+                    <span class="finding-title">1. Missing WebSite schema</span>
+                    <span class="badge bg-yellow-soft text-yellow">Medium</span>
+                </div>
+                <div class="finding-desc">No WebSite schema JSON-LD was detected on the homepage. This schema establishes the site name and search box capabilities.</div>
+                <div class="finding-rec"><strong>Fix:</strong> Add JSON-LD WebSite schema to the homepage markup specifying the business name and URL.</div>
+            </div>
+            
+            <div class="finding-item border-b">
+                <div class="finding-header">
+                    <span class="finding-title">2. Missing Organization or LocalBusiness schema</span>
+                    <span class="badge bg-orange-soft text-orange">High</span>
+                </div>
+                <div class="finding-desc">No Organization or LocalBusiness schema was found on the homepage. This is critical for Local SEO and company identity.</div>
+                <div class="finding-rec"><strong>Fix:</strong> Implement LocalBusiness schema on the homepage footer or contact page detailing name, address, telephone, logo, and hours.</div>
+            </div>
+            
+            <div class="finding-item border-b">
+                <div class="finding-header">
+                    <span class="finding-title">3. Missing Service schema on service pages</span>
+                    <span class="badge bg-orange-soft text-orange">High</span>
+                </div>
+                <div class="finding-desc">Found 3 service pages without Service schema markup: https://ltevo.com/servicios/diseno-web, https://ltevo.com/servicios/seo, https://ltevo.com/servicios/mantenimiento-web</div>
+                <div class="finding-rec"><strong>Fix:</strong> Implement JSON-LD Service schema on all pages under `/servicios/` to specify service name, description, provider, and areaServed.</div>
+            </div>
+            
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" id="cat-performance">
+        <div class="card-header border-b">
+            <h3 class="text-lg font-bold text-slate-800">Performance</h3>
+            
+    <svg class="gauge" viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="transparent"/>
+        <circle class="fg" cx="50" cy="50" r="40" stroke="#10b981" stroke-width="8" fill="transparent"
+                stroke-dasharray="251.2" stroke-dashoffset="0.0" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text class="text" x="50" y="55" fill="#0f172a" text-anchor="middle" font-weight="700" font-size="20">100</text>
+    </svg>
+    
+        </div>
+        <div class="card-body">
+            <div class="section-column">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">What Works</h4>
+                <ul class="list-none pl-0">
+                    <li class="text-sm text-slate-600 mb-1">✅ All analyzed pages returned a prompt Time to First Byte (TTFB) below 1.5 seconds.</li><li class="text-sm text-slate-600 mb-1">✅ Site runs on Next.js, allowing server-side rendering (SSR) and optimized hydration.</li>
+                </ul>
+            </div>
+            <div class="section-column mt-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Issues & Recommendations</h4>
+                <div class="findings-list">
+                    <p class="text-green text-sm">✅ No issues identified in this category.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" id="cat-images">
+        <div class="card-header border-b">
+            <h3 class="text-lg font-bold text-slate-800">Images</h3>
+            
+    <svg class="gauge" viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="transparent"/>
+        <circle class="fg" cx="50" cy="50" r="40" stroke="#10b981" stroke-width="8" fill="transparent"
+                stroke-dasharray="251.2" stroke-dashoffset="0.0" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text class="text" x="50" y="55" fill="#0f172a" text-anchor="middle" font-weight="700" font-size="20">100</text>
+    </svg>
+    
+        </div>
+        <div class="card-body">
+            <div class="section-column">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">What Works</h4>
+                <ul class="list-none pl-0">
+                    <li class="text-sm text-slate-600 mb-1">✅ All parsed images contain the required 'alt' description tags.</li><li class="text-sm text-slate-600 mb-1">✅ All images are served in modern web formats (WebP/AVIF/SVG).</li>
+                </ul>
+            </div>
+            <div class="section-column mt-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Issues & Recommendations</h4>
+                <div class="findings-list">
+                    <p class="text-green text-sm">✅ No issues identified in this category.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" id="cat-ai-search-readiness">
+        <div class="card-header border-b">
+            <h3 class="text-lg font-bold text-slate-800">AI Search Readiness</h3>
+            
+    <svg class="gauge" viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="transparent"/>
+        <circle class="fg" cx="50" cy="50" r="40" stroke="#f59e0b" stroke-width="8" fill="transparent"
+                stroke-dasharray="251.2" stroke-dashoffset="50.23999999999998" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text class="text" x="50" y="55" fill="#0f172a" text-anchor="middle" font-weight="700" font-size="20">80</text>
+    </svg>
+    
+        </div>
+        <div class="card-body">
+            <div class="section-column">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">What Works</h4>
+                <ul class="list-none pl-0">
+                    <li class="text-sm text-slate-600 mb-1">✅ AI bots (GPTBot, ClaudeBot, PerplexityBot) are allowed in robots.txt via the wildcard directive.</li><li class="text-sm text-slate-600 mb-1">✅ A machine-readable llms.txt is deployed, providing structured context to LLMs.</li><li class="text-sm text-slate-600 mb-1">✅ Pages utilize lists and bullet points, improving reading efficiency and AI citation extraction.</li>
+                </ul>
+            </div>
+            <div class="section-column mt-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Issues & Recommendations</h4>
+                <div class="findings-list">
+                    
+            <div class="finding-item border-b">
+                <div class="finding-header">
+                    <span class="finding-title">1. Lack of Organization schema blocks semantic entity mapping</span>
+                    <span class="badge bg-orange-soft text-orange">High</span>
+                </div>
+                <div class="finding-desc">Without Organization schema, LLMs have difficulty associating your brand name with specific services or locations in knowledge graphs.</div>
+                <div class="finding-rec"><strong>Fix:</strong> Deploy a complete Organization schema detailing brand aliases, parent organization, and legal name.</div>
+            </div>
+            
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" id="cat-search-experience-(sxo)">
+        <div class="card-header border-b">
+            <h3 class="text-lg font-bold text-slate-800">Search Experience (SXO)</h3>
+            
+    <svg class="gauge" viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="transparent"/>
+        <circle class="fg" cx="50" cy="50" r="40" stroke="#10b981" stroke-width="8" fill="transparent"
+                stroke-dasharray="251.2" stroke-dashoffset="25.120000000000005" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text class="text" x="50" y="55" fill="#0f172a" text-anchor="middle" font-weight="700" font-size="20">90</text>
+    </svg>
+    
+        </div>
+        <div class="card-body">
+            <div class="section-column">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">What Works</h4>
+                <ul class="list-none pl-0">
+                    <li class="text-sm text-slate-600 mb-1">✅ Lead generation forms are present on the contact page.</li><li class="text-sm text-slate-600 mb-1">✅ Mobile viewport meta tag is correctly configured on all pages.</li>
+                </ul>
+            </div>
+            <div class="section-column mt-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Issues & Recommendations</h4>
+                <div class="findings-list">
+                    <p class="text-green text-sm">✅ No issues identified in this category.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" id="cat-sitemap-and-coverage">
+        <div class="card-header border-b">
+            <h3 class="text-lg font-bold text-slate-800">Sitemap & Coverage</h3>
+            
+    <svg class="gauge" viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="transparent"/>
+        <circle class="fg" cx="50" cy="50" r="40" stroke="#10b981" stroke-width="8" fill="transparent"
+                stroke-dasharray="251.2" stroke-dashoffset="0.0" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text class="text" x="50" y="55" fill="#0f172a" text-anchor="middle" font-weight="700" font-size="20">100</text>
+    </svg>
+    
+        </div>
+        <div class="card-body">
+            <div class="section-column">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">What Works</h4>
+                <ul class="list-none pl-0">
+                    <li class="text-sm text-slate-600 mb-1">✅ Sitemap exists and conforms to Sitemap 0.9 protocol.</li>
+                </ul>
+            </div>
+            <div class="section-column mt-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Issues & Recommendations</h4>
+                <div class="findings-list">
+                    <p class="text-green text-sm">✅ No issues identified in this category.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+        </section>
+
+        <!-- Screenshots -->
+        <section class="mb-6">
+            <h2 class="text-2xl font-bold mb-6 text-center">Playwright Render Captures</h2>
+            <div class="screenshot-gallery">
+                <div class="screenshot-card">
+                    <h3 class="font-bold text-slate-700">Desktop View (1280x800)</h3>
+                    <img src="screenshots/desktop.png" alt="Desktop Screenshot">
+                </div>
+                <div class="screenshot-card">
+                    <h3 class="font-bold text-slate-700">Mobile View (375x667)</h3>
+                    <img src="screenshots/mobile.png" alt="Mobile Screenshot">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-banner">
+        <div class="container">
+            <p class="font-bold text-lg mb-2">Join the AI Marketing Hub community</p>
+            <p class="text-sm mb-4 text-slate-300">Free, actionable strategies, templates, and courses to grow your business.</p>
+            <div class="flex justify-center gap-6" style="gap: 2rem;">
+                <a href="https://www.skool.com/ai-marketing-hub" target="_blank">🆓 Free Community</a>
+                <a href="https://www.skool.com/ai-marketing-hub-pro" target="_blank">⚡ Pro Hub</a>
+            </div>
+            <p class="text-xs text-slate-400 mt-6">Built by agricidaniel & Antigravity</p>
+        </div>
+    </footer>
+</body>
+</html>
