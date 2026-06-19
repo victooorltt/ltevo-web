@@ -43,6 +43,17 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
   const hasDarkHero =
     pathname === "/" ||
     pathname === "/contacto" ||
@@ -90,6 +101,7 @@ export function Navigation() {
             ? "rgba(var(--background-rgb, 250,249,247), 0.8)"
             : "transparent",
           backdropFilter: floating ? "blur(20px)" : "none",
+          WebkitBackdropFilter: floating ? "blur(20px)" : "none",
           borderRadius: floating ? "1rem" : "0",
           boxShadow: floating
             ? "0 1px 24px 0 rgba(0,0,0,0.06)"

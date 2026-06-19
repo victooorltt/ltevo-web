@@ -27,7 +27,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-black">
+    <section className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden bg-black">
 
       {/* Grid lines sutil */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 
 const testimonials = [
   {
@@ -29,29 +29,6 @@ const testimonials = [
   },
 ];
 
-const cardStyle: React.CSSProperties = {
-  background: "linear-gradient(160deg, #ffffff 0%, #f3f3f3 100%)",
-  boxShadow: `
-    inset 0 1px 0 0 rgba(255,255,255,1),
-    inset 0 -1px 0 0 rgba(0,0,0,0.06),
-    0 4px 6px rgba(0,0,0,0.06),
-    0 12px 28px rgba(0,0,0,0.1)
-  `,
-  borderRadius: "12px",
-  border: "1px solid rgba(0,0,0,0.08)",
-};
-
-const cardHoverStyle: React.CSSProperties = {
-  ...cardStyle,
-  transform: "translateY(-4px)",
-  boxShadow: `
-    inset 0 1px 0 0 rgba(255,255,255,1),
-    inset 0 -1px 0 0 rgba(0,0,0,0.06),
-    0 8px 16px rgba(0,0,0,0.1),
-    0 20px 48px rgba(0,0,0,0.15)
-  `,
-};
-
 function StarRating() {
   return (
     <div className="flex gap-1">
@@ -72,18 +49,8 @@ function StarRating() {
 }
 
 function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
-  const [hovered, setHovered] = useState(false);
-
   return (
-    <div
-      style={{
-        ...(hovered ? cardHoverStyle : cardStyle),
-        transition: "transform 0.25s ease, box-shadow 0.25s ease",
-      }}
-      className="flex flex-col gap-6 p-8 snap-center shrink-0 w-[85vw] sm:w-auto"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <div className="testimonial-card flex flex-col gap-6 p-8 snap-center shrink-0 w-[85vw] sm:w-auto">
       <StarRating />
 
       <p className="text-base leading-relaxed flex-1" style={{ color: "rgba(0,0,0,0.75)" }}>

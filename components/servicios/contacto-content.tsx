@@ -4,6 +4,13 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 /* ------------------------------------------------------------------ */
 /*  FadeIn                                                            */
@@ -312,22 +319,24 @@ export function ContactoContent() {
                       <label className="font-mono text-xs text-muted-foreground">
                         Servicio que te interesa
                       </label>
-                      <select
-                        id="service"
-                        name="service"
+                      <Select
                         value={form.service}
-                        onChange={handleChange}
-                        className={`${inputClass} appearance-none`}
+                        onValueChange={(val) => setForm((prev) => ({ ...prev, service: val }))}
                       >
-                        <option value="">Selecciona un servicio</option>
-                        <option value="diseno-web">Diseño Web</option>
-                        <option value="seo">SEO y Posicionamiento</option>
-                        <option value="ecommerce">Tienda Online</option>
-                        <option value="mantenimiento">
-                          Mantenimiento Web
-                        </option>
-                        <option value="otro">Otro</option>
-                      </select>
+                        <SelectTrigger
+                          id="service"
+                          className={`${inputClass} w-full h-[46px] flex items-center justify-between text-left`}
+                        >
+                          <SelectValue placeholder="Selecciona un servicio" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-background border border-foreground/10 text-foreground">
+                          <SelectItem value="diseno-web">Diseño Web</SelectItem>
+                          <SelectItem value="seo">SEO y Posicionamiento</SelectItem>
+                          <SelectItem value="ecommerce">Tienda Online</SelectItem>
+                          <SelectItem value="mantenimiento">Mantenimiento Web</SelectItem>
+                          <SelectItem value="otro">Otro</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
 
                     {/* Mensaje */}

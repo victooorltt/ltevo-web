@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function PrivacidadPage() {
   return (
-    <main className="bg-black text-white min-h-screen">
+    <main className="bg-black text-white min-h-[100dvh]">
       <div className="max-w-3xl mx-auto px-6 py-32 lg:py-40">
 
         {/* Back */}

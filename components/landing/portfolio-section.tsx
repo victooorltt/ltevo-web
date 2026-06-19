@@ -76,7 +76,6 @@ function ProjectCard({
   index: number;
 }) {
   const [isVisible, setIsVisible] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -101,8 +100,6 @@ function ProjectCard({
         target="_blank"
         rel="noopener noreferrer"
         className="group block border border-foreground/10 hover:border-foreground/30 transition-all duration-500 overflow-hidden"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         <div className="grid lg:grid-cols-2">
 
@@ -111,14 +108,10 @@ function ProjectCard({
             <img
               src={project.image}
               alt={`Proyecto ${project.title}`}
-              className={`w-full h-full object-cover object-top transition-transform duration-700 ${
-                isHovered ? "scale-105" : "scale-100"
-              }`}
+              className="w-full h-full object-cover object-top transition-transform duration-700 scale-100 group-hover:scale-105"
             />
             {/* Overlay sutil */}
-            <div className={`absolute inset-0 bg-foreground transition-opacity duration-500 ${
-              isHovered ? "opacity-0" : "opacity-[0.04]"
-            }`} />
+            <div className="absolute inset-0 bg-foreground transition-opacity duration-500 opacity-[0.04] group-hover:opacity-0" />
           </div>
 
           {/* Contenido */}
@@ -126,19 +119,13 @@ function ProjectCard({
             <div>
               {/* Número y flecha */}
               <div className="flex items-center justify-between mb-8">
-                <div className={`w-10 h-10 border border-foreground/10 flex items-center justify-center transition-all duration-300 ${
-                  isHovered ? "bg-foreground border-foreground" : ""
-                }`}>
-                  <ArrowUpRight className={`w-4 h-4 transition-colors duration-300 ${
-                    isHovered ? "text-background" : "text-foreground/40"
-                  }`} />
+                <div className="w-10 h-10 border border-foreground/10 flex items-center justify-center transition-all duration-300 bg-transparent group-hover:bg-foreground group-hover:border-foreground">
+                  <ArrowUpRight className="w-4 h-4 transition-colors duration-300 text-foreground/40 group-hover:text-background" />
                 </div>
               </div>
 
               {/* Título */}
-              <h3 className={`text-4xl lg:text-5xl font-display tracking-tight mb-4 transition-transform duration-500 ${
-                isHovered ? "translate-x-2" : "translate-x-0"
-              }`}>
+              <h3 className="text-4xl lg:text-5xl font-display tracking-tight mb-4 transition-transform duration-500 translate-x-0 group-hover:translate-x-2">
                 {project.title}
               </h3>
 

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function SeoPage() {
   return (
-    <main className="relative min-h-screen overflow-x-hidden">
+    <main className="relative min-h-[100dvh] overflow-x-hidden">
       <Navigation />
       <SeoContent />
       <FooterSection />

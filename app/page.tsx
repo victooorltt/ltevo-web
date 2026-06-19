@@ -11,7 +11,7 @@ import { ContactSection } from "@/components/landing/contact-section";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen overflow-x-hidden">
+    <main className="relative min-h-[100dvh] overflow-x-hidden">
       <Navigation />
       <HeroSection />
       <FeaturesSection />

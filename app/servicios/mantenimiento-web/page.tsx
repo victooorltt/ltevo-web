@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function MantenimientoWebPage() {
   return (
-    <main className="relative min-h-screen overflow-x-hidden">
+    <main className="relative min-h-[100dvh] overflow-x-hidden">
       <Navigation />
       <MantenimientoWebContent />
       <FooterSection />
