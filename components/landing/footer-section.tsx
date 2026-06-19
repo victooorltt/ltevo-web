@@ -67,6 +67,32 @@ export function FooterSection() {
                 </ul>
               </div>
             ))}
+
+            {/* Contact Column */}
+            <div className="col-span-2">
+              <h3 className="text-sm font-medium text-white mb-6">Contacto</h3>
+              <ul className="space-y-4">
+                <li>
+                  <a
+                    href="tel:+34634255541"
+                    className="text-sm text-white/40 hover:text-white transition-colors block"
+                  >
+                    +34 634 25 55 41
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="mailto:info@ltevo.com"
+                    className="text-sm text-white/40 hover:text-white transition-colors block"
+                  >
+                    info@ltevo.com
+                  </a>
+                </li>
+                <li className="text-sm text-white/40 leading-relaxed">
+                  Calle Uría, 19, 33003 Oviedo, Asturias
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 

@@ -364,7 +364,7 @@ export function ContactoContent() {
                     <p className="text-sm font-mono text-muted-foreground">Calle Uría</p>
                   </div>
                   <p className="text-base text-muted-foreground leading-relaxed pt-2">
-                    Trabajamos con clientes en toda España y el mundo.
+                    Estamos localizados en Asturias, en pleno centro de Oviedo, pero diseñamos y desarrollamos soluciones web para empresas en toda España y el mundo. Creemos en una comunicación transparente y cercana, superando cualquier frontera para llevar tu presencia digital al siguiente nivel.
                   </p>
                 </div>
               </div>
