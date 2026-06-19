@@ -37,7 +37,10 @@ function FadeIn({
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
       },
       { threshold: 0.1 }
     );
@@ -317,7 +320,7 @@ export function MantenimientoWebContent() {
         </div>
 
         {/* Outer ambient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-zinc-800/10 blur-[140px] rounded-full pointer-events-none z-0" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full pointer-events-none z-0" style={{ backgroundImage: "radial-gradient(circle, rgba(39, 39, 42, 0.1) 0%, transparent 70%)" }} />
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col items-center text-center z-10">
           <FadeIn delay={0.1}>
@@ -379,7 +382,7 @@ export function MantenimientoWebContent() {
       {/* ============================================================ */}
       <section className="relative py-24 lg:py-32 bg-zinc-950 text-white overflow-hidden">
         {/* Glow accent */}
-        <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-zinc-900/40 blur-[130px] rounded-full pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(24, 24, 27, 0.4) 0%, transparent 70%)" }} />
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 z-10">
           <FadeIn>

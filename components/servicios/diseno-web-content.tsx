@@ -24,7 +24,10 @@ function FadeIn({
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
       },
       { threshold: 0.1 }
     );
@@ -304,8 +307,8 @@ export function DisenoWebContent() {
       {/* ============================================================ */}
       <section className="relative py-24 lg:py-32 bg-neutral-950 border-t border-b border-neutral-900/60 overflow-hidden">
         {/* Premium ambient glow */}
-        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-neutral-800/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-10 right-1/4 w-[350px] h-[350px] bg-neutral-900/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(38, 38, 38, 0.1) 0%, transparent 70%)" }} />
+        <div className="absolute bottom-10 right-1/4 w-[350px] h-[350px] rounded-full pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(23, 23, 23, 0.1) 0%, transparent 70%)" }} />
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 z-10">
           <FadeIn>
@@ -321,7 +324,7 @@ export function DisenoWebContent() {
               const Icon = item.icon;
               return (
                 <FadeIn key={item.title} delay={index * 0.1}>
-                  <div className="group bg-zinc-900/40 border border-zinc-800/80 hover:border-zinc-700 backdrop-blur-sm p-8 hover-lift h-full flex flex-col justify-between rounded-sm transition-all duration-300">
+                  <div className="group bg-zinc-900/80 border border-zinc-800/80 hover:border-zinc-700 p-8 hover-lift h-full flex flex-col justify-between rounded-sm transition-all duration-300">
                     <div>
                       <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-950 border border-zinc-800/60 mb-6 group-hover:border-zinc-700/80 transition-colors">
                         <Icon className={`w-5 h-5 ${item.iconColor}`} />
@@ -372,8 +375,8 @@ export function DisenoWebContent() {
       {/* ============================================================ */}
       <section id="proceso" className="relative py-28 lg:py-40 bg-neutral-950 border-t border-b border-neutral-900/60 overflow-hidden">
         {/* Ambient background effects */}
-        <div className="absolute top-0 left-1/3 w-[600px] h-[600px] bg-amber-500/[0.03] rounded-full blur-[150px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-indigo-500/[0.03] rounded-full blur-[130px] pointer-events-none" />
+        <div className="absolute top-0 left-1/3 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(245, 158, 11, 0.03) 0%, transparent 70%)" }} />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(99, 102, 241, 0.03) 0%, transparent 70%)" }} />
 
         {/* Subtle dot pattern */}
         <div
@@ -408,7 +411,7 @@ export function DisenoWebContent() {
                     />
 
                     {/* Card body */}
-                    <div className="relative bg-zinc-900/50 backdrop-blur-sm border border-zinc-800/80 rounded-lg p-6 lg:p-8 h-full flex flex-col group-hover:border-zinc-700/80 transition-all duration-500">
+                    <div className="relative bg-zinc-900/80 border border-zinc-800/80 rounded-lg p-6 lg:p-8 h-full flex flex-col group-hover:border-zinc-700/80 transition-all duration-500">
                       {/* Icon Container in the top-left */}
                       <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-950/80 border border-zinc-800/60 group-hover:border-zinc-700 transition-colors duration-300 mb-6 self-start">
                         <Icon className={`w-5 h-5 ${step.iconColor} opacity-80 group-hover:opacity-100 transition-opacity duration-300`} />

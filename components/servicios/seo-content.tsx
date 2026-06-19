@@ -22,7 +22,10 @@ function FadeIn({
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
       },
       { threshold: 0.1 }
     );
@@ -276,7 +279,7 @@ export function SeoContent() {
       {/* ============================================================ */}
       <section className="relative py-24 lg:py-32 bg-zinc-950 text-white overflow-hidden border-t border-zinc-900">
         {/* Ambient background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-zinc-900/10 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(24, 24, 27, 0.1) 0%, transparent 70%)" }} />
         
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 z-10">
           <FadeIn>
