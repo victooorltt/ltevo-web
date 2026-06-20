@@ -156,9 +156,7 @@ export function ContactoContent() {
             <FadeIn>
               <div>
                 <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-8 leading-[0.95]">
-                  Hablemos de{" "}
-                  <br />
-                  <span className="text-muted-foreground">tu proyecto.</span>
+                  Hablemos de <br /> <span className="text-muted-foreground">tu proyecto.</span>
                 </h2>
 
                 <p className="text-lg text-muted-foreground leading-relaxed mb-12 max-w-md">

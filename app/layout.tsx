@@ -24,8 +24,8 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "LTEvo | Agencia de Diseño Web en Oviedo",
-  description: "Agencia de diseño web en Oviedo. Creamos webs profesionales, tiendas eCommerce y optimización SEO para empresas y negocios de Asturias.",
+  title: "Diseño Web Profesional en Oviedo y Asturias | LTEvo",
+  description: "¿Buscas una web profesional que venda? Agencia de diseño web en Oviedo y Asturias. Creamos páginas web, tiendas online y SEO para hacer crecer tu negocio.",
   keywords: [
     "diseño web oviedo",
     "agencia web asturias",
@@ -40,8 +40,8 @@ export const metadata: Metadata = {
   creator: "LTEvo",
   metadataBase: new URL("https://ltevo.com"),
   openGraph: {
-    title: "LTEvo | Agencia de Diseño Web en Oviedo",
-    description: "Webs profesionales, eCommerce y SEO para empresas en Asturias.",
+    title: "Diseño Web Profesional en Oviedo y Asturias | LTEvo",
+    description: "¿Buscas una web profesional que venda? Agencia de diseño web en Oviedo y Asturias. Creamos páginas web, tiendas online y SEO para hacer crecer tu negocio.",
     url: "https://ltevo.com",
     siteName: "LTEvo",
     locale: "es_ES",
@@ -49,8 +49,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "LTEvo | Agencia de Diseño Web en Oviedo",
-    description: "Webs profesionales, eCommerce y SEO para empresas en Asturias.",
+    title: "Diseño Web Profesional en Oviedo y Asturias | LTEvo",
+    description: "¿Buscas una web profesional que venda? Agencia de diseño web en Oviedo y Asturias. Creamos páginas web, tiendas online y SEO para hacer crecer tu negocio.",
   },
   robots: {
     index: true,

@@ -39,9 +39,7 @@ export function TechSection() {
           }`}
         >
           <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-6">
-            Herramientas del
-            <br />
-            más alto nivel.
+            Herramientas del <br /> más alto nivel.
           </h2>
           <p className="text-xl text-muted-foreground">
             Trabajamos con el stack moderno más sólido para garantizar

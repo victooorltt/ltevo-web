@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Términos de Uso | LTEvo",
-  description: "Términos y condiciones de uso del sitio web y servicios de LTEvo.",
+  title: "Términos y Condiciones - Agencia Web en Oviedo | LTEvo",
+  description: "Lee los términos de uso y condiciones legales para nuestros servicios de diseño web y posicionamiento SEO en Oviedo y Asturias.",
   alternates: {
     canonical: "https://ltevo.com/terminos",
   },

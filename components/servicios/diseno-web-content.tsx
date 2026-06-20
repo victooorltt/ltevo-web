@@ -191,7 +191,7 @@ export function DisenoWebContent() {
             
             <FadeIn delay={0.1} className="w-full">
               <h1 className="text-[3.5rem] sm:text-5xl lg:text-6xl xl:text-6xl font-display italic tracking-tight leading-[0.95] mb-8 text-foreground text-center lg:text-left">
-                Diseño Web Profesional{" "}<br />a Medida
+                Diseño Web Profesional <br /> a Medida
               </h1>
             </FadeIn>
 
@@ -241,7 +241,7 @@ export function DisenoWebContent() {
           <FadeIn>
             <div className="mb-16 lg:mb-24">
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-white">
-                ¿Por qué una web{" "}<br /><span className="text-zinc-400 italic">a medida con nosotros?</span>
+                ¿Por qué una web <br /> <span className="text-zinc-400 italic">a medida con nosotros?</span>
               </h2>
             </div>
           </FadeIn>
@@ -279,8 +279,7 @@ export function DisenoWebContent() {
           <FadeIn>
             <div className="mb-16 lg:mb-20 text-center lg:text-left">
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
-                Desarrollo a Medida frente a{" "}<br />
-                <span className="text-muted-foreground italic">Plantillas Genéricas (WordPress o Wix)</span>
+                Desarrollo a Medida frente a <br /> <span className="text-muted-foreground italic">Plantillas Genéricas (WordPress o Wix)</span>
               </h2>
               <p className="text-muted-foreground max-w-3xl mt-6 leading-relaxed text-base">
                 Para destacar en el entorno digital altamente competitivo de hoy, depender de sistemas monolíticos y plantillas preconstruidas suele ser un obstáculo silencioso. Analizamos por qué un desarrollo a medida con tecnología moderna marca la diferencia en tu negocio.
@@ -463,7 +462,7 @@ export function DisenoWebContent() {
           <FadeIn>
             <div className="mb-16 lg:mb-24">
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
-                Modelos web que{" "}<br /><span className="text-muted-foreground italic">impulsan tu negocio.</span>
+                Modelos web que <br /> <span className="text-muted-foreground italic">impulsan tu negocio.</span>
               </h2>
             </div>
           </FadeIn>
@@ -503,7 +502,7 @@ export function DisenoWebContent() {
           <FadeIn>
             <div className="mb-16 lg:mb-20">
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-white">
-                Metodología en{" "}<br /><span className="text-zinc-400 italic">cuatro etapas claras.</span>
+                Metodología en <br /> <span className="text-zinc-400 italic">cuatro etapas claras.</span>
               </h2>
             </div>
           </FadeIn>
@@ -552,8 +551,7 @@ export function DisenoWebContent() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <FadeIn>
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-white leading-tight">
-                Desarrollo web local en{" "}<br />
-                <span className="text-zinc-400 italic">Oviedo y toda Asturias</span>
+                Desarrollo web local en <br /> <span className="text-zinc-400 italic">Oviedo y toda Asturias</span>
               </h2>
               <p className="text-zinc-400 leading-relaxed text-base mt-6">
                 Como agencia afincada en Oviedo, entendemos las particularidades del mercado en el Principado de Asturias. Diseñar una web para el público asturiano requiere combinar una estética moderna y funcional con una optimización específica para los buscadores de la región.

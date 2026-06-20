@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Política de Privacidad | LTEvo",
-  description: "Política de privacidad de LTEvo. Información sobre el tratamiento de datos personales conforme al RGPD.",
+  title: "Política de Privacidad de la Agencia Web en Oviedo | LTEvo",
+  description: "Política de privacidad de LTEvo. Descubre cómo protegemos tus datos personales en nuestra agencia de diseño web y SEO en Oviedo y Asturias.",
   alternates: {
     canonical: "https://ltevo.com/privacidad",
   },

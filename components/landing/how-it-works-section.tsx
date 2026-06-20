@@ -122,9 +122,7 @@ export function HowItWorksSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Así trabajamos contigo.
-            <br />
-            <span className="text-background/50">Sin sorpresas, sin rodeos.</span>
+            Así trabajamos contigo. <br /> <span className="text-background/50">Sin sorpresas, sin rodeos.</span>
           </h2>
         </div>
 

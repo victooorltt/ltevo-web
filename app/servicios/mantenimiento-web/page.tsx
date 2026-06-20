@@ -4,14 +4,14 @@ import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 
 export const metadata: Metadata = {
-  title: "Mantenimiento Web Profesional y Soporte Técnico | LTEvo",
+  title: "Mantenimiento Web Profesional en Oviedo y Asturias | LTEvo",
   description:
-    "Asegura la seguridad, velocidad y estabilidad de tu sitio web. Planes de mantenimiento web a medida, actualizaciones y backups semanales/diarios en España.",
+    "Soporte técnico y mantenimiento web en Oviedo y Asturias. Protegemos tu web con copias de seguridad, actualizaciones y optimización de velocidad continua.",
   alternates: { canonical: "/servicios/mantenimiento-web" },
   openGraph: {
-    title: "Mantenimiento Web Profesional y Soporte Técnico | LTEvo",
+    title: "Mantenimiento Web Profesional en Oviedo y Asturias | LTEvo",
     description:
-      "Asegura la seguridad, velocidad y estabilidad de tu sitio web. Planes de mantenimiento web a medida, actualizaciones y backups semanales/diarios en España.",
+      "Soporte técnico y mantenimiento web en Oviedo y Asturias. Protegemos tu web con copias de seguridad, actualizaciones y optimización de velocidad continua.",
     url: "https://ltevo.com/servicios/mantenimiento-web",
     type: "website",
   },

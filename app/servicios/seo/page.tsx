@@ -4,14 +4,14 @@ import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 
 export const metadata: Metadata = {
-  title: "Posicionamiento SEO Profesional | LTEvo",
+  title: "Posicionamiento SEO Profesional en Oviedo y Asturias | LTEvo",
   description:
-    "Agencia de posicionamiento SEO en España. Optimizamos tu presencia online para destacar en buscadores, captar tráfico de calidad y multiplicar tus clientes orgánicos.",
+    "Agencia de posicionamiento SEO en Oviedo y Asturias. Optimizamos tu web para captar tráfico orgánico de calidad y multiplicar tus ventas en Google.",
   alternates: { canonical: "/servicios/seo" },
   openGraph: {
-    title: "Posicionamiento SEO Profesional | LTEvo",
+    title: "Posicionamiento SEO Profesional en Oviedo y Asturias | LTEvo",
     description:
-      "Agencia de posicionamiento SEO en España. Optimizamos tu presencia online para destacar en buscadores, captar tráfico de calidad y multiplicar tus clientes orgánicos.",
+      "Agencia de posicionamiento SEO en Oviedo y Asturias. Optimizamos tu web para captar tráfico orgánico de calidad y multiplicar tus ventas en Google.",
     url: "https://ltevo.com/servicios/seo",
     type: "website",
   },

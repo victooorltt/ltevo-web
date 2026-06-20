@@ -50,9 +50,7 @@ export function PortfolioSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Proyectos reales.{" "}
-            <br />
-            <span className="text-muted-foreground">Resultados que se ven.</span>
+            Proyectos reales. <br /> <span className="text-muted-foreground">Resultados que se ven.</span>
           </h2>
         </div>
 

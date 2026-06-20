@@ -4,14 +4,14 @@ import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 
 export const metadata: Metadata = {
-  title: "Diseño Web Profesional a Medida | LTEvo",
+  title: "Diseño de Páginas Web en Oviedo y Asturias | LTEvo",
   description:
-    "Diseño y desarrollo de páginas web profesionales a medida en España. Sitios web rápidos, optimizados para SEO y adaptados a dispositivos móviles.",
+    "Creamos páginas web profesionales, rápidas y a medida en Oviedo y Asturias. Diseño web adaptado a móviles y optimizado para SEO. ¡Pide presupuesto!",
   alternates: { canonical: "/servicios/diseno-web" },
   openGraph: {
-    title: "Diseño Web Profesional a Medida | LTEvo",
+    title: "Diseño de Páginas Web en Oviedo y Asturias | LTEvo",
     description:
-      "Diseño y desarrollo de páginas web profesionales a medida en España. Sitios web rápidos, optimizados para SEO y adaptados a dispositivos móviles.",
+      "Creamos páginas web profesionales, rápidas y a medida en Oviedo y Asturias. Diseño web adaptado a móviles y optimizado para SEO. ¡Pide presupuesto!",
     url: "https://ltevo.com/servicios/diseno-web",
     type: "website",
   },

@@ -160,7 +160,7 @@ export function SeoContent() {
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col items-center text-center z-10">
           <FadeIn delay={0.1}>
             <h1 className="text-5xl lg:text-7xl font-display italic tracking-tight leading-[0.95] mb-6 text-white text-center">
-              Posicionamiento SEO{" "}<br />Profesional
+              Posicionamiento SEO <br /> Profesional
             </h1>
           </FadeIn>
 
@@ -180,7 +180,7 @@ export function SeoContent() {
           <FadeIn>
             <div className="mb-16 lg:mb-24">
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
-                ¿Qué aporta el SEO{" "}<br /><span className="text-muted-foreground italic">a tu estrategia digital?</span>
+                ¿Qué aporta el SEO <br /> <span className="text-muted-foreground italic">a tu estrategia digital?</span>
               </h2>
             </div>
           </FadeIn>
@@ -212,8 +212,7 @@ export function SeoContent() {
           <FadeIn>
             <div className="mb-16 lg:mb-20 text-center lg:text-left">
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
-                Estrategia basada en E-E-A-T{" "}<br />
-                <span className="text-muted-foreground italic">y Captura del Intento de Búsqueda Real</span>
+                Estrategia basada en E-E-A-T <br /> <span className="text-muted-foreground italic">y Captura del Intento de Búsqueda Real</span>
               </h2>
               <p className="text-muted-foreground max-w-3xl mt-6 leading-relaxed text-base">
                 El posicionamiento orgánico moderno va mucho más allá de rellenar una página con palabras clave repetitivas. Google premia la autoridad real, la experiencia contrastada y la utilidad para el usuario.
@@ -356,8 +355,7 @@ export function SeoContent() {
           <FadeIn>
             <div className="mb-16 lg:mb-24">
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-white">
-                Estrategias de SEO{" "}<br />
-                <span className="text-zinc-400 italic">que marcan la diferencia.</span>
+                Estrategias de SEO <br /> <span className="text-zinc-400 italic">que marcan la diferencia.</span>
               </h2>
             </div>
           </FadeIn>
@@ -404,8 +402,7 @@ export function SeoContent() {
           <FadeIn>
             <div className="mb-16 lg:mb-24 text-center">
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-zinc-900">
-                Nuestro proceso de{" "}<br />
-                <span className="text-zinc-500 italic">posicionamiento orgánico.</span>
+                Nuestro proceso de <br /> <span className="text-zinc-500 italic">posicionamiento orgánico.</span>
               </h2>
             </div>
           </FadeIn>
@@ -453,8 +450,7 @@ export function SeoContent() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <FadeIn>
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-white leading-tight">
-                Posicionamiento SEO Local en Asturias:{" "}<br />
-                <span className="text-zinc-400 italic">Oviedo, Gijón y Avilés</span>
+                Posicionamiento SEO Local en Asturias: <br /> <span className="text-zinc-400 italic">Oviedo, Gijón y Avilés</span>
               </h2>
               <p className="text-zinc-400 leading-relaxed text-base mt-6">
                 Si tu negocio opera en el ámbito geográfico del Principado de Asturias, el SEO local es la herramienta más potente y rentable para capturar clientes en tu zona de influencia directa. Millones de búsquedas diarias contienen intención geográfica explícita e implícita.

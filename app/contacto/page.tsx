@@ -4,14 +4,14 @@ import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 
 export const metadata: Metadata = {
-  title: "Contacto | Solicita tu Presupuesto Gratis | LTEvo",
+  title: "Contacto en Oviedo y Presupuesto SEO en Asturias | LTEvo",
   description:
-    "Contacta con LTEvo para solicitar tu presupuesto de diseño web o posicionamiento SEO gratis y sin compromiso. Te respondemos en menos de 24 horas.",
+    "¿Necesitas una web o SEO? Contacta con LTEvo en Oviedo y solicita tu presupuesto gratis. Te respondemos en menos de 24 horas en Asturias.",
   alternates: { canonical: "/contacto" },
   openGraph: {
-    title: "Contacto | Solicita tu Presupuesto Gratis | LTEvo",
+    title: "Contacto en Oviedo y Presupuesto SEO en Asturias | LTEvo",
     description:
-      "Contacta con LTEvo para solicitar tu presupuesto de diseño web o posicionamiento SEO gratis y sin compromiso. Te respondemos en menos de 24 horas.",
+      "¿Necesitas una web o SEO? Contacta con LTEvo en Oviedo y solicita tu presupuesto gratis. Te respondemos en menos de 24 horas en Asturias.",
     url: "https://ltevo.com/contacto",
     type: "website",
   },

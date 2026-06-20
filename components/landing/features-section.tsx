@@ -203,9 +203,7 @@ export function FeaturesSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Todo lo que necesitas.
-            <br />
-            <span className="text-muted-foreground">En una sola agencia.</span>
+            Todo lo que necesitas. <br /> <span className="text-muted-foreground">En una sola agencia.</span>
           </h2>
         </div>
         <div>

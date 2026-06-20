@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Política de Cookies | LTEvo",
-  description: "Información sobre el uso de cookies en ltevo.com conforme a la normativa europea.",
+  title: "Política de Cookies - Agencia Web en Oviedo | LTEvo",
+  description: "Consulta la política de cookies de LTEvo. Infórmate sobre cómo utilizamos las cookies en nuestra web de diseño y SEO en Oviedo y Asturias.",
   alternates: {
     canonical: "https://ltevo.com/cookies",
   },
