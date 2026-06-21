@@ -23,6 +23,7 @@ const navLinks: NavLink[] = [
       { name: "Mantenimiento Web", href: "/servicios/mantenimiento-web" },
     ],
   },
+  { name: "Blog", href: "/blog" },
   { name: "Contacto", href: "/contacto" },
 ];
 

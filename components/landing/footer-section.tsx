@@ -8,6 +8,7 @@ const footerLinks = {
     { name: "Diseño Web",        href: "/servicios/diseno-web" },
     { name: "SEO",               href: "/servicios/seo"        },
     { name: "Mantenimiento Web", href: "/servicios/mantenimiento-web" },
+    { name: "Blog",              href: "/blog"                  },
     { name: "Portafolio",        href: "/#portfolio"            },
     { name: "Contacto",          href: "/contacto"              },
   ],

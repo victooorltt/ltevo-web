@@ -25,3 +25,21 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# User ignore
+Blog-web.txt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE directories
+.vscode/
+.idea/
+
+# General logs
+*.log
+
+# Test/linter caches
+coverage/
+.eslintcache
