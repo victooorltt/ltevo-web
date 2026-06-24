@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle2, ChevronRight, Zap, SlidersHorizontal, Search, Feather, Compass, Palette, Code2, Rocket } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronRight, Zap, SlidersHorizontal, Search, Feather, Compass, Palette, Code2, Rocket, Lock, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
@@ -51,6 +51,8 @@ function FadeIn({
 }
 
 export function DisenoWebContent() {
+  const [isCustomActive, setIsCustomActive] = useState(true);
+
   const steps = [
     {
       number: "01",
@@ -275,181 +277,339 @@ export function DisenoWebContent() {
       {/*  COMPARATIVA: NEXT.JS VS PLANTILLAS (WORDPRESS/WIX)          */}
       {/* ============================================================ */}
       <section className="py-24 lg:py-32 border-t border-foreground/10 bg-background relative overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 z-10">
+        {/* Subtle grid pattern inside */}
+        <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
+          <div className="absolute h-full w-px bg-foreground left-1/4" />
+          <div className="absolute h-full w-px bg-foreground left-2/4" />
+          <div className="absolute h-full w-px bg-foreground left-3/4" />
+        </div>
+
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 z-10 relative">
           <FadeIn>
-            <div className="mb-16 lg:mb-20 text-center lg:text-left">
+            <div className="mb-12 lg:mb-16 text-center">
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
-                Desarrollo a Medida frente a <br /> <span className="text-muted-foreground italic">Plantillas Genéricas (WordPress o Wix)</span>
+                Desarrollo a Medida frente a <br /> 
+                <span className="text-muted-foreground italic">Plantillas Genéricas (WordPress o Wix)</span>
               </h2>
-              <p className="text-muted-foreground max-w-3xl mt-6 leading-relaxed text-base">
-                Para destacar en el entorno digital altamente competitivo de hoy, depender de sistemas monolíticos y plantillas preconstruidas suele ser un obstáculo silencioso. Analizamos por qué un desarrollo a medida con tecnología moderna marca la diferencia en tu negocio.
+              <p className="text-muted-foreground max-w-3xl mt-6 leading-relaxed text-base mx-auto">
+                Para destacar en el entorno digital altamente competitivo de hoy, depender de sistemas monolíticos y plantillas preconstruidas suele ser un obstáculo silencioso. Analiza la diferencia interactiva de rendimiento entre ambos mundos.
               </p>
             </div>
           </FadeIn>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12">
+          {/* Elegant Interactive Switcher */}
+          <FadeIn delay={0.1}>
+            <div className="flex justify-center mb-16">
+              <div className="relative flex p-1.5 bg-neutral-100 dark:bg-neutral-900/50 border border-foreground/10 rounded-full w-full max-w-md">
+                <div
+                  className="absolute top-1.5 bottom-1.5 rounded-full bg-foreground transition-all duration-300 ease-out shadow-sm"
+                  style={{
+                    left: isCustomActive ? "6px" : "50%",
+                    width: "calc(50% - 9px)",
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsCustomActive(true)}
+                  className={`relative z-10 w-1/2 py-3 text-sm font-medium rounded-full transition-colors duration-305 ${
+                    isCustomActive ? "text-background font-semibold" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Desarrollo a Medida (LTEvo)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsCustomActive(false)}
+                  className={`relative z-10 w-1/2 py-3 text-sm font-medium rounded-full transition-colors duration-305 ${
+                    !isCustomActive ? "text-background font-semibold" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Plantilla Genérica
+                </button>
+              </div>
+            </div>
+          </FadeIn>
+
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
             {/* CARD 1: RENDIMIENTO & OPTIMIZACIÓN (7 Columns) */}
-            <FadeIn delay={0.1} className="lg:col-span-7">
-              <div className="group relative border border-foreground/10 p-8 lg:p-10 h-full flex flex-col justify-between hover:border-foreground/30 bg-neutral-900/5 dark:bg-neutral-950/20 transition-all duration-300 overflow-hidden rounded-none">
+            <FadeIn delay={0.15} className="lg:col-span-7">
+              <div className="group relative border border-foreground/10 p-8 lg:p-10 h-full flex flex-col justify-between hover:border-foreground/30 bg-neutral-900/5 dark:bg-neutral-950/20 transition-all duration-305 overflow-hidden rounded-sm">
+                
+                {/* Visual Glow */}
+                <div className={`absolute -right-24 -top-24 w-48 h-48 rounded-full blur-3xl opacity-20 pointer-events-none transition-all duration-700 ${
+                  isCustomActive ? "bg-emerald-400" : "bg-amber-400"
+                }`} />
+
                 <div className="relative z-10">
-                  <h3 className="text-xl lg:text-2xl font-display mb-3">
+                  <span className="text-[10px] tracking-wider font-mono text-muted-foreground uppercase">Rendimiento</span>
+                  <h3 className="text-2xl lg:text-3xl font-display mt-2 mb-4">
                     Rendimiento y Carga Instantánea
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed text-xs lg:text-sm max-w-xl">
-                    Las plantillas tradicionales arrastran bases de datos lentas y plugins pesados. Con Next.js, pre-renderizamos cada página en HTML estático servido desde servidores CDN globales, asegurando que tu web cargue en milisegundos y optimizando los Core Web Vitals al máximo.
+                  <p className="text-muted-foreground leading-relaxed text-sm max-w-xl transition-all duration-500">
+                    {isCustomActive 
+                      ? "Con Next.js pre-renderizamos cada página en HTML estático servido desde servidores CDN globales. La web carga en milisegundos y optimiza los Core Web Vitals al máximo, reduciendo el rebote de usuarios."
+                      : "Las plantillas tradicionales arrastran bases de datos lentas y decenas de plugins pesados de terceros. Esto causa retrasos en la carga, pérdida de clientes potenciales y penalizaciones de Google."
+                    }
                   </p>
                 </div>
 
                 {/* Speed Visualizer Element */}
-                <div className="relative z-10 mt-8 bg-black border border-foreground/10 p-5 space-y-4 font-mono text-xs text-white rounded-none">
-                  <div className="flex justify-between items-center text-zinc-400 text-[10px] tracking-wider">
-                    <span>AUDITORÍA DE RENDIMIENTO (Google)</span>
-                    <span>VELOCIDAD DE CARGA</span>
+                <div className="relative z-10 mt-8 p-6 bg-neutral-100/50 dark:bg-black/40 border border-foreground/10 flex flex-col md:flex-row items-center gap-6 rounded-sm backdrop-blur-sm transition-all duration-500">
+                  
+                  {/* Circular Radial Speedometer SVG */}
+                  <div className="relative w-28 h-28 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-full h-full transform -rotate-90">
+                      <circle
+                        cx="56"
+                        cy="56"
+                        r="48"
+                        className="stroke-neutral-200 dark:stroke-neutral-800"
+                        strokeWidth="6"
+                        fill="transparent"
+                      />
+                      <circle
+                        cx="56"
+                        cy="56"
+                        r="48"
+                        className={`transition-all duration-1000 ease-out-quad ${
+                          isCustomActive ? "stroke-emerald-400" : "stroke-amber-500"
+                        }`}
+                        strokeWidth="6"
+                        fill="transparent"
+                        strokeDasharray={2 * Math.PI * 48}
+                        strokeDashoffset={2 * Math.PI * 48 - ((isCustomActive ? 99 : 42) / 100) * (2 * Math.PI * 48)}
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                      <span className="text-2xl font-bold font-mono tracking-tighter transition-all duration-500">
+                        {isCustomActive ? "99" : "42"}
+                      </span>
+                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground">Score</span>
+                    </div>
                   </div>
 
-                  {/* Next.js row */}
-                  <div className="space-y-1.5">
+                  {/* Speed stats and bar */}
+                  <div className="w-full space-y-3">
                     <div className="flex justify-between items-center text-xs">
-                      <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                        <span className="font-semibold text-white">Desarrollo a Medida (LTEvo)</span>
-                      </div>
-                      <span className="text-white font-semibold">99/100 · 0.2s</span>
+                      <span className="text-muted-foreground font-mono text-[10px] uppercase">Velocidad de Carga</span>
+                      <span className={`font-mono font-bold text-sm transition-colors duration-500 ${isCustomActive ? "text-emerald-400" : "text-amber-500"}`}>
+                        {isCustomActive ? "0.2 segundos" : "3.8 segundos"}
+                      </span>
                     </div>
-                    <div className="h-1.5 w-full bg-zinc-800">
-                      <div className="h-full bg-white w-[99%] origin-left transition-transform duration-1000" />
+                    <div className="h-2 w-full bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full transition-all duration-1000 ease-out bg-gradient-to-r ${
+                          isCustomActive ? "from-emerald-400 to-cyan-400" : "from-amber-500 to-rose-500"
+                        }`}
+                        style={{ width: isCustomActive ? "99%" : "42%" }}
+                      />
+                    </div>
+                    <div className="flex justify-between text-[10px] text-muted-foreground font-mono">
+                      <span>Límite ideal Google: 0.5s</span>
+                      <span className={`font-semibold transition-colors duration-500 ${isCustomActive ? "text-emerald-400" : "text-amber-500"}`}>
+                        {isCustomActive ? "Excepcional" : "Rebote Alto (+50%)"}
+                      </span>
                     </div>
                   </div>
 
-                  {/* WordPress row */}
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between items-center text-xs">
-                      <div className="flex items-center gap-2 text-zinc-400">
-                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-650" />
-                        <span>Plantillas Tradicionales</span>
-                      </div>
-                      <span className="text-zinc-400">42/100 · 3.8s</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-zinc-800">
-                      <div className="h-full bg-zinc-600 w-[42%] origin-left transition-transform duration-1000" />
-                    </div>
-                  </div>
                 </div>
               </div>
             </FadeIn>
 
             {/* CARD 2: SEGURIDAD (5 Columns) */}
-            <FadeIn delay={0.2} className="lg:col-span-5">
-              <div className="group relative border border-foreground/10 p-8 lg:p-10 h-full flex flex-col justify-between hover:border-foreground/30 bg-neutral-900/5 dark:bg-neutral-950/20 transition-all duration-300 overflow-hidden rounded-none">
+            <FadeIn delay={0.25} className="lg:col-span-5">
+              <div className="group relative border border-foreground/10 p-8 lg:p-10 h-full flex flex-col justify-between hover:border-foreground/30 bg-neutral-900/5 dark:bg-neutral-950/20 transition-all duration-305 overflow-hidden rounded-sm">
+                
+                {/* Visual Glow */}
+                <div className={`absolute -right-24 -top-24 w-48 h-48 rounded-full blur-3xl opacity-20 pointer-events-none transition-all duration-700 ${
+                  isCustomActive ? "bg-cyan-500" : "bg-rose-500"
+                }`} />
+
                 <div className="relative z-10">
-                  <h3 className="text-xl lg:text-2xl font-display mb-3">
+                  <span className="text-[10px] tracking-wider font-mono text-muted-foreground uppercase">Seguridad</span>
+                  <h3 className="text-2xl lg:text-3xl font-display mt-2 mb-4">
                     Seguridad Blindada
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed text-xs lg:text-sm">
-                    Los CMS tradicionales son el blanco del 90% de los hackeos webs por plugins obsoletos y plantillas vulnerables. Con Next.js eliminamos los servidores web activos convencionales y bases de datos accesibles al público, neutralizando inyecciones de código y ataques de denegación de servicio.
+                  <p className="text-muted-foreground leading-relaxed text-sm transition-all duration-500">
+                    {isCustomActive 
+                      ? "Con Next.js eliminamos los servidores web activos convencionales y bases de datos expuestas. No hay área de administración pública (wp-admin) vulnerable, neutralizando ataques inyectados."
+                      : "Los CMS tradicionales son el blanco del 90% de los hackeos web. Dependen de plugins de terceros que frecuentemente quedan obsoletos o presentan fallos de seguridad críticos."
+                    }
                   </p>
                 </div>
 
                 {/* Security High-Fidelity Element */}
-                <div className="relative z-10 mt-8 bg-black border border-foreground/10 p-5 flex flex-col justify-end font-mono text-xs text-white rounded-none">
-                  <div className="text-[10px] text-zinc-400 mb-4 tracking-wider">PROTECCIÓN DEL SITIO</div>
-                  <div className="w-full flex flex-col space-y-3">
-                    {/* Jamstack Flow */}
-                    <div className="p-3 border border-zinc-750 bg-zinc-900/50 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-                        <span className="text-xs font-semibold text-white">DESARROLLO A MEDIDA</span>
-                      </div>
-                      <span className="text-[10px] text-white border border-zinc-700 px-1.5 py-0.5 rounded-none bg-zinc-800">SERVIDOR SEGURO (CDN)</span>
-                    </div>
+                <div className="relative z-10 mt-8 flex flex-col justify-center items-center p-6 bg-neutral-100/50 dark:bg-black/40 border border-foreground/10 rounded-sm backdrop-blur-sm transition-all duration-500 min-h-[148px]">
+                  
+                  {/* Scanning Radar effect with Icon */}
+                  <div className="relative flex items-center justify-center w-16 h-16 rounded-full border transition-all duration-500 bg-background shadow-lg mb-4">
+                    
+                    {/* Radar sweep lines (only for custom dev) */}
+                    {isCustomActive && (
+                      <div className="absolute inset-0 rounded-full border border-emerald-500/30 animate-[ping_2s_infinite]" />
+                    )}
 
-                    {/* Traditional Flow */}
-                    <div className="p-3 border border-zinc-800 border-dashed bg-zinc-950 flex items-center justify-between text-zinc-400">
-                      <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-zinc-600 rounded-full" />
-                        <span className="text-xs">PLANTILLA TRADICIONAL</span>
-                      </div>
-                      <span className="text-[10px] border border-zinc-800 px-1.5 py-0.5 rounded-none">VULNERABILIDADES</span>
+                    <div className={`flex items-center justify-center w-full h-full rounded-full transition-all duration-500 ${
+                      isCustomActive 
+                        ? "border-emerald-500/20 text-emerald-400 shadow-emerald-500/5" 
+                        : "border-amber-500/20 text-amber-500 shadow-amber-500/5"
+                    }`}>
+                      {isCustomActive ? (
+                        <Lock className="w-7 h-7" />
+                      ) : (
+                        <AlertTriangle className="w-7 h-7 animate-pulse text-amber-500" />
+                      )}
                     </div>
                   </div>
+
+                  <span className={`text-xs font-mono tracking-wider font-semibold uppercase px-3 py-1 rounded-full border transition-all duration-500 ${
+                    isCustomActive 
+                      ? "border-emerald-500/20 text-emerald-400 bg-emerald-500/5" 
+                      : "border-amber-500/20 text-amber-500 bg-amber-500/5"
+                  }`}>
+                    {isCustomActive ? "Servidor Estático Seguro" : "Vulnerabilidades Expuestas"}
+                  </span>
                 </div>
               </div>
             </FadeIn>
 
             {/* CARD 3: SEO TÉCNICO (5 Columns) */}
             <FadeIn delay={0.3} className="lg:col-span-5">
-              <div className="group relative border border-foreground/10 p-8 lg:p-10 h-full flex flex-col justify-between hover:border-foreground/30 bg-neutral-900/5 dark:bg-neutral-950/20 transition-all duration-300 overflow-hidden rounded-none">
+              <div className="group relative border border-foreground/10 p-8 lg:p-10 h-full flex flex-col justify-between hover:border-foreground/30 bg-neutral-900/5 dark:bg-neutral-950/20 transition-all duration-305 overflow-hidden rounded-sm">
+                
+                {/* Visual Glow */}
+                <div className={`absolute -right-24 -top-24 w-48 h-48 rounded-full blur-3xl opacity-20 pointer-events-none transition-all duration-700 ${
+                  isCustomActive ? "bg-indigo-500" : "bg-amber-500"
+                }`} />
+
                 <div className="relative z-10">
-                  <h3 className="text-xl lg:text-2xl font-display mb-3">
+                  <span className="text-[10px] tracking-wider font-mono text-muted-foreground uppercase">Posicionamiento</span>
+                  <h3 className="text-2xl lg:text-3xl font-display mt-2 mb-4">
                     SEO y Estructura Limpia
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed text-xs lg:text-sm">
-                    Next.js estructura tus metadatos dinámicamente y realiza el pre-renderizado del HTML de forma óptima en el servidor (SSR), entregando código limpio e indexable sin las demoras asociadas a motores de plantillas pesados.
+                  <p className="text-muted-foreground leading-relaxed text-sm transition-all duration-500">
+                    {isCustomActive
+                      ? "Next.js estructura tus metadatos dinámicamente y pre-renderiza el HTML de forma óptima en el servidor (SSR), entregando código limpio e indexable sin demoras. Los datos estructurados (Schema.org) se integran de forma nativa."
+                      : "Las plantillas dependen de plugins pesados para el SEO que inyectan scripts lentos. El código HTML suele ser redundante y anidado en exceso (divitis), dificultando el rastreo de Google."
+                    }
                   </p>
                 </div>
 
                 {/* Structured Data Visual Element */}
-                <div className="relative z-10 mt-8 bg-black border border-foreground/10 p-5 space-y-3 text-white rounded-none">
-                  <div className="font-mono text-[10px] text-zinc-400 tracking-wider">OPTIMIZACIÓN GOOGLE</div>
-                  <div className="font-mono text-[11px] leading-relaxed p-4 bg-zinc-900 border border-zinc-800 overflow-x-auto rounded-none text-zinc-300">
-                    <div className="text-zinc-500">&lt;!-- Ficha de Datos para Google --&gt;</div>
-                    <div><span className="text-white font-semibold">TipoServicio:</span> &quot;Diseño Web Profesional&quot;</div>
-                    <div><span className="text-white font-semibold">Proveedor:</span> &quot;LTEvo&quot;</div>
-                    <div><span className="text-white font-semibold">ZonaServicio:</span> &quot;Asturias / España&quot;</div>
-                    <div><span className="text-white font-semibold">Tecnologia:</span> &quot;Next.js (Carga Ultra Rápida)&quot;</div>
+                <div className="relative z-10 mt-8 p-5 bg-neutral-100/70 dark:bg-black/40 border border-foreground/10 rounded-sm backdrop-blur-sm text-left space-y-3 transition-colors duration-500">
+                  {/* Search Header */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center text-[10px] font-bold text-neutral-500 font-sans">
+                      G
+                    </div>
+                    <div className="text-[10px] font-mono truncate text-neutral-400">
+                      {isCustomActive ? "https://ltevo.com › servicios › diseno-web" : "https://un-sitio-con-plantilla.es"}
+                    </div>
+                  </div>
+
+                  {/* Search Title */}
+                  <h4 className={`text-base font-semibold leading-tight hover:underline cursor-pointer transition-colors duration-500 ${
+                    isCustomActive ? "text-blue-600 dark:text-blue-400" : "text-neutral-600 dark:text-neutral-400"
+                  }`}>
+                    {isCustomActive ? "Diseño Web Profesional a Medida | LTEvo" : "Sitio web genérico | Mi Negocio"}
+                  </h4>
+
+                  {/* Search Snippet */}
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed transition-colors duration-500">
+                    {isCustomActive 
+                      ? "Creamos páginas web premium, rápidas y a medida en Oviedo y Asturias. Totalmente autogestionables y preparadas para posicionar en los primeros puestos..."
+                      : "Inicio - Contacto - Servicios. Web creada con plantilla genérica. Puede tardar un poco en cargar. Por favor, espere..."
+                    }
+                  </p>
+
+                  {/* Rich Snippets (Only for Custom) */}
+                  <div className={`pt-2 border-t border-foreground/5 space-y-2 transition-all duration-500 overflow-hidden ${
+                    isCustomActive ? "max-h-[80px] opacity-100" : "max-h-0 opacity-0"
+                  }`}>
+                    <div className="flex items-center gap-1.5 text-xs text-amber-500 font-medium">
+                      <span className="flex">
+                        {[...Array(5)].map((_, i) => (
+                          <svg key={i} className="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))}
+                      </span>
+                      <span className="font-mono text-[9px] text-neutral-500 font-semibold">5.0 (18 opiniones) · Datos Estructurados Activos</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </FadeIn>
 
             {/* CARD 4: CÓDIGO LIMPIO VS BLOAT (7 Columns) */}
-            <FadeIn delay={0.4} className="lg:col-span-7">
-              <div className="group relative border border-foreground/10 p-8 lg:p-10 h-full flex flex-col justify-between hover:border-foreground/30 bg-neutral-900/5 dark:bg-neutral-950/20 transition-all duration-300 overflow-hidden rounded-none">
+            <FadeIn delay={0.35} className="lg:col-span-7">
+              <div className="group relative border border-foreground/10 p-8 lg:p-10 h-full flex flex-col justify-between hover:border-foreground/30 bg-neutral-900/5 dark:bg-neutral-950/20 transition-all duration-305 overflow-hidden rounded-sm">
+                
+                {/* Visual Glow */}
+                <div className={`absolute -right-24 -top-24 w-48 h-48 rounded-full blur-3xl opacity-20 pointer-events-none transition-all duration-700 ${
+                  isCustomActive ? "bg-teal-400" : "bg-rose-400"
+                }`} />
+
                 <div className="relative z-10">
-                  <h3 className="text-xl lg:text-2xl font-display mb-3">
+                  <span className="text-[10px] tracking-wider font-mono text-muted-foreground uppercase">Optimización</span>
+                  <h3 className="text-2xl lg:text-3xl font-display mt-2 mb-4">
                     Sin Código Basura (Bloatware)
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed text-xs lg:text-sm max-w-xl">
-                    Las plantillas prefabricadas cargan megabytes de CSS y JavaScript no utilizados de plugins mal integrados. Con nuestro desarrollo a medida, cada línea está escrita y optimizada para servir exclusivamente a tu sitio web.
+                  <p className="text-muted-foreground leading-relaxed text-sm max-w-xl transition-all duration-500">
+                    {isCustomActive 
+                      ? "Cada línea de código está escrita y optimizada para servir exclusivamente a tu sitio web. No cargamos librerías innecesarias, asegurando un peso mínimo, estabilidad a largo plazo y velocidad extrema."
+                      : "Las plantillas prefabricadas cargan megabytes de CSS y JavaScript no utilizados provenientes de constructores visuales, temas sobrecargados y plugins mal integrados, ralentizando el navegador del usuario."
+                    }
                   </p>
                 </div>
 
-                {/* High-Fidelity Code block Element */}
-                <div className="relative z-10 mt-8 bg-black border border-foreground/10 p-5 space-y-4 text-white rounded-none">
-                  <div className="font-mono text-[10px] text-zinc-400 tracking-wider">ESTRUCTURA DEL CÓDIGO</div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Next.js column */}
-                    <div className="p-4 border border-zinc-700 bg-zinc-900 font-mono text-[11px] leading-relaxed rounded-none">
-                      <div className="flex items-center justify-between mb-3 text-white text-[10px] tracking-wider">
-                        <span>CÓDIGO A MEDIDA (LTEvo)</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                      </div>
-                      <pre className="text-zinc-100 overflow-x-auto">
-{`<section className="flex gap-4">
-  <h1>LTEvo Medida</h1>
-  <Button>Empezar</Button>
-</section>`}
-                      </pre>
+                {/* Code weight comparison bar */}
+                <div className="relative z-10 mt-8 p-5 bg-neutral-100/50 dark:bg-black/40 border border-foreground/10 rounded-sm backdrop-blur-sm transition-all duration-500 space-y-4">
+                  
+                  <div className="flex justify-between items-end">
+                    <div className="text-left font-mono">
+                      <span className="text-[9px] tracking-wider uppercase text-muted-foreground">Peso de la web (Datos)</span>
+                      <h4 className="text-3xl font-display font-bold leading-none mt-1 transition-all duration-500">
+                        {isCustomActive ? "85 KB" : "2.4 MB"}
+                      </h4>
                     </div>
+                    <span className={`text-xs font-mono px-2.5 py-1 rounded border transition-colors duration-500 ${
+                      isCustomActive ? "border-emerald-500/20 text-emerald-400 bg-emerald-500/5" : "border-amber-500/20 text-amber-500 bg-amber-500/5"
+                    }`}>
+                      {isCustomActive ? "Ultra ligera" : "Muy pesada"}
+                    </span>
+                  </div>
 
-                    {/* WordPress column */}
-                    <div className="p-4 border border-zinc-800 border-dashed bg-zinc-950 font-mono text-[11px] leading-relaxed text-zinc-400 rounded-none">
-                      <div className="flex items-center justify-between mb-3 text-zinc-500 text-[10px] tracking-wider">
-                        <span>CÓDIGO DE PLANTILLA</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-700" />
+                  {/* Stack stats details */}
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="bg-background/40 border border-foreground/5 p-2 rounded text-center">
+                      <div className="text-[10px] text-muted-foreground">Plugins y añadidos</div>
+                      <div className="text-xs font-mono font-semibold mt-1">
+                        {isCustomActive ? "0 innecesarios" : "Decenas (Lentitud)"}
                       </div>
-                      <pre className="text-zinc-500 overflow-x-auto">
-{`<div id="wp-block-32" class="wp">
-  <script src="jquery.min.js"></script>
-  <style>.em { margin:0; }</style>
-  <h1>Plantilla</h1>
-</div>`}
-                      </pre>
+                    </div>
+                    <div className="bg-background/40 border border-foreground/5 p-2 rounded text-center">
+                      <div className="text-[10px] text-muted-foreground">Código desperdiciado</div>
+                      <div className="text-xs font-mono font-semibold mt-1">
+                        {isCustomActive ? "0% (100% útil)" : "78% sin usar"}
+                      </div>
+                    </div>
+                    <div className="bg-background/40 border border-foreground/5 p-2 rounded text-center">
+                      <div className="text-[10px] text-muted-foreground">Estabilidad y Orden</div>
+                      <div className="text-xs font-mono font-semibold mt-1">
+                        {isCustomActive ? "Estable y Limpia" : "Frágil / Desordenada"}
+                      </div>
                     </div>
                   </div>
+
                 </div>
+
               </div>
             </FadeIn>
+
           </div>
         </div>
       </section>
