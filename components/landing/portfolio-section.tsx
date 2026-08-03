@@ -6,6 +6,16 @@ import { ArrowUpRight } from "lucide-react";
 const projects = [
   {
     number: "01",
+    title: "Autocaravanas Bahía",
+    description: "Web bilingüe para empresa de alquiler de autocaravanas en Alicante, con flota, mapa interactivo de rutas y solicitud de reserva.",
+    url: "https://www.autocaravanasbahia.es/",
+    image: "/portfolio/Autocaravanasbahia.webp",
+    width: 1901,
+    height: 850,
+    tags: ["Diseño Web", "Multiidioma"],
+  },
+  {
+    number: "02",
     title: "CAO",
     description: "Diseño web corporativo con identidad visual moderna y experiencia de usuario optimizada para conversión.",
     url: "https://cao-brown.vercel.app/",
@@ -15,7 +25,7 @@ const projects = [
     tags: ["Diseño Web", "Identidad Visual"],
   },
   {
-    number: "02",
+    number: "03",
     title: "Jardinería El Cuetu",
     description: "Web para empresa de jardinería local con diseño orgánico, galería de trabajos y formulario de contacto integrado.",
     url: "https://jardineria-elcuetu.vercel.app/",
