@@ -83,27 +83,31 @@ tags: ["SEO", "Categoría Relevante", "Tema Específico"]
 ### 4. Componentes Visuales React Disponibles para MDX
 Puedes utilizar directamente los siguientes componentes interactivos y responsivos para ilustrar conceptos:
 
-* **`<FlowDiagram />`**: Flujos secuenciales y circuitos (tarjetas conectadas con flechas adaptativas).
+* **`<FlowDiagram />` y `<FlowStep />`**: Flujos secuenciales y circuitos (tarjetas conectadas con flechas adaptativas).
 ```mdx
-<FlowDiagram
-  title="Esquema: Nombre del Flujo"
-  steps={[
-    { title: "Paso 1", subtitle: "Subtítulo opcional", badge: "Badge", description: "Descripción clara." },
-    { title: "Paso 2", badge: "Badge 2", description: "Descripción paso 2." }
-  ]}
-/>
+<FlowDiagram title="Esquema: Nombre del Flujo">
+  <FlowStep title="Paso 1" subtitle="Subtítulo opcional" badge="Badge">
+    Descripción clara del paso.
+  </FlowStep>
+  <FlowStep title="Paso 2" badge="Badge 2">
+    Descripción del segundo paso.
+  </FlowStep>
+</FlowDiagram>
 ```
 
-* **`<TopicSilo />`**: Diagramas de arquitectura en silo, Topic Clusters y jerarquías web.
+* **`<TopicSilo />` y `<SiloCluster />`**: Diagramas de arquitectura en silo, Topic Clusters y jerarquías web.
 ```mdx
 <TopicSilo
   title="Arquitectura del Silo"
   pillar={{ title: "Página de Servicio Principal", badge: "Pilar", desc: "Página transaccional" }}
-  clusters={[
-    { title: "Post Satélite 1", badge: "Soporte", desc: "Canaliza tráfico" },
-    { title: "Post Satélite 2", badge: "Soporte", desc: "Resuelve dudas" }
-  ]}
-/>
+>
+  <SiloCluster title="Post Satélite 1" badge="Soporte">
+    Canaliza tráfico al pilar.
+  </SiloCluster>
+  <SiloCluster title="Post Satélite 2" badge="Soporte">
+    Resuelve dudas específicas.
+  </SiloCluster>
+</TopicSilo>
 ```
 
 * **`<Callout />`**: Cajas de aviso editorial (`tip` | `info` | `warning` | `success`).

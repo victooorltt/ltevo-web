@@ -26,29 +26,17 @@ El **link juice** (traducido literalmente como *"zumo de enlaces"* o equidad de 
 
 Cuando una página enlaza a otra, no solo está ofreciendo un camino de navegación al usuario: a ojos de los algoritmos de Google, está emitiendo un **voto de confianza**. Cuanta mayor reputación tenga la página de origen y más coherente sea el contexto del enlace, mayor cantidad de link juice transmitirá a la página de destino.
 
-<FlowDiagram
-  title="Esquema: Flujo de Transmisión de Link Juice"
-  steps={[
-    {
-      title: "Página A",
-      subtitle: "Origen con autoridad",
-      badge: "Alta Autoridad",
-      description: "Acumula reputación histórica y enlaces entrantes de calidad."
-    },
-    {
-      title: "Enlace Dofollow",
-      subtitle: "Canal de traspaso",
-      badge: "Voto de Confianza",
-      description: "Googlebot sigue el enlace y transfiere una fracción del valor de equidad."
-    },
-    {
-      title: "Página B",
-      subtitle: "Destino comercial",
-      badge: "Receptora",
-      description: "Aumenta su fuerza interna para escalar posiciones en Google."
-    }
-  ]}
-/>
+<FlowDiagram title="Esquema: Flujo de Transmisión de Link Juice">
+  <FlowStep title="Página A" subtitle="Origen con autoridad" badge="Alta Autoridad">
+    Acumula reputación histórica y enlaces entrantes de calidad.
+  </FlowStep>
+  <FlowStep title="Enlace Dofollow" subtitle="Canal de traspaso" badge="Voto de Confianza">
+    Googlebot sigue el enlace y transfiere una fracción del valor de equidad.
+  </FlowStep>
+  <FlowStep title="Página B" subtitle="Destino comercial" badge="Receptora">
+    Aumenta su fuerza interna para escalar posiciones en Google.
+  </FlowStep>
+</FlowDiagram>
 
 ### El origen: El algoritmo PageRank
 
@@ -71,26 +59,17 @@ No todos los enlaces transmiten link juice con la misma intensidad. Dependiendo 
 
 Para dominar el link juice en un proyecto digital, es imprescindible diferenciar las dos vías principales por las que viaja la autoridad: los enlaces que provienen de otros sitios web (externos) y los que conectan tus propias URLs (internos).
 
-<FlowDiagram
-  title="Circuito de Autoridad: De Internet a la Venta"
-  steps={[
-    {
-      title: "1. Backlinks Externos",
-      badge: "Entrada Global",
-      description: "Medios y blogs sectoriales transfieren autoridad hacia la Home o guías virales."
-    },
-    {
-      title: "2. Distribución On-Page",
-      badge: "Menús y Enlaces",
-      description: "La portada y páginas fuertes distribuyen el link juice hacia los silos del blog."
-    },
-    {
-      title: "3. Money Pages",
-      badge: "Conversión",
-      description: "Los artículos del blog canalizan el tráfico y la fuerza hacia tus páginas de servicio."
-    }
-  ]}
-/>
+<FlowDiagram title="Circuito de Autoridad: De Internet a la Venta">
+  <FlowStep title="1. Backlinks Externos" badge="Entrada Global">
+    Medios y blogs sectoriales transfieren autoridad hacia la Home o guías virales.
+  </FlowStep>
+  <FlowStep title="2. Distribución On-Page" badge="Menús y Enlaces">
+    La portada y páginas fuertes distribuyen el link juice hacia los silos del blog.
+  </FlowStep>
+  <FlowStep title="3. Money Pages" badge="Conversión">
+    Los artículos del blog canalizan el tráfico y la fuerza hacia tus páginas de servicio.
+  </FlowStep>
+</FlowDiagram>
 
 ### 1. Link Juice Externo (Backlinks y Link Building)
 Corresponde a la autoridad que ingresa a tu dominio desde sitios web de terceros. Cuando un portal de noticias relevante, una revista sectorial o un blog especializado enlaza hacia un artículo o recurso de tu web, introduce un nuevo caudal de autoridad a tu dominio. Es el motor principal para aumentar la autoridad global del sitio (Domain Authority / URL Rating).
@@ -125,24 +104,17 @@ La solución arquitectónica definitiva es la **estrategia de silos temáticos**
     badge: "Página Pilar / Money Page",
     desc: "Página comercial transaccional que recibe la autoridad acumulada del clúster."
   }}
-  clusters={[
-    {
-      title: "Post: UX vs UI",
-      badge: "Soporte Semántico",
-      desc: "Resuelve dudas de diseño y enlaza al servicio principal."
-    },
-    {
-      title: "Post: Frameworks Web",
-      badge: "Soporte Técnico",
-      desc: "Explica tecnologías y canaliza link juice al pilar."
-    },
-    {
-      title: "Post: SEO On-Page",
-      badge: "Soporte Estratégico",
-      desc: "Interconecta con los otros posts y refuerza la venta."
-    }
-  ]}
-/>
+>
+  <SiloCluster title="Post: UX vs UI" badge="Soporte Semántico">
+    Resuelve dudas de diseño y enlaza al servicio principal.
+  </SiloCluster>
+  <SiloCluster title="Post: Frameworks Web" badge="Soporte Técnico">
+    Explica tecnologías y canaliza link juice al pilar.
+  </SiloCluster>
+  <SiloCluster title="Post: SEO On-Page" badge="Soporte Estratégico">
+    Interconecta con los otros posts y refuerza la venta.
+  </SiloCluster>
+</TopicSilo>
 
 ### ¿En qué consiste un silo temático?
 
