@@ -26,12 +26,8 @@ El **link juice** (traducido literalmente como *"zumo de enlaces"* o equidad de 
 
 Cuando una página enlaza a otra, no solo está ofreciendo un camino de navegación al usuario: a ojos de los algoritmos de Google, está emitiendo un **voto de confianza**. Cuanta mayor reputación tenga la página de origen y más coherente sea el contexto del enlace, mayor cantidad de link juice transmitirá a la página de destino.
 
-```
-[ Página A: Alta Autoridad ] ──(Enlace dofollow)──> [ Página B: Recibe Link Juice ]
-                                                          │
-                                                Mayor probabilidad de
-                                                posicionar en Google
-```
+> **Flujo básico de transmisión:**  
+> **Página A (Alta Autoridad)** ➔ *(Enlace dofollow)* ➔ **Página B (Recibe Link Juice)** ➔ *Mayor probabilidad de posicionamiento orgánico en Google*.
 
 ### El origen: El algoritmo PageRank
 
@@ -54,19 +50,10 @@ No todos los enlaces transmiten link juice con la misma intensidad. Dependiendo 
 
 Para dominar el link juice en un proyecto digital, es imprescindible diferenciar las dos vías principales por las que viaja la autoridad: los enlaces que provienen de otros sitios web (externos) y los que conectan tus propias URLs (internos).
 
-```
-                      [ INTERNET ]
-                           │ (Backlinks externos: Entrada de Link Juice)
-                           ▼
-                  [ Home / Portada ]
-                     │          │
-        (Link interno)         (Link interno)
-             ▼                      ▼
-    [ Página Servicio A ]   [ Silo Blog / Guía ]
-             │                      │
-             └──────(Link interno)──┘
-             (Canalización de autoridad hacia la venta)
-```
+> **El circuito de autoridad web:**
+> 1. **Entrada de autoridad externa (Backlinks):** Portales y webs de terceros enlazan a tu dominio (generalmente a la Home o artículos destacados).
+> 2. **Distribución interna inicial:** La página principal redistribuye el link juice hacia las páginas de servicio y los clusters del blog.
+> 3. **Canalización hacia la conversión:** Los artículos del blog concentran y transfieren la autoridad acumulada hacia las páginas comerciales de venta (*Money Pages*).
 
 ### 1. Link Juice Externo (Backlinks y Link Building)
 Corresponde a la autoridad que ingresa a tu dominio desde sitios web de terceros. Cuando un portal de noticias relevante, una revista sectorial o un blog especializado enlaza hacia un artículo o recurso de tu web, introduce un nuevo caudal de autoridad a tu dominio. Es el motor principal para aumentar la autoridad global del sitio (Domain Authority / URL Rating).
@@ -94,18 +81,10 @@ Uno de los mayores errores en el diseño web es enlazar todas las páginas con t
 
 La solución arquitectónica definitiva es la **estrategia de silos temáticos** (Topic Clusters).
 
-```
-                      [ Silo: Diseño Web ]
-                               │
-               ┌───────────────┴───────────────┐
-               ▼                               ▼
-     [ Post: UX vs UI ] ◄──────────► [ Post: CMS vs Framework ]
-               │                               │
-               └───────────────┬───────────────┘
-                               ▼
-                   [ Página de Servicio ]
-                  "Diseño Web Profesional"
-```
+> **Estructura de un silo de contenidos eficaz:**
+> * **Página Pilar (Money Page):** Página principal del servicio transaccional (*ej. Diseño Web Profesional*).
+> * **Artículos de soporte:** Publicaciones satélite que resuelven dudas específicas (*ej. UX vs UI* y *Frameworks Web*).
+> * **Circuito cerrado de enlaces:** Los artículos de soporte se enlazan entre sí horizontalmente y canalizan verticalmente su link juice hacia la página pilar.
 
 ### ¿En qué consiste un silo temático?
 
@@ -124,11 +103,11 @@ Un silo agrupa el contenido de una misma temática en un clúster cerrado y cohe
 
 Incluso sitios web con gran volumen de tráfico y años de antigüedad pierden oportunidades de venta por fugas de autoridad no detectadas. Estos son los fallos más habituales que debes auditar y corregir:
 
-```
-[ Error 1: Página Huérfana ] ──> Sin enlaces entrantes = 0 Link Juice recibido
-[ Error 2: Enlace Roto (404) ] ──> Fuga de autoridad = Link Juice perdido en el vacío
-[ Error 3: Cadena de Redirecciones ] ──> Pérdida progresiva de fuerza en cada salto
-```
+| Tipo de Error Técnico | Causa del Problema | Impacto en el Link Juice |
+| :--- | :--- | :--- |
+| **Página Huérfana** | Ninguna otra URL interna la enlaza | 0% de link juice recibido; invisible para Google |
+| **Enlace Roto (404)** | El hipervínculo apunta a una URL inexistente | Fuga total de la autoridad acumulada al vacío |
+| **Cadena de Redirecciones** | Saltos intermedios (`301 -> 301 -> 200`) | Pérdida progresiva de fuerza y degradación de rastreo |
 
 ### 1. Páginas Huérfanas (Orphan Pages)
 Son páginas que no reciben ningún enlace interno desde el resto de la web. Aunque existan en el mapa del sitio (sitemap.xml), al no recibir link juice interno, los rastreadores de Google las visitan con muy baja frecuencia y rara vez alcanzan primeras posiciones.
