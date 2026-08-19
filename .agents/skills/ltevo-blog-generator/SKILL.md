@@ -80,7 +80,40 @@ tags: ["SEO", "Categoría Relevante", "Tema Específico"]
 - Desarrollar cada H2 indicado en `Blog-web.txt` añadiendo subsecciones (H3) con viñetas y negritas para mejorar la legibilidad escaneable.
 - Incluir **al menos una tabla comparativa o de resumen** en Markdown para sintetizar conceptos técnicos complejos.
 
-### 4. Conclusión y Llamada a la Acción (CTA de Conversión)
+### 4. Componentes Visuales React Disponibles para MDX
+Puedes utilizar directamente los siguientes componentes interactivos y responsivos para ilustrar conceptos:
+
+* **`<FlowDiagram />`**: Flujos secuenciales y circuitos (tarjetas conectadas con flechas adaptativas).
+```mdx
+<FlowDiagram
+  title="Esquema: Nombre del Flujo"
+  steps={[
+    { title: "Paso 1", subtitle: "Subtítulo opcional", badge: "Badge", description: "Descripción clara." },
+    { title: "Paso 2", badge: "Badge 2", description: "Descripción paso 2." }
+  ]}
+/>
+```
+
+* **`<TopicSilo />`**: Diagramas de arquitectura en silo, Topic Clusters y jerarquías web.
+```mdx
+<TopicSilo
+  title="Arquitectura del Silo"
+  pillar={{ title: "Página de Servicio Principal", badge: "Pilar", desc: "Página transaccional" }}
+  clusters={[
+    { title: "Post Satélite 1", badge: "Soporte", desc: "Canaliza tráfico" },
+    { title: "Post Satélite 2", badge: "Soporte", desc: "Resuelve dudas" }
+  ]}
+/>
+```
+
+* **`<Callout />`**: Cajas de aviso editorial (`tip` | `info` | `warning` | `success`).
+```mdx
+<Callout type="tip" title="Consejo Clave">
+  Texto del consejo destacado para el usuario.
+</Callout>
+```
+
+### 5. Conclusión y Llamada a la Acción (CTA de Conversión)
 Finalizar siempre con un cierre que reconecte con el beneficio para el negocio y una llamada a la acción clara hacia los servicios de **LTEvo**:
 
 ```markdown
