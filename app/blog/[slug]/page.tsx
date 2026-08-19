@@ -7,6 +7,7 @@ import { ReadingProgressBar } from "@/components/blog/reading-progress";
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
+import { blogMdxComponents } from "@/components/blog/mdx-components";
 
 function formatDate(dateStr: string): string {
   if (!dateStr) return "";
@@ -123,6 +124,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
         <article className="prose prose-neutral max-w-2xl mx-auto dark:prose-invert prose-headings:font-sans prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-2xl lg:text-[18px] prose-h3:text-xl lg:text-2xl prose-a:text-foreground prose-a:underline hover:prose-a:opacity-80 transition-all font-sans font-light text-base sm:text-lg leading-relaxed">
           <MDXRemote
             source={post.content}
+            components={blogMdxComponents}
             options={{
               mdxOptions: {
                 remarkPlugins: [remarkGfm],

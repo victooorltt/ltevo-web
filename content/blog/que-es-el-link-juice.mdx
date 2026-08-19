@@ -26,8 +26,29 @@ El **link juice** (traducido literalmente como *"zumo de enlaces"* o equidad de 
 
 Cuando una página enlaza a otra, no solo está ofreciendo un camino de navegación al usuario: a ojos de los algoritmos de Google, está emitiendo un **voto de confianza**. Cuanta mayor reputación tenga la página de origen y más coherente sea el contexto del enlace, mayor cantidad de link juice transmitirá a la página de destino.
 
-> **Flujo básico de transmisión:**  
-> **Página A (Alta Autoridad)** ➔ *(Enlace dofollow)* ➔ **Página B (Recibe Link Juice)** ➔ *Mayor probabilidad de posicionamiento orgánico en Google*.
+<FlowDiagram
+  title="Esquema: Flujo de Transmisión de Link Juice"
+  steps={[
+    {
+      title: "Página A",
+      subtitle: "Origen con autoridad",
+      badge: "Alta Autoridad",
+      description: "Acumula reputación histórica y enlaces entrantes de calidad."
+    },
+    {
+      title: "Enlace Dofollow",
+      subtitle: "Canal de traspaso",
+      badge: "Voto de Confianza",
+      description: "Googlebot sigue el enlace y transfiere una fracción del valor de equidad."
+    },
+    {
+      title: "Página B",
+      subtitle: "Destino comercial",
+      badge: "Receptora",
+      description: "Aumenta su fuerza interna para escalar posiciones en Google."
+    }
+  ]}
+/>
 
 ### El origen: El algoritmo PageRank
 
@@ -50,10 +71,26 @@ No todos los enlaces transmiten link juice con la misma intensidad. Dependiendo 
 
 Para dominar el link juice en un proyecto digital, es imprescindible diferenciar las dos vías principales por las que viaja la autoridad: los enlaces que provienen de otros sitios web (externos) y los que conectan tus propias URLs (internos).
 
-> **El circuito de autoridad web:**
-> 1. **Entrada de autoridad externa (Backlinks):** Portales y webs de terceros enlazan a tu dominio (generalmente a la Home o artículos destacados).
-> 2. **Distribución interna inicial:** La página principal redistribuye el link juice hacia las páginas de servicio y los clusters del blog.
-> 3. **Canalización hacia la conversión:** Los artículos del blog concentran y transfieren la autoridad acumulada hacia las páginas comerciales de venta (*Money Pages*).
+<FlowDiagram
+  title="Circuito de Autoridad: De Internet a la Venta"
+  steps={[
+    {
+      title: "1. Backlinks Externos",
+      badge: "Entrada Global",
+      description: "Medios y blogs sectoriales transfieren autoridad hacia la Home o guías virales."
+    },
+    {
+      title: "2. Distribución On-Page",
+      badge: "Menús y Enlaces",
+      description: "La portada y páginas fuertes distribuyen el link juice hacia los silos del blog."
+    },
+    {
+      title: "3. Money Pages",
+      badge: "Conversión",
+      description: "Los artículos del blog canalizan el tráfico y la fuerza hacia tus páginas de servicio."
+    }
+  ]}
+/>
 
 ### 1. Link Juice Externo (Backlinks y Link Building)
 Corresponde a la autoridad que ingresa a tu dominio desde sitios web de terceros. Cuando un portal de noticias relevante, una revista sectorial o un blog especializado enlaza hacia un artículo o recurso de tu web, introduce un nuevo caudal de autoridad a tu dominio. Es el motor principal para aumentar la autoridad global del sitio (Domain Authority / URL Rating).
@@ -81,10 +118,31 @@ Uno de los mayores errores en el diseño web es enlazar todas las páginas con t
 
 La solución arquitectónica definitiva es la **estrategia de silos temáticos** (Topic Clusters).
 
-> **Estructura de un silo de contenidos eficaz:**
-> * **Página Pilar (Money Page):** Página principal del servicio transaccional (*ej. Diseño Web Profesional*).
-> * **Artículos de soporte:** Publicaciones satélite que resuelven dudas específicas (*ej. UX vs UI* y *Frameworks Web*).
-> * **Circuito cerrado de enlaces:** Los artículos de soporte se enlazan entre sí horizontalmente y canalizan verticalmente su link juice hacia la página pilar.
+<TopicSilo
+  title="Arquitectura en Silo (Topic Cluster)"
+  pillar={{
+    title: "Servicio: Diseño Web Profesional",
+    badge: "Página Pilar / Money Page",
+    desc: "Página comercial transaccional que recibe la autoridad acumulada del clúster."
+  }}
+  clusters={[
+    {
+      title: "Post: UX vs UI",
+      badge: "Soporte Semántico",
+      desc: "Resuelve dudas de diseño y enlaza al servicio principal."
+    },
+    {
+      title: "Post: Frameworks Web",
+      badge: "Soporte Técnico",
+      desc: "Explica tecnologías y canaliza link juice al pilar."
+    },
+    {
+      title: "Post: SEO On-Page",
+      badge: "Soporte Estratégico",
+      desc: "Interconecta con los otros posts y refuerza la venta."
+    }
+  ]}
+/>
 
 ### ¿En qué consiste un silo temático?
 
@@ -102,6 +160,10 @@ Un silo agrupa el contenido de una misma temática en un clúster cerrado y cohe
 ## Errores frecuentes al gestionar el link juice en tu web
 
 Incluso sitios web con gran volumen de tráfico y años de antigüedad pierden oportunidades de venta por fugas de autoridad no detectadas. Estos son los fallos más habituales que debes auditar y corregir:
+
+<Callout type="warning" title="El peligro de las páginas huérfanas">
+  Una página huérfana no recibe ningún link juice interno, por lo que rara vez alcanzará posiciones competitivas en Google. Audita periódicamente tu arquitectura para asegurar que cada URL de negocio esté enlazada a máximo 3 clics de distancia de la Home.
+</Callout>
 
 | Tipo de Error Técnico | Causa del Problema | Impacto en el Link Juice |
 | :--- | :--- | :--- |
