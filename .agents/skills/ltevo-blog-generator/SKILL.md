@@ -81,11 +81,11 @@ tags: ["SEO", "Categoría Relevante", "Tema Específico"]
 - Incluir **al menos una tabla comparativa o de resumen** en Markdown para sintetizar conceptos técnicos complejos.
 
 ### 4. Componentes Visuales React Disponibles para MDX
-Puedes utilizar directamente los siguientes componentes interactivos y responsivos para ilustrar conceptos:
+Utilizar estos componentes para esquemas visuales limpios, tecnológicos y minimalistas (integrados directamente en el lienzo, sin contenedores ni títulos pesados):
 
 * **`<FlowDiagram />` y `<FlowStep />`**: Flujos secuenciales y circuitos (tarjetas conectadas con flechas adaptativas).
 ```mdx
-<FlowDiagram title="Esquema: Nombre del Flujo">
+<FlowDiagram>
   <FlowStep title="Paso 1" subtitle="Subtítulo opcional" badge="Badge">
     Descripción clara del paso.
   </FlowStep>
@@ -95,10 +95,9 @@ Puedes utilizar directamente los siguientes componentes interactivos y responsiv
 </FlowDiagram>
 ```
 
-* **`<TopicSilo />` y `<SiloCluster />`**: Diagramas de arquitectura en silo, Topic Clusters y jerarquías web.
+* **`<TopicSilo />` y `<SiloCluster />`**: Diagramas de arquitectura en silo, Topic Clusters y jerarquías web integradas.
 ```mdx
 <TopicSilo
-  title="Arquitectura del Silo"
   pillar={{ title: "Página de Servicio Principal", badge: "Pilar", desc: "Página transaccional" }}
 >
   <SiloCluster title="Post Satélite 1" badge="Soporte">
@@ -110,7 +109,7 @@ Puedes utilizar directamente los siguientes componentes interactivos y responsiv
 </TopicSilo>
 ```
 
-* **`<Callout />`**: Cajas de aviso editorial (`tip` | `info` | `warning` | `success`).
+* **`<Callout />`**: Cajas de aviso editorial sutiles y elegantes (`tip` | `info` | `warning` | `success`).
 ```mdx
 <Callout type="tip" title="Consejo Clave">
   Texto del consejo destacado para el usuario.
