@@ -1,13 +1,16 @@
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 
-/* Sección FAQ de la home. Server component: <details>/<summary> nativos con el
-   mismo estilo que las FAQs de components/servicios/*-content.tsx.
-   Las respuestas están alineadas con lo que dicen las páginas de servicio
-   (plazos de 3-6 semanas, 30 días de garantía, planes desde 29,99 €/mes,
-   resultados SEO a partir del tercer mes, stack Next.js/React/TypeScript).
-   El JSON-LD FAQPage se genera desde este mismo array, así que el schema
-   queda sincronizado por construcción con lo visible. */
-export const homeFaqs = [
+/* Sección FAQ reutilizable. Server component: <details>/<summary> nativos con
+   acordeón animado estilo Apple. Si no se pasan props, usa las FAQs de la home
+   y genera el JSON-LD de schema.org. */
+export type FaqItem = {
+  question: string;
+  answer: string;
+  more?: { text: string; href: string };
+};
+
+export const homeFaqs: FaqItem[] = [
   {
     question: "¿Cuánto cuesta una página web?",
     answer: "Depende del alcance del proyecto: cada web se presupuesta a medida tras una primera conversación sin coste, con una propuesta cerrada y sin sorpresas. Para el mantenimiento posterior dispones de planes mensuales desde 29,99 € al mes, sin permanencia.",
@@ -30,38 +33,54 @@ export const homeFaqs = [
   },
 ];
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: homeFaqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  })),
-};
+export interface FaqSectionProps {
+  badge?: string;
+  title?: string;
+  faqs?: FaqItem[];
+  includeJsonLd?: boolean;
+}
 
-export function FaqSection() {
+export function FaqSection({
+  badge = "Resolvemos tus dudas",
+  title = "Preguntas frecuentes",
+  faqs = homeFaqs,
+  includeJsonLd = true,
+}: FaqSectionProps = {}) {
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
-    <section className="py-24 lg:py-32 bg-stone-50 border-t border-b border-foreground/5">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+    <section className="py-24 lg:py-32 bg-stone-50 border-t border-b border-foreground/5 font-display">
+      {includeJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       <div className="max-w-[1000px] mx-auto px-6 lg:px-12">
         <div className="reveal text-center mb-16">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-medium text-foreground/75 bg-foreground/[0.04] border border-foreground/[0.08] tracking-wide mb-4">
-            Resolvemos tus dudas
-          </span>
+          {badge && (
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-medium text-foreground/75 bg-foreground/[0.04] border border-foreground/[0.08] tracking-wide mb-4">
+              {badge}
+            </span>
+          )}
           <h2 className="text-4xl lg:text-5xl font-display tracking-tight">
-            Preguntas frecuentes
+            {title}
           </h2>
         </div>
 
         <div className="reveal w-full space-y-4" style={{ animationDelay: "0.1s" }}>
-          {homeFaqs.map((faq) => (
+          {faqs.map((faq) => (
             <details
               key={faq.question}
               className="group rounded-2xl border border-foreground/[0.08] px-6 lg:px-8 py-1 bg-background hover:border-foreground/20 hover:shadow-[0_4px_20px_-8px_rgba(0,0,0,0.04)] transition-all duration-300"
@@ -74,6 +93,18 @@ export function FaqSection() {
               </summary>
               <p className="text-muted-foreground leading-relaxed pb-6 text-sm lg:text-base">
                 {faq.answer}
+                {faq.more && (
+                  <>
+                    {" "}
+                    <Link
+                      href={faq.more.href}
+                      className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors"
+                    >
+                      {faq.more.text}
+                    </Link>
+                    .
+                  </>
+                )}
               </p>
             </details>
           ))}

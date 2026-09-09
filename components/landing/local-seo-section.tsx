@@ -22,9 +22,6 @@ export function LocalSeoSection() {
                 priority={false}
                 loading="lazy"
               />
-              <div className="absolute bottom-4 left-4 rounded-full bg-background/85 backdrop-blur-md px-3.5 py-1.5 text-xs font-medium text-foreground border border-foreground/10 shadow-sm flex items-center gap-2">
-                📍 Estudio en Oviedo · Calle Uría
-              </div>
             </div>
           </div>
 
@@ -70,19 +67,6 @@ export function LocalSeoSection() {
               <p>
                 Sin plantillas genéricas ni intermediarios: hablas directamente con el equipo que diseña, programa y posiciona tu web, de Oviedo para toda Asturias.
               </p>
-            </div>
-
-            {/* Feature badges */}
-            <div className="flex flex-wrap gap-2.5 mt-8 pt-6 border-t border-foreground/[0.06]">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-foreground/[0.03] border border-foreground/[0.08] text-foreground/80">
-                ⚡ Webs que cargan en &lt; 1s
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-foreground/[0.03] border border-foreground/[0.08] text-foreground/80">
-                <span className="text-primary">✦</span> Next.js &amp; React a medida
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-foreground/[0.03] border border-foreground/[0.08] text-foreground/80">
-                🛡️ Trato directo sin intermediarios
-              </span>
             </div>
           </div>
         </div>

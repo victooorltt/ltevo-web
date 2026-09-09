@@ -1,6 +1,8 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle2, Zap, SlidersHorizontal, Search, Feather, Compass, Palette, Code2, Rocket, ChevronDown } from "lucide-react";
+import { ArrowRight, CheckCircle2, Zap, SlidersHorizontal, Search, Feather, Compass, Palette, Code2, Rocket, ChevronDown, Check, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { FaqSection } from "@/components/landing/faq-section";
 
 /* Nota: componente de servidor; el reveal es CSS scroll-driven. */
 
@@ -148,16 +150,6 @@ export function DisenoWebContent() {
     }
   ];
 
-  /* Regleta de mediciones del stack: valores estáticos (spec), sin interacción. */
-  const perfMetrics = [
-    { value: "0.2", unit: "s", label: "Carga media" },
-    { value: "85", prefix: "~", unit: "KB", label: "Peso inicial" },
-    { value: "0", unit: "%", label: "Código sin usar" },
-    { value: "100", unit: "%", label: "HTML pre-renderizado" }
-  ];
-
-  const stack = ["Next.js", "React", "TypeScript", "Tailwind CSS"];
-
   return (
     <>
 
@@ -278,85 +270,83 @@ export function DisenoWebContent() {
       </section>
 
       {/* ============================================================ */}
-      {/*  STACK TECNOLÓGICO: ficha técnica editorial                  */}
+      {/*  INGENIERÍA WEB: Editorial 2 columnas con imagen             */}
       {/* ============================================================ */}
-      <section className="py-24 lg:py-32 border-t border-foreground/10 bg-background">
+      <section className="py-24 lg:py-32 border-t border-foreground/10 bg-background font-display">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="reveal grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
-          {/* Cabecera editorial: eyebrow + titular / párrafo técnico */}
-          <div className="reveal mb-12 lg:mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-16">
-            <div>
-              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                Stack tecnológico
-              </span>
-              <h2 className="text-4xl lg:text-6xl font-display tracking-tight mt-5">
-                Ingeniería que se nota <br />
-                <span className="text-muted-foreground italic">en cada carga.</span>
-              </h2>
-            </div>
-            <p className="text-muted-foreground leading-relaxed text-base max-w-md lg:pb-2">
-              Cada web se programa desde cero, sin temas heredados ni capas de
-              plugins: únicamente el código que tu proyecto necesita,
-              pre-renderizado en HTML estático y servido desde una red global de CDN.
-            </p>
-          </div>
+            {/* Columna editorial */}
+            <div className="lg:col-span-7 flex flex-col justify-center">
+              <div>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium text-foreground/70 bg-foreground/[0.04] border border-foreground/[0.08] tracking-wide mb-4">
+                  Desarrollo a medida
+                </span>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display tracking-tight leading-[1.1] mb-6">
+                  Ingeniería que se nota <br />
+                  <span className="text-muted-foreground italic">en cada carga.</span>
+                </h2>
+              </div>
 
-          {/* Regleta de mediciones: hairlines vía gap-px (patrón metrics-section) */}
-          <div
-            className="reveal grid grid-cols-2 lg:grid-cols-4 gap-px bg-foreground/10 border border-foreground/10"
-            style={{ animationDelay: "0.1s" }}
-          >
-            {perfMetrics.map((metric, index) => (
-              <div
-                key={metric.label}
-                className="bg-background px-6 py-10 lg:px-10 lg:py-14"
-                style={{ animationDelay: `${0.1 + index * 0.08}s` }}
-              >
-                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-4 lg:mb-6">
-                  {metric.label}
+              <div className="text-muted-foreground leading-relaxed space-y-4 text-base lg:text-lg mb-8 font-light">
+                <p>
+                  La mayoría de páginas web se construyen sobre plantillas lentas, saturadas de plugins y código que tu empresa nunca va a necesitar. El resultado son webs pesadas que tardan en abrir y hacen perder clientes antes de que vean lo que ofreces.
+                </p>
+                <p>
+                  En LTEvo programamos cada sitio desde cero con Next.js y React. Creamos una estructura limpia, ultrarrápida y adaptada exactamente a tu negocio, pensada para transmitir máxima confianza y convertir cada visita en una oportunidad de venta.
+                </p>
+              </div>
+
+              {/* Puntos clave orientados a negocio */}
+              <div className="space-y-4 pt-6 border-t border-foreground/[0.08] mb-8">
+                <div className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+                  <p className="text-sm lg:text-base text-foreground/90 leading-snug">
+                    <strong>Carga instantánea en móvil y ordenador:</strong> Tus clientes no esperan y Google premia tu posición en las búsquedas.
+                  </p>
                 </div>
-                <div className="font-mono text-4xl lg:text-[3.25rem] leading-none tracking-tighter">
-                  {metric.prefix}
-                  {metric.value}
-                  {metric.unit && (
-                    <span className="text-muted-foreground text-[0.55em] ml-1">{metric.unit}</span>
-                  )}
+                <div className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+                  <p className="text-sm lg:text-base text-foreground/90 leading-snug">
+                    <strong>Diseño propio que transmite autoridad:</strong> Una imagen visual cuidada al detalle que diferencia tu marca de la competencia.
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+                  <p className="text-sm lg:text-base text-foreground/90 leading-snug">
+                    <strong>Sin sustos ni mantenimiento frágil:</strong> Sin plugins que se desactualizan o rompen la web de un día para otro.
+                  </p>
                 </div>
               </div>
-            ))}
-          </div>
 
-          {/* Anotación de medición */}
-          <p className="reveal mt-4 text-right font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">
-            Medias Lighthouse · proyectos en producción
-          </p>
-
-          {/* Fila inferior: chips del stack + enlace contextual al blog */}
-          <div
-            className="reveal mt-10 lg:mt-12 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
-            style={{ animationDelay: "0.2s" }}
-          >
-            <div className="flex flex-wrap items-center gap-2.5">
-              {stack.map((tech) => (
-                <span
-                  key={tech}
-                  className="font-mono text-xs border border-foreground/15 rounded-full px-4 py-2 text-foreground/70"
+              {/* Enlace contextual al blog */}
+              <div>
+                <Link
+                  href="/blog/diseno-web-vs-desarrollo-web"
+                  className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors inline-flex items-center gap-1.5 font-medium text-sm group"
                 >
-                  {tech}
-                </span>
-              ))}
+                  ¿Quieres saber qué diferencia una web a medida de una plantilla?
+                  <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </Link>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              ¿Vienes de una plantilla?{" "}
-              <Link
-                href="/blog/diseno-web-vs-desarrollo-web"
-                className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors"
-              >
-                Esto es lo que cambia.
-              </Link>
-            </p>
-          </div>
 
+            {/* Columna visual con fotografía */}
+            <div className="lg:col-span-5">
+              <div className="relative rounded-3xl overflow-hidden border border-foreground/[0.08] aspect-[4/3] lg:aspect-[4/5] shadow-[0_16px_40px_-16px_rgba(0,0,0,0.06)] bg-foreground/[0.03]">
+                <Image
+                  src="/desarrollo-web-medida.webp"
+                  alt="Estudio de diseño y desarrollo web a medida en LTEvo"
+                  fill
+                  sizes="(min-width: 1024px) 45vw, calc(100vw - 48px)"
+                  className="object-cover"
+                  priority={false}
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
@@ -513,43 +503,9 @@ export function DisenoWebContent() {
       </section>
 
       {/* ============================================================ */}
-      {/*  FAQ SECTION  (details/summary nativo, sin JS)               */}
+      {/*  FAQ SECTION                                                 */}
       {/* ============================================================ */}
-      <section className="py-24 lg:py-32 bg-gray-200">
-        <div className="max-w-[1000px] mx-auto px-6 lg:px-12">
-          <div className="reveal text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-display tracking-tight">
-              Preguntas frecuentes
-            </h2>
-          </div>
-
-          <div className="reveal w-full space-y-4" style={{ animationDelay: "0.1s" }}>
-            {faqs.map((faq) => (
-              <details key={faq.question} className="group border border-foreground/10 px-6 rounded-sm bg-background">
-                <summary className="flex items-start justify-between gap-4 py-6 text-left text-lg font-display cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                  {faq.question}
-                  <ChevronDown className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200 group-open:rotate-180" />
-                </summary>
-                <p className="text-muted-foreground leading-relaxed pb-6 text-sm">
-                  {faq.answer}
-                  {faq.more && (
-                    <>
-                      {" "}
-                      <Link
-                        href={faq.more.href}
-                        className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors"
-                      >
-                        {faq.more.text}
-                      </Link>
-                      .
-                    </>
-                  )}
-                </p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FaqSection faqs={faqs} includeJsonLd={false} />
 
       {/* ============================================================ */}
       {/*  CTA SECTION                                                 */}

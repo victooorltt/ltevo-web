@@ -49,7 +49,7 @@ function LogoTrack({ reverse, className = "" }: { reverse?: boolean; className?:
               items.map((tech) => (
                 <li
                   key={`${copy}-${tech.slug}`}
-                  className="group flex shrink-0 items-center gap-2.5 rounded-[20px] border border-foreground/10 bg-foreground/[0.03] px-4 py-2.5 shadow-xs transition-colors duration-300 hover:bg-foreground/[0.06] md:px-5 md:py-3"
+                  className="group flex shrink-0 items-center gap-2.5 rounded-[20px] border border-foreground/10 bg-white px-4 py-2.5 shadow-xs transition-colors duration-300 hover:border-foreground/20 md:px-5 md:py-3"
                 >
                   {/* SVG externo de CDN: el optimizador de next/image no procesa
                       SVG, se sirve directo con unoptimized. Cada logo viaja en
@@ -62,7 +62,7 @@ function LogoTrack({ reverse, className = "" }: { reverse?: boolean; className?:
                     className="shrink-0"
                     unoptimized
                   />
-                  <span className="whitespace-nowrap text-sm font-medium tracking-tight text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
+                  <span className="whitespace-nowrap text-sm font-medium font-display tracking-tight text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
                     {tech.name}
                   </span>
                 </li>

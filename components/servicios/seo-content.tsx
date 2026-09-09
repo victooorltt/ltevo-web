@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2, BarChart3, Search, Code, TrendingUp, Link as LinkIcon, MapPin, ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { FaqSection } from "@/components/landing/faq-section";
 
 /* Nota: componente de servidor. El reveal es CSS scroll-driven y las FAQs
    usan <details>/<summary> nativos, sin JS. */
@@ -496,43 +497,9 @@ export function SeoContent() {
       </section>
 
       {/* ============================================================ */}
-      {/*  FAQ SECTION  (details/summary nativo, sin JS)               */}
+      {/*  FAQ SECTION                                                 */}
       {/* ============================================================ */}
-      <section className="py-24 lg:py-32 bg-gray-200">
-        <div className="max-w-[1000px] mx-auto px-6 lg:px-12">
-          <div className="reveal text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-display tracking-tight">
-              Preguntas frecuentes sobre SEO
-            </h2>
-          </div>
-
-          <div className="reveal w-full space-y-4" style={{ animationDelay: "0.1s" }}>
-            {faqs.map((faq) => (
-              <details key={faq.question} className="group border border-foreground/10 px-6 rounded-sm bg-background">
-                <summary className="flex items-start justify-between gap-4 py-6 text-left text-lg font-display cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                  {faq.question}
-                  <ChevronDown className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200 group-open:rotate-180" />
-                </summary>
-                <p className="text-muted-foreground leading-relaxed pb-6 text-sm">
-                  {faq.answer}
-                  {faq.more && (
-                    <>
-                      {" "}
-                      <Link
-                        href={faq.more.href}
-                        className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors"
-                      >
-                        {faq.more.text}
-                      </Link>
-                      .
-                    </>
-                  )}
-                </p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FaqSection title="Preguntas frecuentes sobre SEO" faqs={faqs} includeJsonLd={false} />
 
       {/* ============================================================ */}
       {/*  CTA SECTION                                                 */}
