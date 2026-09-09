@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { SeoContent } from "@/components/servicios/seo-content";
+import { SeoContent, faqs } from "@/components/servicios/seo-content";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 
 export const metadata: Metadata = {
-  title: "Posicionamiento SEO Profesional en Oviedo y Asturias | LTEvo",
+  title: "Posicionamiento SEO Profesional en Oviedo y Asturias",
   description:
     "Agencia de posicionamiento SEO en Oviedo y Asturias. Optimizamos tu web para captar tráfico orgánico de calidad y multiplicar tus ventas en Google.",
   alternates: { canonical: "/servicios/seo" },
   openGraph: {
-    title: "Posicionamiento SEO Profesional en Oviedo y Asturias | LTEvo",
+    title: "Posicionamiento SEO Profesional en Oviedo y Asturias",
     description:
       "Agencia de posicionamiento SEO en Oviedo y Asturias. Optimizamos tu web para captar tráfico orgánico de calidad y multiplicar tus ventas en Google.",
     url: "https://ltevo.com/servicios/seo",
@@ -40,46 +40,30 @@ const jsonLd = {
     {
       "@type": "FAQPage",
       "@id": "https://ltevo.com/servicios/seo#faq",
-      "mainEntity": [
+      "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer
+        }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://ltevo.com/servicios/seo#breadcrumb",
+      "itemListElement": [
         {
-          "@type": "Question",
-          "name": "¿Cuánto se tarda en ver los resultados del SEO?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Los resultados en SEO suelen comenzar a ser significativos entre el tercer y sexto mes de trabajo estable. Es una inversión de medio y largo plazo que genera retornos crecientes de forma sostenible."
-          }
+          "@type": "ListItem",
+          position: 1,
+          name: "Inicio",
+          item: "https://ltevo.com"
         },
         {
-          "@type": "Question",
-          "name": "¿Qué diferencia hay entre SEO y SEM (Google Ads)?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "El SEM consiste en pagar por cada clic en anuncios de pago de forma inmediata. El SEO se enfoca en posicionar orgánicamente tu web sin pagar por clic, lo que construye un activo a largo plazo de visitas gratuitas."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Garantizáis el primer puesto en Google?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Ninguna agencia seria puede garantizar la primera posición absoluta porque los algoritmos de Google cambian constantemente y no les pertenecen. Sin embargo, garantizamos una mejora drástica en el tráfico cualificado y en la visibilidad de tus palabras clave clave."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Qué es el SEO local y por qué lo necesito?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "El SEO local optimiza tu web y tu perfil de Google Business Profile para que aparezcas cuando los usuarios de tu zona geográfica busquen tus servicios. Es clave para tiendas físicas y servicios de proximidad."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Es necesario realizar optimizaciones constantes?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Sí. Tu competencia también trabaja su SEO, y Google actualiza sus algoritmos cientos de veces al año. Para mantener y mejorar los rankings, es necesario analizar métricas, actualizar contenidos y resolver problemas técnicos de forma recurrente."
-          }
+          "@type": "ListItem",
+          position: 2,
+          name: "Posicionamiento SEO Profesional",
+          item: "https://ltevo.com/servicios/seo"
         }
       ]
     }

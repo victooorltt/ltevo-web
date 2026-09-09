@@ -1,7 +1,12 @@
-"use client";
-
-import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+
+const socialLinks = [
+  { name: "LinkedIn", href: "https://www.linkedin.com/company/ltevo", Icon: Linkedin },
+  { name: "Instagram", href: "https://www.instagram.com/ltevo.web/", Icon: Instagram },
+  { name: "X (Twitter)", href: "https://x.com/ltevo_web", Icon: Twitter },
+  { name: "Facebook", href: "https://www.facebook.com/ltevo.web/", Icon: Facebook },
+];
 
 const footerLinks = {
   Navegación: [
@@ -39,6 +44,22 @@ export function FooterSection() {
               <p className="text-white/70 leading-relaxed mb-8 max-w-xs">
                 Agencia de diseño web en Oviedo. Creamos webs que convierten visitas en clientes.
               </p>
+
+              <ul className="flex items-center gap-3">
+                {socialLinks.map(({ name, href, Icon }) => (
+                  <li key={name}>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`LTEvo en ${name}`}
+                      className="inline-flex items-center justify-center p-1.5 text-white/40 hover:text-white transition-colors"
+                    >
+                      <Icon size={18} strokeWidth={1.75} aria-hidden="true" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* Link Columns */}

@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 export function ContactSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -16,15 +14,6 @@ export function ContactSection() {
     phone: "",
     message: "",
   });
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -62,23 +51,18 @@ export function ContactSection() {
   };
 
   const inputClass =
-    "w-full bg-transparent border border-foreground/10 px-4 py-3 text-base md:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/40 transition-colors duration-200";
+    "w-full rounded-xl border border-foreground/10 bg-foreground/[0.02] px-4 py-3 text-base md:text-sm text-foreground placeholder:text-foreground/40 transition-colors duration-200 focus:outline-none focus:border-foreground/40 focus:bg-foreground/[0.04]";
 
   return (
     <section
       id="contact"
-      ref={sectionRef}
       className="relative py-24 lg:py-32 border-t border-foreground/10"
     >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
 
           {/* Left — texto */}
-          <div
-            className={`transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
+          <div className="reveal">
 
             <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-8 leading-[0.95]">
               Hablemos de <br /> <span className="text-muted-foreground">tu proyecto.</span>
@@ -105,13 +89,9 @@ export function ContactSection() {
           </div>
 
           {/* Right — formulario */}
-          <div
-            className={`transition-all duration-700 delay-200 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
+          <div className="reveal" style={{ animationDelay: "200ms" }}>
             {status === "success" ? (
-              <div className="border border-foreground/10 p-12 flex flex-col items-start gap-4 h-full justify-center">
+              <div className="rounded-xl border border-foreground/10 p-12 flex flex-col items-start gap-4 h-full justify-center">
                 <span className="font-mono text-xs text-muted-foreground">— Recibido —</span>
                 <h3 className="text-3xl font-display">¡Mensaje enviado!</h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -129,12 +109,12 @@ export function ContactSection() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
 
                 {/* Nombre y teléfono */}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-2">
-                    <label className="font-mono text-xs text-muted-foreground">
+                    <label className="text-sm font-medium text-foreground/70">
                       Nombre <span className="text-foreground">*</span>
                     </label>
                     <input
@@ -149,7 +129,7 @@ export function ContactSection() {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="font-mono text-xs text-muted-foreground">
+                    <label className="text-sm font-medium text-foreground/70">
                       Teléfono
                     </label>
                     <input
@@ -165,7 +145,7 @@ export function ContactSection() {
 
                 {/* Email — ancho completo */}
                 <div className="flex flex-col gap-2">
-                  <label className="font-mono text-xs text-muted-foreground">
+                  <label className="text-sm font-medium text-foreground/70">
                     Email <span className="text-foreground">*</span>
                   </label>
                   <input
@@ -183,7 +163,7 @@ export function ContactSection() {
 
                 {/* Mensaje */}
                 <div className="flex flex-col gap-2">
-                  <label className="font-mono text-xs text-muted-foreground">
+                  <label className="text-sm font-medium text-foreground/70">
                     Mensaje <span className="text-foreground">*</span>
                   </label>
                   <textarea
@@ -199,7 +179,7 @@ export function ContactSection() {
 
                 {/* Mensaje de error */}
                 {status === "error" && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm font-mono rounded">
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm rounded-xl">
                     {errorMessage || "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo."}
                   </div>
                 )}

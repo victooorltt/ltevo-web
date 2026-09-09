@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { DisenoWebContent } from "@/components/servicios/diseno-web-content";
+import { DisenoWebContent, faqs } from "@/components/servicios/diseno-web-content";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 
 export const metadata: Metadata = {
-  title: "Diseño de Páginas Web en Oviedo y Asturias | LTEvo",
+  title: "Diseño de Páginas Web en Oviedo y Asturias",
   description:
     "Creamos páginas web profesionales, rápidas y a medida en Oviedo y Asturias. Diseño web adaptado a móviles y optimizado para SEO. ¡Pide presupuesto!",
   alternates: { canonical: "/servicios/diseno-web" },
   openGraph: {
-    title: "Diseño de Páginas Web en Oviedo y Asturias | LTEvo",
+    title: "Diseño de Páginas Web en Oviedo y Asturias",
     description:
       "Creamos páginas web profesionales, rápidas y a medida en Oviedo y Asturias. Diseño web adaptado a móviles y optimizado para SEO. ¡Pide presupuesto!",
     url: "https://ltevo.com/servicios/diseno-web",
@@ -40,46 +40,30 @@ const jsonLd = {
     {
       "@type": "FAQPage",
       "@id": "https://ltevo.com/servicios/diseno-web#faq",
-      "mainEntity": [
+      "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer
+        }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://ltevo.com/servicios/diseno-web#breadcrumb",
+      "itemListElement": [
         {
-          "@type": "Question",
-          "name": "¿Cuánto tiempo se tarda en diseñar y desarrollar una web?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "El plazo de entrega habitual varía entre 3 y 6 semanas, dependiendo de la envergadura y complejidad del proyecto."
-          }
+          "@type": "ListItem",
+          position: 1,
+          name: "Inicio",
+          item: "https://ltevo.com"
         },
         {
-          "@type": "Question",
-          "name": "¿La web será totalmente autogestionable?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Sí. Integramos sistemas gestores de contenido sencillos y modernos para que puedas modificar textos, imágenes y crear nuevos apartados sin depender de nosotros."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Se adaptará correctamente a dispositivos móviles?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Absolutamente. Diseñamos con filosofía 'Mobile-First', garantizando una visualización impecable y un rendimiento excepcional en smartphones, tablets y ordenadores."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Incluye soporte y mantenimiento posterior?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Sí, ofrecemos planes opcionales de mantenimiento preventivo, actualizaciones periódicas, copias de seguridad de seguridad diarias y soporte prioritario."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Qué tecnologías utilizáis para el desarrollo?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Trabajamos principalmente con Next.js (App Router), React, TypeScript y Tailwind CSS, garantizando así la máxima velocidad de carga del mercado y la mejor base técnica para el SEO."
-          }
+          "@type": "ListItem",
+          position: 2,
+          name: "Diseño Web Profesional a Medida",
+          item: "https://ltevo.com/servicios/diseno-web"
         }
       ]
     }

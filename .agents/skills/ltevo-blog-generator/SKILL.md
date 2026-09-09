@@ -46,6 +46,7 @@ Esta skill define el procedimiento estandarizado y automatizado para generar art
 - **Tono Profesional y Autoritario:** Escribir desde la perspectiva del **Equipo LTEvo**, combinando cercanía con rigor técnico (pensado para dueños de negocios, directores de marketing y emprendedores).
 - **Hooks con Analogías:** Iniciar el artículo con una historia o analogía del mundo real que enganche al lector en los primeros 10 segundos.
 - **Intención de Búsqueda Satisfecha:** Responder directamente a la duda principal antes de profundizar en los aspectos técnicos.
+- **Enlazado Interno Natural (1 o 2 enlaces por post):** Integrar de forma contextual y fluida entre 1 y 2 enlaces internos a lo largo del artículo. Pueden dirigir a páginas de servicio de LTEvo (`/servicios/diseno-web`, `/servicios/seo`, `/servicios/mantenimiento-web`, `/contacto`) o a artículos del blog ya publicados en `content/blog/`, aportando valor real al lector y reforzando la estructura de enlaces (*link juice*) sin forzar el texto ancla.
 - **Prohibido diagramas en bloques de código ASCII:** NUNCA utilizar bloques de código (```) para dibujar esquemas o diagramas con texto/flechas. En Next.js / Tailwind `prose`, estos bloques se renderizan como ventanas de código terminal oscuro con scrollbar horizontal fijo. En su lugar, utilizar **tablas Markdown nativas**, **citas tipográficas (`>`)** o **listas numeradas jerárquicas**, que son 100% responsivas y accesibles.
 
 ---
@@ -190,5 +191,6 @@ Sincronizar los cambios con el repositorio remoto de forma limpia mediante Conve
 - [ ] ¿Se generó la imagen con la herramienta de IA (`generate_image` / nanobanana)?
 - [ ] ¿La imagen fue optimizada y guardada en formato WebP en `public/blog/[slug].webp`?
 - [ ] ¿El CTA final conduce hacia la contratación de servicios con LTEvo?
+- [ ] ¿Se integraron de 1 a 2 enlaces internos de forma natural hacia servicios o posts del blog?
 - [ ] ¿Se marcó con una `X` la fila correspondiente en `Blog-web.txt` manteniendo el alineado?
 - [ ] ¿Se realizaron el commit (`feat(blog): ...`) y el push (`git push`) al repositorio?

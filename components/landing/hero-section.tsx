@@ -7,23 +7,22 @@ import { ArrowRight } from "lucide-react";
 const words = ["modernas", "rápidas", "elegantes"];
 
 export function HeroSection() {
-  const [isVisible, setIsVisible] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
   const [fade, setFade] = useState(true);
 
   useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
     const interval = setInterval(() => {
       setFade(false);
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         setWordIndex((prev) => (prev + 1) % words.length);
         setFade(true);
       }, 300);
     }, 2500);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, []);
 
   return (
@@ -49,17 +48,19 @@ export function HeroSection() {
 
       {/* Foto derecha / Fondo en mobile */}
       <div
-        className={`absolute inset-0 lg:left-auto lg:right-0 lg:w-[52%] h-full transition-all duration-1000 delay-300 block ${
-          isVisible ? "opacity-100" : "opacity-0"
-        }`}
+        className="absolute inset-0 lg:left-auto lg:right-0 lg:w-[52%] h-full block fade-up-slow"
+        style={{ animationDelay: "0ms" }}
       >
-        {/* Imagen */}
+        {/* Imagen (art direction: variante mobile <1024px, desktop >=1024px).
+            <picture> garantiza que solo se descargue la variante que toca.
+            next/image no soporta <source media> y duplicaría la precarga,
+            por eso se usan los webp estáticos ya optimizados por scripts/optimize-image.js. */}
         <picture>
-          <source media="(min-width: 1024px)" srcSet="/Hero.webp" width={2816} height={1536} />
+          <source media="(min-width: 1024px)" srcSet="/Hero.webp" width={1920} height={1047} />
           <img
             src="/Hero-inicio-mobile.webp"
-            width={3072}
-            height={5504}
+            width={800}
+            height={1433}
             alt="Diseño web profesional"
             className="w-full h-full object-cover object-center opacity-85 lg:opacity-100"
             fetchPriority="high"
@@ -78,9 +79,8 @@ export function HeroSection() {
         {/* Headline */}
         <div className="mb-12 text-left pl-7">
           <h1
-            className={`text-[clamp(3.25rem,16vw,5.5rem)] lg:text-[clamp(4.5rem,11vw,9rem)] font-display leading-[0.95] tracking-tight text-white transition-all duration-1000 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className="fade-up-slow text-[clamp(3.25rem,16vw,5.5rem)] lg:text-[clamp(4.5rem,11vw,9rem)] font-display leading-[0.95] tracking-tight text-white"
+            style={{ animationDelay: "0ms" }}
           >
             <span className="block">Webs{" "}</span>
             <span
@@ -97,9 +97,8 @@ export function HeroSection() {
 
         {/* Descripción */}
         <p
-          className={`text-xl lg:text-2xl text-white/70 leading-relaxed max-w-xl mb-10 text-left pl-7 transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
+          className="fade-up text-xl lg:text-2xl text-white/70 leading-relaxed max-w-xl mb-10 text-left pl-7"
+          style={{ animationDelay: "200ms" }}
         >
           Desarrollamos webs que trabajan por ti.
           Estrategia, diseño y rendimiento para que tu negocio escale.
@@ -107,9 +106,8 @@ export function HeroSection() {
 
         {/* CTAs */}
         <div
-          className={`flex flex-col sm:flex-row items-stretch sm:items-start justify-start gap-4 pl-7 pr-7 sm:pr-0 transition-all duration-700 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
+          className="fade-up flex flex-col sm:flex-row items-stretch sm:items-start justify-start gap-4 pl-7 pr-7 sm:pr-0"
+          style={{ animationDelay: "300ms" }}
         >
           <Button
             size="lg"

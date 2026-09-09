@@ -1,29 +1,26 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
-import { getAllPosts, BlogPost } from "@/lib/blog";
-
-function formatDate(dateStr: string): string {
-  if (!dateStr) return "";
-  const parts = dateStr.split("-");
-  if (parts.length !== 3) return dateStr;
-  const year = parseInt(parts[0], 10);
-  const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed in JS Date
-  const day = parseInt(parts[2], 10);
-  const date = new Date(year, month, day);
-  return date.toLocaleDateString("es-ES", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
+import { getAllPosts, hasRealCover, formatDate } from "@/lib/blog";
 
 export const metadata: Metadata = {
-  title: "Blog de Estrategia Web, SEO y Diseño | LTEvo",
+  title: "Blog de Estrategia Web, SEO y Diseño",
   description: "Artículos, guías y recursos prácticos sobre diseño web, posicionamiento SEO y desarrollo técnico para hacer crecer tu negocio.",
   alternates: {
-    canonical: "https://ltevo.com/blog",
+    canonical: "/blog",
+  },
+  openGraph: {
+    title: "Blog de Estrategia Web, SEO y Diseño",
+    description: "Artículos, guías y recursos prácticos sobre diseño web, posicionamiento SEO y desarrollo técnico para hacer crecer tu negocio.",
+    url: "/blog",
+    siteName: "LTEvo",
+    locale: "es_ES",
+    type: "website",
+    // Al definir openGraph propio se pierde el og:image heredado del raíz
+    // (app/opengraph-image.jpg por convención de fichero): lo restauramos.
+    images: [{ url: "/opengraph-image.jpg" }],
   },
 };
 
@@ -76,11 +73,16 @@ export default function BlogPage() {
                       </span>
                     </div>
                   </div>
-                  {/* Zoom Image container if user uploads/creates actual images later */}
-                  <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" 
-                       style={{ backgroundImage: `url(${featuredPost.coverImage})`, opacity: 0.85 }} 
-                       // Error fallback handler not needed since we fallback to the background pattern gracefully
-                  />
+                  {/* Portada (lazy) sobre el patrón; si no hay portada se ve el patrón */}
+                  {hasRealCover(featuredPost) && (
+                    <Image
+                      src={featuredPost.coverImage}
+                      alt={featuredPost.title}
+                      fill
+                      sizes="(min-width: 1200px) 640px, (min-width: 1024px) 55vw, calc(100vw - 48px)"
+                      className="object-cover object-center opacity-85 transition-transform duration-700 group-hover:scale-105"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
                 
@@ -131,9 +133,15 @@ export default function BlogPage() {
                             {formatDate(post.date) || "Blog"}
                           </span>
                         </div>
-                        <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" 
-                             style={{ backgroundImage: `url(${post.coverImage})`, opacity: 0.85 }} 
-                        />
+                        {hasRealCover(post) && (
+                          <Image
+                            src={post.coverImage}
+                            alt={post.title}
+                            fill
+                            sizes="(min-width: 1024px) 368px, (min-width: 768px) 50vw, calc(100vw - 48px)"
+                            className="object-cover object-center opacity-85 transition-transform duration-700 group-hover:scale-105"
+                          />
+                        )}
                         <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       </div>
                       
@@ -156,8 +164,12 @@ export default function BlogPage() {
                       </p>
                       
                       <div className="flex items-center justify-end pt-4 border-t border-foreground/5 mt-auto">
-                        <Link href={`/blog/${post.slug}`} className="group/btn inline-flex items-center gap-1 text-xs font-semibold tracking-wide">
-                          Leer más
+                        <Link
+                          href={`/blog/${post.slug}`}
+                          aria-label={`Leer artículo: ${post.title}`}
+                          className="group/btn inline-flex items-center gap-1 text-xs font-semibold tracking-wide"
+                        >
+                          Leer artículo
                           <span className="font-mono transition-transform duration-300 group-hover/btn:translate-x-0.5">→</span>
                         </Link>
                       </div>

@@ -1,28 +1,14 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 import { ReadingProgressBar } from "@/components/blog/reading-progress";
-import { getPostBySlug, getAllPosts } from "@/lib/blog";
+import { getPostBySlug, getAllPosts, hasRealCover, formatDate } from "@/lib/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { blogMdxComponents } from "@/components/blog/mdx-components";
-
-function formatDate(dateStr: string): string {
-  if (!dateStr) return "";
-  const parts = dateStr.split("-");
-  if (parts.length !== 3) return dateStr;
-  const year = parseInt(parts[0], 10);
-  const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed in JS Date
-  const day = parseInt(parts[2], 10);
-  const date = new Date(year, month, day);
-  return date.toLocaleDateString("es-ES", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -41,29 +27,40 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   if (!post) {
     return {
-      title: "Artículo no encontrado | LTEvo",
+      title: "Artículo no encontrado",
     };
   }
 
   return {
-    title: `${post.title} | Blog LTEvo`,
+    // seoTitle (si existe) acorta el <title> SEO; el H1 visible sigue usando post.title.
+    title: post.seoTitle ?? post.title,
     description: post.excerpt,
     alternates: {
-      canonical: `https://ltevo.com/blog/${post.slug}`,
+      canonical: `/blog/${post.slug}`,
     },
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: "article",
-      url: `https://ltevo.com/blog/${post.slug}`,
-      images: [
-        {
-          url: post.coverImage || "/images/blog/default.jpg",
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ],
+      url: `/blog/${post.slug}`,
+      publishedTime: post.date,
+      modifiedTime: post.date,
+      authors: [post.author],
+      tags: post.tags,
+      // Solo declaramos images si el post tiene portada real; el fallback
+      // /images/blog/default.jpg no existe y heredaría el OG global del raíz.
+      ...(hasRealCover(post)
+        ? {
+            images: [
+              {
+                url: post.coverImage,
+                width: 1200,
+                height: 630,
+                alt: post.title,
+              },
+            ],
+          }
+        : {}),
     },
   };
 }
@@ -76,14 +73,86 @@ export default async function BlogDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  // Get related posts (exclude current and grab up to 2)
+  // Related posts: scoring por intersección de tags (case-insensitive),
+  // desempate por fecha más reciente. Top 2.
   const allPosts = getAllPosts();
   const relatedPosts = allPosts
     .filter((p) => p.slug !== post.slug)
-    .slice(0, 2);
+    .map((p) => ({
+      post: p,
+      score: (p.tags ?? []).filter((t) =>
+        post.tags?.some((tt) => tt.toLowerCase() === t.toLowerCase())
+      ).length,
+    }))
+    .sort((a, b) => b.score - a.score || (a.post.date < b.post.date ? 1 : -1))
+    .slice(0, 2)
+    .map((r) => r.post);
+
+  // JSON-LD: BlogPosting + BreadcrumbList (mismo patrón que las páginas de servicio)
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `https://ltevo.com/blog/${post.slug}#article`,
+        headline: post.title,
+        description: post.excerpt,
+        ...(hasRealCover(post) ? { image: `https://ltevo.com${post.coverImage}` } : {}),
+        datePublished: post.date,
+        dateModified: post.date,
+        author: {
+          "@type": "Organization",
+          name: post.author,
+          url: "https://ltevo.com"
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "LTEvo",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://ltevo.com/icon.png"
+          }
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://ltevo.com/blog/${post.slug}`
+        },
+        keywords: post.tags?.join(", "),
+        inLanguage: "es"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `https://ltevo.com/blog/${post.slug}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Inicio",
+            item: "https://ltevo.com"
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Blog",
+            item: "https://ltevo.com/blog"
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: post.title,
+            item: `https://ltevo.com/blog/${post.slug}`
+          }
+        ]
+      }
+    ]
+  };
 
   return (
     <div className="relative min-h-[100dvh] bg-background text-foreground flex flex-col font-sans selection:bg-foreground selection:text-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ReadingProgressBar />
       <Navigation />
 
@@ -96,6 +165,10 @@ export default async function BlogDetailPage({ params }: PageProps) {
             </span>
             <span>•</span>
             <span>{post.readingTime}</span>
+            <span>•</span>
+            <span>
+              Por <span className="text-foreground font-medium">{post.author}</span>
+            </span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display tracking-tight text-foreground leading-[1.05] mb-8 max-w-2xl mx-auto">
@@ -112,16 +185,23 @@ export default async function BlogDetailPage({ params }: PageProps) {
               {formatDate(post.date)}
             </span>
           </div>
-          <div 
-            className="absolute inset-0 bg-cover bg-center" 
-            style={{ backgroundImage: `url(${post.coverImage})`, opacity: 0.9 }}
-          />
+          {/* Portada del artículo: visible sobre el fold al cargar → priority */}
+          {hasRealCover(post) && (
+            <Image
+              src={post.coverImage}
+              alt={post.title}
+              fill
+              priority
+              sizes="(min-width: 1048px) 1000px, calc(100vw - 48px)"
+              className="object-cover object-center opacity-90"
+            />
+          )}
         </div>
       </section>
 
       {/* Main Content Area */}
       <main className="flex-grow pb-24 px-6">
-        <article className="prose prose-neutral max-w-2xl mx-auto dark:prose-invert prose-headings:font-sans prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-2xl lg:text-[18px] prose-h3:text-xl lg:text-2xl prose-a:text-foreground prose-a:underline hover:prose-a:opacity-80 transition-all font-sans font-light text-base sm:text-lg leading-relaxed">
+        <article className="prose prose-neutral max-w-2xl mx-auto prose-headings:font-sans prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-2xl lg:text-[18px] prose-h3:text-xl lg:text-2xl prose-a:text-foreground prose-a:underline hover:prose-a:opacity-80 transition-all font-sans font-light text-base sm:text-lg leading-relaxed">
           <MDXRemote
             source={post.content}
             components={blogMdxComponents}
@@ -146,10 +226,15 @@ export default async function BlogDetailPage({ params }: PageProps) {
                 <article key={rPost.slug} className="group flex flex-col h-full">
                   <div className="aspect-[16/10] overflow-hidden rounded-sm border border-foreground/10 bg-neutral-100 relative mb-4">
                     <div className="absolute inset-0 bg-gradient-to-br from-stone-100 to-stone-50" />
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" 
-                      style={{ backgroundImage: `url(${rPost.coverImage})`, opacity: 0.85 }} 
-                    />
+                    {hasRealCover(rPost) && (
+                      <Image
+                        src={rPost.coverImage}
+                        alt={rPost.title}
+                        fill
+                        sizes="(min-width: 768px) 400px, calc(100vw - 48px)"
+                        className="object-cover object-center opacity-85 transition-transform duration-700 group-hover:scale-105"
+                      />
+                    )}
                   </div>
                   <div className="flex flex-wrap items-center gap-2 font-mono text-[10px] text-muted-foreground mb-2">
                     <span className="bg-foreground/5 px-2 py-0.5 rounded-full text-foreground">

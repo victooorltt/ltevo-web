@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Agencia de diseño web en Oviedo. Webs profesionales, eCommerce y SEO.",
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#00ccec",  // ← pon aquí el color principal de tu marca
+    background_color: "#faf9f7",
+    theme_color: "#faf9f7",
     icons: [
       {
         src: "/web-app-manifest-192x192.png",

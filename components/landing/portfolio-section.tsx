@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
 const projects = [
@@ -10,8 +8,6 @@ const projects = [
     description: "Web bilingüe para empresa de alquiler de autocaravanas en Alicante, con flota, mapa interactivo de rutas y solicitud de reserva.",
     url: "https://www.autocaravanasbahia.es/",
     image: "/portfolio/Autocaravanasbahia.webp",
-    width: 1901,
-    height: 850,
     tags: ["Diseño Web", "Multiidioma"],
   },
   {
@@ -20,8 +16,6 @@ const projects = [
     description: "Diseño web corporativo con identidad visual moderna y experiencia de usuario optimizada para conversión.",
     url: "https://cao-brown.vercel.app/",
     image: "/portfolio/cao.webp",
-    width: 1782,
-    height: 861,
     tags: ["Diseño Web", "Identidad Visual"],
   },
   {
@@ -30,36 +24,18 @@ const projects = [
     description: "Web para empresa de jardinería local con diseño orgánico, galería de trabajos y formulario de contacto integrado.",
     url: "https://jardineria-elcuetu.vercel.app/",
     image: "/portfolio/cuetu.webp",
-    width: 1340,
-    height: 845,
     tags: ["Diseño Web", "SEO Local"],
   },
 ];
 
 export function PortfolioSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section ref={sectionRef} id="portfolio" className="relative py-24 lg:py-32">
+    <section id="portfolio" className="relative py-24 lg:py-32">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
         {/* Header */}
         <div className="mb-16 lg:mb-24">
-          <h2
-            className={`text-4xl lg:text-6xl font-display tracking-tight transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
+          <h2 className="reveal text-4xl lg:text-6xl font-display tracking-tight">
             Proyectos reales. <br /> <span className="text-muted-foreground">Resultados que se ven.</span>
           </h2>
         </div>
@@ -87,65 +63,52 @@ function ProjectCard({
   project: (typeof projects)[0];
   index: number;
 }) {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.15 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div
-      ref={ref}
-      className={`transition-all duration-700 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      }`}
-      style={{ transitionDelay: `${index * 150}ms` }}
+      className="reveal"
+      style={{ animationDelay: `${index * 150}ms` }}
     >
       <a
         href={project.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group block border border-foreground/10 hover:border-foreground/30 transition-all duration-500 overflow-hidden"
+        className="group block rounded-3xl border border-foreground/[0.08] bg-card/60 hover:bg-card hover:border-foreground/20 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.07)] transition-all duration-500 overflow-hidden"
       >
         <div className="grid lg:grid-cols-2">
 
-          {/* Imagen */}
-          <div className="relative overflow-hidden bg-foreground/[0.03] aspect-video lg:aspect-auto lg:min-h-[380px]">
-            <img
-              src={project.image}
-              width={project.width}
-              height={project.height}
-              alt={`Proyecto ${project.title}`}
-              className="w-full h-full object-cover object-top transition-transform duration-700 scale-100 group-hover:scale-105"
-              loading="lazy"
-            />
-            {/* Overlay sutil */}
-            <div className="absolute inset-0 bg-foreground transition-opacity duration-500 opacity-[0.04] group-hover:opacity-0" />
+          {/* Imagen con marco redondeado */}
+          <div className="p-3 lg:p-4 pb-0 lg:pb-4">
+            <div className="rounded-2xl overflow-hidden aspect-[16/10] lg:aspect-auto lg:h-full min-h-[280px] lg:min-h-[380px] relative bg-foreground/[0.03]">
+              <Image
+                src={project.image}
+                alt={`Proyecto ${project.title}`}
+                fill
+                sizes="(min-width: 1024px) 50vw, calc(100vw - 48px)"
+                className="object-cover object-top transition-transform duration-700 scale-100 group-hover:scale-105"
+                loading="lazy"
+              />
+              {/* Overlay sutil */}
+              <div className="absolute inset-0 bg-foreground transition-opacity duration-500 opacity-[0.04] group-hover:opacity-0" />
+            </div>
           </div>
 
           {/* Contenido */}
           <div className="flex flex-col justify-between p-8 lg:p-12">
             <div>
-              {/* Número y flecha */}
+              {/* Flecha circular estilo Apple */}
               <div className="flex items-center justify-between mb-8">
-                <div className="w-10 h-10 border border-foreground/10 flex items-center justify-center transition-all duration-300 bg-transparent group-hover:bg-foreground group-hover:border-foreground">
-                  <ArrowUpRight className="w-4 h-4 transition-colors duration-300 text-foreground/40 group-hover:text-background" />
+                <div className="w-11 h-11 rounded-full border border-foreground/10 flex items-center justify-center bg-foreground/[0.03] group-hover:bg-foreground group-hover:text-background transition-all duration-300 shadow-sm">
+                  <ArrowUpRight className="w-4 h-4 transition-colors duration-300 text-foreground/60 group-hover:text-background" />
                 </div>
               </div>
 
               {/* Título */}
-              <h3 className="text-4xl lg:text-5xl font-display tracking-tight mb-4 transition-transform duration-500 translate-x-0 group-hover:translate-x-2">
+              <h3 className="text-3xl lg:text-5xl font-display tracking-tight mb-4 transition-transform duration-500 translate-x-0 group-hover:translate-x-1.5">
                 {project.title}
               </h3>
 
               {/* Descripción */}
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-base lg:text-lg text-muted-foreground leading-relaxed">
                 {project.description}
               </p>
             </div>
@@ -155,7 +118,7 @@ function ProjectCard({
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs font-mono text-muted-foreground border border-foreground/10 px-3 py-1 rounded-full"
+                  className="rounded-full text-xs font-sans font-medium px-3.5 py-1 bg-foreground/[0.04] border border-foreground/[0.08] text-muted-foreground"
                 >
                   {tag}
                 </span>

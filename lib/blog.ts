@@ -1,10 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { cache } from 'react';
 
 export interface BlogPost {
   slug: string;
   title: string;
+  seoTitle?: string;
   date: string;
   author: string;
   excerpt: string;
@@ -21,6 +23,18 @@ export interface BlogPost {
 
 const postsDirectory = path.join(process.cwd(), 'content/blog');
 
+/**
+ * true si el post tiene una portada real. El fallback por defecto
+ * (/images/blog/default.jpg) no existe: en ese caso la UI muestra el
+ * patrón decorativo de fondo en lugar de una imagen rota.
+ * Type guard: estrecha coverImage a string para usarla en <Image src>.
+ */
+export function hasRealCover(
+  post: Pick<BlogPost, 'coverImage'>
+): post is BlogPost & { coverImage: string } {
+  return Boolean(post.coverImage) && post.coverImage !== '/images/blog/default.jpg';
+}
+
 function calculateReadingTime(content: string): string {
   const wordsPerMinute = 200;
   const cleanContent = content.replace(/[#*`[\]()\-]/g, ''); // strip markdown syntax roughly
@@ -29,7 +43,30 @@ function calculateReadingTime(content: string): string {
   return `${minutes} min read`;
 }
 
-export function getAllPosts(): BlogPost[] {
+/**
+ * Formatea una fecha ISO "YYYY-MM-DD" a formato largo español.
+ * Compartida por las páginas de blog y el sitemap.
+ */
+export function formatDate(dateStr: string): string {
+  if (!dateStr) return "";
+  const parts = dateStr.split("-");
+  if (parts.length !== 3) return dateStr;
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed in JS Date
+  const day = parseInt(parts[2], 10);
+  const date = new Date(year, month, day);
+  return date.toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+/**
+ * Lectura cacheada de todos los posts (React.cache: una sola lectura del
+ * filesystem por request/build aunque se llame varias veces).
+ */
+export const getAllPosts = cache(function getAllPosts(): BlogPost[] {
   if (!fs.existsSync(postsDirectory)) {
     return [];
   }
@@ -47,7 +84,7 @@ export function getAllPosts(): BlogPost[] {
       const data = matterResult.data;
 
       // Extract excerpt from content if not explicitly provided
-      const excerpt = data.excerpt || 
+      const excerpt = data.excerpt ||
         matterResult.content
           .replace(/[#*`[\]()\-]/g, '') // strip markdown
           .trim()
@@ -56,6 +93,7 @@ export function getAllPosts(): BlogPost[] {
       return {
         slug,
         title: data.title || 'Untitled Post',
+        seoTitle: data.seoTitle || undefined,
         date: data.date || new Date().toISOString().split('T')[0],
         author: data.author || 'Equipo LTEvo',
         excerpt,
@@ -73,9 +111,9 @@ export function getAllPosts(): BlogPost[] {
 
   // Sort posts by date descending
   return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
-}
+});
 
-export function getPostBySlug(slug: string): BlogPost | null {
+export const getPostBySlug = cache(function getPostBySlug(slug: string): BlogPost | null {
   try {
     const mdxPath = path.join(postsDirectory, `${slug}.mdx`);
     const mdPath = path.join(postsDirectory, `${slug}.md`);
@@ -102,6 +140,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     return {
       slug,
       title: data.title || 'Untitled Post',
+      seoTitle: data.seoTitle || undefined,
       date: data.date || new Date().toISOString().split('T')[0],
       author: data.author || 'Equipo LTEvo',
       excerpt,
@@ -115,7 +154,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
       coverImage: data.coverImage || '/images/blog/default.jpg',
       tags: data.tags || ['Estrategia'],
     } as BlogPost;
-  } catch (error) {
+  } catch {
     return null;
   }
-}
+});

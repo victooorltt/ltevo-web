@@ -1,7 +1,3 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-
 const steps = [
   {
     number: "I",
@@ -38,25 +34,10 @@ const steps = [
 ];
 
 function StepCard({ step, index }: { step: (typeof steps)[0]; index: number }) {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.2 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div
-      ref={ref}
-      className={`transition-all duration-700 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-      }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
+      className="reveal"
+      style={{ animationDelay: `${index * 100}ms` }}
     >
       <div className="border border-background/10 p-8 flex flex-col gap-5">
         {/* Header */}
@@ -77,25 +58,12 @@ function StepCard({ step, index }: { step: (typeof steps)[0]; index: number }) {
 }
 
 export function HowItWorksSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   const leftSteps  = steps.filter((s) => s.side === "left");
   const rightSteps = steps.filter((s) => s.side === "right");
 
   return (
     <section
       id="how-it-works"
-      ref={sectionRef}
       className="relative py-24 lg:py-32 bg-foreground text-background overflow-hidden"
     >
       {/* Diagonal lines pattern */}
@@ -117,11 +85,7 @@ export function HowItWorksSection() {
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
         {/* Header */}
         <div className="mb-16 lg:mb-24">
-          <h2
-            className={`text-4xl lg:text-6xl font-display tracking-tight transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
+          <h2 className="reveal text-4xl lg:text-6xl font-display tracking-tight">
             Así trabajamos contigo. <br /> <span className="text-background/50">Sin sorpresas, sin rodeos.</span>
           </h2>
         </div>

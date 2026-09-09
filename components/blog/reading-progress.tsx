@@ -6,26 +6,35 @@ export function ReadingProgressBar() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let rafId = 0;
+
+    const update = () => {
+      rafId = 0;
       const docHeight = document.documentElement.scrollHeight;
       const winHeight = window.innerHeight;
       const totalHeight = docHeight - winHeight;
-      
+
       if (totalHeight > 0) {
         const scrolled = (window.scrollY / totalHeight) * 100;
         setProgress(scrolled);
       }
     };
 
-    // Run once on load
-    handleScroll();
+    // Throttle: máximo 1 update por frame
+    const handleScroll = () => {
+      if (!rafId) rafId = requestAnimationFrame(update);
+    };
 
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleScroll);
-    
+    // Run once on load
+    update();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 

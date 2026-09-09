@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
@@ -13,58 +11,60 @@ import {
   RefreshCw,
   Edit3,
   LifeBuoy,
-  Activity,
-  AlertTriangle
+  AlertTriangle,
+  ChevronDown
 } from "lucide-react";
 import Link from "next/link";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
-/* ------------------------------------------------------------------ */
-/*  FadeIn Component                                                  */
-/* ------------------------------------------------------------------ */
-function FadeIn({
-  children,
-  delay = 0,
-  className,
-}: {
-  children: ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+/* Nota: componente de servidor. El reveal es CSS scroll-driven y las FAQs
+   usan <details>/<summary> nativos, sin JS. */
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+/* Fuente única de las FAQs: se renderizan aquí (details/summary) y alimentan
+   el JSON-LD FAQPage de app/servicios/mantenimiento-web/page.tsx para que el
+   schema nunca se desincronice de lo visible. El campo opcional `more` añade
+   un enlace contextual al blog SOLO en el render; el schema usa question/answer. */
+type Faq = {
+  question: string;
+  answer: string;
+  more?: { text: string; href: string };
+};
 
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? "translateY(0)" : "translateY(30px)",
-        transition: `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
+export const faqs: Faq[] = [
+  {
+    question: "¿Qué es el mantenimiento web y por qué es necesario?",
+    answer: "El mantenimiento web es un proceso de optimización constante y preventivo. Consiste en mantener actualizados el core del CMS (por ejemplo, WordPress), las librerías de desarrollo, los plugins de funciones y las configuraciones de seguridad. Sin este proceso, tu web se vuelve vulnerable a fallos técnicos y ataques externos, además de ralentizarse progresivamente.",
+    more: { text: "Entiende qué es el thin content y por qué está hundiendo tu SEO", href: "/blog/que-es-el-thin-content" },
+  },
+  {
+    question: "¿Puedo cambiar de plan o cancelar cuando quiera?",
+    answer: "Sí. No imponemos contratos de permanencia a largo plazo. Puedes solicitar un cambio de plan (escalar o reducir) o cancelar tu suscripción mensual notificándolo por email antes de que empiece el nuevo ciclo de facturación mensual.",
+  },
+  {
+    question: "¿Qué sucede si necesito cambios que requieran más horas?",
+    answer: "Si las tareas del mes superan el tiempo disponible en tu plan contratado, te lo comunicaremos con antelación para ofrecerte dos opciones: realizar los cambios en el siguiente ciclo o presupuestar las horas extras requeridas bajo una tarifa especial con descuento por ser cliente habitual de mantenimiento.",
+  },
+  {
+    question: "¿El mantenimiento incluye el coste del hosting y dominio?",
+    answer: "No está incluido directamente en estos precios estándar, ya que cada proyecto tiene necesidades de servidor muy distintas. Sin embargo, ofrecemos servicios de alojamiento de alto rendimiento gestionados para nuestros clientes. Consúltanos y te facilitaremos un presupuesto unificado.",
+  },
+  {
+    question: "¿Ofrecéis garantía de limpieza ante virus o hackeos?",
+    answer: "Sí, en nuestro plan Premium incluimos una garantía total de limpieza y desinfección en caso de hackeo sin ningún coste añadido. En los planes Básico y Profesional, nos encargaremos de restaurar inmediatamente tu copia de seguridad más reciente y limpia de forma gratuita, y si es necesario desinfectar ficheros manualmente te presentaremos una tarifa especial.",
+  },
+];
 
 export function MantenimientoWebContent() {
-  const benefits = [
+  type Benefit = {
+    title: string;
+    description: string;
+    icon: typeof Shield;
+    iconColor: string;
+    bgColor: string;
+    borderColor: string;
+    link?: { text: string; href: string };
+  };
+
+  const benefits: Benefit[] = [
     {
       title: "Tranquilidad Absoluta",
       description: "Nos convertimos en tu departamento técnico. Delegas las tareas complejas de actualización, monitorización y seguridad para enfocarte en tu negocio.",
@@ -103,11 +103,20 @@ export function MantenimientoWebContent() {
       icon: TrendingUp,
       iconColor: "text-rose-500",
       bgColor: "bg-rose-500/5",
-      borderColor: "border-rose-500/10"
+      borderColor: "border-rose-500/10",
+      link: { text: "¿Tu web no aparece en Google? Revisa estas causas", href: "/blog/por-que-mi-web-no-aparece-en-google" },
     }
   ];
 
-  const whyNeeded = [
+  type WhyNeeded = {
+    title: string;
+    description: string;
+    icon: typeof AlertTriangle;
+    iconColor: string;
+    link?: { text: string; href: string };
+  };
+
+  const whyNeeded: WhyNeeded[] = [
     {
       title: "Prevención Activa de Hackeos",
       description: "Los sistemas web desactualizados son el blanco principal de los ciberataques. Mantener el núcleo y los plugins al día reduce el riesgo de intrusión en un 95%.",
@@ -124,7 +133,8 @@ export function MantenimientoWebContent() {
       title: "Ediciones y Cambios de Contenido",
       description: "Actualizar textos, subir nuevos posts de blog, modificar precios o banners requiere tiempo. Lo procesamos de forma limpia y rápida por ti.",
       icon: Edit3,
-      iconColor: "text-emerald-400"
+      iconColor: "text-emerald-400",
+      link: { text: "Evita el thin content en tu web con estos consejos", href: "/blog/que-es-el-thin-content" },
     },
     {
       title: "Soporte Técnico Especializado",
@@ -193,18 +203,18 @@ export function MantenimientoWebContent() {
       {/* ============================================================ */}
       <section className="relative bg-zinc-950 text-white py-48 lg:py-52 overflow-hidden min-h-[60vh] flex items-center justify-center">
         {/* Background Image */}
-        <img
+        <Image
           src="/Hero-servicios-mantenimiento.webp"
-          width={2752}
-          height={1536}
           alt="Mantenimiento Web Profesional"
-          className="absolute inset-0 w-full h-full object-cover object-center z-0 opacity-75"
-          fetchPriority="high"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center z-0 opacity-75"
         />
 
         {/* Dark Overlay for readability */}
         <div className="absolute inset-0 bg-black/60 z-0" />
-        
+
         {/* Optional decorative layout lines/grid */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0">
           {[...Array(6)].map((_, i) => (
@@ -220,17 +230,17 @@ export function MantenimientoWebContent() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full pointer-events-none z-0" style={{ backgroundImage: "radial-gradient(circle, rgba(39, 39, 42, 0.1) 0%, transparent 70%)" }} />
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col items-center text-center z-10">
-          <FadeIn delay={0.1}>
+          <div className="reveal" style={{ animationDelay: "0.1s" }}>
             <h1 className="text-5xl lg:text-7xl font-display italic tracking-tight leading-[0.95] mb-6 text-white text-center">
               Mantenimiento Web <br /> Profesional
             </h1>
-          </FadeIn>
+          </div>
 
-          <FadeIn delay={0.2}>
+          <div className="reveal" style={{ animationDelay: "0.2s" }}>
             <p className="text-xl lg:text-2xl text-white/80 max-w-2xl leading-relaxed text-center mx-auto">
               Protege tu inversión digital. Asegura la máxima velocidad, estabilidad y seguridad para tu sitio web con el respaldo técnico que tu negocio merece.
             </p>
-          </FadeIn>
+          </div>
         </div>
       </section>
 
@@ -239,20 +249,18 @@ export function MantenimientoWebContent() {
       {/* ============================================================ */}
       <section className="py-24 lg:py-32 bg-background border-b border-foreground/5">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <FadeIn>
-            <div className="mb-16 lg:mb-24">
-              <span className="text-sm font-mono tracking-widest text-muted-foreground uppercase block mb-3">Ventajas del soporte</span>
-              <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
-                Beneficios del Soporte Técnico <br /> <span className="text-muted-foreground italic">en tu Mantenimiento Web</span>
-              </h2>
-            </div>
-          </FadeIn>
+          <div className="reveal mb-16 lg:mb-24">
+            <span className="text-sm font-mono tracking-widest text-muted-foreground uppercase block mb-3">Ventajas del soporte</span>
+            <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
+              Beneficios del Soporte Técnico <br /> <span className="text-muted-foreground italic">en tu Mantenimiento Web</span>
+            </h2>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
             {benefits.map((benefit, index) => {
               const Icon = benefit.icon;
               return (
-                <FadeIn key={benefit.title} delay={index * 0.08}>
+                <div key={benefit.title} className="reveal" style={{ animationDelay: `${index * 0.08}s` }}>
                   <div className={`p-8 border rounded-lg h-full flex flex-col justify-between transition-all duration-300 hover:shadow-lg hover:shadow-foreground/3 ${benefit.borderColor} ${benefit.bgColor}`}>
                     <div>
                       <div className="mb-6 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-background border border-foreground/5 shadow-sm text-foreground">
@@ -263,10 +271,22 @@ export function MantenimientoWebContent() {
                       </h3>
                       <p className="text-muted-foreground leading-relaxed text-xs">
                         {benefit.description}
+                        {benefit.link && (
+                          <>
+                            {" "}
+                            <Link
+                              href={benefit.link.href}
+                              className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors"
+                            >
+                              {benefit.link.text}
+                            </Link>
+                            .
+                          </>
+                        )}
                       </p>
                     </div>
                   </div>
-                </FadeIn>
+                </div>
               );
             })}
           </div>
@@ -281,20 +301,18 @@ export function MantenimientoWebContent() {
         <div className="absolute top-0 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(24, 24, 27, 0.4) 0%, transparent 70%)" }} />
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 z-10">
-          <FadeIn>
-            <div className="mb-16 lg:mb-24">
-              <span className="text-sm font-mono tracking-widest text-zinc-500 uppercase block mb-3">Prevención correctiva</span>
-              <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-white">
-                ¿Por qué necesitas un plan <br /> <span className="text-zinc-400 italic">de Mantenimiento Web?</span>
-              </h2>
-            </div>
-          </FadeIn>
+          <div className="reveal mb-16 lg:mb-24">
+            <span className="text-sm font-mono tracking-widest text-zinc-500 uppercase block mb-3">Prevención correctiva</span>
+            <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-white">
+              ¿Por qué necesitas un plan <br /> <span className="text-zinc-400 italic">de Mantenimiento Web?</span>
+            </h2>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {whyNeeded.map((item, index) => {
               const Icon = item.icon;
               return (
-                <FadeIn key={item.title} delay={index * 0.05}>
+                <div key={item.title} className="reveal" style={{ animationDelay: `${index * 0.05}s` }}>
                   <div className="group relative bg-zinc-900/20 border border-zinc-900/80 p-8 rounded-lg transition-all duration-300 hover:bg-zinc-900/40 hover:border-zinc-800 hover:-translate-y-1 h-full flex flex-col justify-between">
                     <div>
                       <div className="mb-6 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-zinc-950 border border-zinc-900/60 text-zinc-400 group-hover:text-white transition-colors duration-300">
@@ -305,10 +323,22 @@ export function MantenimientoWebContent() {
                       </h3>
                       <p className="text-zinc-400 leading-relaxed text-sm group-hover:text-zinc-300 transition-colors">
                         {item.description}
+                        {item.link && (
+                          <>
+                            {" "}
+                            <Link
+                              href={item.link.href}
+                              className="text-white underline underline-offset-4 decoration-white/30 hover:decoration-white/70 transition-colors"
+                            >
+                              {item.link.text}
+                            </Link>
+                            .
+                          </>
+                        )}
                       </p>
                     </div>
                   </div>
-                </FadeIn>
+                </div>
               );
             })}
           </div>
@@ -318,24 +348,22 @@ export function MantenimientoWebContent() {
       {/* ============================================================ */}
       {/*  SECTION 3: PRECIOS                                          */}
       {/* ============================================================ */}
-      <section className="py-24 lg:py-32 bg-zinc-50 dark:bg-zinc-900/10">
+      <section className="py-24 lg:py-32 bg-zinc-50">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <FadeIn>
-            <div className="text-center mb-16 lg:mb-24">
-              <span className="text-sm font-mono tracking-widest text-muted-foreground uppercase block mb-3">Planes adaptables</span>
-              <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
-                Precios de Mantenimiento Web
-              </h2>
-              <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-                Elige la cobertura que mejor se adapte al volumen de tu sitio web. Sin contratos de permanencia.
-              </p>
-            </div>
-          </FadeIn>
+          <div className="reveal text-center mb-16 lg:mb-24">
+            <span className="text-sm font-mono tracking-widest text-muted-foreground uppercase block mb-3">Planes adaptables</span>
+            <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
+              Precios de Mantenimiento Web
+            </h2>
+            <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
+              Elige la cobertura que mejor se adapte al volumen de tu sitio web. Sin contratos de permanencia.
+            </p>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
             {pricingPlans.map((plan, index) => {
               return (
-                <FadeIn key={plan.name} delay={index * 0.1} className="h-full">
+                <div key={plan.name} className="reveal h-full" style={{ animationDelay: `${index * 0.1}s` }}>
                   <div
                     className={`relative rounded-2xl h-full flex flex-col justify-between border transition-all duration-300 hover:-translate-y-2 ${
                       plan.popular
@@ -391,7 +419,7 @@ export function MantenimientoWebContent() {
                           className={`w-full py-6 rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
                             plan.popular
                               ? "bg-white text-zinc-950 hover:bg-zinc-200"
-                              : "bg-zinc-950 hover:bg-zinc-800 text-white dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
+                              : "bg-zinc-950 hover:bg-zinc-800 text-white"
                           }`}
                         >
                           <Link href="/contacto">
@@ -401,7 +429,7 @@ export function MantenimientoWebContent() {
                       </div>
                     </div>
                   </div>
-                </FadeIn>
+                </div>
               );
             })}
           </div>
@@ -409,67 +437,42 @@ export function MantenimientoWebContent() {
       </section>
 
       {/* ============================================================ */}
-      {/*  FAQ SECTION                                                 */}
+      {/*  FAQ SECTION  (details/summary nativo, sin JS)               */}
       {/* ============================================================ */}
       <section className="py-24 lg:py-32 bg-zinc-200 text-zinc-950">
         <div className="max-w-[1000px] mx-auto px-6 lg:px-12">
-          <FadeIn>
-            <div className="text-center mb-16">
-              <span className="text-sm font-mono tracking-widest text-zinc-500 uppercase block mb-3">Resolvemos tus dudas</span>
-              <h2 className="text-4xl lg:text-5xl font-display tracking-tight">
-                Preguntas Frecuentes
-              </h2>
-            </div>
-          </FadeIn>
+          <div className="reveal text-center mb-16">
+            <span className="text-sm font-mono tracking-widest text-zinc-500 uppercase block mb-3">Resolvemos tus dudas</span>
+            <h2 className="text-4xl lg:text-5xl font-display tracking-tight">
+              Preguntas Frecuentes
+            </h2>
+          </div>
 
-          <FadeIn delay={0.1}>
-            <Accordion type="single" collapsible className="w-full space-y-4">
-              <AccordionItem value="faq-1" className="border border-zinc-300 px-6 rounded-sm bg-background">
-                <AccordionTrigger className="text-lg font-display hover:no-underline py-6 text-zinc-900">
-                  ¿Qué es el mantenimiento web y por qué es necesario?
-                </AccordionTrigger>
-                <AccordionContent className="text-zinc-600 leading-relaxed pb-6 text-sm">
-                  El mantenimiento web es un proceso de optimización constante y preventivo. Consiste en mantener actualizados el core del CMS (por ejemplo, WordPress), las librerías de desarrollo, los plugins de funciones y las configuraciones de seguridad. Sin este proceso, tu web se vuelve vulnerable a fallos técnicos y ataques externos, además de ralentizarse progresivamente.
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem value="faq-2" className="border border-zinc-300 px-6 rounded-sm bg-background">
-                <AccordionTrigger className="text-lg font-display hover:no-underline py-6 text-zinc-900">
-                  ¿Puedo cambiar de plan o cancelar cuando quiera?
-                </AccordionTrigger>
-                <AccordionContent className="text-zinc-600 leading-relaxed pb-6 text-sm">
-                  Sí. No imponemos contratos de permanencia a largo plazo. Puedes solicitar un cambio de plan (escalar o reducir) o cancelar tu suscripción mensual notificándolo por email antes de que empiece el nuevo ciclo de facturación mensual.
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem value="faq-3" className="border border-zinc-300 px-6 rounded-sm bg-background">
-                <AccordionTrigger className="text-lg font-display hover:no-underline py-6 text-zinc-900">
-                  ¿Qué sucede si necesito cambios que requieran más horas?
-                </AccordionTrigger>
-                <AccordionContent className="text-zinc-600 leading-relaxed pb-6 text-sm">
-                  Si las tareas del mes superan el tiempo disponible en tu plan contratado, te lo comunicaremos con antelación para ofrecerte dos opciones: realizar los cambios en el siguiente ciclo o presupuestar las horas extras requeridas bajo una tarifa especial con descuento por ser cliente habitual de mantenimiento.
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem value="faq-4" className="border border-zinc-300 px-6 rounded-sm bg-background">
-                <AccordionTrigger className="text-lg font-display hover:no-underline py-6 text-zinc-900">
-                  ¿El mantenimiento incluye el coste del hosting y dominio?
-                </AccordionTrigger>
-                <AccordionContent className="text-zinc-600 leading-relaxed pb-6 text-sm">
-                  No está incluido directamente en estos precios estándar, ya que cada proyecto tiene necesidades de servidor muy distintas. Sin embargo, ofrecemos servicios de alojamiento de alto rendimiento gestionados para nuestros clientes. Consúltanos y te facilitaremos un presupuesto unificado.
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem value="faq-5" className="border border-zinc-300 px-6 rounded-sm bg-background">
-                <AccordionTrigger className="text-lg font-display hover:no-underline py-6 text-zinc-900">
-                  ¿Ofrecéis garantía de limpieza ante virus o hackeos?
-                </AccordionTrigger>
-                <AccordionContent className="text-zinc-600 leading-relaxed pb-6 text-sm">
-                  Sí, en nuestro plan Premium incluimos una garantía total de limpieza y desinfección en caso de hackeo sin ningún coste añadido. En los planes Básico y Profesional, nos encargaremos de restaurar inmediatamente tu copia de seguridad más reciente y limpia de forma gratuita, y si es necesario desinfectar ficheros manualmente te presentaremos una tarifa especial.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </FadeIn>
+          <div className="reveal w-full space-y-4" style={{ animationDelay: "0.1s" }}>
+            {faqs.map((faq) => (
+              <details key={faq.question} className="group border border-zinc-300 px-6 rounded-sm bg-background">
+                <summary className="flex items-start justify-between gap-4 py-6 text-left text-lg font-display text-zinc-900 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  {faq.question}
+                  <ChevronDown className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200 group-open:rotate-180" />
+                </summary>
+                <p className="text-zinc-600 leading-relaxed pb-6 text-sm">
+                  {faq.answer}
+                  {faq.more && (
+                    <>
+                      {" "}
+                      <Link
+                        href={faq.more.href}
+                        className="text-zinc-900 underline underline-offset-4 decoration-zinc-400 hover:decoration-zinc-900 transition-colors"
+                      >
+                        {faq.more.text}
+                      </Link>
+                      .
+                    </>
+                  )}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -479,7 +482,7 @@ export function MantenimientoWebContent() {
       <section className="bg-foreground text-background py-24 lg:py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_50%,rgba(0,0,0,0.3)_100%)] pointer-events-none" />
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 text-center">
-          <FadeIn>
+          <div className="reveal">
             <h2 className="text-4xl lg:text-7xl font-display italic tracking-tight mb-8">
               ¿Listo para mantener tu web siempre a punto?
             </h2>
@@ -496,7 +499,7 @@ export function MantenimientoWebContent() {
                 <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-          </FadeIn>
+          </div>
         </div>
       </section>
     </>

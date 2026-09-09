@@ -34,13 +34,15 @@ export function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const next = window.scrollY > 20;
+      // Solo re-renderiza cuando se cruza el umbral
+      setIsScrolled((prev) => (prev === next ? prev : next));
     };
 
     // Run once on mount to set initial state
     handleScroll();
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

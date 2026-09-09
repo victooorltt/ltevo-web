@@ -1,10 +1,21 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Política de Cookies - Agencia Web en Oviedo | LTEvo",
+  title: "Política de Cookies - Agencia Web en Oviedo",
   description: "Consulta la política de cookies de LTEvo. Infórmate sobre cómo utilizamos las cookies en nuestra web de diseño y SEO en Oviedo y Asturias.",
   alternates: {
-    canonical: "https://ltevo.com/cookies",
+    canonical: "/cookies",
+  },
+  openGraph: {
+    title: "Política de Cookies - Agencia Web en Oviedo",
+    description: "Consulta la política de cookies de LTEvo. Infórmate sobre cómo utilizamos las cookies en nuestra web de diseño y SEO en Oviedo y Asturias.",
+    url: "/cookies",
+    siteName: "LTEvo",
+    locale: "es_ES",
+    type: "website",
+    // Al definir openGraph propio se pierde el og:image heredado del raíz
+    // (app/opengraph-image.jpg por convención de fichero): lo restauramos.
+    images: [{ url: "/opengraph-image.jpg" }],
   },
 };
 
@@ -163,7 +174,7 @@ export default function CookiesPage() {
             <h2 className="text-xl font-semibold text-white mb-3">7. Contacto</h2>
             <p>
               Si tienes preguntas sobre el uso de cookies, escríbenos a{" "}
-              <strong className="text-white">contacto@ltevo.com</strong>.
+              <strong className="text-white">info@ltevo.com</strong>.
             </p>
           </section>
 

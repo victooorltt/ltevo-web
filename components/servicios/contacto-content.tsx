@@ -1,57 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-/* ------------------------------------------------------------------ */
-/*  FadeIn                                                            */
-/* ------------------------------------------------------------------ */
-function FadeIn({
-  children,
-  delay = 0,
-}: {
-  children: ReactNode;
-  delay?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? "translateY(0)" : "translateY(30px)",
-        transition: `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
+import { ArrowRight, ChevronDown } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /*  Component                                                         */
@@ -111,7 +62,7 @@ export function ContactoContent() {
   };
 
   const inputClass =
-    "w-full bg-transparent border border-foreground/10 px-4 py-3 text-base md:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/40 transition-colors duration-200 rounded-sm";
+    "w-full rounded-xl border border-foreground/10 bg-foreground/[0.02] px-4 py-3 text-base md:text-sm text-foreground placeholder:text-foreground/40 transition-colors duration-200 focus:outline-none focus:border-foreground/40 focus:bg-foreground/[0.04]";
 
   /* ---- contact details ------------------------------------------- */
   const contactDetails = [
@@ -132,17 +83,17 @@ export function ContactoContent() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/[0.03] to-background/[0.06] pointer-events-none" />
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12">
-          <FadeIn delay={0.1}>
+          <div className="reveal" style={{ animationDelay: "0.1s" }}>
             <h1 className="text-4xl lg:text-6xl font-display italic tracking-tight leading-[0.95] mb-6 text-center">
               Contacta con Nosotros
             </h1>
-          </FadeIn>
+          </div>
 
-          <FadeIn delay={0.2}>
+          <div className="reveal" style={{ animationDelay: "0.2s" }}>
             <p className="text-lg lg:text-xl text-background/60 max-w-2xl leading-relaxed text-center mx-auto">
               Cuéntanos tu proyecto y te respondemos en menos de 24 horas
             </p>
-          </FadeIn>
+          </div>
         </div>
       </section>
 
@@ -153,7 +104,7 @@ export function ContactoContent() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
             {/* ---- Left: info ---- */}
-            <FadeIn>
+            <div className="reveal">
               <div>
                 <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-8 leading-[0.95]">
                   Hablemos de <br /> <span className="text-muted-foreground">tu proyecto.</span>
@@ -177,13 +128,13 @@ export function ContactoContent() {
                   ))}
                 </div>
               </div>
-            </FadeIn>
+            </div>
 
             {/* ---- Right: form ---- */}
-            <FadeIn delay={0.2}>
+            <div className="reveal" style={{ animationDelay: "0.2s" }}>
               <div>
                 {status === "success" ? (
-                  <div className="border border-foreground/10 p-12 flex flex-col items-start gap-4 h-full justify-center">
+                  <div className="rounded-xl border border-foreground/10 p-12 flex flex-col items-start gap-4 h-full justify-center">
                     <span className="font-mono text-xs text-muted-foreground">
                       — Recibido —
                     </span>
@@ -212,12 +163,12 @@ export function ContactoContent() {
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-5">
                     {/* Nombre y Teléfono */}
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div className="flex flex-col gap-2">
-                        <label className="font-mono text-xs text-muted-foreground">
-                          Nombre{" "}
+                        <label className="text-sm font-medium text-foreground/70">
+                          Nombre{""}
                           <span className="text-foreground">*</span>
                         </label>
                         <input
@@ -232,7 +183,7 @@ export function ContactoContent() {
                         />
                       </div>
                       <div className="flex flex-col gap-2">
-                        <label className="font-mono text-xs text-muted-foreground">
+                        <label className="text-sm font-medium text-foreground/70">
                           Teléfono
                         </label>
                         <input
@@ -248,7 +199,7 @@ export function ContactoContent() {
 
                     {/* Email */}
                     <div className="flex flex-col gap-2">
-                      <label className="font-mono text-xs text-muted-foreground">
+                      <label className="text-sm font-medium text-foreground/70">
                         Email <span className="text-foreground">*</span>
                       </label>
                       <input
@@ -264,33 +215,37 @@ export function ContactoContent() {
 
                     {/* Servicio */}
                     <div className="flex flex-col gap-2">
-                      <label className="font-mono text-xs text-muted-foreground">
+                      <label htmlFor="service" className="text-sm font-medium text-foreground/70">
                         Servicio que te interesa
                       </label>
-                      <Select
-                        value={form.service}
-                        onValueChange={(val) => setForm((prev) => ({ ...prev, service: val }))}
-                      >
-                        <SelectTrigger
+                      <div className="relative">
+                        <select
                           id="service"
-                          className={`${inputClass} w-full h-[46px] flex items-center justify-between text-left`}
+                          name="service"
+                          value={form.service}
+                          onChange={handleChange}
+                          className={`${inputClass} appearance-none cursor-pointer pr-10`}
                         >
-                          <SelectValue placeholder="Selecciona un servicio" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-background border border-foreground/10 text-foreground">
-                          <SelectItem value="diseno-web">Diseño Web</SelectItem>
-                          <SelectItem value="seo">SEO y Posicionamiento</SelectItem>
-                          <SelectItem value="ecommerce">Tienda Online</SelectItem>
-                          <SelectItem value="mantenimiento">Mantenimiento Web</SelectItem>
-                          <SelectItem value="otro">Otro</SelectItem>
-                        </SelectContent>
-                      </Select>
+                          <option value="" disabled>
+                            Selecciona un servicio
+                          </option>
+                          <option value="diseno-web">Diseño Web</option>
+                          <option value="seo">SEO y Posicionamiento</option>
+                          <option value="ecommerce">Tienda Online</option>
+                          <option value="mantenimiento">Mantenimiento Web</option>
+                          <option value="otro">Otro</option>
+                        </select>
+                        <ChevronDown
+                          className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/40"
+                          aria-hidden="true"
+                        />
+                      </div>
                     </div>
 
                     {/* Mensaje */}
                     <div className="flex flex-col gap-2">
-                      <label className="font-mono text-xs text-muted-foreground">
-                        Mensaje{" "}
+                      <label className="text-sm font-medium text-foreground/70">
+                        Mensaje{""}
                         <span className="text-foreground">*</span>
                       </label>
                       <textarea
@@ -306,7 +261,7 @@ export function ContactoContent() {
 
                     {/* Error */}
                     {status === "error" && (
-                      <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm font-mono rounded">
+                      <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm rounded-xl">
                         {errorMessage ||
                           "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo."}
                       </div>
@@ -335,7 +290,7 @@ export function ContactoContent() {
                   </form>
                 )}
               </div>
-            </FadeIn>
+            </div>
           </div>
         </div>
       </section>
@@ -346,7 +301,7 @@ export function ContactoContent() {
       <section className="py-24 lg:py-32 border-t border-foreground/10">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-3 gap-12 items-start">
-            <FadeIn>
+            <div className="reveal">
               <div className="lg:col-span-1">
                 <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider block mb-2">
                   — Dónde estamos
@@ -366,11 +321,11 @@ export function ContactoContent() {
                   </p>
                 </div>
               </div>
-            </FadeIn>
+            </div>
 
             <div className="lg:col-span-2">
-              <FadeIn delay={0.1}>
-                <div className="relative w-full h-[350px] md:h-[400px] rounded-2xl overflow-hidden border border-foreground/10 dark:border-zinc-800 bg-muted/30 shadow-[0_4px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_0_30px_rgba(255,255,255,0.02)] transition-all duration-300 hover:shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
+              <div className="reveal" style={{ animationDelay: "0.1s" }}>
+                <div className="relative w-full h-[350px] md:h-[400px] rounded-2xl overflow-hidden border border-foreground/10 bg-muted/30 shadow-[0_4px_30px_rgba(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
                   <iframe
                     src="https://maps.google.com/maps?q=Calle%20Ur%C3%ADa,%20Oviedo,%20Asturias&t=&z=15&ie=UTF8&iwloc=&output=embed"
                     width="100%"
@@ -379,10 +334,10 @@ export function ContactoContent() {
                     allowFullScreen={true}
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    className="w-full h-full grayscale-[10%] contrast-[105%] dark:invert-[90%] dark:hue-rotate-180 dark:brightness-[90%] dark:contrast-[110%] transition-all duration-300"
+                    className="w-full h-full grayscale-[10%] contrast-[105%] transition-all duration-300"
                   />
                 </div>
-              </FadeIn>
+              </div>
             </div>
           </div>
         </div>

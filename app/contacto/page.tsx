@@ -4,12 +4,12 @@ import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 
 export const metadata: Metadata = {
-  title: "Contacto en Oviedo y Presupuesto SEO en Asturias | LTEvo",
+  title: "Contacto en Oviedo y Presupuesto SEO en Asturias",
   description:
     "¿Necesitas una web o SEO? Contacta con LTEvo en Oviedo y solicita tu presupuesto gratis. Te respondemos en menos de 24 horas en Asturias.",
   alternates: { canonical: "/contacto" },
   openGraph: {
-    title: "Contacto en Oviedo y Presupuesto SEO en Asturias | LTEvo",
+    title: "Contacto en Oviedo y Presupuesto SEO en Asturias",
     description:
       "¿Necesitas una web o SEO? Contacta con LTEvo en Oviedo y solicita tu presupuesto gratis. Te respondemos en menos de 24 horas en Asturias.",
     url: "https://ltevo.com/contacto",

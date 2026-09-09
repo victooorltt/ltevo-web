@@ -13,33 +13,39 @@ function AnimatedCounter({
 }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    let rafId = 0;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          const duration = 2000;
-          const startTime = performance.now();
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
 
-          const animate = (currentTime: number) => {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setCount(Math.floor(eased * end));
-            if (progress < 1) requestAnimationFrame(animate);
-          };
+        const duration = 2000;
+        const startTime = performance.now();
 
-          requestAnimationFrame(animate);
-        }
+        const animate = (currentTime: number) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setCount(Math.floor(eased * end));
+          if (progress < 1) rafId = requestAnimationFrame(animate);
+        };
+
+        rafId = requestAnimationFrame(animate);
       },
       { threshold: 0.1 }
     );
 
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [end, hasAnimated]);
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(rafId);
+    };
+  }, [end]);
 
   return (
     <div ref={ref} className="text-6xl lg:text-8xl font-display tracking-tight">
@@ -76,34 +82,12 @@ const metrics = [
 ];
 
 export function MetricsSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      className="relative py-24 lg:py-32 border-y border-foreground/10"
-    >
+    <section className="relative py-24 lg:py-32 border-y border-foreground/10">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         {/* Header */}
         <div className="mb-16 lg:mb-24">
-          <h2
-            className={`text-4xl lg:text-6xl font-display tracking-tight transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
+          <h2 className="reveal text-4xl lg:text-6xl font-display tracking-tight">
             Resultados que <br /> <span className="text-muted-foreground">hablan por sí solos.</span>
           </h2>
         </div>
@@ -113,10 +97,8 @@ export function MetricsSection() {
           {metrics.map((metric, index) => (
             <div
               key={metric.label}
-              className={`bg-background p-8 lg:p-12 transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
+              className="reveal bg-background p-8 lg:p-12"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               <AnimatedCounter
                 end={metric.value}

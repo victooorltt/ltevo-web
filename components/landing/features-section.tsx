@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 const features = [
   {
@@ -8,24 +6,28 @@ const features = [
     title: "Diseño Web a Medida",
     description: "Creamos webs únicas, rápidas y optimizadas para convertir. Cada proyecto refleja la identidad de tu negocio y está pensado para captar clientes desde el primer clic.",
     visual: "deploy",
+    href: "/servicios/diseno-web",
   },
   {
     number: "02",
     title: "SEO y Posicionamiento",
     description: "Aparece donde tus clientes te buscan. Optimizamos tu web técnica y estratégicamente para que Google te ponga por delante de tu competencia.",
     visual: "ai",
+    href: "/servicios/seo",
   },
   {
     number: "03",
     title: "Tiendas eCommerce",
     description: "Diseñamos y desarrollamos tu tienda online con todo lo necesario para vender: catálogo, pasarela de pago, gestión de pedidos y experiencia de compra impecable.",
     visual: "collab",
+    href: "/blog/prestashop-vs-woocommerce",
   },
   {
     number: "04",
     title: "Mantenimiento y Evolución",
     description: "No te entregamos la web y desaparecemos. Hacemos seguimiento, aplicamos mejoras continuas y acompañamos a nuestros clientes a largo plazo para que su web siempre esté al máximo nivel.",
     visual: "security",
+    href: "/servicios/mantenimiento-web",
   },
 ];
 
@@ -137,25 +139,11 @@ function SecurityVisual() {
 }
 
 function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
-  const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.2 }
-    );
-    if (cardRef.current) observer.observe(cardRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div
-      ref={cardRef}
-      className={`group relative transition-all duration-700 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-      }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
+    <Link
+      href={feature.href}
+      className="reveal group relative block"
+      style={{ animationDelay: `${index * 100}ms` }}
     >
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 py-12 lg:py-20 border-b border-foreground/10">
         <div className="flex-1 grid lg:grid-cols-2 gap-8 items-center">
@@ -177,32 +165,16 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
 export function FeaturesSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section id="servicios" ref={sectionRef} className="relative py-24 lg:py-32">
+    <section id="servicios" className="relative py-24 lg:py-32">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className="mb-16 lg:mb-24">
-          <h2
-            className={`text-4xl lg:text-6xl font-display tracking-tight transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
+          <h2 className="reveal text-4xl lg:text-6xl font-display tracking-tight">
             Todo lo que necesitas. <br /> <span className="text-muted-foreground">En una sola agencia.</span>
           </h2>
         </div>

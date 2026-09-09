@@ -1,10 +1,21 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Política de Privacidad de la Agencia Web en Oviedo | LTEvo",
+  title: "Política de Privacidad de la Agencia Web en Oviedo",
   description: "Política de privacidad de LTEvo. Descubre cómo protegemos tus datos personales en nuestra agencia de diseño web y SEO en Oviedo y Asturias.",
   alternates: {
-    canonical: "https://ltevo.com/privacidad",
+    canonical: "/privacidad",
+  },
+  openGraph: {
+    title: "Política de Privacidad de la Agencia Web en Oviedo",
+    description: "Política de privacidad de LTEvo. Descubre cómo protegemos tus datos personales en nuestra agencia de diseño web y SEO en Oviedo y Asturias.",
+    url: "/privacidad",
+    siteName: "LTEvo",
+    locale: "es_ES",
+    type: "website",
+    // Al definir openGraph propio se pierde el og:image heredado del raíz
+    // (app/opengraph-image.jpg por convención de fichero): lo restauramos.
+    images: [{ url: "/opengraph-image.jpg" }],
   },
 };
 
@@ -40,7 +51,7 @@ export default function PrivacidadPage() {
             <ul className="mt-4 space-y-1 text-white/50 text-sm font-mono">
               <li><span className="text-white/70">Nombre:</span> LTEvo</li>
               <li><span className="text-white/70">Localidad:</span> Oviedo, Asturias, España</li>
-              <li><span className="text-white/70">Email:</span> contacto@ltevo.com</li>
+              <li><span className="text-white/70">Email:</span> info@ltevo.com</li>
               <li><span className="text-white/70">Web:</span> ltevo.com</li>
             </ul>
           </section>
@@ -100,7 +111,7 @@ export default function PrivacidadPage() {
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">7. Tus derechos</h2>
-            <p>Puedes ejercer los siguientes derechos enviando un email a <span className="text-white">contacto@ltevo.com</span>:</p>
+            <p>Puedes ejercer los siguientes derechos enviando un email a <span className="text-white">info@ltevo.com</span>:</p>
             <ul className="mt-3 space-y-2 list-disc list-inside text-white/50">
               <li><strong className="text-white/70">Acceso:</strong> conocer qué datos tuyos tratamos</li>
               <li><strong className="text-white/70">Rectificación:</strong> corregir datos inexactos</li>

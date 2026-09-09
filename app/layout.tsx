@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Instrument_Sans,
+  Inter,
   JetBrains_Mono,
-  Instrument_Serif,
 } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -17,14 +17,19 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
 });
 
-const instrumentSerif = Instrument_Serif({
+/* Variable font (wght 100-900, sin limitar pesos). Se cargan normal + italic
+   porque varios titulares display usan `italic` (secciones de servicios). */
+const inter = Inter({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-instrument-serif",
+  style: ["normal", "italic"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  title: "Diseño Web Profesional en Oviedo y Asturias | LTEvo",
+  title: {
+    default: "Diseño Web Profesional en Oviedo y Asturias | LTEvo",
+    template: "%s | LTEvo",
+  },
   description: "¿Buscas una web profesional que venda? Agencia de diseño web en Oviedo y Asturias. Creamos páginas web, tiendas online y SEO para hacer crecer tu negocio.",
   keywords: [
     "diseño web oviedo",
@@ -49,17 +54,17 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Diseño Web Profesional en Oviedo y Asturias | LTEvo",
-    description: "¿Buscas una web profesional que venda? Agencia de diseño web en Oviedo y Asturias. Creamos páginas web, tiendas online y SEO para hacer crecer tu negocio.",
   },
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true },
   },
-  alternates: {
-    canonical: "https://ltevo.com",
-  },
+};
+
+export const viewport: Viewport = {
+  // Color de fondo real del sitio (--background en globals.css: oklch(0.985 0.002 90))
+  themeColor: "#faf9f7",
 };
 
 const jsonLd = {
@@ -79,7 +84,8 @@ const jsonLd = {
       "@id": "https://ltevo.com/#business",
       "name": "LTEvo",
       "url": "https://ltevo.com",
-      "logo": "https://ltevo.com/logo.png",
+      "logo": "https://ltevo.com/icon.png",
+      "image": "https://ltevo.com/icon.png",
       "email": "info@ltevo.com",
       "telephone": "+34 634 25 55 41",
       "priceRange": "€€",
@@ -127,12 +133,11 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${instrumentSans.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} antialiased`}
-        suppressHydrationWarning
+        className={`${instrumentSans.variable} ${jetbrainsMono.variable} ${inter.variable} antialiased`}
       >
         <Script
           id="gtm-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

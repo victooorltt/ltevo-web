@@ -1,10 +1,21 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Términos y Condiciones - Agencia Web en Oviedo | LTEvo",
+  title: "Términos y Condiciones - Agencia Web en Oviedo",
   description: "Lee los términos de uso y condiciones legales para nuestros servicios de diseño web y posicionamiento SEO en Oviedo y Asturias.",
   alternates: {
-    canonical: "https://ltevo.com/terminos",
+    canonical: "/terminos",
+  },
+  openGraph: {
+    title: "Términos y Condiciones - Agencia Web en Oviedo",
+    description: "Lee los términos de uso y condiciones legales para nuestros servicios de diseño web y posicionamiento SEO en Oviedo y Asturias.",
+    url: "/terminos",
+    siteName: "LTEvo",
+    locale: "es_ES",
+    type: "website",
+    // Al definir openGraph propio se pierde el og:image heredado del raíz
+    // (app/opengraph-image.jpg por convención de fichero): lo restauramos.
+    images: [{ url: "/opengraph-image.jpg" }],
   },
 };
 
@@ -35,7 +46,7 @@ export default function TerminosPage() {
             <h2 className="text-xl font-semibold text-white mb-3">1. Objeto y aceptación</h2>
             <p>
               Los presentes Términos de Uso regulan el acceso y la utilización del sitio web{" "}
-              <strong className="text-white">ltevo.com</strong> (en adelante, "el Sitio"), titularidad de LTEvo,
+              <strong className="text-white">ltevo.com</strong> (en adelante, &quot;el Sitio&quot;), titularidad de LTEvo,
               con domicilio en Oviedo, Asturias, España. El acceso al Sitio implica la aceptación plena y sin reservas
               de estos términos. Si no estás de acuerdo, te rogamos que no utilices el Sitio.
             </p>
@@ -116,7 +127,7 @@ export default function TerminosPage() {
             <h2 className="text-xl font-semibold text-white mb-3">8. Contacto</h2>
             <p>
               Para cualquier consulta relacionada con estos Términos, puedes contactarnos en{" "}
-              <strong className="text-white">contacto@ltevo.com</strong>.
+              <strong className="text-white">info@ltevo.com</strong>.
             </p>
           </section>
 
