@@ -1,5 +1,7 @@
 import React from "react";
+import Link from "next/link";
 import { ArrowRight, ArrowDown, CheckCircle2, AlertTriangle, Lightbulb, Info } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // -----------------------------------------------------------------------------
 // 1. FlowDiagram & FlowStep Components (Seamless Minimalist Flow)
@@ -234,31 +236,31 @@ export function Callout({ type = "info", title, children }: CalloutProps) {
       icon: Lightbulb,
       border: "border-amber-500/25",
       bg: "bg-amber-500/5",
-      accent: "text-amber-600 dark:text-amber-400",
+      accent: "text-amber-600",
     },
     info: {
       icon: Info,
       border: "border-blue-500/25",
       bg: "bg-blue-500/5",
-      accent: "text-blue-600 dark:text-blue-400",
+      accent: "text-blue-600",
     },
     warning: {
       icon: AlertTriangle,
       border: "border-orange-500/25",
       bg: "bg-orange-500/5",
-      accent: "text-orange-600 dark:text-orange-400",
+      accent: "text-orange-600",
     },
     success: {
       icon: CheckCircle2,
       border: "border-emerald-500/25",
       bg: "bg-emerald-500/5",
-      accent: "text-emerald-600 dark:text-emerald-400",
+      accent: "text-emerald-600",
     },
   }[type] || {
     icon: Info,
     border: "border-blue-500/25",
     bg: "bg-blue-500/5",
-    accent: "text-blue-600 dark:text-blue-400",
+    accent: "text-blue-600",
   };
 
   const IconComponent = config.icon;
@@ -283,6 +285,77 @@ export function Callout({ type = "info", title, children }: CalloutProps) {
 }
 
 // -----------------------------------------------------------------------------
+// 4. CtaService Component (Conversion CTA block for MDX posts)
+// -----------------------------------------------------------------------------
+type CtaServiceKey = "seo" | "diseno-web" | "mantenimiento-web" | "contacto";
+
+interface CtaServiceProps {
+  service?: CtaServiceKey;
+  title?: string;
+}
+
+const CTA_SERVICE_CONFIG: Record<
+  CtaServiceKey,
+  { label: string; heading: string; pitch: string; cta: string; href: string }
+> = {
+  seo: {
+    label: "Posicionamiento SEO",
+    heading: "¿Quieres aparecer en Google cuando te buscan?",
+    pitch: "Auditamos tu web y diseñamos una estrategia SEO orientada a captar clientes de forma orgánica, sin depender de la publicidad pagada.",
+    cta: "Ver servicio de posicionamiento SEO",
+    href: "/servicios/seo",
+  },
+  "diseno-web": {
+    label: "Diseño y desarrollo web",
+    heading: "¿Tu web está lista para convertir visitas en clientes?",
+    pitch: "Diseñamos y desarrollamos webs a medida, rápidas y optimizadas para Google, con un diseño que transmite confianza desde el primer clic.",
+    cta: "Ver diseño web a medida",
+    href: "/servicios/diseno-web",
+  },
+  "mantenimiento-web": {
+    label: "Mantenimiento web",
+    heading: "¿Tu web necesita un equipo técnico que la cuide?",
+    pitch: "Actualizaciones, copias de seguridad, seguridad y mejoras continuas para que tu web esté siempre rápida, estable y protegida.",
+    cta: "Ver planes de mantenimiento",
+    href: "/servicios/mantenimiento-web",
+  },
+  contacto: {
+    label: "Hablemos de tu proyecto",
+    heading: "Cuéntanos qué necesitas y te proponemos el camino",
+    pitch: "Analizamos tu situación actual sin compromiso y te enviamos una propuesta clara, adaptada a tu negocio y a tu presupuesto.",
+    cta: "Contactar con LTEvo",
+    href: "/contacto",
+  },
+};
+
+export function CtaService({ service = "contacto", title }: CtaServiceProps) {
+  const config = CTA_SERVICE_CONFIG[service];
+
+  return (
+    <div className="my-8 rounded-xl border border-foreground/10 bg-foreground/[0.03] p-5 sm:p-6 font-sans not-prose">
+      <span className="font-mono text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+        {config.label}
+      </span>
+      <h5 className="font-display text-xl sm:text-2xl text-foreground leading-snug tracking-tight mt-2 mb-2">
+        {title ?? config.heading}
+      </h5>
+      <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+        {config.pitch}
+      </p>
+      <Button
+        asChild
+        className="rounded-full bg-foreground text-background hover:bg-foreground/90 font-semibold"
+      >
+        <Link href={config.href}>
+          {config.cta}
+          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+        </Link>
+      </Button>
+    </div>
+  );
+}
+
+// -----------------------------------------------------------------------------
 // Component Registry Export
 // -----------------------------------------------------------------------------
 export const blogMdxComponents = {
@@ -291,4 +364,5 @@ export const blogMdxComponents = {
   TopicSilo,
   SiloCluster,
   Callout,
+  CtaService,
 };
