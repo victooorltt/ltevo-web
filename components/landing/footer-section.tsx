@@ -38,7 +38,7 @@ export function FooterSection() {
             <div className="col-span-2">
               <Link href="/" className="inline-flex items-center gap-2 mb-6">
                 <span className="text-2xl font-display text-white">LTEvo</span>
-                <span className="text-xs text-white/30 font-mono">™</span>
+                <span className="text-xs text-zinc-400 font-mono">™</span>
               </Link>
 
               <p className="text-white/70 leading-relaxed mb-8 max-w-xs">
@@ -53,7 +53,7 @@ export function FooterSection() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`LTEvo en ${name}`}
-                      className="inline-flex items-center justify-center p-1.5 text-white/40 hover:text-white transition-colors"
+                      className="inline-flex items-center justify-center p-1.5 text-zinc-400 hover:text-white transition-colors"
                     >
                       <Icon size={18} strokeWidth={1.75} aria-hidden="true" />
                     </a>
@@ -72,14 +72,14 @@ export function FooterSection() {
                       {link.href.startsWith("#") ? (
                         <a
                           href={link.href}
-                          className="text-sm text-white/40 hover:text-white transition-colors"
+                          className="text-sm text-zinc-400 hover:text-white transition-colors"
                         >
                           {link.name}
                         </a>
                       ) : (
                         <Link
                           href={link.href}
-                          className="text-sm text-white/40 hover:text-white transition-colors"
+                          className="text-sm text-zinc-400 hover:text-white transition-colors"
                         >
                           {link.name}
                         </Link>
@@ -97,7 +97,7 @@ export function FooterSection() {
                 <li>
                   <a
                     href="tel:+34634255541"
-                    className="text-sm text-white/40 hover:text-white transition-colors block"
+                    className="text-sm text-zinc-400 hover:text-white transition-colors block"
                   >
                     +34 634 25 55 41
                   </a>
@@ -105,12 +105,12 @@ export function FooterSection() {
                 <li>
                   <a
                     href="mailto:info@ltevo.com"
-                    className="text-sm text-white/40 hover:text-white transition-colors block"
+                    className="text-sm text-zinc-400 hover:text-white transition-colors block"
                   >
                     info@ltevo.com
                   </a>
                 </li>
-                <li className="text-sm text-white/40 leading-relaxed">
+                <li className="text-sm text-zinc-400 leading-relaxed">
                   Calle Uría, 19, 33003 Oviedo, Asturias
                 </li>
               </ul>
@@ -120,10 +120,10 @@ export function FooterSection() {
 
         {/* Bottom Bar */}
         <div className="py-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-white/30 font-mono">
+          <p className="text-sm text-zinc-400 font-mono">
             © 2026 LTEvo. Todos los derechos reservados.
           </p>
-          <p className="text-sm text-white/30 font-mono">
+          <p className="text-sm text-zinc-400 font-mono">
             Diseñado y desarrollado en Oviedo, Asturias.
           </p>
         </div>

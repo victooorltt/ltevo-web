@@ -11,9 +11,9 @@ const csp = [
   "default-src 'self'",
   `script-src ${scriptSrc}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' blob: data: https://www.googletagmanager.com https://cdn.simpleicons.org",
+  "img-src 'self' blob: data: https://www.googletagmanager.com https://*.google-analytics.com https://stats.g.doubleclick.net https://cdn.simpleicons.org",
   "frame-src 'self' https://www.googletagmanager.com https://maps.google.com https://www.google.com",
-  "connect-src 'self'",
+  "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://stats.g.doubleclick.net",
 ].join("; ");
 
 const nextConfig = {
