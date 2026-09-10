@@ -1,30 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
-const words = ["modernas", "rápidas", "elegantes"];
-
 export function HeroSection() {
-  const [wordIndex, setWordIndex] = useState(0);
-  const [fade, setFade] = useState(true);
-
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout> | undefined;
-    const interval = setInterval(() => {
-      setFade(false);
-      timeoutId = setTimeout(() => {
-        setWordIndex((prev) => (prev + 1) % words.length);
-        setFade(true);
-      }, 300);
-    }, 2500);
-    return () => {
-      clearInterval(interval);
-      if (timeoutId) clearTimeout(timeoutId);
-    };
-  }, []);
-
   return (
     <section className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden bg-black">
 
@@ -78,19 +57,15 @@ export function HeroSection() {
 
         {/* Headline */}
         <div className="mb-12 text-left pl-7">
-          <h1
-            className="fade-up-slow text-[clamp(3.25rem,16vw,5.5rem)] lg:text-[clamp(4.5rem,11vw,9rem)] font-display leading-[0.95] tracking-tight text-white"
-            style={{ animationDelay: "0ms" }}
-          >
+          <h1 className="text-[clamp(3.25rem,16vw,5.5rem)] lg:text-[clamp(4.5rem,11vw,9rem)] font-display leading-[0.95] tracking-tight text-white">
             <span className="block">Webs{" "}</span>
-            <span
-              className="block transition-all duration-300"
-              style={{
-                opacity: fade ? 1 : 0,
-                transform: fade ? "translateY(0)" : "translateY(8px)",
-              }}
-            >
-              {words[wordIndex]}
+            <span className="block h-[1.2em] overflow-hidden">
+              <span className="flex flex-col animate-hero-words">
+                <span className="flex items-center h-[1.2em]">modernas</span>
+                <span className="flex items-center h-[1.2em]">rápidas</span>
+                <span className="flex items-center h-[1.2em]">elegantes</span>
+                <span className="flex items-center h-[1.2em]" aria-hidden="true">modernas</span>
+              </span>
             </span>
           </h1>
         </div>

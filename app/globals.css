@@ -189,6 +189,35 @@
   }
 
   /* ---------------------------------------------------------------- */
+  /*  Hero vertical word rotator (CSS-only, no layout shifts/repaint) */
+  /* ---------------------------------------------------------------- */
+  @keyframes hero-word-rotator {
+    0%, 27% {
+      transform: translateY(0%);
+    }
+    33.33%, 60% {
+      transform: translateY(-25%);
+    }
+    66.66%, 93% {
+      transform: translateY(-50%);
+    }
+    100% {
+      transform: translateY(-75%);
+    }
+  }
+
+  .animate-hero-words {
+    animation: hero-word-rotator 7.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-hero-words {
+      animation: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------- */
   /*  Reveal on-scroll: CSS scroll-driven (sin IntersectionObserver)   */
   /* ---------------------------------------------------------------- */
   @keyframes reveal-fade-up {
