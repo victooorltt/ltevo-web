@@ -1,9 +1,26 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 export function HeroSection() {
+  const [isAnimated, setIsAnimated] = useState(false);
+
+  useEffect(() => {
+    const trigger = () => setIsAnimated(true);
+    window.addEventListener("scroll", trigger, { once: true, passive: true });
+    window.addEventListener("touchstart", trigger, { once: true, passive: true });
+    window.addEventListener("click", trigger, { once: true });
+    const timer = setTimeout(trigger, 5000);
+    return () => {
+      window.removeEventListener("scroll", trigger);
+      window.removeEventListener("touchstart", trigger);
+      window.removeEventListener("click", trigger);
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
     <section className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden bg-black">
 
@@ -60,7 +77,7 @@ export function HeroSection() {
           <h1 className="text-[clamp(3.25rem,16vw,5.5rem)] lg:text-[clamp(4.5rem,11vw,9rem)] font-display leading-[0.95] tracking-tight text-white">
             <span className="block">Webs{" "}</span>
             <span className="block h-[1.2em] overflow-hidden">
-              <span className="flex flex-col animate-hero-words">
+              <span className={`flex flex-col ${isAnimated ? "animate-hero-words" : ""}`}>
                 <span className="flex items-center h-[1.2em]">modernas</span>
                 <span className="flex items-center h-[1.2em]">rápidas</span>
                 <span className="flex items-center h-[1.2em]">elegantes</span>

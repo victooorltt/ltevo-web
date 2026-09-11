@@ -114,7 +114,7 @@ export function ContactSection() {
                 {/* Nombre y teléfono */}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-foreground/70">
+                    <label className="text-sm font-medium text-foreground/85">
                       Nombre <span className="text-foreground">*</span>
                     </label>
                     <input
@@ -129,7 +129,7 @@ export function ContactSection() {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-foreground/70">
+                    <label className="text-sm font-medium text-foreground/85">
                       Teléfono
                     </label>
                     <input
@@ -145,7 +145,7 @@ export function ContactSection() {
 
                 {/* Email — ancho completo */}
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium text-foreground/70">
+                  <label className="text-sm font-medium text-foreground/85">
                     Email <span className="text-foreground">*</span>
                   </label>
                   <input
@@ -163,7 +163,7 @@ export function ContactSection() {
 
                 {/* Mensaje */}
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium text-foreground/70">
+                  <label className="text-sm font-medium text-foreground/85">
                     Mensaje <span className="text-foreground">*</span>
                   </label>
                   <textarea
@@ -201,7 +201,7 @@ export function ContactSection() {
                   )}
                 </Button>
 
-                <p className="text-xs text-muted-foreground font-mono text-center">
+                <p className="text-xs text-foreground/75 font-mono text-center">
                   Te respondemos en menos de 24h · Sin compromiso
                 </p>
               </form>
