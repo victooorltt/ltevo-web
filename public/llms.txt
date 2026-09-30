@@ -24,6 +24,10 @@
 - [Qué es el Link Juice y Cómo Aprovecharlo con tu Enlazado Interno](https://ltevo.com/blog/que-es-el-link-juice): Flujo de autoridad, silos temáticos y errores que lo diluyen. (2026-08-19)
 - [Las Mejores Herramientas SEO Gratuitas (y de Pago) en 2026](https://ltevo.com/blog/mejores-herramientas-seo): Keyword research, auditoría técnica y backlinks: cuándo merece la pena pagar. (2026-08-26)
 - [PrestaShop vs WooCommerce: Cuál Elegir para tu Tienda Online](https://ltevo.com/blog/prestashop-vs-woocommerce): Costes reales, rendimiento y escalabilidad según tu modelo de negocio. (2026-09-02)
+- [Cómo Usar Yoast SEO en WooCommerce Paso a Paso](https://ltevo.com/blog/yoast-seo-woocommerce): Configura Yoast SEO en tu tienda WooCommerce, desde la instalación hasta el schema de producto. (2026-09-09)
+- [TPV Virtual: Qué Es y Cómo Cobrar con Tarjeta Online](https://ltevo.com/blog/tpv-virtual-que-es): Cobro con tarjeta en tienda online sin datáfono: PSD2, 3D Secure y comparativa de pasarelas. (2026-09-16)
+- [Kit Digital en 2026: Preguntas Frecuentes](https://ltevo.com/blog/kit-digital-preguntas-frecuentes): Estado de las convocatorias, plazos de justificación y errores que bloquean el pago. (2026-09-23)
+- [Qué es Google Search Console y Cómo Configurarlo desde Cero](https://ltevo.com/blog/que-es-google-search-console): Guía paso a paso para verificar la propiedad en DNS, enviar el sitemap y analizar el rendimiento orgánico. (2026-09-30)
 
 ## Información
 
