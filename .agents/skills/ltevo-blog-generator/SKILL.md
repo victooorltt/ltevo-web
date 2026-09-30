@@ -1,196 +1,202 @@
 ---
 name: ltevo-blog-generator
-description: Guía paso a paso para redactar y publicar artículos de blog optimizados para SEO y captación de clientes en LTEvo, generando la imagen destacada con IA (sin watermark), optimizándola a WebP, actualizando Blog-web.txt y haciendo push al repositorio.
+description: Guía paso a paso para redactar y publicar artículos de blog optimizados para SEO y captación de clientes en LTEvo, generando la imagen destacada con IA (sin watermark), validando el post antes de publicarlo y haciendo push al repositorio.
 ---
 
 # Skill de Redacción SEO, Generación de Imágenes y Publicación para LTEvo
 
-Esta skill define el procedimiento estandarizado y automatizado para generar artículos de blog de máxima calidad para la web de **LTEvo**, orientados tanto a posicionamiento orgánico en buscadores (SEO) como a la conversión de lectores en clientes, incluyendo la generación de la imagen destacada, su optimización a WebP y el despliegue al repositorio.
+Procedimiento estandarizado para publicar artículos de blog orientados a posicionamiento orgánico (SEO) y a conversión, con la imagen destacada generada por IA, optimizada a WebP y validada antes de desplegar.
 
 ---
 
-## 📋 Flujo de Trabajo (Workflow)
+## 📋 Flujo de Trabajo
 
 ```
-1. Consultar Blog-web.txt  ──>  2. Extraer el primer post sin marca "X"
-                                           │
-4. Generar Imagen IA (nanobanana) <── 3. Redactar el post (.mdx) 100% Producción
-   especificando "no watermark"
-             │
-5. Optimizar a WebP y          ──>  6. Marcar "X" en Blog-web.txt y
-   guardar en public/blog/             Git Commit + Push al repositorio
+1. Blog-web.txt ──> 2. Keyword sin canibalizar + elegir post sin "X"
+                              │
+4. Portada IA        3. Redactar .mdx (answer-first)
+   1200x630                 │
+                              v
+          5. VALIDAR (validate-post.mjs) ── falla --> arreglar
+                              │ pasa
+                    6. Marcar "X" + llms.txt + commit + push
 ```
 
 ---
 
-## Paso 1: Identificación del Artículo Pendiente
+## Paso 1: Elección del Artículo
 
-1. Abrir `Blog-web.txt` en la raíz del proyecto.
-2. Localizar la primera fila que tenga la columna `Publicado` vacía (inmediatamente después del último marcado con `X`).
-3. Extraer los siguientes datos:
-   - **Semana:** Identificador de la entrega (ej: `Semana 12`).
-   - **Idea de Titular:** Título propuesto (ej: `Qué es el Link Juice...`).
-   - **Palabra Clave Principal:** Término a posicionar (ej: `qué es el link juice`).
-   - **Volumen y KD:** Datos métricos para el frontmatter.
-   - **Competidor:** Referencia de mercado.
-   - **Estructura sugerida (H2):** Secciones obligatorias separadas por `·`.
-   - **Slug:** Ruta URL del post (ej: `/blog/que-es-el-link-juice`).
+1. Abrir `Blog-web.txt` y localizar la primera fila sin `X` en la columna `Publicado`.
+2. Extraer: **Semana**, **Idea de Titular**, **Palabra Clave Principal**, **Volumen**, **KD**, **Competidor**, **Estructura H2 sugerida** y **Slug**.
+3. **Antes de redactar, comprobar dos cosas:**
+
+   - **Canibalización:** que ningún post ya publicado ataque la misma keyword o el mismo clúster. Si ocurre, no se escribe un post nuevo: se amplía el existente.
+   - **Intención:** ¿es *qué es X* (TOFU), *cómo hago X* (MOFU) o comparativa/comercial (BOFU)? Una agencia no puede llenar el blog solo de definiciones: cada cuatro TOFU debería haber un BOFU.
+
+> ⚠️ `Blog-web.txt` puede marcar como publicado un post cuyo fichero no existe. **El fichero manda**, no la `X`.
+
+## Paso 2: Reglas de Contenido
+
+### 🎯 La regla que manda sobre todas las demás: **respuesta primero**
+
+La primera frase del artículo **responde a la duda y contiene la keyword exacta**. Después viene el resto.
+
+Esto no es una preferencia estilística: Google y los asistentes de IA extraen la respuesta del bloque inicial. Un artículo que tarda 150 palabras en llegar a ella pierde la cita y el snippet.
+
+**Estructura de la apertura:**
+
+1. `## Título de la sección` — primer encabezado, nunca `#` (ver nota abajo).
+2. **Respuesta directa en 1-2 frases, con la keyword exacta de forma natural.**
+3. *Opcional:* analogía de 1-2 frases como enganche, **después** de la respuesta.
+4. Desarrollo.
+
+- La keyword debe aparecer **en el H1**, **en las primeras 100 palabras** y **en al menos un H2**.
+- ⚠️ **El `.mdx` NO lleva `#`**: el template ya renderiza `title` como único `<h1>`. Si el MDX añade otro, la página tiene dos H1.
+
+### 📚 Fuentes y enlazado (obligatorio)
+
+- **Mínimo 2 enlaces externos** a fuentes de autoridad: `developers.google.com/search`, `schema.org`, `boe.es`, `nngroup.com`, `ayuda del producto`. Elegir 2-3, no 18.
+- **Toda estadística lleva su fuente enlazada.** Prohibido escribir "el 95% de los usuarios…" o "mejora el CTR un 30%" sin un enlace que lo sostenga. En temas financieros, legales o del sector público, citar además la norma concreta (ley, real decreto) y enlazarla.
+- **1-3 enlaces internos** a servicios o posts publicados, con anchor descriptivo que contenga la keyword del destino. Verificar que existe.
+
+### 🧠 Señales de experiencia (E-E-A-T)
+
+- **Un bloque de experiencia propia:** datos observados en proyectos reales, un error típico con nombre, un antes/después. Si no hay cifras, se escribe el criterio ("lo que vemos en auditorías"), nunca un número inventado.
+- **Autor real con nombre y rol**, no una entidad.
+- Tono riguroso y cercano, para dueños de negocio y marketing. Nada de relleno.
+
+### 🚫 Prohibiciones
+
+- **Cero contenido borrador:** nada de prompts, notas internas ni placeholders en el `.mdx`.
+- **Cero métricas internas filtradas al texto:** volúmenes, KD o nombres de competidores solo van al frontmatter. *También* comprobar que no se impriman en la UI del blog.
+- ⛔ **Cero diagramas ASCII ni "tablas" dibujadas con caracteres de caja** (`│ ├ └ ─ ┌`) dentro de bloques de código. En `prose` se renderizan como un terminal oscuro con scrollbar horizontal fijo, y en móvil hay que arrastrar para leerlos. Para un diagrama: `<FlowDiagram>` o `<TopicSilo>`. Para una tabla: **tabla Markdown de verdad**. El validador del Paso 5 bloquea la publicación si detecta este patrón, así que no es una recomendación: es una puerta.
 
 ---
 
-## Paso 2: Reglas de Contenido y Tono Editorial
+## Paso 3: Estructura del `.mdx`
 
-### 🎯 Enfoque Estratégico (SEO + Conversión)
-- **Cero contenido borrador en producción:** El archivo `.mdx` generado debe estar 100% limpio y listo para desplegar en producción. NUNCA incluir prompts de imágenes, placeholders de texto ni anotaciones internas dentro del código `.mdx`.
-- **Cero fugas de métricas:** NUNCA mencionar en el texto del artículo frases como "esta palabra clave tiene un volumen de 90" o "superar al competidor X". Esos datos son solo para el frontmatter.
-- **Tono Profesional y Autoritario:** Escribir desde la perspectiva del **Equipo LTEvo**, combinando cercanía con rigor técnico (pensado para dueños de negocios, directores de marketing y emprendedores).
-- **Hooks con Analogías:** Iniciar el artículo con una historia o analogía del mundo real que enganche al lector en los primeros 10 segundos.
-- **Intención de Búsqueda Satisfecha:** Responder directamente a la duda principal antes de profundizar en los aspectos técnicos.
-- **Enlazado Interno Natural (1 o 2 enlaces por post):** Integrar de forma contextual y fluida entre 1 y 2 enlaces internos a lo largo del artículo. Pueden dirigir a páginas de servicio de LTEvo (`/servicios/diseno-web`, `/servicios/seo`, `/servicios/mantenimiento-web`, `/contacto`) o a artículos del blog ya publicados en `content/blog/`, aportando valor real al lector y reforzando la estructura de enlaces (*link juice*) sin forzar el texto ancla.
-- **Prohibido diagramas en bloques de código ASCII:** NUNCA utilizar bloques de código (```) para dibujar esquemas o diagramas con texto/flechas. En Next.js / Tailwind `prose`, estos bloques se renderizan como ventanas de código terminal oscuro con scrollbar horizontal fijo. En su lugar, utilizar **tablas Markdown nativas**, **citas tipográficas (`>`)** o **listas numeradas jerárquicas**, que son 100% responsivas y accesibles.
+### Frontmatter
 
----
-
-## Paso 3: Estructura Estándar del Archivo `.mdx` (100% Producción)
-
-Crear el archivo en `content/blog/<nombre-del-slug>.mdx` respetando el siguiente esquema:
-
-### 1. Frontmatter YAML
 ```yaml
 ---
-title: "[Idea de Titular]"
-date: "YYYY-MM-DD"
-author: "Equipo LTEvo"
-semana: "[Semana X]"
-keyword: "[Palabra Clave Principal]"
+title: "[Idea de Titular]"                # para el <h1> y la tarjeta
+seoTitle: "[≤52 chars]"                   # para el <title> de la SERP
+date: "YYYY-MM-DD"                        # publicación, nunca se cambia
+updatedAt: "YYYY-MM-DD"                   # SOLO al revisar un post ya publicado
+author: "[Nombre real]"
+semana: "Semana X"
+keyword: "[keyword exacta a posicionar]"
 volumen: "[Volumen]"
 kd: [KD]
 competidor: "[Competidor]"
-coverImage: "/blog/[slug-sin-prefijo].webp"
-excerpt: "Resumen atractivo de 1-2 frases orientado a clic."
-tags: ["SEO", "Categoría Relevante", "Tema Específico"]
+coverImage: "/blog/[slug].webp"
+excerpt: "[120-158 chars, con la keyword y una razón para clicar]"
+tags: ["SEO", "Diseño Web"]               # solo del vocabulario cerrado (Paso 3bis)
 ---
 ```
 
-### 2. Introducción con Hook y Analogía
-- Párrafo 1: Analogía visual o situación cotidiana relacionada con el problema.
-- Párrafo 2: Explicación de cómo este problema afecta al negocio en el entorno digital.
-- Párrafo 3: Presentación de la guía y promesa de valor.
+`seoTitle` ≤52 caracteres (el template añade `" | LTEvo"`; a partir de ~60 Google trunca). `excerpt` entre 120 y 158.
 
-### 3. Secciones Principales (H2 y H3)
-- Desarrollar cada H2 indicado en `Blog-web.txt` añadiendo subsecciones (H3) con viñetas y negritas para mejorar la legibilidad escaneable.
-- Incluir **al menos una tabla comparativa o de resumen** en Markdown para sintetizar conceptos técnicos complejos.
+### Vocabulario cerrado de `tags`
 
-### 4. Componentes Visuales React Disponibles para MDX
-Utilizar estos componentes para esquemas visuales limpios, tecnológicos y minimalistas (integrados directamente en el lienzo, sin contenedores ni títulos pesados):
+Usar **solo** estos: `SEO`, `SEO Técnico`, `Diseño Web`, `E-commerce`, `WooCommerce`, `Marketing`, `Kit Digital`, `Estrategia Web`.
 
-* **`<FlowDiagram />` y `<FlowStep />`**: Flujos secuenciales y circuitos (tarjetas conectadas con flechas adaptativas).
+Los tags libres rompen el módulo de artículos relacionados: con 32 tags distintos y 26 usados una sola vez, el emparejamiento deja de significar nada. Si el tema no encaja, se elige el más cercano.
+
+### Cuerpo
+
+1. **Apertura answer-first** (ver Paso 2).
+2. Cada H2 de `Blog-web.txt`, desarrollado con H3, viñetas y negritas.
+3. **≥1 tabla** comparativa o de resumen, y **≥2 visuales** en el cuerpo. Para las imágenes hay que registrar `img`/`figure` en `mdx-components.tsx` con `next/image` y dimensiones obligatorias; sin registro, un `![](…)` sale como `<img>` crudo y provoca CLS.
+4. **Profundidad según dificultad:** a más KD y volumen, más contenido. Un KD 50 pide ≥2.000 palabras con datos propios; un KD 15 se resuelve en 1.200. Escribir corto es una decisión, no un descuido.
+5. **Conclusión con CTA** a los servicios de LTEvo.
+
+### Componentes visuales MDX disponibles
+
 ```mdx
-<FlowDiagram>
-  <FlowStep title="Paso 1" subtitle="Subtítulo opcional" badge="Badge">
-    Descripción clara del paso.
-  </FlowStep>
-  <FlowStep title="Paso 2" badge="Badge 2">
-    Descripción del segundo paso.
-  </FlowStep>
-</FlowDiagram>
-```
-
-* **`<TopicSilo />` y `<SiloCluster />`**: Diagramas de arquitectura en silo, Topic Clusters y jerarquías web integradas.
-```mdx
-<TopicSilo
-  pillar={{ title: "Página de Servicio Principal", badge: "Pilar", desc: "Página transaccional" }}
->
-  <SiloCluster title="Post Satélite 1" badge="Soporte">
-    Canaliza tráfico al pilar.
-  </SiloCluster>
-  <SiloCluster title="Post Satélite 2" badge="Soporte">
-    Resuelve dudas específicas.
-  </SiloCluster>
+<FlowDiagram><FlowStep title="Paso 1" subtitle="…" badge="…">Descripción.</FlowStep></FlowDiagram>
+<TopicSilo pillar={{ title: "Pilar", badge: "Pilar", desc: "…" }}>
+  <SiloCluster title="Satélite" badge="Soporte">Chanaliza tráfico al pilar.</SiloCluster>
 </TopicSilo>
+<Callout type="tip|info|warning|success" title="Consejo">Texto.</Callout>
+<CtaService />   <!-- CTA a la página de servicio que corresponda al clúster -->
 ```
 
-* **`<Callout />`**: Cajas de aviso editorial sutiles y elegantes (`tip` | `info` | `warning` | `success`).
-```mdx
-<Callout type="tip" title="Consejo Clave">
-  Texto del consejo destacado para el usuario.
-</Callout>
+> ⚠️ Estos componentes emiten `<h5>`/`<h6>`. Como el MDX nunca pasa de H3, saltan dos niveles. Si se usan bajo un H2 que ya tiene H3, ese bloque debe ir como contenido del H2, no como sección hermana.
+
+## Paso 4: Imagen Destacada
+
+**Estilo fotográfico realista y limpio** (monitores con herramientas del sector, escritorio minimalista, luz natural de estudio). Prohibidos robots 3D cartoon, renders fantásticos y neón.
+
+**Prompt obligatorio:** incluir `no watermark, clean background, high resolution photograph, professional studio lighting, realistic details, no text overlays, no artifacts`.
+
+**Formato: exactamente 1200×630 px.** Es la medida que declara `og:image` y la que esperan las plataformas sociales. Sin recortar, la portada queda deformada o mal recortada al compartir.
+
+Usar la herramienta del repo (no un one-liner de Pillow: aquí no está instalado):
+
+```bash
+node scripts/optimize-image.js <ruta-generada> --width 1200 --height 630 --fit cover --format webp --quality 78 --force
 ```
 
-### 5. Conclusión y Llamada a la Acción (CTA de Conversión)
-Finalizar siempre con un cierre que reconecte con el beneficio para el negocio y una llamada a la acción clara hacia los servicios de **LTEvo**:
+Guardar como `public/blog/<slug>.webp` y comprobar que el nombre coincide con `coverImage`. Sin `--width/--height` la portada conserva el tamaño que devolvió la IA, y de ahí vienen las medidas dispares (900×491, 1376×768…) que luego no cuadran al compartir.
 
-```markdown
-## Conclusión y Próximos Pasos
+- ⚠️ Las plataformas sociales **no renderizan `.webp`** en `og:image`: los previews en redes necesitan un JPG. Con el mismo script: `--format jpg` (escribe un `.jpg` nuevo y conserva el original).
 
-[Resumen de valor de 2 párrafos]
+## Paso 5: Validación (obligatoria antes de marcar la `X`)
 
-¿Quieres [beneficio clave del artículo] en tu sitio web? Contacta con el equipo de **LTEvo** y te asesoraremos sin compromiso para impulsar tu presencia digital.
+Publicar no es guardar: es guardar **y verificado**. Este paso es lo que evita publicar un 404 desde un artículo indexado, un `<title>` que Google trunca o una portada que no cuadra al compartir.
+
+```bash
+node scripts/validate-post.mjs <slug>
 ```
 
----
+Un único comando, sin dependencias, que deriva las rutas reales de `app/` y de los posts ya publicados (así no hay lista que se quede obsoleta). **Sale con código 1 si falla cualquier puerta**, y entonces NO se continúa.
 
-## Paso 4: Generación y Optimización de la Imagen Destacada con IA
+Puertas que comprueba:
 
-### 🎨 1. Reglas de Estilo Fotográfico Realista
-⚠️ **NO ILUSTRACIONES NI DIBUJOS DE IA FANTASIOSOS.**
-- **Estilo fotográfico profesional y limpio:** Monitores y pantallas reales con herramientas del sector (Google Search Console, Screaming Frog, analytics, editores de código, dashboards), escritorios minimalistas de oficina moderna con iluminación natural de estudio.
-- **Prohibido:** Mascotas o robots de IA tipo 3D cartoon, renders ilustrados fantásticos o gráficos futuristas recargados de neón desenfocado.
+| # | Puerta |
+|---|---|
+| 1 | Sin `[Photo Placeholder]`, `TODO`, `TBD` ni notas internas |
+| 2 | Keyword en el H1, en las primeras 100 palabras y en algún H2/H3 |
+| 3 | `title`+`" \| LTEvo"` ≤60 chars y `excerpt` entre 120 y 158 |
+| 4 | Todos los enlaces internos resuelven a una ruta o post real |
+| 5 | ≥2 enlaces externos y ≥300 palabras |
+| 6 | `tags` del vocabulario cerrado |
+| 7 | La portada existe y mide **1200×630** |
 
-### 🚫 2. Regla Crítica del Prompt: "no watermark"
-En el prompt de generación, **es obligatorio especificar explícitamente que la imagen no debe contener marcas de agua**:
-- Añadir cláusulas como: `no watermark, clean background, high resolution photograph, 8k, professional studio lighting, realistic details, no text overlays, no artifacts`.
+Si falla: corregir el post y volver a pasar el comando. Nunca marcar la `X` con el validador en rojo, y nunca dejar el slug de un post que no existe.
 
-### ⚡ 3. Generación con nanobanana / generate_image
-- Invocar la herramienta de generación de imágenes (`generate_image` / nanobanana) configurando el aspect ratio horizontal `16:9` (ideal para cover de blog).
+## Paso 6: Publicación
 
-### 🛠️ 4. Conversión y Optimización a WebP
-- Convertir la imagen generada a formato `.webp` optimizado (calidad recomendada: 75) y guardarla en:
-  `public/blog/<slug-sin-prefijo>.webp`
-- Comando de conversión rápida mediante Python (Pillow):
-  ```bash
-  python -c "from PIL import Image; Image.open(r'<ruta_imagen_generada>').convert('RGB').save(r'public/blog/<slug-sin-prefijo>.webp', 'WEBP', quality=75)"
-  ```
-- Verificar que el archivo existe en `public/blog/<slug-sin-prefijo>.webp` y coincide con la propiedad `coverImage` del frontmatter.
+1. Insertar la `X` en la fila de `Blog-web.txt` manteniendo el alineado.
+2. Añadir el post a `public/llms.txt` (título, resumen y fecha). Si no, ese índice se queda desfasado.
+3. ⛔ **No compiles nada.** No `pnpm build`, ni `npx tsc --noEmit`, ni `next dev`, ni `pnpm lint`. Los agentes corren en WSL sobre el disco de Windows por `/mnt/c`, donde el doble arranque de Node lo multiplica por diez. **Se encarga quien escribe, desde su terminal de Windows.** El único comando que se ejecuta desde aquí es el validador del Paso 5 (menos de un segundo). Si el validador pasa, el post se da por bueno y el commit sale sin más comprobaciones.
 
----
-
-## Paso 5: Marcado de Finalización en `Blog-web.txt`
-
-Una vez guardados el archivo `.mdx` y la imagen `.webp`:
-1. Editar `Blog-web.txt`.
-2. Insertar una `X` en la columna `Publicado` de la fila correspondiente.
-3. Verificar que el formato de tabla en `Blog-web.txt` se mantenga perfectamente alineado.
-
----
-
-## Paso 6: Commit y Push al Repositorio Git
-
-Sincronizar los cambios con el repositorio remoto de forma limpia mediante Conventional Commits:
-
-1. Añadir los archivos modificados y creados:
+4. `git branch --show-current` — nunca hacer push directo a `main`.
+5. Commit y push (sin menciones de IA ni `Co-Authored-By`). Ojo: `Blog-web.txt` está en `.gitignore`, así que **no** se añade al commit; el calendario editorial es local:
    ```bash
-   git add content/blog/<slug-sin-prefijo>.mdx public/blog/<slug-sin-prefijo>.webp Blog-web.txt
-   ```
-2. Realizar el commit (sin menciones de IA ni `Co-Authored-By`):
-   ```bash
-   git commit -m "feat(blog): add post <slug-sin-prefijo> and cover image"
-   ```
-3. Enviar los cambios al repositorio remoto:
-   ```bash
+   git add content/blog/$SLUG.mdx public/blog/$SLUG.webp public/llms.txt
+   git commit -m "feat(blog): add post $SLUG and cover image"
    git push
    ```
 
 ---
 
 ## 📊 Checklist de Control de Calidad
-- [ ] ¿El archivo tiene la extensión `.mdx` y la ruta correcta en `content/blog/`?
-- [ ] ¿El archivo `.mdx` está 100% limpio sin prompts o borradores?
-- [ ] ¿El frontmatter contiene todos los metadatos requeridos y la ruta `coverImage: "/blog/[slug].webp"`?
-- [ ] ¿El prompt de la imagen solicita estilo FOTOGRÁFICO REALISTA e incluye explícitamente `no watermark`?
-- [ ] ¿Se generó la imagen con la herramienta de IA (`generate_image` / nanobanana)?
-- [ ] ¿La imagen fue optimizada y guardada en formato WebP en `public/blog/[slug].webp`?
-- [ ] ¿El CTA final conduce hacia la contratación de servicios con LTEvo?
-- [ ] ¿Se integraron de 1 a 2 enlaces internos de forma natural hacia servicios o posts del blog?
-- [ ] ¿Se marcó con una `X` la fila correspondiente en `Blog-web.txt` manteniendo el alineado?
-- [ ] ¿Se realizaron el commit (`feat(blog): ...`) y el push (`git push`) al repositorio?
+
+Bloqueante si cualquiera falla:
+
+- [ ] ¿El `.mdx` y la portada existen, y la portada mide **1200×630**?
+- [ ] ¿Sin placeholders, TODOs ni notas internas?
+- [ ] ¿**Sin diagramas ASCII ni tablas dibujadas con caracteres de caja**?
+- [ ] ¿**Ningún enlace interno roto**? (Paso 5)
+- [ ] ¿La keyword está en el **H1**, en las **primeras 100 palabras** y en **≥1 H2**?
+- [ ] ¿`seoTitle` ≤52 y `excerpt` entre 120 y 158 caracteres?
+- [ ] ¿**≥2 enlaces externos** de autoridad, y **toda estadística con su fuente**?
+- [ ] ¿1-3 enlaces internos con anchor descriptivo hacia destinos existentes?
+- [ ] ¿Hay un bloque de experiencia propia y autor con nombre real?
+- [ ] ¿≥2 visuales en el cuerpo y ≥1 tabla?
+- [ ] ¿Tags del vocabulario cerrado, sin inventar?
+- [ ] ¿CTA final hacia los servicios de LTEvo?
+- [ ] ¿Se validó el build (`tsc` + `build`) y se comprobó la rama?
+- [ ] ¿Se marcó la `X`, se actualizó `llms.txt`, y se hizo commit + push?
