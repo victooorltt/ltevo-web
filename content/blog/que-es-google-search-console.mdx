@@ -47,16 +47,12 @@ Ignorar esta herramienta equivale a pilotar un avión sin instrumental de cabina
 
 Para acceder a los datos de telemetría de una web en Google Search Console, Google exige acreditar que eres el propietario legítimo o un administrador autorizado del dominio. Esta barrera de seguridad es obligatoria porque la herramienta expone información sensible de tráfico y permite realizar acciones de alto impacto, como solicitar desindexaciones urgentes.
 
-Al dar de alta un nuevo activo, Google Search Console ofrece dos modalidades de propiedad completamente distintas: **Propiedad de Dominio** y **Propiedad con Prefijo de URL**.
+Al dar de alta un nuevo activo, Google Search Console ofrece dos modalidades de propiedad con coberturas muy distintas:
 
-```
-Tipo de Propiedad       Cobertura de Protocolos y Subdominios
-───────────────────────────────────────────────────────────────────
-Dominio (Recomendado)   ejemplo.com, www.ejemplo.com, blog.ejemplo.com,
-                        http:// y https:// (Todo en un único panel)
-Prefijo de URL          Solo la variante exacta: https://www.ejemplo.com/
-                        (Deja fuera http:// o subdominios alternativos)
-```
+| Tipo de Propiedad | Qué cubre | Qué deja fuera |
+| :--- | :--- | :--- |
+| **Dominio** *(recomendado)* | `ejemplo.com`, `www.ejemplo.com`, `blog.ejemplo.com`, y las variantes `http://` y `https://`, todo en un único panel | Nada relevante: es la cobertura completa |
+| **Prefijo de URL** | Solo la variante exacta que declaras, p. ej. `https://www.ejemplo.com/` | Los subdominios alternativos y la variante `http://` quedan fuera del panel |
 
 ### Tabla comparativa de métodos de verificación
 
@@ -161,15 +157,12 @@ Para extraer conclusiones accionables en tu estrategia de [posicionamiento SEO](
 
 ## Inspección de URLs y solución de errores técnicos comunes
 
-La barra superior de **Inspección de URLs** es la navaja suiza de cualquier auditor web. Te permite consultar el estado exacto de una dirección en el índice de Google y contrastarlo con una prueba en tiempo real.
+La barra superior de **Inspección de URLs** es la navaja suiza de cualquier auditor web. Te permite consultar el estado exacto de una dirección en el índice de Google y contrastarlo con una prueba en tiempo real. El flujo se resume en dos ramas:
 
-```
-Inspección de URL ──> ¿Está en el índice?
-   │
-   ├─► SÍ: Revisa canónica declarada por Google, rastreo y estado móvil.
-   │
-   └─► NO: Ejecuta «Probar URL en tiempo real» ──> Comprueba código HTTP y DOM renderizado.
-```
+| ¿Está en el índice? | Qué hacer a continuación |
+| :--- | :--- |
+| **Sí** | Revisa la canónica que ha seleccionado Google, el rastreo registrado y el estado móvil. Si la URL indexada no es la que esperabas, tienes un problema de canonicalización. |
+| **No** | Ejecuta «Probar URL en tiempo real» y comprueba el código HTTP y el DOM renderizado que recibe el bot. |
 
 ### Funciones imprescindibles de la herramienta de inspección
 
