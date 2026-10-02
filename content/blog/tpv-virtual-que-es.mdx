@@ -2,173 +2,112 @@
 title: "TPV Virtual: Qué Es y Cómo Cobrar con Tarjeta en tu Tienda Online"
 seoTitle: "TPV Virtual: Qué Es y Cómo Cobrar con Tarjeta Online"
 date: "2026-09-16"
-author: "Equipo LTEvo"
+author: "Víctor Lasheras"
 semana: "Semana 16"
 keyword: "qué es un tpv virtual"
 volumen: "480/mes"
 kd: 25
 competidor: "Webservi.es"
 coverImage: "/blog/tpv-virtual-que-es.webp"
-excerpt: "Descubre qué es un TPV virtual, cómo funciona la autenticación PSD2 y 3D Secure, comparativa Redsys vs CECA vs Stripe y checklist para configurar cobros con tarjeta."
-tags: ["E-commerce", "Tiendas Online", "Pasarelas de Pago", "TPV Virtual", "Desarrollo Web"]
+socialImage: "/blog/tpv-virtual-que-es-og.jpg"
+excerpt: "Qué es un TPV virtual: cómo funciona el cobro PSD2 y 3D Secure, comparativa Redsys vs CECA vs Stripe y checklist técnico para tu tienda."
+tags: ["E-commerce", "WooCommerce", "Estrategia Web"]
+updatedAt: "2026-10-02"
+authorProfile: "/sobre-nosotros"
+authorRole: "Diseño, desarrollo web y SEO en LTEvo"
+ctaService: "tiendas-online"
+relatedSlugs: ["prestashop-vs-woocommerce", "yoast-seo-woocommerce", "que-es-ux-y-ui"]
 ---
 
-Imagina que entras en una tienda de ropa a pie de calle tras ver un escaparate impecable. Eliges un par de prendas, te diriges a la caja para pagar y sacas tu tarjeta o teléfono móvil. En ese instante, la persona tras el mostrador te comunica que no disponen de datáfono: la única forma de llevarte la compra es realizar una transferencia bancaria manual desde tu móvil, esperar 24 horas a que se confirme el ingreso en su cuenta y volver al día siguiente a recoger la bolsa.
+## Qué es un TPV virtual
 
-Lo más probable es que dejes las prendas sobre el mostrador, salgas por la puerta y compres en la tienda contigua. En el comercio electrónico sucede exactamente lo mismo, pero a una velocidad vertiginosa: si el proceso de pago genera la menor duda, fricción o lentitud técnica, el cliente cierra la pestaña del navegador en menos de cinco segundos y busca el mismo producto en otro proveedor.
+Un **TPV virtual** es un servicio para aceptar pagos online con tarjeta u otros métodos compatibles. La tienda envía los datos de la operación a una pasarela, el proveedor gestiona su autorización y el comercio recibe la confirmación y posterior liquidación según su contrato.
 
-El **TPV virtual** (*Terminal Punto de Venta Virtual*) es el engranaje tecnológico invisible que resuelve este cuello de botella. Representa la réplica digital del datáfono físico de cualquier establecimiento, permitiendo a tu tienda online procesar cobros con tarjeta de crédito o débito de forma instantánea, cifrada y respaldada por los sistemas de seguridad bancarios. En esta guía completa del equipo de LTEvo, te explicamos con precisión qué es un TPV virtual, cómo cumplir con la normativa europea de autenticación PSD2 y 3D Secure, cómo comparar las principales plataformas del mercado (Redsys, CECA y Stripe) y qué checklist técnico debes completar antes de lanzar tu pasarela a producción.
+Para elegirlo, compara **coste total, métodos de pago, integración y soporte**. Una comisión baja no compensa un checkout que falla o pedidos que quedan pendientes después de cobrar.
 
----
-
-## Qué es un TPV virtual y cómo funciona el flujo de pago
-
-En términos técnicos, un **TPV virtual** es un servicio telemático proporcionado por una entidad financiera o una pasarela de pago que permite tramitar transacciones monetarias entre la cuenta bancaria del comprador y la cuenta mercantil del negocio a través de Internet.
-
-A diferencia del datáfono convencional, donde el cliente introduce físicamente su tarjeta con chip o tecnología *contactless*, en el entorno web la información viaja cifrada mediante protocolos de seguridad SSL/TLS. La plataforma se encarga de solicitar la autorización al banco emisor de la tarjeta, verificar la solvencia del usuario, autenticar su identidad contra el fraude y transferir los fondos netos al comercio.
+## Cómo funciona un pago en una tienda online
 
 <FlowDiagram>
-  <FlowStep title="1. Solicitud de Cobro" subtitle="Checkout de la tienda" badge="Paso 1">
-    El cliente confirma el carrito e introduce sus datos de tarjeta en una pasarela cifrada.
+  <FlowStep title="Pedido" subtitle="Importe calculado en servidor" badge="1">
+    La tienda registra un pedido y envía una solicitud válida al proveedor.
   </FlowStep>
-  <FlowStep title="2. Autenticación Bancaria" subtitle="Protocolo 3D Secure" badge="Paso 2">
-    El banco emisor valida la identidad del comprador mediante la app móvil o SMS.
+  <FlowStep title="Autenticación y autorización" subtitle="Pasarela y banco" badge="2">
+    El proveedor procesa la operación y solicita comprobaciones cuando proceden.
   </FlowStep>
-  <FlowStep title="3. Liquidación de Fondos" subtitle="Abono en cuenta mercantil" badge="Paso 3">
-    La pasarela confirma la orden al e-commerce y los fondos se liquidan en tu cuenta.
+  <FlowStep title="Confirmación" subtitle="Notificación verificada" badge="3">
+    El servidor comprueba el resultado y actualiza el pedido sin duplicarlo.
   </FlowStep>
 </FlowDiagram>
 
-### Componentes clave del ecosistema de pago online
+La pantalla de éxito que ve el comprador **no basta para dar un pedido por pagado**. Debe existir una confirmación fiable del proveedor, comprobada en el servidor. No confundas autorización, captura y liquidación: según el sistema pueden ser momentos distintos.
 
-Para entender el funcionamiento de un TPV virtual, conviene distinguir tres figuras esenciales que a menudo se confunden:
+En [Redsys con redirección](https://pagosonline.redsys.es/desarrolladores-inicio/documentacion-tipos-de-integracion/desarrolladores-redireccion/), revisa el formato de parámetros, versión de firma y validación de notificaciones especificados en la documentación de tu integración. Firmar y cifrar no son lo mismo; una función hash por sí sola no cifra datos ni sustituye HTTPS.
 
-1. **Pasarela de pago (*Payment Gateway*):** Es el software puente que captura los datos de pago del cliente en el checkout, los encripta y los transfiere de forma segura entre la tienda y el procesador bancario.
-2. **Procesador de pagos (*Payment Processor*):** La red interbancaria (como Redsys, Visa o Mastercard) que traslada la solicitud de cobro al banco del cliente para comprobar si dispone de saldo y autorizar la operación.
-3. **Cuenta mercantil (*Merchant Account*):** La cuenta bancaria especial donde se retienen y liquidan los importes cobrados a través del TPV antes de transferirse a la cuenta corriente ordinaria de tu empresa.
+La tienda puede utilizar una página alojada por el proveedor o componentes integrados. Ambas opciones requieren una configuración segura y obligaciones PCI aplicables a su implementación. Evita almacenar datos de tarjeta en tu base de datos si tu integración está diseñada para que los gestione la pasarela.
 
-### El recorrido exacto de una transacción en milisegundos
+## PSD2, SCA y 3D Secure
 
-Cuando un usuario pulsa el botón «Pagar ahora» en una tienda configurada bajo plataformas como [WooCommerce o PrestaShop](/blog/prestashop-vs-woocommerce), se desencadena una secuencia automatizada en cuestión de milisegundos:
+El [Real Decreto-ley 19/2018 de servicios de pago](https://www.boe.es/buscar/act.php?id=BOE-A-2018-16036) recoge la autenticación reforzada de clientes: combina elementos independientes de conocimiento, posesión e inherencia. En una compra puede implicar una aprobación en la aplicación bancaria u otro mecanismo del emisor.
 
-* **Petición encriptada:** El e-commerce envía un paquete de datos cifrado con una clave secreta única (SHA-256) hacia el servidor del TPV virtual, conteniendo el número de pedido, el importe exacto, la moneda y la URL de respuesta.
-* **Redirección o iframe seguro:** El usuario es redirigido a la pantalla del procesador bancario o interactúa con un formulario embebido con certificación PCI-DSS, garantizando que los datos de la tarjeta nunca queden almacenados en la base de datos de tu tienda.
-* **Confirmación asíncrona (IPN / Webhook):** Una vez aprobado el pago, el TPV notifica al servidor de tu tienda en segundo plano mediante una llamada servidor a servidor. Si la firma criptográfica es correcta, el pedido pasa automáticamente al estado «Procesando» o «Completado».
+**3D Secure es un protocolo, no un sinónimo de PSD2.** Permite autenticar al titular de la tarjeta dentro del flujo de pago. Una operación puede seguir un flujo sin interacción adicional o exigir un desafío; no decidas por tu cuenta que un importe pequeño siempre queda exento. El proveedor y el banco aplican las reglas pertinentes, límites acumulados y controles de riesgo. La [documentación de autenticación 3D Secure de Stripe](https://docs.stripe.com/payments/3d-secure) explica cómo se integra en su plataforma.
 
----
+### Qué necesita comprobar el dueño de la tienda
 
-## PSD2 y autenticación 3D Secure: seguridad sin sacrificar la conversión
+- Que el flujo de autenticación funciona en móvil y permite volver al checkout.
+- Que se informa de una denegación sin exponer datos técnicos o sensibles.
+- Que un reintento no cobra dos veces el mismo pedido.
+- Que devoluciones y cancelaciones se concilian con el panel de pagos.
+- Que los estados «pendiente», «pagado» y «reembolsado» tienen un significado claro.
 
-Uno de los hitos más relevantes en el comercio electrónico europeo fue la entrada en vigor de la directiva **PSD2** (*Revised Payment Services Directive*) y la exigencia de la **Autenticación Reforzada de Clientes** (SCA, por sus siglas en inglés: *Strong Customer Authentication*).
+## Redsys, CECA y Stripe: cómo compararlos
 
-El objetivo de esta normativa comunitaria es reducir drásticamente el fraude en compras electrónicas y las disputas por cargos no autorizados (*chargebacks*), exigiendo que el titular de la tarjeta demuestre su identidad mediante al menos dos factores independientes.
+Las condiciones de una solución bancaria dependen de la entidad y del contrato. No hay una tarifa universal de Redsys o CECA, ni un plazo único de alta.
 
-### Los tres factores de la autenticación reforzada (SCA)
-
-Para que una compra online con tarjeta sea aprobada bajo la normativa PSD2, el comprador debe validar al menos dos de los siguientes tres elementos:
-
-* **Conocimiento:** Algo que solo el usuario sabe (una contraseña, código PIN o respuesta a pregunta de seguridad).
-* **Posesión:** Algo que solo el usuario posee (su teléfono móvil registrado para recibir una clave temporal SMS o una notificación push en su aplicación bancaria).
-* **Inherencia:** Algo que el usuario es físicamente (reconocimiento biométrico facial Face ID o huella dactilar en su smartphone).
-
-### La evolución de 3D Secure: de la fricción de 3DS1 a la fluidez de 3DS2
-
-En los inicios del comercio electrónico, el estándar 3D Secure 1 (frecuentemente identificado con sellos como *Verified by Visa* o *Mastercard Identity Check*) obligaba a introducir contraseñas estáticas o códigos SMS en ventanas emergentes (*pop-ups*) desfasadas que solían fallar en pantallas de teléfonos móviles, provocando caídas de conversión superiores al 20%.
-
-El protocolo actual **3D Secure 2 (3DS2)** ha transformado radicalmente esta interacción:
-
-1. **Flujo sin fricción (*Frictionless Flow*):** El TPV virtual transmite más de 100 parámetros contextuales al banco emisor (dirección IP, dispositivo habitual, geolocalización, historial de compras previas). Si el nivel de riesgo evaluado es mínimo, el pago se aprueba de forma transparente e instantánea sin requerir pasos adicionales al cliente.
-2. **Flujo con desafío (*Challenge Flow*):** Si el banco detecta una anomalía o un importe elevado, solicita una confirmación biométrica rápida en la propia aplicación del banco instalada en el smartphone del usuario.
-
-<Callout type="tip" title="Exenciones a la SCA permitidas por la normativa">
-  No todas las compras online requieren autenticación en dos pasos. La directiva PSD2 contempla exenciones clave que un TPV virtual moderno gestiona de forma automática: transacciones de bajo importe (inferiores a 30 €), suscripciones periódicas con importe fijo previamente autorizadas y operaciones sujetas a análisis de riesgo de transacción (TRA) con tasas de fraude históricas insignificantes.
-</Callout>
-
----
-
-## Redsys vs CECA vs Stripe: comparativa a fondo para tu tienda online
-
-A la hora de seleccionar el proveedor de TPV virtual para tu negocio, surgen tres opciones predominantes en el mercado hispanohablante: **Redsys**, la plataforma **CECA** y la fintech global **Stripe**. Cada una responde a perfiles de negocio, presupuestos y arquitecturas web muy diferentes.
-
-### 1. Redsys: el estándar dominante de la banca tradicional española
-
-Redsys es el procesador interbancario mayoritario en España, utilizado por entidades como Banco Santander, BBVA, CaixaBank, Banco Sabadell, Bankinter y la mayoría de entidades financieras nacionales.
-
-* **Ventajas:** Comisiones por transacción extraordinariamente competitivas (habitualmente entre el **0,3% y el 0,8% por operación**, dependiendo del volumen negociado con tu gestor bancario). Además, cuenta con módulos oficiales para prácticamente cualquier gestor de contenidos y soporte nativo para **Bizum**, un método de pago imprescindible en España que multiplica la conversión móvil.
-* **Inconvenientes:** El proceso de contratación es burocrático, requiriendo apertura de cuenta mercantil, validación manual de riesgos y pruebas de integración en entorno de preproducción. Su pasarela tradicional implica una redirección externa fuera de tu tienda, y muchas entidades cobran un mantenimiento mensual fijo (entre 10 € y 30 €/mes) si no alcanzas una facturación mínima pactada.
-
-### 2. CECA: la alternativa interbancaria de las cajas de ahorros
-
-CECA (*Confederación Española de Cajas de Ahorros*) es la plataforma tecnológica empleada por entidades como Cecabank, Unicaja Banco, Ibercaja o Abanca.
-
-* **Ventajas:** Al igual que Redsys, ofrece costes por transacción muy reducidos negociables directamente con la entidad financiera correspondiente, con atención personalizada a través de la sucursal de tu empresa.
-* **Inconvenientes:** Su ecosistema de plugins y extensiones para gestores de comercio electrónico modernos es más limitado y menos actualizado que el de Redsys. La documentación técnica puede resultar menos accesible para desarrolladores y su cuota de mercado en nuevas tiendas online es considerablemente inferior.
-
-### 3. Stripe: la pasarela predilecta para agilidad, tecnología e internacionalización
-
-Stripe es la plataforma tecnológica global de pagos por excelencia para startups, empresas SaaS y comercios electrónicos que priorizan la experiencia de usuario y la escalabilidad internacional.
-
-* **Ventajas:** Alta inmediata en menos de 10 minutos sin necesidad de pisar una oficina bancaria ni presentar planes de negocio iniciales. Integración técnica pulida mediante **Stripe Elements**, permitiendo que el cliente introduzca su tarjeta sin abandonar jamás tu web (*on-site checkout*). Soporte nativo y sin configuraciones complejas para **Apple Pay**, **Google Pay**, Klarna y decenas de divisas internacionales.
-* **Inconvenientes:** Comisiones notablemente superiores a las de la banca tradicional: **1,5% + 0,25 €** por cada transacción con tarjetas estándar del Espacio Económico Europeo (y 2,5% + 0,25 € para tarjetas corporativas o no europeas). Para negocios con tickets de compra elevados o grandes volúmenes de facturación, esta diferencia porcentual representa un coste operativo sustancial a final de mes.
-
-### Tabla comparativa de proveedores de TPV virtual
-
-| Criterio de Análisis | Redsys (Banca Tradicional) | CECA (Cajas de Ahorros) | Stripe (Fintech Global) |
+| Criterio | Redsys / solución bancaria | CECA / solución bancaria | Stripe |
 | :--- | :--- | :--- | :--- |
-| **Comisión por operación** | Muy baja (0,3% – 0,8% aprox.) | Muy baja (0,3% – 0,9% aprox.) | Media-alta (1,5% + 0,25 € UE) |
-| **Coste fijo mensual** | Variable (0 € a 30 € según banco) | Variable (0 € a 25 € según caja) | **0 € / mes** (solo pago por uso) |
-| **Tiempo de activación** | 5 a 15 días laborables | 5 a 15 días laborables | **Instantáneo** (minutos) |
-| **Experiencia de usuario** | Redirección externa (salvo InSite) | Redirección externa | **Integrada en la web** (seamless) |
-| **Bizum integrado** | Sí (soporte nativo directo) | Sí (según entidad) | No directo en checkout estándar |
-| **Apple Pay / Google Pay** | Requiere configuración avanzada | Limitado | **Nativo en un solo clic** |
-| **Ventas internacionales** | Viable pero restringido | Limitado | **Multi-divisa global excelente** |
-| **Complejidad burocrática** | Alta (aprobación de riesgos) | Alta (trámite en sucursal) | Nula (registro telemático) |
+| Contratación | A través de la entidad que lo ofrece | Según entidad y oferta vigente | Alta y verificación de la cuenta en la plataforma |
+| Precio | Presupuesto del banco, cuotas y mínimos | Presupuesto del banco, cuotas y mínimos | Tarifas publicadas o contrato personalizado |
+| Integración | Redirección u opciones compatibles con contrato | Según producto e integración contratados | Checkout, Elements y APIs según el proyecto |
+| Métodos de pago | Confirmar tarjeta, Bizum y monederos habilitados | Confirmar métodos disponibles con la entidad | Confirmar métodos disponibles para cuenta, país e integración |
+| Soporte | Revisar responsabilidad entre banco y desarrollador | Revisar canal técnico y bancario | Plataforma y soporte conforme al plan |
 
-<Callout type="info" title="Estrategia híbrida: ¿por qué elegir solo uno?">
-  Una de las mejores prácticas en tiendas online maduras consiste en combinar dos pasarelas: configurar **Redsys** como opción prioritaria para tarjetas españolas y Bizum (maximizando tu margen de beneficio con comisiones mínimas), y habilitar **Stripe** de forma complementaria para compradores extranjeros, suscripciones recurrentes o pagos exprés con Apple Pay.
+**Stripe también documenta Bizum**. No es correcto descartarlo por una ausencia general de ese método; consulta los requisitos de país, moneda e integración en su [documentación de Bizum](https://docs.stripe.com/payments/bizum).
+
+Como referencia consultada el 2 de octubre de 2026, Stripe publica **1,5 % + 0,25 € para tarjetas estándar del EEE** y **2,8 % + 0,25 € para tarjetas prémium del EEE**. Otras tarjetas, conversión de divisa y servicios pueden tener costes diferentes. Comprueba las [tarifas oficiales de Stripe para España](https://stripe.com/es/pricing) antes de presupuestar; no utilices esa referencia para estimar una oferta bancaria distinta.
+
+### Una comparación práctica de coste total
+
+Pide una oferta por escrito y calcula escenarios con tu número previsto de pedidos, ticket medio, mezcla de tarjetas y devoluciones. Incluye alta, cuotas, mínimos, comisión variable, importe fijo por operación, contracargos, cambio de moneda y trabajo de mantenimiento de la integración.
+
+**Ejemplo orientativo:** una tienda con muchos pedidos pequeños debe revisar el componente fijo por operación; una que vende a varios países debe revisar divisas y tarjetas extranjeras. El resultado depende de sus contratos, no de cuál marca parezca más barata en una tabla genérica.
+
+## Checklist técnico antes de empezar a cobrar
+
+### Pruebas que debes pedir al desarrollador
+
+1. **HTTPS y credenciales:** certificados válidos, claves de prueba separadas de producción y secretos fuera del navegador.
+2. **Importe y moneda:** cálculo en servidor y validación de que coinciden con el pedido.
+3. **Notificaciones:** firma comprobada, registros de errores y recepción sin bloqueos del cortafuegos.
+4. **Idempotencia:** una notificación repetida o un doble clic no duplican cobros ni actualizaciones de stock.
+5. **Casos de prueba:** pago correcto, denegación, autenticación fallida, abandono y reintento.
+6. **Devoluciones:** parciales y completas, con estado de pedido coherente.
+7. **Conciliación:** localizar la operación por pedido y comparar importes con el proveedor.
+8. **Comunicación:** mensajes de checkout y correos según el estado real del pago.
+
+<Callout type="warning" title="Cobrado en el proveedor, pendiente en la tienda">
+  Revisa registros, validación de firma, importe, procesamiento y entrega de notificaciones. El cortafuegos es una posibilidad, no la única causa. Cualquier excepción debe ser limitada y mantener la verificación criptográfica de las peticiones.
 </Callout>
 
----
+Si tu tienda utiliza [WooCommerce o PrestaShop](/blog/prestashop-vs-woocommerce), confirma compatibilidad de la extensión con sus versiones y prueba actualizaciones en un entorno separado. Incluye ese trabajo en el [mantenimiento web](/servicios/mantenimiento-web).
 
-## Checklist técnico antes de publicar y recibir tu primer cobro
+### Condiciones de venta y obligaciones del comercio
 
-Activar cobros con tarjeta en una web en producción conlleva una gran responsabilidad técnica y legal. Antes de habilitar tu TPV virtual para clientes reales, recorre punto por punto este checklist de verificación:
+Explica quién vende, precio total, entrega, devoluciones, privacidad y contacto. El [texto refundido de la Ley General para la Defensa de los Consumidores y Usuarios](https://www.boe.es/buscar/act.php?id=BOE-A-2007-20555) regula la información previa y el desistimiento en contratos a distancia. El plazo general de 14 días tiene excepciones y condiciones; no copies una política de otra tienda sin adaptarla al producto y al tipo de cliente.
 
-### 1. Certificado SSL y cifrado HTTPS estricto
-Tu servidor web debe contar con un certificado SSL válido y forzar la redirección automática a HTTPS en todas las páginas. No solo es una exigencia insalvable de los estándares de seguridad **PCI-DSS** (*Payment Card Industry Data Security Standard*), sino un requisito imprescindible para transmitir confianza y proteger tu posicionamiento SEO.
+## Cuándo conviene integrar o renovar el TPV
 
-### 2. Pruebas exhaustivas en entorno Sandbox
-Antes de solicitar el paso a producción a tu banco:
-* Realiza transacciones ficticias con las tarjetas de test que proporciona la entidad (aprobadas, denegadas por fondos insuficientes, caducadas y con error de PIN).
-* Comprueba que los correos electrónicos automáticos de confirmación lleguen correctamente tanto al comprador como al administrador de la tienda.
+Cuando cambias de plataforma, añades suscripciones, vendes internacionalmente o aparecen cobros difíciles de conciliar, revisa el flujo completo. Definir pago, pedido, stock y devoluciones antes de programar reduce incidencias y facilita elegir proveedor.
 
-### 3. Configuración de URLs de retorno y Webhooks (IPN)
-Verifica que las rutas de callback estén correctamente enlazadas en el panel de administración del TPV:
-* **URL de éxito:** Página de agradecimiento personalizada con los detalles del pedido (*Thank You Page*).
-* **URL de error:** Página informativa que explique amablemente qué ocurrió y permita reintentar el pago con otro método.
-* **URL de notificación online (asíncrona):** Es la dirección mediante la cual el servidor del banco valida la transacción. Asegúrate de que plugins de seguridad, cortafuegos (WAF) o el modo de mantenimiento no bloqueen las peticiones POST enviadas por las IPs del banco.
+<CtaService service="tiendas-online" title="¿Necesitas una tienda con pagos y pedidos bien integrados?" />
 
-<Callout type="warning" title="Cuidado con los bloqueos de Cloudflare o Wordfence en la URL IPN">
-  Un fallo muy habitual en tiendas online recién creadas es que el cliente realiza el pago en el banco, el dinero se descuenta de su cuenta, pero el pedido se queda en estado «Pendiente» o «Cancelado». Esto ocurre casi siempre porque un firewall de seguridad bloquea la notificación silenciosa del TPV. Añade las IPs del procesador bancario a tu lista blanca de excepciones.
-</Callout>
-
-### 4. Textos legales y cumplimiento normativo en el pie de página
-Las entidades bancarias auditan tu tienda antes de otorgarte las credenciales definitivas del TPV. Para evitar el rechazo del expediente mercantil, es indispensable que tu web tenga claramente visibles en el footer:
-* Datos fiscales completos de la empresa o autónomo (Razón social, CIF/NIF, domicilio social y contacto directo).
-* [Política de privacidad y aviso legal](/contacto) adaptados al RGPD.
-* Condiciones generales de venta detallando plazos de entrega, métodos de envío y derecho legal de desistimiento de 14 días.
-* Política de devoluciones y reembolsos transparente.
-
----
-
-## Conclusión y Próximos Pasos
-
-El TPV virtual es mucho más que un botón para tramitar compras: es la pieza definitiva que corona todo el esfuerzo invertido en diseño, arquitectura y captación de tráfico en tu negocio digital. Escoger entre las tarifas reducidas de Redsys, la solidez de CECA o la agilidad técnica de Stripe dependerá de tu volumen de facturación previsto, el perfil geográfico de tu cliente y los métodos de pago que demande tu sector.
-
-Una correcta implementación técnica, unida al estricto cumplimiento de la normativa PSD2 y a un checkout fluido sin fricciones, es la diferencia entre un carrito abandonado más y una venta completada con éxito en tu cuenta bancaria.
-
-Si estás planeando poner en marcha tu e-commerce o necesitas rediseñar y asegurar la pasarela de pago de tu negocio actual con las mejores garantías técnicas, en LTEvo somos especialistas en [diseño y desarrollo web a medida](/servicios/diseno-web).
-
-<CtaService service="diseno-web" title="¿Necesitas integrar una pasarela de pago segura y optimizada en tu tienda online?" />
-
-¿Tienes dudas sobre qué TPV virtual se ajusta mejor al modelo operativo de tu empresa o necesitas resolver incidencias con la notificación de pagos? [Contacta con el equipo de **LTEvo**](/contacto) y te asesoraremos sin compromiso para implementar la solución más rentable y escalable para tu proyecto.
+En LTEvo podemos revisar tu checkout o plantear una [tienda online](/servicios/tiendas-online) con el alcance de integración que necesita tu negocio. Para reservas y sistemas propios, consulta el [desarrollo web a medida](/servicios/desarrollo-web).

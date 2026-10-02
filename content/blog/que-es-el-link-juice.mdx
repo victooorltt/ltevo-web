@@ -2,167 +2,102 @@
 title: "Qué es el Link Juice y Cómo Aprovecharlo con tu Enlazado Interno"
 seoTitle: "Qué es el Link Juice y Cómo Aprovecharlo"
 date: "2026-08-19"
-author: "Equipo LTEvo"
+author: "Víctor Lasheras"
 semana: "Semana 12"
 keyword: "qué es el link juice"
 volumen: "260/mes"
 kd: 24
 competidor: "BigSEO"
 coverImage: "/blog/que-es-el-link-juice.webp"
+socialImage: "/blog/que-es-el-link-juice-og.jpg"
 excerpt: "Qué es el link juice, cómo se transmite la autoridad mediante enlazado interno y silos temáticos, y los errores (huérfanas, 404) que la diluyen."
-tags: ["SEO", "Link Juice", "Enlazado Interno", "SEO Técnico", "Estrategia Web"]
+tags: ["SEO", "SEO Técnico", "Estrategia Web"]
+updatedAt: "2026-10-02"
+authorProfile: "/sobre-nosotros"
+authorRole: "Diseño, desarrollo web y SEO en LTEvo"
+ctaService: "seo"
+relatedSlugs: ["que-es-el-crawl-budget", "que-es-el-thin-content", "beneficios-blog-corporativo"]
 ---
 
-Imagina un sistema de regadío tradicional en un gran viñedo. En la parte más alta de la finca se encuentra un embalse principal lleno de agua fresca. A través de una red de canales y compuertas estratégicamente diseñadas, el agua desciende y riega cada hilera de vides en función de sus necesidades de crecimiento. Si un canal se rompe, el agua se desperdicia; si una compuerta permanece cerrada, las plantas de esa parcela se secan; y si abres demasiados ramales sin control, el caudal pierde presión y apenas llega humedad a las zonas clave.
+## Qué es el link juice
 
-En el posicionamiento web sucede exactamente lo mismo. El agua de ese embalse es la **autoridad** que acumula tu sitio web, los canales son los **hipervínculos**, y el caudal que viaja de una página a otra es lo que en la jerga del posicionamiento en buscadores se conoce como **Link Juice** (o equidad de enlace).
+El **link juice** es una expresión del sector SEO para describir el valor que pueden aportar los enlaces entre páginas. No es una métrica oficial de Google ni una cantidad de autoridad que puedas repartir con precisión. Los enlaces ayudan a descubrir contenido y entender relaciones, además de intervenir en sistemas de clasificación.
 
-Comprender cómo se genera, cómo se transfiere y cómo se canaliza esta fuerza SEO mediante una estructura inteligente de enlazado interno es uno de los factores decisivos para que tus páginas comerciales más importantes [escalen puestos en Google](/blog/que-es-el-seo) y aumenten tus ventas.
+Para una empresa, la aplicación práctica es organizar recorridos que conecten preguntas con páginas de servicio. **Una arquitectura útil tiene más valor que intentar calcular porcentajes ficticios de autoridad.**
 
----
+## PageRank y atributos de enlace
 
-## Definición de link juice: Cómo se transmite la autoridad web
+Google utiliza sistemas de análisis de enlaces, incluido PageRank, junto con otras señales, según su [guía de sistemas de clasificación](https://developers.google.com/search/docs/appearance/ranking-systems-guide). No hay una fórmula pública que permita convertir los enlaces de una web en una posición garantizada.
 
-El **link juice** (traducido literalmente como *"zumo de enlaces"* o equidad de enlace) es el valor de autoridad, confianza y relevancia que una página web transfiere a otra mediante un enlace hipertexto (`<a>`). 
+Un enlace normal no necesita un atributo `dofollow`: lo habitual es una etiqueta `a` con un `href` válido. Los atributos `sponsored`, `ugc` y `nofollow` sirven para calificar relaciones concretas; Google explica su uso en las [directrices de enlaces salientes](https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links).
 
-Cuando una página enlaza a otra, no solo está ofreciendo un camino de navegación al usuario: a ojos de los algoritmos de Google, está emitiendo un **voto de confianza**. Cuanta mayor reputación tenga la página de origen y más coherente sea el contexto del enlace, mayor cantidad de link juice transmitirá a la página de destino.
-
-<FlowDiagram>
-  <FlowStep title="Página A" subtitle="Origen con autoridad" badge="Alta Autoridad">
-    Acumula reputación histórica y enlaces de calidad.
-  </FlowStep>
-  <FlowStep title="Enlace Dofollow" subtitle="Canal de traspaso" badge="Voto">
-    Googlebot sigue el enlace y transfiere valor de equidad.
-  </FlowStep>
-  <FlowStep title="Página B" subtitle="Destino comercial" badge="Receptora">
-    Aumenta su fuerza interna para escalar en Google.
-  </FlowStep>
-</FlowDiagram>
-
-### El origen: El algoritmo PageRank
-
-El concepto de link juice tiene su fundamento técnico en la patente original del **PageRank**, formulada por los fundadores de Google (Larry Page y Sergey Brin). La fórmula matemática del PageRank concebía la web como una inmensa red de nodos interconectados donde cada enlace entrante funcionaba como una recomendación cualificada.
-
-Aunque hoy en día el algoritmo de búsqueda de Google utiliza cientos de señales de inteligencia artificial y aprendizaje automático (como RankBrain o MUM), el flujo de autoridad a través de los enlaces sigue siendo uno de los tres pilares fundamentales para clasificar resultados en cualquier sector.
-
-### Atributos que modulan el flujo de Link Juice
-
-No todos los enlaces transmiten link juice con la misma intensidad. Dependiendo del atributo HTML que acompañe a la etiqueta `rel`, el flujo se comportará de formas distintas:
-
-* **Enlaces `dofollow` (por defecto):** Transmiten link juice de forma plena e indican a los rastreadores que sigan y traspasen autoridad al destino.
-* **Atributo `rel="nofollow"`:** Indica a los buscadores que no transfieran respaldo de autoridad al enlace de destino (utilizado históricamente para enlaces de pago o zonas no verificadas).
-* **Atributo `rel="sponsored"`:** Estándar recomendado para colaboraciones comerciales, enlaces patrocinados o publicidad directa.
-* **Atributo `rel="ugc"` (User Generated Content):** Diseñado específicamente para enlaces generados por usuarios en comentarios de blogs o foros.
-
----
-
-## Enlazado interno vs externo: Dos caras de la misma moneda
-
-Para dominar el link juice en un proyecto digital, es imprescindible diferenciar las dos vías principales por las que viaja la autoridad: los enlaces que provienen de otros sitios web (externos) y los que conectan tus propias URLs (internos).
-
-<FlowDiagram>
-  <FlowStep title="1. Backlinks Externos" badge="Entrada Global">
-    Medios y blogs transfieren autoridad hacia tu dominio.
-  </FlowStep>
-  <FlowStep title="2. Distribución On-Page" badge="Menús y Enlaces">
-    La portada reparte el link juice hacia los silos del blog.
-  </FlowStep>
-  <FlowStep title="3. Money Pages" badge="Conversión">
-    Los artículos canalizan la fuerza a tus páginas de venta.
-  </FlowStep>
-</FlowDiagram>
-
-### 1. Link Juice Externo (Backlinks y Link Building)
-Corresponde a la autoridad que ingresa a tu dominio desde sitios web de terceros. Cuando un portal de noticias relevante, una revista sectorial o un blog especializado enlaza hacia un artículo o recurso de tu web, introduce un nuevo caudal de autoridad a tu dominio. Es el motor principal para aumentar la autoridad global del sitio (Domain Authority / URL Rating).
-
-### 2. Link Juice Interno (Arquitectura de Enlaces Propios)
-Una vez que la autoridad entra en tu web —habitualmente a través de la página de inicio (Home) o de posts virales con muchos backlinks—, el **enlazado interno** se encarga de repartirla y distribuirla hacia las páginas que generan negocio directo (fichas de producto, servicios o páginas de contacto).
-
-A diferencia del link building externo, el enlazado interno está **100% bajo tu control técnico**, no cuesta dinero adicional en licencias ni patrocinios y permite orientar el flujo de autoridad con total precisión quirúrgica.
-
-### Comparativa: Enlazado Interno frente a Enlazado Externo
-
-| Factor de Evaluación | Enlazado Interno (On-Page) | Enlazado Externo (Off-Page / Backlinks) |
+| Relación | Marcado habitual | Ejemplo |
 | :--- | :--- | :--- |
-| **Control editorial** | Total e inmediato por el propietario web | Dependiente de terceros y negociaciones |
-| **Coste económico** | Cero costes directos (optimización técnica) | Elevado (relaciones públicas, outreach) |
-| **Riesgo algorítmico** | Nulo si se mantiene una navegación natural | Medio-alto si se realizan prácticas no naturales |
-| **Objetivo principal** | Distribuir autoridad a páginas de venta (Money Pages) | Incrementar la fuerza y confianza global del dominio |
-| **Impacto en Link Juice** | Redistribuye y maximiza la fuerza existente | Aporta nuevo volumen de autoridad al ecosistema |
+| Referencia editorial | Enlace normal | Documentación que respalda una explicación |
+| Publicidad o compensación | `sponsored` | Un enlace contratado |
+| Contenido de usuarios | `ugc` | Un enlace en un comentario de usuario |
+| Destino que no quieres respaldar | `nofollow` cuando proceda | Referencia cuyo respaldo no puedes asumir |
 
----
+No uses `nofollow` en navegación o páginas legales para intentar acumular autoridad en otra parte. Tampoco significa que la URL enlazada no pueda descubrirse o indexarse por otros caminos.
 
-## Estrategia de silos temáticos: Canalizando la fuerza SEO
+## Enlaces internos y externos: qué puedes mejorar
 
-Uno de los mayores errores en el diseño web es enlazar todas las páginas con todas de forma caótica. Cuando cada URL enlaza a decenas de páginas no relacionadas, el link juice se diluye y los motores de búsqueda pierden la claridad semántica sobre la temática de cada sección.
+Los internos conectan tus páginas; los entrantes provienen de terceros. Puedes revisar la navegación y los enlaces contextuales directamente. Conseguir referencias externas requiere que otras personas encuentren una razón editorial para citar tu negocio o recurso.
 
-La solución arquitectónica definitiva es la **estrategia de silos temáticos** (Topic Clusters).
+Las puntuaciones DA, DR o similares pertenecen a proveedores privados. Sirven como estimaciones comparativas de sus herramientas, no como medidores oficiales de Google ni como equivalentes del link juice.
 
-<TopicSilo
-  pillar={{
-    title: "Servicio: Diseño Web Profesional",
-    badge: "Página Pilar / Money Page",
-    desc: "Página comercial transaccional que recibe la autoridad acumulada del clúster."
-  }}
->
-  <SiloCluster title="Post: UX vs UI" badge="Soporte Semántico">
-    Resuelve dudas de diseño y enlaza al servicio principal.
+## Cómo crear una estructura por temas y necesidades
+
+Agrupa páginas que se complementan, sin aislarlas artificialmente. Un contenido puede enlazar a otro grupo si ayuda al visitante. Compartir tema no significa compartir intención: una guía de mantenimiento y una landing para contratarlo tienen funciones distintas.
+
+<TopicSilo pillar={{ title: "Mantenimiento web", badge: "Servicio", desc: "Explica alcance, planes y contratación." }}>
+  <SiloCluster title="Qué incluye el mantenimiento" badge="Comparar">
+    Ayuda a valorar ofertas y entender responsabilidades.
   </SiloCluster>
-  <SiloCluster title="Post: Frameworks Web" badge="Soporte Técnico">
-    Explica tecnologías y canaliza link juice al pilar.
+  <SiloCluster title="Cómo revisar copias y restauración" badge="Resolver">
+    Explica una tarea concreta y cuándo conviene delegarla.
   </SiloCluster>
-  <SiloCluster title="Post: SEO On-Page" badge="Soporte Estratégico">
-    Interconecta con los otros posts y refuerza la venta.
+  <SiloCluster title="Hosting y mantenimiento" badge="Diferenciar">
+    Aclara qué servicio resuelve cada necesidad.
   </SiloCluster>
 </TopicSilo>
 
-### ¿En qué consiste un silo temático?
+Este esquema es orientativo, no una lista de artículos publicados ni una garantía de posicionamiento. La página comercial es el destino cuando el lector quiere contratar; el contenido de soporte resuelve sus preguntas previas.
 
-Un silo agrupa el contenido de una misma temática en un clúster cerrado y coherente. Dentro de un silo, los artículos de soporte se enlazan entre sí y canalizan todo su link juice hacia la página pilar o **Money Page** (la página de servicio que convierte visitantes en clientes).
+### Elegir el destino y el texto del enlace
 
-### Reglas para estructurar silos de alta efectividad
+Usa un ancla descriptiva y natural. «Revisar los planes de mantenimiento» ayuda más que «haz clic aquí»; repetir una keyword en todos los enlaces no añade claridad. La [guía oficial de enlaces rastreables](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) explica cómo facilitar el descubrimiento y describir el destino.
 
-1. **Enlaza siempre dentro de la misma categoría semántica:** Un artículo sobre optimización de velocidad web debe enlazar a otros artículos de rendimiento o [al servicio de mantenimiento técnico](/servicios/mantenimiento-web), no a una publicación sobre gestión de redes sociales.
-2. **Impulsa la página transaccional (Pilar):** Los artículos informativos del blog deben contener al menos un enlace contextual hacia [la página de contratación del servicio correspondiente](/servicios/seo).
-3. **Optimiza los textos de anclaje (Anchor Texts):** Utiliza variaciones naturales y descriptivas en el texto del enlace (por ejemplo, *"nuestro servicio de desarrollo web a medida"* o *"auditoría técnica de velocidad"*) en lugar de textos genéricos como *"haz clic aquí"* o *"más info"*.
-4. **Vigila la profundidad de clics (Click Depth):** Ninguna página estratégica de tu web debería estar a más de 3 clics de distancia desde la página principal.
+**Ejemplo orientativo:** un artículo sobre caídas recurrentes puede enlazar a [mantenimiento web](/servicios/mantenimiento-web) y a [hosting gestionado](/servicios/hosting), explicando que uno aborda actualizaciones y atención y el otro infraestructura. Forzar todos los enlaces hacia una sola URL perdería esa distinción.
 
----
+## Auditoría práctica del enlazado interno
 
-## Errores frecuentes al gestionar el link juice en tu web
+1. **Lista páginas comerciales.** Decide qué URL responde a cada servicio.
+2. **Comprueba acceso desde navegación y home.** Evita páginas importantes difíciles de encontrar.
+3. **Revisa artículos pertinentes.** Añade enlaces donde el siguiente paso resulta útil.
+4. **Busca destinos erróneos.** Un enlace que promete contratar debe llegar a una oferta, no a una definición sin CTA.
+5. **Corrige enlaces rotos y redirecciones.** Apunta al destino final cuando sea posible.
+6. **Revisa páginas sin enlaces internos.** Decide si deben incorporarse a la arquitectura.
+7. **Mide consultas y contactos.** Comprueba si Google muestra la URL esperada para cada intención.
 
-Incluso sitios web con gran volumen de tráfico y años de antigüedad pierden oportunidades de venta por fugas de autoridad no detectadas. Estos son los fallos más habituales que debes auditar y corregir:
+No existe una regla universal de «máximo tres clics» ni un número ideal de enlaces por página. Reduce pasos innecesarios según el tamaño y uso real de la web.
 
-<Callout type="warning" title="El peligro de las páginas huérfanas">
-  Una página huérfana no recibe ningún link juice interno, por lo que rara vez alcanzará posiciones competitivas en Google. Audita periódicamente tu arquitectura para asegurar que cada URL de negocio esté enlazada a máximo 3 clics de distancia de la Home.
-</Callout>
+## Errores que conviene evitar
 
-| Tipo de Error Técnico | Causa del Problema | Impacto en el Link Juice |
+| Error | Consecuencia práctica | Corrección |
 | :--- | :--- | :--- |
-| **Página Huérfana** | Ninguna otra URL interna la enlaza | 0% de link juice recibido; invisible para Google |
-| **Enlace Roto (404)** | El hipervínculo apunta a una URL inexistente | Fuga total de la autoridad acumulada al vacío |
-| **Cadena de Redirecciones** | Saltos intermedios (`301 -> 301 -> 200`) | Pérdida progresiva de fuerza y degradación de rastreo |
+| Página huérfana | Difícil de encontrar por navegación | Enlazar desde páginas pertinentes |
+| Destino 404 | El lector no llega al contenido prometido | Corregir o retirar el enlace |
+| Redirecciones encadenadas | Añaden saltos y dificultan el mantenimiento | Actualizar enlaces a la URL final |
+| Menú interminable | Complica elegir el siguiente paso | Jerarquizar según necesidades |
+| Páginas con la misma intención | Señales y contenido poco claros | Diferenciar o fusionar tras analizar datos |
 
-### 1. Páginas Huérfanas (Orphan Pages)
-Son páginas que no reciben ningún enlace interno desde el resto de la web. Aunque existan en el mapa del sitio (sitemap.xml), al no recibir link juice interno, [los rastreadores de Google las visitan con muy baja frecuencia](/blog/que-es-el-crawl-budget) y rara vez alcanzan primeras posiciones.
+Una redirección no implica automáticamente perder un porcentaje de PageRank. Corrige cadenas por eficiencia y experiencia, sin inventar una tabla de «fuga de autoridad».
 
-### 2. Enlaces hacia errores 404 y cadenas de redirección
-Cuando un enlace interno apunta a una URL que devuelve un código `404 Not Found`, todo el link juice que transportaba ese vínculo se pierde por completo. De igual modo, las cadenas largas de redirecciones (`301 -> 301 -> 200`) provocan pérdidas de latencia y degradación del rastreo.
+## Enlazado y contratación
 
-### 3. Dilución excesiva en menús globales y pies de página
-Colocar cientos de enlaces en el megamenú o en el footer provoca que la autoridad de cada página se reparta entre demasiados destinos, restando fuerza a las secciones prioritarias. Mantén los menús de navegación limpios, jerarquizados y enfocados en la experiencia de usuario.
+El trabajo termina cuando la persona llega a una oferta clara y puede contactar. Revisar enlaces sin revisar alcance, precio, pruebas o formulario puede aumentar navegación sin mejorar negocio.
 
-### 4. Intentos obsoletos de "PageRank Sculpting" con Nofollow
-Antiguamente se utilizaba el atributo `nofollow` en enlaces internos (como políticas de privacidad o aviso legal) pensando que así se guardaba link juice para otras páginas. Desde hace años, Google descuenta el link juice del enlace `nofollow` sin transferirlo al resto, por lo que esta técnica resulta contraproducente. La solución actual es optimizar la arquitectura real sin trucos artificiales.
+<CtaService service="seo" title="¿Tus artículos y páginas de servicio están conectados con una intención clara?" />
 
----
-
-## Conclusión y Próximos Pasos
-
-El **link juice** no es una fórmula mágica abstracta, sino la moneda de cambio mediante la cual los motores de búsqueda evalúan la relevancia y el orden jerárquico de tus contenidos. 
-
-Aprender a gestionar la autoridad de tu sitio mediante una arquitectura web limpia, silos temáticos bien definidos y un enlazado interno estratégico te permitirá posicionar páginas de servicio de alta rentabilidad sin necesidad de gastar fortunas en campañas continuas de enlaces externos.
-
-<CtaService service="seo" />
-
-¿Quieres auditar el flujo de link juice de tu sitio web y estructurar una arquitectura de contenidos que multiplique tus conversiones? [Contacta con el equipo de **LTEvo**](/contacto) y te asesoraremos sin compromiso para diseñar una estrategia digital técnica y orientada a resultados comerciales.
+En LTEvo podemos revisar [arquitectura y enlazado dentro de una estrategia SEO](/servicios/seo), priorizando las páginas que ayudan a conseguir clientes.

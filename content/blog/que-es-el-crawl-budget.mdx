@@ -1,109 +1,88 @@
 ---
 title: "Qué es el Crawl Budget y Cómo Optimizarlo en tu Web"
+seoTitle: "Qué es el Crawl Budget y Cómo Optimizarlo"
 date: "2026-08-05"
-author: "Equipo LTEvo"
+author: "Víctor Lasheras"
 semana: "Semana 10"
 keyword: "qué es el crawl budget"
 volumen: "210/mes"
 kd: 22
 competidor: "BigSEO"
 coverImage: "/blog/que-es-el-crawl-budget.webp"
-excerpt: "Descubre qué es el crawl budget o presupuesto de rastreo, por qué es crucial para el SEO de tu negocio y cómo optimizarlo paso a paso para que Google indexe más rápido tus páginas."
-tags: ["SEO","Crawl Budget","SEO Técnico","Indexación"]
+socialImage: "/blog/que-es-el-crawl-budget-og.jpg"
+excerpt: "Qué es el crawl budget, cuándo importa y cómo revisar URLs, servidor, robots.txt y sitemap sin confundir rastreo, indexación y posicionamiento."
+tags: ["SEO", "SEO Técnico"]
+updatedAt: "2026-10-02"
+authorProfile: "/sobre-nosotros"
+authorRole: "Diseño, desarrollo web y SEO en LTEvo"
+ctaService: "seo"
+relatedSlugs: ["por-que-mi-web-no-aparece-en-google", "que-es-google-search-console", "que-es-el-link-juice"]
 ---
 
-Imagina que contratamos a un auditor experto para revisar un edificio comercial de diez plantas con cientos de oficinas. El auditor tiene una agenda apretada y solo dispone de 30 minutos para inspeccionar todo el inmueble. Si encuentra pasillos bloqueados, puertas cerradas sin llave o pasadizos sin salida que le hacen perder 25 minutos, apenas le quedará tiempo para evaluar las oficinas más importantes donde realmente se genera el negocio.
+## Qué es el crawl budget
 
-En el mundo del posicionamiento SEO ocurre exactamente lo mismo. Google no dispone de tiempo ni recursos infinitos para rastrear las miles de millones de páginas que existen en Internet. Asigna a cada sitio web una cantidad limitada de tiempo y recursos para inspeccionar sus URLs. Este concepto técnico se conoce como **Crawl Budget** o **presupuesto de rastreo**.
+El **crawl budget** o presupuesto de rastreo describe los recursos que un buscador dedica a descargar páginas de un sitio. Depende de su capacidad de rastreo y de la demanda de actualización. **Rastrear una URL no equivale a indexarla ni a posicionarla.**
 
-Si tu sitio web desaprovecha este tiempo en páginas irrelevantes, errores técnicos o URLs duplicadas, las secciones clave de tu negocio no se indexarán correctamente ni aparecerán en las búsquedas de tus clientes potenciales. En esta guía detallada te explicamos **qué es el crawl budget**, por qué es vital para la visibilidad de tu negocio y cómo optimizarlo paso a paso.
+En una web pequeña, suele ser más importante comprobar acceso, contenido y enlaces que optimizar una supuesta cuota de Googlebot. El presupuesto de rastreo cobra más relevancia en sitios grandes, catálogos cambiantes o estructuras que generan muchas URLs innecesarias, como explica la [guía oficial de gestión del crawl budget](https://developers.google.com/crawling/docs/crawl-budget).
 
-## Definición técnica de Crawl Budget
+## Capacidad y demanda de rastreo
 
-En términos técnicos de SEO, el **Crawl Budget** (o presupuesto de rastreo) es el número de páginas o URLs que los robots de búsqueda (como Googlebot) rastrean e indexan en un sitio web durante un periodo de tiempo determinado.
+La capacidad considera cuánto puede descargar Google sin sobrecargar el sitio. Un servidor inestable o lento puede limitar el acceso. La demanda depende de factores como el inventario de URLs, su actualización y su importancia; no aumenta automáticamente por publicar todos los días.
 
-No es una cifra fija marcada por Google, sino el resultado de la combinación de dos factores principales:
+Un sitio puede responder correctamente y tener URLs sin indexar. En ese caso, revisa el motivo y la utilidad de la página antes de atribuirlo a falta de presupuesto.
 
-### 1. Límite de capacidad de rastreo (Crawl Rate Limit)
-Google ajusta la velocidad de rastreo para no saturar los servidores donde está alojada tu web. Si tu servidor responde de manera rápida y fluida, Googlebot podrá rastrear más páginas por segundo. Si el servidor es lento o devuelve errores HTTP (como errores 500 o 503), el buscador reducirá drásticamente la frecuencia de visitas para evitar la caída de tu plataforma.
+## Cuándo merece la pena analizarlo
 
-### 2. Demanda de rastreo (Crawl Demand)
-La demanda refleja el interés que tiene Google en mantener actualizada la información de tu web. Este interés depende principalmente de:
-* **La popularidad y autoridad del dominio:** Cuantos más enlaces entrantes de calidad (backlinks) reciba tu web, más a menudo la visitará Googlebot.
-* **La frecuencia de actualización:** Un sitio que publica o actualiza contenido útil con frecuencia genera mayor demanda de rastreo.
-* **Eventos y frescura:** Cambios estructurales o picos de interés sobre un tema específico aumentan la atención del robot.
+| Situación | Prioridad de revisión |
+| :--- | :--- |
+| Web corporativa con decenas de páginas | Acceso, indexación de servicios y enlaces internos |
+| Tienda con filtros que generan miles de combinaciones | Inventario de URLs y navegación facetada |
+| Catálogo que cambia con frecuencia | Descubrimiento y actualización de páginas relevantes |
+| Servidor con fallos o latencia sostenida | Estabilidad y capacidad de respuesta |
+| Muchas URLs descubiertas sin rastrear | Alcance, enlazado, duplicados y registros del servidor |
 
----
+No uses la falta de clics como medida de falta de rastreo. Son fases distintas. Para diagnosticar una URL concreta, consulta [por qué tu web no aparece en Google](/blog/por-que-mi-web-no-aparece-en-google).
 
-## Por qué importa el Crawl Budget en tu web
+## Cómo mejorar la eficiencia de rastreo
 
-Existe la falsa creencia de que el presupuesto de rastreo solo preocupa a gigantes de Internet como periódicos digitales o marketplaces con cientos de miles de URLs. Si bien es cierto que en sitios pequeños (de menos de 1.000 páginas) Google suele rastrear casi todo sin dificultad, optimizar el presupuesto de rastreo sigue siendo un pilar estratégico por varias razones:
+### 1. Definir qué páginas necesitas
 
-1. **Garantiza la indexación rápida de productos y servicios:** Si lanzas un nuevo servicio o una categoría importante en tu tienda online, necesitas que Google la descubra e indexe al instante, no semanas después.
-2. **Evita la pérdida de autoridad:** Si Googlebot gasta su tiempo analizando páginas de carrito, filtros infinitos de búsqueda o archivos temporales, dejará sin revisar tus artículos principales o tus landing pages de venta.
-3. **Optimiza la eficiencia del servidor:** Reducir peticiones inútiles disminuye la carga en el hosting, lo que se traduce en una web más rápida tanto para los robots como para los usuarios reales.
+Prepara un inventario de servicios, productos, categorías, artículos y variantes técnicas. Decide qué URLs tienen contenido propio y qué combinaciones son meros filtros. La arquitectura debe ayudar a usuarios y buscadores a encontrar las páginas importantes.
 
----
+**Ejemplo orientativo:** una tienda de calzado puede necesitar una categoría de botas de montaña, mientras cada combinación de orden por precio, talla y color no necesita una landing indexable. La decisión depende de demanda, catálogo y contenido disponible.
 
-## Cómo optimizar el Crawl Budget paso a paso
+### 2. Utilizar robots.txt con una finalidad concreta
 
-Optimizar el presupuesto de rastreo consiste en eliminar los "tapones" y las distracciones que hacen perder el tiempo a Googlebot. A continuación, desglosamos las acciones técnicas con mayor impacto directo:
+Robots.txt restringe rastreo, no indexación ni privacidad. Si quieres que Google lea `noindex`, debe poder acceder a la página. No bloquees CSS, JavaScript o recursos necesarios para interpretar el contenido. La [documentación oficial de robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro) explica sus límites.
 
-| Elemento a Optimizar | Problema Común | Solución Técnica Recomendada |
-| :--- | :--- | :--- |
-| **Robots.txt** | Rastreo de secciones privadas o administrativas | Bloquear URLs secundarias con directivas `Disallow` |
-| **Cadenas de Redirecciones** | Bucle de redirecciones 301/302 sucesivas | Corregir enlaces apuntando directamente a la URL final |
-| **Páginas de Error (404/5xx)** | Enlaces rotos consumiendo peticiones | Limpiar enlaces internos rotos y reparar fallos de servidor |
-| **Contenido Duplicado** | Filtros, facetas y URLs con parámetros | Usar etiquetas `canonical` y configurar parámetros |
-| **Velocidad de Carga (WPO)** | Tiempos de respuesta lentos del servidor | Optimizar hosting, caché y compresión de archivos |
+No apliques bloqueos masivos a parámetros sin comprobar si afectan a categorías o productos con demanda.
 
-### 1. Limpia y optimiza tu archivo `robots.txt`
-El archivo `robots.txt` es la primera parada de Googlebot. Utilízalo para indicarle qué zonas de la web **no debe perder tiempo rastreando**:
-* Paneles de administración (`/admin/`, `/wp-admin/`).
-* Resultados de búsquedas internas del sitio (`/search?q=...`).
-* Carritos de compra, procesos de pago y áreas privadas de clientes.
+### 3. Mantener enlaces hacia destinos finales
 
-### 2. Elimina las cadenas y bucles de redirección
-Cada vez que Googlebot encuentra un enlace con redirección 301, consume una petición. Si la URL A redirige a la B, y la B redirige a la C, el robot pierde recursos procesando saltos innecesarios. Revisa tu estructura y haz que todos los enlaces apunten siempre hacia el destino final directo.
+Corrige enlaces internos a páginas eliminadas y evita cadenas o bucles de redirección. Una redirección permanente puede ser correcta en una migración; actualiza también los enlaces para no mantener saltos innecesarios.
 
-### 3. Soluciona errores 404 y fallos de servidor (5xx)
-Las URLs rotas que devuelven un error 404 o 500 representan un desperdicio total del presupuesto de rastreo. Audita periódicamente tu web para detectar enlaces internos que apunten a páginas inexistentes y corrígelos o elimínalos.
+Un 404 de contenido eliminado sin equivalente es una respuesta válida. No lo conviertas en redirección a inicio para mejorar un porcentaje del informe.
 
-### 4. Controla la navegación facetada y los parámetros de URL
-En e-commerce, los filtros de productos por color, talla, precio o relevancia pueden generar miles de combinaciones de URLs distintas con [contenido casi idéntico](/blog/que-es-el-thin-content). Controla este problema utilizando parámetros canónicos (`rel="canonical"`), bloqueando parámetros sin valor SEO en `robots.txt` o implementando AJAX para el filtrado en cliente.
+### 4. Alinear canonical, enlaces y sitemap
 
-### 5. Mejora la velocidad de respuesta del servidor (TTFB)
-El tiempo hasta el primer byte (*Time to First Byte*) es crucial. Si tus páginas tardan 2 segundos en responder, Googlebot rastreará muchas menos URLs por minuto que si responden en 200 milisegundos. Invierte en un hosting de alto rendimiento, activa caché a nivel de servidor y optimiza la base de datos.
+Incluye en el sitemap las URLs canónicas que quieras indexar, con fechas de modificación reales. Evita listar redirecciones y páginas excluidas. Google no utiliza `priority` o `changefreq`, y un sitemap no garantiza indexación. Consulta su [guía para crear y enviar sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap).
 
-### 6. Estructura un enlazado interno sólido y un Sitemap XML actualizado
-Googlebot navega siguiendo enlaces. Una arquitectura de información limpia con enlazado interno fluido permite que el robot descubra rápidamente las páginas más profundas. Mantén tu archivo `sitemap.xml` limpio de URLs redirigidas, bloqueadas o con errores, e inclúyelo en Google Search Console.
+Una canonical indica la versión preferida entre páginas equivalentes; no es una orden de dejar de rastrear todas las alternativas.
 
----
+### 5. Revisar alojamiento y estabilidad
 
-## Herramientas para monitorizar y auditar el Crawl Budget
+Investiga fallos 5xx, tiempos de respuesta y capacidad durante picos. Caché y consultas de base de datos pueden influir en la estabilidad, pero mide antes de cambiar de proveedor. Un [hosting gestionado](/servicios/hosting) debe definir qué soporte y vigilancia incluye.
 
-Para medir si estás optimizando adecuadamente la actividad de Google en tu sitio web, existen [tres herramientas indispensables](/blog/mejores-herramientas-seo) que te permiten auditar el rastreo desde distintos ángulos:
+## Qué datos consultar
 
-### 1. Informe de estadísticas de rastreo en Google Search Console
-Dentro de Search Console, navega a **Ajustes > Estadísticas de rastreo**. Aquí encontrarás gráficos fundamentales:
-* **Solicitudes de rastreo totales:** Cuántas peticiones realiza Googlebot al día.
-* **Tiempo medio de respuesta:** Si supera los 300-400ms, debes mejorar tu infraestructura.
-* **Desglose por respuesta:** Muestra el porcentaje de respuestas 200 (OK), 301 (Redirección), 404 (No encontrado) o 500 (Error). Lo ideal es que más del 90% sean respuestas 200.
+El [informe de estadísticas de rastreo de Search Console](https://support.google.com/webmasters/answer/9679690) permite observar solicitudes, respuestas y tiempos. Compara tendencias y episodios de error: no existe un umbral universal de 300 ms ni una proporción obligatoria de 200 que certifique una web sana.
 
-### 2. Screaming Frog SEO Spider
-Esta herramienta simula el comportamiento de un robot rastreador. Te permite identificar en minutos páginas duplicadas, cadenas de redirecciones, códigos de respuesta ineficientes y URLs sin enlazado interno.
+Los registros de servidor ayudan a identificar URLs, frecuencia y errores, comprobando que las peticiones son del rastreador real. Un crawler como Screaming Frog permite revisar enlaces y estructura desde otra perspectiva; no reproduce todas las decisiones de Google.
 
-### 3. Análisis de Logs del Servidor (Server Log Analysis)
-Es la fuente definitiva de verdad. Analizar los registros del servidor web (Nginx, Apache) te muestra la huella exacta de cada visita de Googlebot: qué URLs específicas ha visitado, a qué hora y cuántas veces ha regresado en el mes.
+## Qué entregar tras una auditoría de rastreo
 
----
+Pide una lista priorizada de problemas, ejemplos de URLs, evidencias y cambios propuestos. El objetivo debe ser que servicios y productos relevantes puedan descubrirse y leerse, sin perseguir más solicitudes como un fin en sí mismo.
 
-## Conclusión y Próximos Pasos
+<CtaService service="seo" title="¿Tu catálogo genera demasiadas URLs o Google no descubre páginas importantes?" />
 
-Entender **qué es el crawl budget** y cómo optimizarlo es la clave para desbloquear el máximo potencial de [tu estrategia SEO](/blog/que-es-el-seo). De nada sirve redactar los mejores contenidos o lanzar campañas de captación si Google no dispone del tiempo o la facilidad técnica necesaria para rastrear e indexar tu negocio.
-
-Una arquitectura web limpia, rápida y sin errores técnicos no solo complace a los algoritmos de Google, sino que ofrece una experiencia fluida y rápida a los clientes que visitan tu sitio.
-
-<CtaService service="seo" />
-
-¿Quieres asegurarte de que Google esté aprovechando al 100% el presupuesto de rastreo de tu sitio web? [Contacta con el equipo de **LTEvo**](/contacto) y realizaremos una auditoría técnica completa para eliminar los cuellos de botella de tu web y aumentar tus ventas orgánicas.
+En LTEvo podemos revisar rastreo, indexación y arquitectura dentro de una [auditoría SEO](/servicios/seo).

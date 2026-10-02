@@ -2,144 +2,100 @@
 title: "Rich Snippets: Qué Son y Cómo Conseguirlos en tus Resultados de Google"
 seoTitle: "Qué son los Rich Snippets y Cómo Conseguirlos"
 date: "2026-08-13"
-author: "Equipo LTEvo"
+author: "Víctor Lasheras"
 semana: "Semana 11"
 keyword: "qué son los rich snippets"
 volumen: "480/mes"
 kd: 28
 competidor: "BigSEO"
 coverImage: "/blog/que-son-los-rich-snippets.webp"
-excerpt: "Qué son los rich snippets y cómo conseguirlos con datos estructurados JSON-LD: tipos (reseñas, FAQ, producto) y hasta un 30% más de CTR en Google."
-tags: ["SEO", "Rich Snippets", "Datos Estructurados", "Schema.org", "SEO Técnico"]
+socialImage: "/blog/que-son-los-rich-snippets-og.jpg"
+excerpt: "Qué son los rich snippets, qué marcado admite Google y cómo validarlo: FAQ retiradas en 2026, reseñas reales y medición del CTR sin promesas."
+tags: ["SEO", "SEO Técnico"]
+updatedAt: "2026-10-02"
+authorProfile: "/sobre-nosotros"
+authorRole: "Diseño, desarrollo web y SEO en LTEvo"
+ctaService: "seo"
+relatedSlugs: ["que-es-google-search-console", "yoast-seo-woocommerce", "que-es-el-seo"]
 ---
 
-Imagina que caminas por una avenida llena de restaurantes a la hora del almuerzo. Todos los locales tienen en su entrada una placa de madera sencilla con el nombre del establecimiento escrito en texto negro. De repente, llegas a uno que muestra una pantalla digital elegante con fotos de sus platos estrella, la puntuación media de 4,9 estrellas dada por cientos de comensales, el tiempo estimado de preparación y el rango de precios. ¿En cuál te darían más ganas de entrar a comer?
+## Qué son los rich snippets
 
-En la página de resultados de Google (SERP) ocurre exactamente lo mismo. Miles de páginas web compiten por la atención del usuario con el formato tradicional: un título azul, una URL verde o gris y una breve meta descripción. Sin embargo, los resultados que incluyen elementos visuales adicionales —como estrellas de valoración, preguntas frecuentes desplegables o imágenes de producto— captan inmediatamente la mirada.
+Los **rich snippets**, también llamados resultados enriquecidos, son resultados de búsqueda que pueden mostrar información adicional como precios, disponibilidad, imágenes o valoraciones. Los datos estructurados ayudan a Google a interpretar el contenido, pero **un marcado válido no garantiza una presentación enriquecida ni una subida de posiciones**.
 
-Esos resultados mejorados y visuales se denominan **Rich Snippets** o **fragmentos enriquecidos**. En esta guía completa te explicamos qué son, por qué son una de las palancas más eficaces para aumentar el tráfico orgánico hacia tu web y cómo puedes implementarlos en tu negocio digital.
+Para una empresa, la prioridad es elegir un tipo compatible con su contenido y con las funciones que Google mantiene disponibles. Añadir schema indiscriminadamente puede producir errores o describir información que la página no ofrece.
 
----
+## Qué tipos siguen siendo útiles para un negocio
 
-## Definición y tipos de Rich Snippets
+| Contenido | Marcado habitual | Utilidad y límites |
+| :--- | :--- | :--- |
+| Ficha de producto | `Product`, con oferta y datos reales | Puede mostrar precio, disponibilidad u otros datos de compra |
+| Artículo | `Article` o `BlogPosting` | Ayuda a interpretar autor, fechas e imágenes |
+| Receta | `Recipe` | Opciones de presentación específicas para recetas |
+| Evento real | `Event` | Información de fecha y lugar según las directrices aplicables |
+| Organización o negocio local | `Organization`, `LocalBusiness` | Describe la entidad; no crea por sí solo un resultado con estrellas |
+| Preguntas frecuentes | `FAQPage` | Ya no genera resultados enriquecidos FAQ en Google |
 
-Un **Rich Snippet** (o fragmento enriquecido) es un resultado de búsqueda de Google que muestra información adicional detallada extraída directamente del código fuente de la página web. Mientras que un resultado estándar solo muestra título, URL y metadescripción, un Rich Snippet complementa esta estructura básica con datos visuales e interactivos clave para el usuario.
+**Actualización de octubre de 2026:** Google dejó de mostrar resultados enriquecidos FAQ el **7 de mayo de 2026**, según su [registro oficial de cambios](https://developers.google.com/search/updates). Mantén preguntas frecuentes si resuelven dudas de tus clientes, sin prometer que ocuparán más espacio en la búsqueda.
 
-Google genera estos fragmentos a partir de etiquetas estandarizadas que los desarrolladores web insertan en el código HTML. Al comprender exactamente qué tipo de contenido alberga una página, el buscador puede presentar respuestas más ricas y precisas.
+### Qué ocurre con las estrellas de reseñas
 
-### Principales tipos de Rich Snippets para negocios
+Las valoraciones deben ser reales, visibles y aplicables a los tipos admitidos. Google no admite estrellas de reseñas autocomplacientes para un negocio u organización que publica reseñas sobre sí mismo, incluidos widgets externos controlados por esa entidad. Consulta sus [directrices de Review y AggregateRating](https://developers.google.com/search/docs/appearance/structured-data/review-snippet).
 
-Dependiendo del sector y del tipo de contenido de tu sitio web, existen diferentes categorías de fragmentos enriquecidos que puedes aprovechar:
+No marques una consultoría como producto para intentar conseguir estrellas ni inventes puntuaciones o número de opiniones. Una página de servicio y una ficha de producto no son intercambiables a estos efectos.
 
-* **Fragmentos de Reseñas y Valoraciones (Review Snippets):** Muestran puntuaciones con estrellas amarillas, el número total de opiniones y la nota media. Son clave en e-commerce, servicios profesionales y fichas de producto.
-* **Fragmentos de Preguntas Frecuentes (FAQ Snippets):** Despliegan un acordeón con preguntas y respuestas directas bajo el resultado principal. Permiten ocupar más espacio vertical en la primera página de Google.
-* **Fragmentos de Producto (Product Snippets):** Muestran el precio actualizado del producto, la disponibilidad de stock (en stock / agotado) y las valoraciones de los compradores.
-* **Fragmentos de Recetas (Recipe Snippets):** Incluyen una miniatura de la foto del plato, el tiempo de preparación, las calorías por ración y la calificación de los usuarios.
-* **Fragmentos de Eventos (Event Snippets):** Exhiben fechas, ubicaciones geográficas y horarios de conciertos, talleres o conferencias directamente en la búsqueda.
-* **Fragmentos de Artículos y Noticias (Article Snippets):** Añaden el nombre del autor, la fecha exacta de publicación y una imagen destacada orientada al feed de noticias.
+## Schema.org y JSON-LD: qué función tiene cada uno
 
----
+[Schema.org](https://schema.org/docs/gs.html) es el vocabulario que describe entidades y relaciones. JSON-LD es uno de los formatos que permiten expresar esa información dentro del HTML. Google recomienda JSON-LD cuando resulta adecuado para la implementación; también admite microdatos y RDFa.
 
-## Datos estructurados (Schema.org): La base técnica
+**Que un tipo exista en Schema.org no significa que Google ofrezca un resultado enriquecido para él.** Debes consultar la [galería de funciones de búsqueda admitidas](https://developers.google.com/search/docs/appearance/structured-data/search-gallery) y la guía del tipo elegido.
 
-Para que Google pueda mostrar un Rich Snippet en sus resultados, necesita entender el significado exacto de los datos de tu web. Los seres humanos podemos intuir fácilmente que "$49,99" es un precio y que "4.8/5" es una nota, pero los robots de búsqueda necesitan una sintaxis clara y sin ambigüedades. Aquí es donde entran los **datos estructurados** y el vocabulario **Schema.org**.
+## Cómo implementar el marcado con criterio
 
-**Schema.org** es un proyecto colaborativo impulsado por los principales buscadores (Google, Bing, Yahoo! y Yandex) para crear un lenguaje estandarizado universal. Mediante esta jerarquía de etiquetas, le indicas al robot: *"Este texto no es solo una palabra aleatoria; es el nombre de un autor, este número es una valoración y esta cifra es un precio en euros"*.
+1. **Escoge la página y su función.** Identifica si vende un producto, presenta un artículo o describe un negocio.
+2. **Recoge información real.** Utiliza contenido que el usuario pueda comprobar en la propia página.
+3. **Revisa requisitos específicos.** No existe una lista universal de propiedades válidas para todos los tipos.
+4. **Genera JSON-LD y evita duplicados.** Tema, plugins y código propio pueden emitir marcados contradictorios.
+5. **Valida la URL publicada.** Comprueba sintaxis y requisitos del buscador, no solo el ejemplo local.
+6. **Monitoriza resultados.** Busca errores en Search Console y cambios de apariencia por página.
 
-### Formatos para etiquetar Schema.org
+### Ejemplo didáctico sin reseñas ficticias
 
-Existen tres formas de añadir datos estructurados al código de una página web:
+El siguiente código describe un artículo de un sitio de ejemplo. **No corresponde a LTEvo ni debe copiarse con estos datos en producción.** Los valores deben sustituirse por el título, URL, imagen, autor y fechas reales del artículo que se publique.
 
-1. **JSON-LD (Recomendado por Google):** Consiste en un bloque de código JavaScript independiente que se inserta dentro del `<head>` o al final del `<body>`. No interfiere con el diseño visual de la web y es la alternativa más limpia y fácil de mantener.
-2. **Microdatos:** Atributos HTML que se insertan directamente dentro de las etiquetas existentes en la estructura visual de la página.
-3. **RDFa:** Extensión de HTML5 basada en atributos, utilizada principalmente para vincular datos abiertos en entornos más complejos.
-
-En la actualidad, **JSON-LD** es el estándar absoluto de la industria por su flexibilidad, escalabilidad y facilidad de implementación sin alterar la capa de presentación visual.
-
----
-
-## Cómo implementar Rich Snippets en tu sitio web
-
-La implementación de datos estructurados para conseguir Rich Snippets requiere seguir un proceso metódico para garantizar que Google valide el código sin errores:
-
-| Tipo de Rich Snippet | Tipo de Schema.org | Propiedades Obligatorias Clave | Beneficio Principal para el Negocio |
-| :--- | :--- | :--- | :--- |
-| **Reseñas de Clientes** | `AggregateRating` | `ratingValue`, `reviewCount`, `bestRating` | Aumenta la confianza y la prueba social inmediata |
-| **Ficha de Producto** | `Product` | `name`, `image`, `offers` (`price`, `priceCurrency`) | Atrae compradores cualificados listos para pagar |
-| **Preguntas Frecuentes** | `FAQPage` | `mainEntity` (`Question`, `acceptedAnswer`) | Domina mayor espacio visual en la pantalla |
-| **Servicios / Empresa** | `LocalBusiness` | `name`, `address`, `telephone`, `openingHours` | Potencia el posicionamiento SEO local |
-| **Artículos de Blog** | `BlogPosting` | `headline`, `image`, `datePublished`, `author` | Mejora el etiquetado y la indexación de contenidos |
-
-### Paso 1: Seleccionar el tipo de Schema adecuado
-Identifica la naturaleza de la página. Si es un servicio o producto, utiliza `Product` o `Service`. Si es una página informativa con preguntas habituales de clientes, usa `FAQPage`.
-
-### Paso 2: Generar el código JSON-LD
-Puedes redactar el marcado manualmente o apoyarte en generadores de Schema validados. Un fragmento básico de JSON-LD para valoraciones luce de la siguiente manera:
-
-```html
-<script type="application/ld+json">
+```json
 {
-  "@context": "https://schema.org/",
-  "@type": "Product",
-  "name": "Consultoría SEO Estratégica LTEvo",
-  "description": "Servicio profesional de auditoría y optimización SEO.",
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.9",
-    "reviewCount": "127"
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Cómo elegir el alojamiento de una web corporativa",
+  "mainEntityOfPage": "https://ejemplo.com/blog/elegir-alojamiento",
+  "image": "https://ejemplo.com/imagenes/alojamiento.jpg",
+  "datePublished": "2026-10-02",
+  "author": {
+    "@type": "Organization",
+    "name": "Equipo editorial de ejemplo"
   }
 }
-</script>
 ```
 
-### Paso 3: Insertar el código en tu CMS o sitio web
-* **En desarrollo a medida (Next.js / HTML):** Inserta el componente script dentro del renderizado de la página correspondiente.
-* **En WordPress / WooCommerce:** Puedes añadir los scripts a través del tema o utilizando complementos especializados como Yoast SEO, Rank Math o editores de bloques técnicos.
+Este ejemplo ilustra la estructura; no es una plantilla completa de todas las propiedades recomendadas. La [documentación de Article de Google](https://developers.google.com/search/docs/appearance/structured-data/article) permite adaptar el marcado a un caso real. Si la firma corresponde a una persona, usa `Person` y una identidad verificable.
 
-### Paso 4: Validar y probar el marcado
-Antes de enviar los cambios a producción, audita las páginas con [las herramientas oficiales de Google](/blog/mejores-herramientas-seo):
-* **Prueba de resultados enriquecidos de Google (Rich Results Test):** Muestra si tu página es elegible para generar fragmentos enriquecidos y detecta errores o advertencias en el código.
-* **Validador de Schema.org:** Comprueba la sintaxis exacta de las etiquetas según los estándares globales.
+### Dos comprobaciones complementarias
 
----
+La [Prueba de resultados enriquecidos](https://search.google.com/test/rich-results) comprueba las funciones que Google admite. El [validador de Schema.org](https://validator.schema.org/) comprueba el vocabulario general. Una validación correcta no obliga a Google a mostrar ese formato para todas las búsquedas.
 
-## Ejemplos antes y después: El impacto en el CTR
+## Cómo medir el impacto en CTR
 
-Conseguir un Rich Snippet no garantiza automáticamente escalar posiciones de la noche a la mañana, pero produce un efecto directo e inmediato sobre el **CTR (Click-Through Rate)** o porcentaje de clics por impresión.
+No existe un porcentaje universal de mejora del CTR por añadir schema. La apariencia depende del contenido, consulta, posición, dispositivo y otras funciones de la página de resultados.
 
-### Escenario A: Resultado Convencional (Sin Rich Snippet)
-```text
-Diseño Web en Madrid | Servicios de Desarrollo Web Profesional
-https://ejemplo.com/diseno-web
-Ofrecemos servicios de diseño y desarrollo web para empresas y pymes. Páginas rápidas y optimizadas para móviles.
-```
-* **Impacto visual:** Bajo. Se confunde entre decenas de enlaces parecidos.
-* **Información transmitida:** Genérica. No demuestra la experiencia ni las valoraciones de clientes reales.
+**Ejemplo orientativo para una tienda:** una ficha con precio y disponibilidad correctos puede facilitar que el comprador decida antes de hacer clic. Eso no significa necesariamente más clics: un precio que no encaja también puede disuadirlos. Lo útil es analizar visitas cualificadas y compras, además del CTR.
 
-### Escenario B: Resultado Enriquecido (Con Rich Snippet de Reseñas y FAQ)
-```text
-Diseño Web en Madrid | Servicios de Desarrollo Web Profesional
-https://ejemplo.com/diseno-web
-★★★★★ Valoración: 4,9 · 128 reseñas
-Ofrecemos servicios de diseño y desarrollo web para empresas y pymes. Páginas rápidas y optimizadas para móviles.
+Para valorar el cambio, guarda fecha y URLs modificadas; compara consultas equivalentes, dispositivo y posición en periodos completos. Si Search Console ofrece un filtro de apariencia para el tipo utilizado, úsalo. No atribuyas toda variación al marcado si también cambiaste precios, title o contenido.
 
-▶ ¿Cuánto tiempo se tarda en diseñar una web?
-  El plazo habitual oscila entre 2 y 4 semanas según la complejidad del proyecto...
-▶ ¿La web estará optimizada para posicionar en Google?
-  Sí, desarrollamos bajo estándares SEO on-page desde el primer día...
-```
-* **Impacto visual:** Muy alto. Ocupa casi el doble de espacio vertical en pantalla.
-* **Información transmitida:** Prueba social instantánea y resolución de dudas comunes antes de hacer clic.
-* **Resultado medible:** Estudios sectoriales demuestran que la inclusión de Rich Snippets bien optimizados puede incrementar el CTR orgánico entre un 15% y un 30%.
+## Cuándo merece la pena pedir una revisión
 
----
+Conviene revisar datos estructurados cuando Google detecta errores, varios plugins generan información diferente, los precios no coinciden o se han marcado reseñas sin justificación. En una web de servicios, la identidad del negocio y la calidad de la oferta tienen prioridad sobre perseguir formatos no disponibles.
 
-## Conclusión y Próximos Pasos
+<CtaService service="seo" title="¿Quieres comprobar que tu schema describe correctamente tu web?" />
 
-Comprender **qué son los rich snippets** e implementarlos en tu sitio web es una de las inversiones técnicas con mayor retorno en [la estrategia de posicionamiento SEO](/servicios/seo). En un entorno digital cada vez más competitivo, no basta con figurar en los primeros puestos de Google; es imprescindible llamar la atención del cliente y transmitir autoridad desde el primer segundo.
-
-Al integrar datos estructurados con la sintaxis Schema.org, no solo facilitas el trabajo a los motores de búsqueda, sino que transformas tus enlaces en auténticos escaparates visuales de alta conversión.
-
-<CtaService service="seo" />
-
-¿Quieres implementar datos estructurados y conseguir Rich Snippets que destaquen sobre tu competencia en Google? [Contacta con el equipo de **LTEvo**](/contacto) y te asesoraremos sin compromiso para optimizar el código de tu web e impulsar la captación de nuevos clientes.
+En LTEvo podemos revisar el marcado, los metadatos y las oportunidades de [posicionamiento SEO](/servicios/seo), vinculando los cambios con búsquedas y contactos reales.

@@ -1,97 +1,97 @@
 ---
 title: "Por Qué mi Web no Aparece en Google (y Cómo Solucionarlo)"
+seoTitle: "Por Qué tu Web no Aparece en Google"
 date: "2026-07-15"
-author: "Equipo LTEvo"
+author: "Víctor Lasheras"
 semana: "Semana 8"
 keyword: "por qué mi web no aparece en google"
 volumen: "320/mes"
 kd: 19
 competidor: "BigSEO"
 coverImage: "/blog/por-que-mi-web-no-aparece-en-google.webp"
+socialImage: "/blog/por-que-mi-web-no-aparece-en-google-og.jpg"
 excerpt: "Por qué tu web no aparece en Google: noindex, robots.txt, sitemap o dominio nuevo. Diagnóstico con site: e Inspección de URLs de Search Console."
-tags: ["SEO","Google","Indexación"]
+tags: ["SEO", "SEO Técnico"]
+updatedAt: "2026-10-02"
+authorProfile: "/sobre-nosotros"
+authorRole: "Diseño, desarrollo web y SEO en LTEvo"
+ctaService: "seo"
+relatedSlugs: ["que-es-google-search-console", "que-es-el-thin-content", "que-es-el-seo"]
 ---
 
+## Por qué tu web no aparece en Google
 
-## Introducción
+Tu web puede no aparecer en Google porque todavía no está indexada, porque una configuración impide rastrearla o porque sí está en el índice, pero posiciona lejos de los primeros resultados. **La primera decisión es distinguir un problema de indexación de uno de posicionamiento**: las soluciones son diferentes.
 
-Es una de las situaciones más frustrantes para cualquier dueño de negocio o emprendedor: después de semanas o meses de esfuerzo, diseño, redacción y configuración técnica, tu nueva página web finalmente está en línea. Emocionado, abres el buscador, escribes el nombre de tu empresa o el servicio que ofreces y... nada. Tu sitio parece no existir en absoluto.
+Si acabas de publicar, no cambies títulos ni borres páginas a ciegas. Comprueba una URL concreta, registra el motivo que muestra Search Console y corrige el problema antes de solicitar una nueva revisión.
 
-En el entorno digital, esto puede generar una sensación de invisibilidad absoluta. Si tu web no está visible en el buscador más utilizado del mundo, estás perdiendo la oportunidad de conectar con miles de personas que necesitan tus servicios o productos en este mismo instante.
+## Indexación y posicionamiento: qué comprobar primero
 
-Sin embargo, no hay necesidad de alarmarse. Que un sitio no se muestre de inmediato en los resultados es un problema común y, en la inmensa mayoría de los casos, tiene una solución técnica clara. En esta guía detallada, exploraremos las causas principales de esta situación, cómo comprobar el estado real de tu sitio y los pasos exactos que debes dar para que empiece a ser visible para tus potenciales clientes.
+<FlowDiagram>
+  <FlowStep title="Descubrimiento" subtitle="Enlaces y sitemap" badge="1">
+    Google conoce que una dirección existe.
+  </FlowStep>
+  <FlowStep title="Rastreo e indexación" subtitle="Lectura y selección" badge="2">
+    Puede acceder al contenido y decide si lo incorpora al índice.
+  </FlowStep>
+  <FlowStep title="Posicionamiento" subtitle="Respuesta a una búsqueda" badge="3">
+    Una página indexada compite por consultas concretas.
+  </FlowStep>
+</FlowDiagram>
 
----
+La búsqueda `site:tudominio.com` sirve como pista inicial: encontrar resultados confirma que Google muestra algunas páginas de ese dominio. **No encontrar una URL con `site:` no demuestra que esté desindexada**. Google explica las limitaciones de este operador en su [documentación de búsquedas `site:`](https://developers.google.com/search/docs/monitor-debug/search-operators/all-search-site).
 
-## Indexación vs posicionamiento
+Para comprobar una página específica, usa la [Inspección de URLs de Search Console](https://support.google.com/webmasters/answer/9012289). Compara el estado de la versión indexada con la prueba en tiempo real: esta última comprueba el acceso actual, pero no garantiza que Google indexe la página.
 
-Antes de buscar soluciones, es imprescindible comprender que existen dos conceptos fundamentales que a menudo se confunden, pero que representan estados completamente diferentes en el buscador: la indexación y el posicionamiento.
+| Situación | Qué significa | Siguiente paso |
+| :--- | :--- | :--- |
+| URL indexada, sin visitas | Puede no aparecer para la consulta que te interesa | Revisar consultas, posición y contenido |
+| Excluida por `noindex` | Se ha pedido que no aparezca | Retirar la directiva si fue accidental |
+| Bloqueada por robots.txt | Google no puede rastrear la URL | Revisar la regla que impide el acceso |
+| Rastreada, actualmente sin indexar | Se descargó, pero no está en el índice | Revisar contenido, duplicados y señales técnicas |
+| Descubierta, actualmente sin indexar | Google conoce la URL y aún no la ha rastreado | Revisar enlaces internos y accesibilidad del servidor |
+| Google elige otra canónica | Agrupa esta URL con otra | Comparar las páginas y sus señales de canonicalización |
 
-Para entenderlo mejor, imaginemos una biblioteca gigantesca:
+## Errores técnicos habituales
 
-* **Indexación:** Es el equivalente a que tu libro esté registrado en el catálogo general de la biblioteca. Si el bibliotecario ha catalogado tu libro, significa que sabe que existe y que está guardado en alguna de sus estanterías. Si no estás catalogado, nadie podrá encontrarte, por mucho que te busquen.
-* **Posicionamiento:** Es el lugar físico donde se expone tu libro. ¿Está en la mesa de novedades a la entrada de la biblioteca, visible para todos, o está archivado en una estantería del sótano al fondo de la sala? Un libro puede estar catalogado (indexado) pero encontrarse en una posición tan rezagada que casi ningún visitante llega a verlo.
+### Una directiva noindex que quedó tras el lanzamiento
 
-[Photo Placeholder: Diagrama explicativo del flujo de rastreo, indexación y posicionamiento en buscadores]
+Revisa tanto el HTML (`meta name="robots"`) como las cabeceras HTTP (`X-Robots-Tag`). Una web que estuvo en pruebas puede conservar una exclusión accidental. Si también bloqueas el rastreo en robots.txt, Google podría no leer el cambio de `noindex`.
 
-Para comprobar si tu web está realmente indexada (es decir, si el buscador sabe que existes), puedes realizar una prueba muy sencilla. Abre el buscador y escribe lo siguiente en la barra de búsqueda:
+### Robots.txt, contraseñas o fallos del servidor
 
-`site:tudominio.com` (sustituyendo "tudominio.com" por la dirección real de tu web).
+Un `Disallow: /`, una protección por contraseña, una redirección en bucle o un error 5xx pueden impedir la lectura. Robots.txt controla el rastreo; **no protege información privada ni garantiza la retirada de una URL del buscador**. La [guía oficial de robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro) detalla esta diferencia.
 
-* **Si aparecen resultados:** Tu página está indexada. Si no la encuentras al buscar tus servicios, se trata de [un problema de posicionamiento](/blog/que-es-el-seo). Tu web necesita mejorar su relevancia y autoridad para aparecer en las primeras páginas.
-* **Si el buscador dice que no se encontraron resultados:** Tu página no está indexada. El buscador no ha registrado tu web en su base de datos. En este caso, debemos identificar qué está bloqueando el acceso.
+Prueba HTTPS con y sin `www`, y comprueba que las variantes redirijan a una única dirección accesible. Una página de servicio debe devolver 200 y ofrecer el contenido esencial sin depender de una interacción del visitante.
 
----
+### Sitemap y enlaces internos insuficientes
 
-## Errores técnicos comunes
+Un sitemap ayuda a descubrir URLs; no es obligatorio ni asegura que todas se indexen. Incluye páginas canónicas que quieras mostrar y enlázalas desde navegación, servicios o artículos relacionados. Para una web pequeña, esto suele ser más útil que obsesionarse con el [presupuesto de rastreo](/blog/que-es-el-crawl-budget).
 
-Si has confirmado que tu web no está indexada, el siguiente paso es revisar si existe algún impedimento técnico que esté bloqueando [el acceso de los robots de rastreo](/blog/que-es-el-crawl-budget). Estos son los fallos más habituales:
+### Página demasiado parecida a otra
 
-### 1. La etiqueta "noindex" activa
-Este es, con diferencia, el error más frecuente tras el lanzamiento de una web. Durante la fase de diseño y desarrollo, es habitual colocar una directiva en el código llamada "noindex" para evitar que el buscador registre la página mientras está a medio terminar. Si el desarrollador olvida retirar esta directiva al publicar la web definitiva, el buscador respetará la orden y nunca la mostrará.
+Si varias landings repiten el mismo servicio cambiando únicamente la ciudad, Google puede elegir otra página como representativa. Revisa si cada URL responde a una necesidad distinta y ofrece información propia antes de crear más landings.
 
-### 2. Bloqueo en el archivo robots.txt
-El archivo `robots.txt` es un documento de texto sencillo que indica a los buscadores qué secciones de la web pueden rastrear y cuáles deben ignorar. Si este archivo contiene una regla de desautorización general (como `Disallow: /`), estarás cerrando la puerta por completo a los rastreadores.
+## Cómo usar la Inspección de URLs paso a paso
 
-### 3. Ausencia o errores en el sitemap
-El sitemap es un archivo XML que contiene una lista limpia con todas las páginas de tu web. Funciona como un mapa de carreteras para los buscadores. Si no lo has creado o si contiene errores, los robots de rastreo tardarán mucho más tiempo en descubrir y registrar tus contenidos.
+1. Selecciona la propiedad y pega la dirección exacta de la página.
+2. Anota el estado, la fecha del último rastreo y la canónica seleccionada por Google.
+3. Ejecuta la prueba en tiempo real para comprobar acceso, HTML y recursos.
+4. Corrige el bloqueo identificado y vuelve a comprobar la URL.
+5. Solicita indexación si procede. La solicitud no garantiza inclusión ni un plazo concreto; repetirla no acelera el proceso.
 
-### 4. El dominio es demasiado nuevo
-Los buscadores no registran los sitios de forma instantánea. Si acabas de comprar tu dominio y has publicado la web hace pocos días, es completamente normal que todavía no aparezca. El proceso de descubrimiento puede tardar desde unos días hasta un par de semanas de forma natural.
+Guarda capturas y fecha de los cambios. No cambies a la vez URL, contenido, canonical y estructura sin saber qué fallaba: dificultaría valorar el efecto de cada corrección.
 
----
+## Si está indexada, pero no aparece al buscar tu servicio
 
-## Cómo usar la Inspección de URLs
+En ese caso, el trabajo es de [posicionamiento SEO](/servicios/seo). Filtra la URL en Rendimiento y revisa para qué búsquedas obtiene impresiones. Una página de mantenimiento que aparece solo por el nombre de la empresa necesita explicar mejor el servicio, su alcance, destinatarios y condiciones.
 
-Para diagnosticar y solucionar con precisión cualquier problema de visibilidad, la herramienta oficial indispensable es Google Search Console. Es un servicio gratuito que te permite monitorizar el estado de tu web directamente desde la perspectiva del buscador.
-
-Dentro de esta plataforma, la función más potente para resolver dudas de indexación es la **Inspección de URLs**. Aquí te explicamos cómo utilizarla:
-
-1. **Accede a la herramienta:** Entra en Google Search Console y selecciona tu propiedad.
-2. **Introduce la dirección:** En la barra de búsqueda superior, escribe la dirección exacta de la página que quieres comprobar (por ejemplo, tu página de inicio) y pulsa Intro.
-3. **Analiza el informe:** El sistema te mostrará un diagnóstico detallado del estado de esa URL.
-   * Si muestra el mensaje **"La URL está en Google"**, significa que está indexada y no hay problemas técnicos de lectura.
-   * Si muestra **"La URL no está en Google"**, la plataforma te detallará el motivo exacto (por ejemplo: "Excluida por la etiqueta noindex" o "Rastreada pero sin indexar").
-4. **Solicita la indexación:** Si has corregido el error detectado (o si la página es completamente nueva y simplemente no ha sido rastreada aún), haz clic en el botón **"Solicitar indexación"**. Esto enviará un aviso prioritario a los robots para que pasen a revisar tu web lo antes posible.
-
----
+**Ejemplo orientativo:** un taller de Oviedo puede estar indexado y no aparecer por «reparación de embrague Oviedo» si su web solo tiene una portada genérica. Necesita una página que explique esa reparación y permita pedir cita, enlazada desde la home. Este ejemplo ilustra el diagnóstico; no describe un resultado de un cliente.
 
 ## Cuándo pedir ayuda profesional
 
-Encontrar y solucionar fallos de indexación sencillos, como activar el sitemap o desactivar una etiqueta noindex en WordPress, es algo que muchos propietarios de negocios pueden hacer por sí mismos.
+Pide una revisión técnica cuando la prueba en vivo falla, Google elige una canónica inesperada, hay una migración reciente o el contenido renderizado difiere del que ves en el navegador. Si todo es accesible y está indexado, conviene revisar la estrategia comercial y la competencia antes de invertir en más publicaciones.
 
-Sin embargo, en ocasiones el problema es más complejo. Cuestiones como configuraciones incorrectas en el servidor, problemas de renderizado de código JavaScript, bucles de redirecciones mal implementados o problemas de arquitectura interna requieren conocimientos técnicos avanzados.
+<CtaService service="seo" title="¿Tu web está publicada pero no consigue visibilidad?" />
 
-Intentar solucionar estos problemas sin la experiencia adecuada puede empeorar la situación, bloqueando más secciones de tu sitio web de forma accidental. Si has probado los pasos básicos y tu web sigue sin aparecer en los resultados, [delegar la tarea en un equipo experto](/servicios/seo) te ahorrará tiempo, frustración y, sobre todo, la pérdida continua de clientes potenciales.
-
----
-
-## Conclusión y Próximos Pasos
-
-En resumen, que **por qué mi web no aparece en google** tiene respuesta en el análisis ordenado de su indexación y posicionamiento. Desde verificar la presencia de etiquetas restrictivas hasta dar de alta tu sitio en las herramientas de monitorización oficiales, la visibilidad digital es un proceso lógico que se puede gestionar con éxito.
-
-Si quieres asegurarte de que tu sitio web esté perfectamente configurado desde el primer día para atraer visitas de calidad de forma orgánica, no dejes estos aspectos al azar.
-
-<CtaService service="seo" />
-
-¿Necesitas ayuda para aplicar esto en tu web? [Contacta con el equipo de **LTEvo**](/contacto) y te asesoramos sin compromiso para realizar una auditoría de tu sitio, solucionar cualquier error de indexación y mejorar tu visibilidad en buscadores.
+[Cuéntanos qué página y qué búsqueda te preocupan](/contacto). En LTEvo podemos revisar indexación, contenido y enlazado para proponer las siguientes acciones.

@@ -1,6 +1,6 @@
 # LTEvo
 
-> Agencia de diseño y desarrollo web en Oviedo, Asturias. Creamos webs a medida (Next.js y React) que cargan en menos de un segundo, tiendas online y posicionamiento SEO para convertir visitas en clientes. Alternativa rápida y limpia a las plantillas de WordPress o Wix.
+> Agencia de diseño y desarrollo web en Oviedo, Asturias. Diseñamos webs corporativas, aplicaciones a medida y tiendas online; ofrecemos SEO, hosting gestionado y mantenimiento con alcance definido.
 
 ## Servicios
 
@@ -8,6 +8,12 @@
 - [SEO](https://ltevo.com/servicios/seo): Posicionamiento en buscadores para captar tráfico orgánico de calidad y multiplicar las ventas en Google.
 - [Mantenimiento Web](https://ltevo.com/servicios/mantenimiento-web): Soporte técnico con copias de seguridad, actualizaciones y optimización continua de velocidad.
 - [Contacto](https://ltevo.com/contacto): Solicita un presupuesto gratuito y sin compromiso para tu proyecto web.
+
+- [Hosting gestionado](https://ltevo.com/servicios/hosting): Alojamiento y gestión técnica según necesidades.
+- [Desarrollo web](https://ltevo.com/servicios/desarrollo-web): Aplicaciones, funciones e integraciones a medida.
+- [Tiendas online](https://ltevo.com/servicios/tiendas-online): Catálogo, pagos, envíos y gestión.
+- [Proyectos](https://ltevo.com/proyectos): Casos y alcance de webs realizadas.
+- [Sobre LTEvo](https://ltevo.com/sobre-nosotros): Víctor Lasheras, trabajo y contacto.
 
 ## Blog
 
@@ -28,6 +34,9 @@
 - [TPV Virtual: Qué Es y Cómo Cobrar con Tarjeta Online](https://ltevo.com/blog/tpv-virtual-que-es): Cobro con tarjeta en tienda online sin datáfono: PSD2, 3D Secure y comparativa de pasarelas. (2026-09-16)
 - [Kit Digital en 2026: Preguntas Frecuentes](https://ltevo.com/blog/kit-digital-preguntas-frecuentes): Estado de las convocatorias, plazos de justificación y errores que bloquean el pago. (2026-09-23)
 - [Qué es Google Search Console y Cómo Configurarlo desde Cero](https://ltevo.com/blog/que-es-google-search-console): Guía paso a paso para verificar la propiedad en DNS, enviar el sitemap y analizar el rendimiento orgánico. (2026-09-30)
+
+- [Cómo elegir una agencia de diseño web](https://ltevo.com/blog/como-elegir-agencia-de-diseno-web): Alcance, presupuesto, proyectos y condiciones para elegir proveedor. (2026-10-02)
+- [Qué incluye el mantenimiento web](https://ltevo.com/blog/que-incluye-mantenimiento-web): Copias, actualizaciones, soporte y comparación de planes. (2026-10-02)
 
 ## Información
 
