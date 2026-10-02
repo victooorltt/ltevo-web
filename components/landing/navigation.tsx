@@ -19,10 +19,14 @@ const navLinks: NavLink[] = [
     href: "#",
     dropdown: [
       { name: "Diseño Web", href: "/servicios/diseno-web" },
+      { name: "Desarrollo a medida", href: "/servicios/desarrollo-web" },
+      { name: "Tiendas online", href: "/servicios/tiendas-online" },
       { name: "SEO y Posicionamiento", href: "/servicios/seo" },
       { name: "Mantenimiento Web", href: "/servicios/mantenimiento-web" },
+      { name: "Hosting gestionado", href: "/servicios/hosting" },
     ],
   },
+  { name: "Proyectos", href: "/proyectos" },
   { name: "Blog", href: "/blog" },
   { name: "Contacto", href: "/contacto" },
 ];
@@ -31,6 +35,7 @@ export function Navigation() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,11 +62,27 @@ export function Navigation() {
     };
   }, [isMobileMenuOpen]);
 
+  /* Escape cierra el menú móvil y devuelve el foco al botón hamburguesa. */
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        document.getElementById("btn-menu-movil")?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isMobileMenuOpen]);
+
   const hasDarkHero =
     pathname === "/" ||
     pathname === "/contacto" ||
     pathname === "/servicios/seo" ||
-    pathname === "/servicios/mantenimiento-web";
+    pathname === "/servicios/mantenimiento-web" ||
+    pathname === "/servicios/hosting" ||
+    pathname === "/servicios/desarrollo-web" ||
+    pathname === "/servicios/tiendas-online";
   const showWhiteText = !isScrolled && hasDarkHero;
   const floating = isScrolled || isMobileMenuOpen;
 
@@ -112,7 +133,7 @@ export function Navigation() {
           border: floating
             ? "1px solid rgba(0,0,0,0.08)"
             : "1px solid transparent",
-          transition: "all 0.5s ease",
+          transition: "background-color 0.5s ease, box-shadow 0.5s ease, border-radius 0.5s ease, border-color 0.5s ease",
         }}
       >
         <div
@@ -139,11 +160,19 @@ export function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-12">
+          <div className="hidden lg:flex items-center gap-12">
             {navLinks.map((link) =>
               link.dropdown ? (
                 <div key={link.name} className="relative group">
                   <button
+                    id="btn-servicios"
+                    aria-expanded={isServicesOpen}
+                    aria-haspopup="true"
+                    aria-controls="menu-servicios"
+                    onClick={() => setIsServicesOpen((v) => !v)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") setIsServicesOpen(false);
+                    }}
                     className={`text-sm font-medium tracking-wide transition-all duration-300 relative flex items-center gap-1 ${
                       showWhiteText
                         ? "text-white/70 hover:text-white"
@@ -153,6 +182,7 @@ export function Navigation() {
                     {link.name}
                     <ChevronDown
                       size={14}
+                      aria-hidden="true"
                       className="transition-transform duration-300 group-hover:rotate-180"
                     />
                     <span
@@ -161,7 +191,24 @@ export function Navigation() {
                       }`}
                     />
                   </button>
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                  {/* group-focus-within hace el desplegable alcanzable con teclado
+                      (antes solo se abría con hover, y las 3 páginas de servicio
+                      eran inalcanzables por tabulación). isServicesOpen cubre el
+                      clic y el Escape. Sin cambios de comportamiento con ratón. */}
+                  <div
+                    id="menu-servicios"
+                    className={`absolute top-full left-1/2 -translate-x-1/2 pt-4 transition-all duration-300 ${
+                      isServicesOpen
+                        ? "opacity-100 visible"
+                        : "opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible"
+                    }`}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") {
+                        setIsServicesOpen(false);
+                        document.getElementById("btn-servicios")?.focus();
+                      }
+                    }}
+                  >
                     <div className="bg-background/95 backdrop-blur-xl border border-foreground/10 rounded-sm shadow-[0_8px_30px_rgba(0,0,0,0.08)] min-w-[220px] py-2">
                       {link.dropdown.map((item) => (
                         <Link
@@ -198,7 +245,7 @@ export function Navigation() {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             <Button
               size="sm"
               asChild
@@ -216,11 +263,14 @@ export function Navigation() {
 
           {/* Mobile Menu Button */}
           <button
+            id="btn-menu-movil"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`md:hidden p-2 transition-colors duration-300 ${
+            className={`lg:hidden p-2 transition-colors duration-300 ${
               showWhiteText ? "text-white" : "text-foreground"
             }`}
-            aria-label="Toggle menu"
+            aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="menu-movil"
           >
             {isMobileMenuOpen ? (
               <X className="w-6 h-6" />
@@ -231,9 +281,16 @@ export function Navigation() {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu.
+          `inert` en estado cerrado: con solo opacity-0 + pointer-events-none los
+          7 enlaces seguían siendo tabulables, así que en móvil (donde el menú
+          móvil es la única navegación) el teclado se perdía en 7 paradas
+          invisibles con el scroll bloqueado. No altera el render. */}
       <div
-        className={`md:hidden fixed inset-0 bg-background z-50 transition-all duration-500 ${
+        id="menu-movil"
+        inert={!isMobileMenuOpen}
+        aria-hidden={!isMobileMenuOpen}
+        className={`lg:hidden fixed inset-0 bg-background z-50 transition-all duration-500 ${
           isMobileMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -258,7 +315,7 @@ export function Navigation() {
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="p-2 text-foreground hover:text-muted-foreground transition-colors duration-300"
-              aria-label="Close menu"
+              aria-label="Cerrar menú"
             >
               <X className="w-6 h-6" />
             </button>

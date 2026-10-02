@@ -1,11 +1,36 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+const SERVICE_LABELS: Record<string, string> = {
+  "diseno-web": "Diseño Web",
+  seo: "SEO y Posicionamiento",
+  ecommerce: "Tienda Online",
+  mantenimiento: "Mantenimiento Web",
+  "desarrollo-web": "Desarrollo web a medida",
+  hosting: "Hosting gestionado",
+  otro: "Otro",
+};
+
 const contactSchema = z.object({
-  name: z.string().min(1, "El nombre es obligatorio"),
-  email: z.string().email("Email no válido"),
-  phone: z.string().optional(),
-  message: z.string().min(1, "El mensaje es obligatorio"),
+  name: z.string().min(1, "El nombre es obligatorio").max(120, "Nombre demasiado largo"),
+  email: z.string().email("Email no válido").max(200, "Email demasiado largo"),
+  phone: z.string().max(40, "Teléfono demasiado largo").optional().or(z.literal("")),
+  message: z.string().min(1, "El mensaje es obligatorio").max(5000, "Mensaje demasiado largo"),
+  /* `service` estaba en el formulario pero no en el esquema: Zod descarta las
+     claves no declaradas, así que el servicio que elegía el usuario nunca
+     llegaba al correo. Era el dato de cualificación más valioso. */
+  service: z.string().max(80).optional().or(z.literal("")),
+  plan: z.enum(["", "Básico", "Profesional", "Premium"]).optional(),
+  sourcePath: z.string().max(200).regex(/^\/[a-zA-Z0-9/_-]*$/).optional(),
+  landingPath: z.string().max(200).regex(/^\/[a-zA-Z0-9/_-]*$/).optional(),
+  /* La política de privacidad declara el consentimiento como base jurídica
+     (art. 6.1.a RGPD). Si no se exige aquí, esa base es decorativa. */
+  consent: z.literal(true, {
+    errorMap: () => ({ message: "Debes aceptar la política de privacidad" }),
+  }),
+  /* Honeypot: si viene relleno, el remitente es un bot. Se responde 200
+     para que no aprenda, y no se envía nada. */
+  website: z.string().max(0, "Envío rechazado").optional().or(z.literal("")),
 });
 
 // Escapa caracteres HTML para prevenir inyección en el cuerpo del email
@@ -30,13 +55,18 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, email, phone, message } = result.data;
+    const { name, email, phone, message, service, website, plan, sourcePath, landingPath } = result.data;
+
+    /* Bot: se acepta en silencio para no darle pistas. */
+    if (website) {
+      return NextResponse.json({ success: true });
+    }
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
       console.error("RESEND_API_KEY no está configurada");
       return NextResponse.json(
-        { error: "Error de configuración del servidor: Falta la clave API de Resend" },
+        { error: "No hemos podido enviar tu mensaje. Escríbenos a info@ltevo.com" },
         { status: 500 }
       );
     }
@@ -53,13 +83,16 @@ export async function POST(req: Request) {
     const escapedName = escapeHtml(name);
     const escapedEmail = escapeHtml(email);
     const escapedPhone = escapeHtml(phone || "No proporcionado");
+    const escapedService = escapeHtml(
+      service ? SERVICE_LABELS[service] ?? service : "No indicado",
+    );
     const escapedMessage = escapeHtml(message);
 
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: `LTevo Web <${sender}>`,
       to: [recipient],
       replyTo: email,
-      subject: `Nuevo mensaje de contacto de ${name}`,
+      subject: `Consulta ${service ? SERVICE_LABELS[service] ?? "web" : "web"}${plan ? ` · ${plan}` : ""}: ${name}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
           <h2 style="color: #111; border-bottom: 2px solid #111; padding-bottom: 10px; margin-top: 0;">Nuevo mensaje de contacto</h2>
@@ -76,9 +109,18 @@ export async function POST(req: Request) {
                 <td style="padding: 8px 0; border-bottom: 1px solid #eee; color: #111;"><a href="mailto:${escapedEmail}" style="color: #0066cc; text-decoration: none;">${escapedEmail}</a></td>
               </tr>
               <tr>
-                <td style="padding: 8px 0; font-weight: bold; border-bottom: 1px solid #eee; color: #333;">Teléfono:</td>
+                <td style="padding: 8px 0; font-weight: bold; border-bottom: 1px solid #eee; width: 120px; color: #333;">Teléfono:</td>
                 <td style="padding: 8px 0; border-bottom: 1px solid #eee; color: #111;">${escapedPhone}</td>
               </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: bold; border-bottom: 1px solid #eee; color: #333;">Servicio:</td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #eee; color: #111;">${escapedService}</td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Plan:</td><td>${escapeHtml(plan || "No indicado")}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Página de origen:</td><td>${escapeHtml(sourcePath || "No indicada")}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Página de entrada:</td><td>${escapeHtml(landingPath || "No indicada")}</td></tr>
             </tbody>
           </table>
 
@@ -97,10 +139,15 @@ export async function POST(req: Request) {
 
     if (error) {
       console.error("Error de Resend:", error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      // No se filtra el mensaje del proveedor al cliente: puede incluir
+      // identificadores internos o detalle de la cuenta.
+      return NextResponse.json(
+        { error: "No hemos podido enviar tu mensaje. Escríbenos a info@ltevo.com" },
+        { status: 500 },
+      );
     }
 
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({ success: true });
   } catch (error: unknown) {
     console.error("Error procesando el formulario de contacto:", error);
     return NextResponse.json(

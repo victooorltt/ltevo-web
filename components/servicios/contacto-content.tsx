@@ -1,13 +1,80 @@
 "use client";
 
-import { useState } from "react";
+import { useSyncExternalStore, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown, MapPin } from "lucide-react";
+import { contactContext, trackEvent } from "@/lib/analytics";
+import {
+  getConsent,
+  getServerConsent,
+  subscribeConsent,
+} from "@/lib/consent";
+import { ConsentCheckbox, HoneypotField } from "@/components/landing/consent-checkbox";
+
+/* ------------------------------------------------------------------ */
+/*  Mapa de ubicación                                                 */
+/* ------------------------------------------------------------------ */
+
+/**
+ * El iframe de Google Maps se montaba siempre, con lo que Google escribía
+ * cookies (NID, VISITOR_INFO1_LIVE…) en la primera visita y sin que nadie
+ * hubiera dado permiso. Ahora el iframe solo existe si hay consentimiento;
+ * sin él se muestra un aviso con un enlace a la dirección, que además es
+ * mejor para SEO local que un mapa dentro de un iframe.
+ */
+function MapConsent() {
+  const consent = useSyncExternalStore(
+    subscribeConsent,
+    getConsent,
+    getServerConsent,
+  );
+
+  /* En el servidor no hay consentimiento, así que el mapa no se prerenderiza:
+     el iframe de Google no puede aparecer en el HTML estático. Si el
+     usuario acepta, se monta; si no, se muestra la dirección con enlace. */
+  if (consent?.maps !== true) {
+    return (
+      <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-center px-6">
+        <MapPin className="size-5 text-muted-foreground" aria-hidden="true" />
+        <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
+          El mapa interactivo lo carga Google y usaría cookies. Puedes{" "}
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Calle+Ur%C3%ADa+19%2C+33003+Oviedo%2C+Asturias"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors"
+          >
+            abrir la ubicación en Google Maps
+          </a>{" "}
+          sin activar cookies de terceros, o habilitarla desde el botón{" "}
+          <span className="font-mono text-[10px] tracking-widest uppercase text-foreground/70">
+            Cookies
+          </span>
+          .
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <iframe
+      src="https://maps.google.com/maps?q=Calle%20Ur%C3%ADa,%20Oviedo,%20Asturias&t=&z=15&ie=UTF8&iwloc=&output=embed"
+      width="100%"
+      height="100%"
+      style={{ border: 0 }}
+      allowFullScreen={true}
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+      title="Mapa de la ubicación de LTEvo en Calle Uría, Oviedo"
+      className="w-full h-full grayscale-[10%] contrast-[105%] transition-all duration-300"
+    />
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /*  Component                                                         */
 /* ------------------------------------------------------------------ */
-export function ContactoContent() {
+export function ContactoContent({ initialService = "", initialPlan = "" }: { initialService?: string; initialPlan?: string }) {
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
@@ -17,7 +84,7 @@ export function ContactoContent() {
     name: "",
     email: "",
     phone: "",
-    service: "",
+    service: initialService,
     message: "",
   });
 
@@ -30,21 +97,40 @@ export function ContactoContent() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
     setErrorMessage(null);
 
     try {
+      /* FormData en lugar de JSON.stringify(form): el checkbox de
+         consentimiento y el honeypot no son controlados, así que no están
+         en el estado `form` y se perderían. El backend exige `consent`. */
+      const formEl = e.currentTarget;
+      const consentEl = formEl.elements.namedItem("consent");
+      const websiteEl = formEl.elements.namedItem("website");
+      const payload = {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        service: form.service,
+        message: form.message,
+        ...contactContext(),
+        plan: form.service === "mantenimiento" ? initialPlan : "",
+        consent: consentEl instanceof HTMLInputElement && consentEl.checked,
+        website: websiteEl instanceof HTMLInputElement ? websiteEl.value : "",
+      };
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
 
       if (response.ok && data.success) {
+        trackEvent("generate_lead", { service: form.service || "otro", plan: form.service === "mantenimiento" ? initialPlan : "", page_path: "/contacto", form_location: "contacto" });
         setStatus("success");
       } else {
         setStatus("error");
@@ -133,6 +219,15 @@ export function ContactoContent() {
             {/* ---- Right: form ---- */}
             <div className="reveal" style={{ animationDelay: "0.2s" }}>
               <div>
+                {/* Región de estado para lectores de pantalla: sin esto, al
+                    enviar el formulario el DOM cambiaba en silencio y no
+                    había ningún aviso. Visualmente no añade nada. */}
+                <div role="status" aria-live="polite" className="sr-only">
+                  {status === "success" &&
+                    "Mensaje enviado. Te responderemos en menos de 24 horas."}
+                  {status === "error" &&
+                    (errorMessage ?? "No hemos podido enviar tu mensaje.")}
+                </div>
                 {status === "success" ? (
                   <div className="rounded-xl border border-foreground/10 p-12 flex flex-col items-start gap-4 h-full justify-center">
                     <span className="font-mono text-xs text-muted-foreground">
@@ -167,13 +262,15 @@ export function ContactoContent() {
                     {/* Nombre y Teléfono */}
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium text-foreground/70">
+                        <label htmlFor="nombre" className="text-sm font-medium text-foreground/70">
                           Nombre{""}
                           <span className="text-foreground">*</span>
                         </label>
                         <input
+                          id="nombre"
                           type="text"
                           name="name"
+                          autoComplete="name"
                           required
                           placeholder="Tu nombre"
                           value={form.name}
@@ -183,12 +280,14 @@ export function ContactoContent() {
                         />
                       </div>
                       <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium text-foreground/70">
+                        <label htmlFor="telefono" className="text-sm font-medium text-foreground/70">
                           Teléfono
                         </label>
                         <input
+                          id="telefono"
                           type="tel"
                           name="phone"
+                          autoComplete="tel"
                           placeholder="+34 600 000 000"
                           value={form.phone}
                           onChange={handleChange}
@@ -199,12 +298,14 @@ export function ContactoContent() {
 
                     {/* Email */}
                     <div className="flex flex-col gap-2">
-                      <label className="text-sm font-medium text-foreground/70">
+                      <label htmlFor="email" className="text-sm font-medium text-foreground/70">
                         Email <span className="text-foreground">*</span>
                       </label>
                       <input
+                        id="email"
                         type="email"
                         name="email"
+                        autoComplete="email"
                         required
                         placeholder="tu@email.com"
                         value={form.email}
@@ -231,6 +332,8 @@ export function ContactoContent() {
                           </option>
                           <option value="diseno-web">Diseño Web</option>
                           <option value="seo">SEO y Posicionamiento</option>
+                          <option value="desarrollo-web">Desarrollo web a medida</option>
+                          <option value="hosting">Hosting gestionado</option>
                           <option value="ecommerce">Tienda Online</option>
                           <option value="mantenimiento">Mantenimiento Web</option>
                           <option value="otro">Otro</option>
@@ -243,12 +346,14 @@ export function ContactoContent() {
                     </div>
 
                     {/* Mensaje */}
+                    {initialPlan && form.service === "mantenimiento" && <p className="text-sm text-muted-foreground">Solicitas información sobre el plan <strong>{initialPlan}</strong>. Concretaremos alcance y condiciones antes de contratar.</p>}
                     <div className="flex flex-col gap-2">
-                      <label className="text-sm font-medium text-foreground/70">
+                      <label htmlFor="mensaje" className="text-sm font-medium text-foreground/70">
                         Mensaje{""}
                         <span className="text-foreground">*</span>
                       </label>
                       <textarea
+                        id="mensaje"
                         name="message"
                         required
                         rows={5}
@@ -261,11 +366,19 @@ export function ContactoContent() {
 
                     {/* Error */}
                     {status === "error" && (
-                      <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm rounded-xl">
+                      <div
+                        role="alert"
+                        className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm rounded-xl"
+                      >
                         {errorMessage ||
                           "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo."}
                       </div>
                     )}
+
+                    <ConsentCheckbox id="consentimiento-contacto" />
+
+                    {/* Honeypot: invisible para personas, trampa para bots. */}
+                    <HoneypotField />
 
                     {/* Submit */}
                     <Button
@@ -326,16 +439,7 @@ export function ContactoContent() {
             <div className="lg:col-span-2">
               <div className="reveal" style={{ animationDelay: "0.1s" }}>
                 <div className="relative w-full h-[350px] md:h-[400px] rounded-2xl overflow-hidden border border-foreground/10 bg-muted/30 shadow-[0_4px_30px_rgba(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
-                  <iframe
-                    src="https://maps.google.com/maps?q=Calle%20Ur%C3%ADa,%20Oviedo,%20Asturias&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen={true}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="w-full h-full grayscale-[10%] contrast-[105%] transition-all duration-300"
-                  />
+                  <MapConsent />
                 </div>
               </div>
             </div>

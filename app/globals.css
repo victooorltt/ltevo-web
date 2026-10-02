@@ -181,9 +181,28 @@
     animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
+  /* Variante para imágenes above-the-fold (elemento LCP). Mismo translateY,
+     pero la opacidad parte de 0.9 en lugar de 0: nunca es 0, así que la
+     imagen es candidata a LCP desde el primer frame. */
+  @keyframes fade-up-image {
+    from {
+      opacity: 0.9;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-up-image {
+    animation: fade-up-image 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .fade-up,
-    .fade-up-slow {
+    .fade-up-slow,
+    .fade-up-image {
       animation: none;
     }
   }

@@ -8,7 +8,10 @@ import { ReadingProgressBar } from "@/components/blog/reading-progress";
 import { getPostBySlug, getAllPosts, hasRealCover, formatDate } from "@/lib/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import { blogMdxComponents } from "@/components/blog/mdx-components";
+import { jsonLdString } from "@/lib/seo";
+import { business } from "@/lib/business";
+import { imageDimensions } from "@/lib/images";
+import { CTA_SERVICE_CONFIG, type CtaServiceKey, blogMdxComponents } from "@/components/blog/mdx-components";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -24,13 +27,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const post = getPostBySlug(resolvedParams.slug);
-  
+
   if (!post) {
     return {
       title: "Artículo no encontrado",
     };
   }
 
+  const socialSize = imageDimensions(post.socialImage ?? post.coverImage);
   return {
     // seoTitle (si existe) acorta el <title> SEO; el H1 visible sigue usando post.title.
     title: post.seoTitle ?? post.title,
@@ -38,13 +42,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: `/blog/${post.slug}`,
     },
+    authors: [{ name: post.author, url: post.authorProfile }],
+    twitter: { card: "summary_large_image", title: post.seoTitle ?? post.title, description: post.excerpt, images: [post.socialImage ?? post.coverImage ?? "/opengraph-image.jpg"] },
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: "article",
       url: `/blog/${post.slug}`,
       publishedTime: post.date,
-      modifiedTime: post.date,
+      modifiedTime: post.updatedAt ?? post.date,
       authors: [post.author],
       tags: post.tags,
       // Solo declaramos images si el post tiene portada real; el fallback
@@ -53,9 +59,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         ? {
             images: [
               {
-                url: post.coverImage,
-                width: 1200,
-                height: 630,
+                url: post.socialImage ?? post.coverImage,
+                ...socialSize,
                 alt: post.title,
               },
             ],
@@ -80,13 +85,17 @@ export default async function BlogDetailPage({ params }: PageProps) {
     .filter((p) => p.slug !== post.slug)
     .map((p) => ({
       post: p,
-      score: (p.tags ?? []).filter((t) =>
+      score: (post.relatedSlugs?.includes(p.slug) ? 100 : 0) + (p.tags ?? []).filter((t) =>
         post.tags?.some((tt) => tt.toLowerCase() === t.toLowerCase())
       ).length,
     }))
+    .filter((item) => item.score > 0)
     .sort((a, b) => b.score - a.score || (a.post.date < b.post.date ? 1 : -1))
     .slice(0, 2)
     .map((r) => r.post);
+
+  const ctaKey = post.ctaService && post.ctaService in CTA_SERVICE_CONFIG ? post.ctaService as CtaServiceKey : "contacto";
+  const cta = CTA_SERVICE_CONFIG[ctaKey];
 
   // JSON-LD: BlogPosting + BreadcrumbList (mismo patrón que las páginas de servicio)
   const jsonLd = {
@@ -97,27 +106,33 @@ export default async function BlogDetailPage({ params }: PageProps) {
         "@id": `https://ltevo.com/blog/${post.slug}#article`,
         headline: post.title,
         description: post.excerpt,
-        ...(hasRealCover(post) ? { image: `https://ltevo.com${post.coverImage}` } : {}),
+        ...(hasRealCover(post) ? { image: `https://ltevo.com${post.socialImage ?? post.coverImage}` } : {}),
         datePublished: post.date,
-        dateModified: post.date,
+        // Cae a `date` mientras el frontmatter no declare `updatedAt`. Antes
+        // era idéntico siempre, así que una revisión del artículo era invisible.
+        dateModified: post.updatedAt ?? post.date,
         author: {
-          "@type": "Organization",
+          "@type": post.author === business.author ? "Person" : "Organization",
+          "@id": `https://ltevo.com${post.authorProfile ?? "/sobre-nosotros"}${post.author === business.author ? "#victor-lasheras" : "#team"}`,
           name: post.author,
-          url: "https://ltevo.com"
+          url: `https://ltevo.com${post.authorProfile ?? "/sobre-nosotros"}`
         },
         publisher: {
           "@type": "Organization",
           name: "LTEvo",
           logo: {
             "@type": "ImageObject",
-            url: "https://ltevo.com/icon.png"
+            url: "https://ltevo.com/logo.svg"
           }
         },
         mainEntityOfPage: {
           "@type": "WebPage",
           "@id": `https://ltevo.com/blog/${post.slug}`
         },
-        keywords: post.tags?.join(", "),
+        /* `keyword` es la query objetivo que ya se investigó en el frontmatter
+           (con volumen y KD). `tags` son etiquetas de navegación: se pierden
+           como señal y, además, no tienen ninguna URL de destino. */
+        keywords: [post.keyword, ...(post.tags ?? [])].filter(Boolean).join(", "),
         inLanguage: "es"
       },
       {
@@ -151,7 +166,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
     <div className="relative min-h-[100dvh] bg-background text-foreground flex flex-col font-sans selection:bg-foreground selection:text-background">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }}
       />
       <ReadingProgressBar />
       <Navigation />
@@ -167,10 +182,11 @@ export default async function BlogDetailPage({ params }: PageProps) {
             <span>{post.readingTime}</span>
             <span>•</span>
             <span>
-              Por <span className="text-foreground font-medium">{post.author}</span>
+              Por <Link href={post.authorProfile ?? "/sobre-nosotros"} className="text-foreground font-medium underline underline-offset-4">{post.author}</Link>
             </span>
           </div>
 
+          {post.updatedAt && <p className="text-sm text-muted-foreground mb-6">Revisado el {formatDate(post.updatedAt)}</p>}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display tracking-tight text-foreground leading-[1.05] mb-8 max-w-2xl mx-auto">
             {post.title}
           </h1>
@@ -200,7 +216,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
       </section>
 
       {/* Main Content Area */}
-      <main className="flex-grow pb-24 px-6">
+      <main id="contenido" className="flex-grow pb-24 px-6">
         <article className="prose prose-neutral max-w-2xl mx-auto prose-headings:font-sans prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-2xl lg:text-[18px] prose-h3:text-xl lg:text-2xl prose-a:text-foreground prose-a:underline hover:prose-a:opacity-80 transition-all font-sans font-light text-base sm:text-lg leading-relaxed">
           <MDXRemote
             source={post.content}
@@ -262,23 +278,23 @@ export default async function BlogDetailPage({ params }: PageProps) {
             ¿Hablamos de tu proyecto?
           </span>
           <h2 className="text-4xl lg:text-5xl font-display tracking-tight text-foreground mb-6 leading-none">
-            Lleva tu presencia web al siguiente nivel
+            {cta.heading}
           </h2>
           <p className="text-muted-foreground leading-relaxed font-light mb-8 max-w-lg mx-auto">
-            Ayudamos a empresas a diseñar y desarrollar sitios web rápidos, elegantes y optimizados para Google que generan clientes reales.
+            {cta.pitch}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/contacto" 
+            <Link
+              href="/contacto"
               className="px-6 py-3 rounded-full bg-foreground text-background text-sm font-semibold hover:bg-foreground/90 transition-all font-sans"
             >
               Solicitar Presupuesto Gratis
             </Link>
-            <Link 
-              href="/servicios/diseno-web" 
+            <Link
+              href={cta.href}
               className="px-6 py-3 rounded-full border border-foreground/10 text-sm font-semibold hover:bg-foreground/5 transition-all font-sans"
             >
-              Ver Servicios
+              {cta.cta}
             </Link>
           </div>
         </div>

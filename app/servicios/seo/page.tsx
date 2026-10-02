@@ -1,21 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { SeoContent, faqs } from "@/components/servicios/seo-content";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 
-export const metadata: Metadata = {
-  title: "Posicionamiento SEO Profesional en Oviedo y Asturias",
-  description:
-    "Agencia de posicionamiento SEO en Oviedo y Asturias. Optimizamos tu web para captar tráfico orgánico de calidad y multiplicar tus ventas en Google.",
-  alternates: { canonical: "/servicios/seo" },
-  openGraph: {
-    title: "Posicionamiento SEO Profesional en Oviedo y Asturias",
-    description:
-      "Agencia de posicionamiento SEO en Oviedo y Asturias. Optimizamos tu web para captar tráfico orgánico de calidad y multiplicar tus ventas en Google.",
-    url: "https://ltevo.com/servicios/seo",
-    type: "website",
-  },
-};
+export const metadata = pageMetadata("Agencia SEO en Oviedo y Asturias", "SEO para empresas en Oviedo y Asturias: diagnóstico, mejoras técnicas, contenidos y seguimiento. Define un plan para captar clientes con LTEvo.", "/servicios/seo");
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -24,17 +12,20 @@ const jsonLd = {
       "@type": "Service",
       "@id": "https://ltevo.com/servicios/seo#service",
       "name": "Posicionamiento SEO Profesional",
-      "description": "Servicios de posicionamiento SEO técnico, consultoría SEO y optimización on-page/off-page. Multiplicamos la visibilidad orgánica de tu negocio en España para captar clientes cualificados y mejorar el retorno de inversión.",
+      "description": "Servicios SEO para empresas de Oviedo y Asturias: diagnóstico, mejoras técnicas, contenidos y seguimiento de consultas y contactos según el alcance acordado.",
       "provider": {
         "@type": "ProfessionalService",
         "@id": "https://ltevo.com/#business",
         "name": "LTEvo",
         "url": "https://ltevo.com"
       },
-      "areaServed": {
-        "@type": "Country",
-        "name": "España"
-      },
+      "areaServed": [
+        { "@type": "City", "name": "Oviedo" },
+        { "@type": "City", "name": "Gijón" },
+        { "@type": "City", "name": "Avilés" },
+        { "@type": "AdministrativeArea", "name": "Asturias" },
+        { "@type": "Country", "name": "España" }
+      ],
       "serviceType": "Search Engine Optimization"
     },
     {
@@ -72,7 +63,7 @@ const jsonLd = {
 
 export default function SeoPage() {
   return (
-    <main className="relative min-h-[100dvh] overflow-x-hidden">
+    <main id="contenido" className="relative min-h-[100dvh] overflow-x-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

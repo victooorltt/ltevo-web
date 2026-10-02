@@ -1,26 +1,8 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 export function HeroSection() {
-  const [isAnimated, setIsAnimated] = useState(false);
-
-  useEffect(() => {
-    const trigger = () => setIsAnimated(true);
-    window.addEventListener("scroll", trigger, { once: true, passive: true });
-    window.addEventListener("touchstart", trigger, { once: true, passive: true });
-    window.addEventListener("click", trigger, { once: true });
-    const timer = setTimeout(trigger, 5000);
-    return () => {
-      window.removeEventListener("scroll", trigger);
-      window.removeEventListener("touchstart", trigger);
-      window.removeEventListener("click", trigger);
-      clearTimeout(timer);
-    };
-  }, []);
-
   return (
     <section className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden bg-black">
 
@@ -42,9 +24,14 @@ export function HeroSection() {
         ))}
       </div>
 
-      {/* Foto derecha / Fondo en mobile */}
+      {/* Foto derecha / Fondo en mobile.
+          `fade-up-slow` arranca en opacity 0, y Chrome EXCLUYE del cálculo de
+          LCP los elementos con opacidad 0: la imagen más grande de la home
+          entraba tarde al ser descartada como candidata. Por eso solo se
+          anima el transform (translateY) y la opacidad parte de 0.9, no de 0:
+          el efecto visual es prácticamente idéntico y el LCP deja de esperar. */}
       <div
-        className="absolute inset-0 lg:left-auto lg:right-0 lg:w-[52%] h-full block fade-up-slow"
+        className="absolute inset-0 lg:left-auto lg:right-0 lg:w-[52%] h-full block fade-up-image"
         style={{ animationDelay: "0ms" }}
       >
         {/* Imagen (art direction: variante mobile <1024px, desktop >=1024px).
@@ -74,16 +61,8 @@ export function HeroSection() {
 
         {/* Headline */}
         <div className="mb-12 text-left pl-7">
-          <h1 className="text-[clamp(3.25rem,16vw,5.5rem)] lg:text-[clamp(4.5rem,11vw,9rem)] font-display leading-[0.95] tracking-tight text-white">
-            <span className="block">Webs{" "}</span>
-            <span className="block h-[1.2em] overflow-hidden">
-              <span className={`flex flex-col ${isAnimated ? "animate-hero-words" : ""}`}>
-                <span className="flex items-center h-[1.2em]">modernas</span>
-                <span className="flex items-center h-[1.2em]">rápidas</span>
-                <span className="flex items-center h-[1.2em]">elegantes</span>
-                <span className="flex items-center h-[1.2em]" aria-hidden="true">modernas</span>
-              </span>
-            </span>
+          <h1 className="text-[clamp(2.75rem,9vw,4.5rem)] lg:text-[clamp(3.5rem,5.8vw,6.5rem)] font-display leading-[1.05] tracking-tight text-white max-w-4xl">
+            Diseño y desarrollo web en Oviedo
           </h1>
         </div>
 
@@ -92,8 +71,7 @@ export function HeroSection() {
           className="fade-up text-xl lg:text-2xl text-white/70 leading-relaxed max-w-xl mb-10 text-left pl-7"
           style={{ animationDelay: "200ms" }}
         >
-          Desarrollamos webs que trabajan por ti.
-          Estrategia, diseño y rendimiento para que tu negocio escale.
+          Webs corporativas, tiendas online y proyectos a medida para empresas de Asturias y toda España. Conoce nuestro trabajo y solicita una propuesta para tu negocio.
         </p>
 
         {/* CTAs */}
@@ -104,18 +82,17 @@ export function HeroSection() {
           <Button
             size="lg"
             className="bg-white hover:bg-white/90 text-black px-8 h-14 text-base rounded-full group w-full sm:w-auto justify-center"
-            onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+            asChild
           >
-            Contáctanos
-            <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+            <Link href="/contacto?servicio=diseno-web">Solicitar presupuesto <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" /></Link>
           </Button>
           <Button
             size="lg"
             variant="outline"
             className="h-14 px-8 text-base rounded-full border-white/20 text-white hover:bg-white/10 bg-transparent w-full sm:w-auto justify-center"
-            onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })}
+            asChild
           >
-            Ver proyectos
+            <Link href="/proyectos">Ver proyectos</Link>
           </Button>
         </div>
 

@@ -1,115 +1,12 @@
-"use client";
+import Link from "next/link";
 
-import { useEffect, useState, useRef } from "react";
-
-function AnimatedCounter({
-  end,
-  suffix = "",
-  prefix = "",
-}: {
-  end: number;
-  suffix?: string;
-  prefix?: string;
-}) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    let rafId = 0;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        observer.disconnect();
-
-        const duration = 2000;
-        const startTime = performance.now();
-
-        const animate = (currentTime: number) => {
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          setCount(Math.floor(eased * end));
-          if (progress < 1) rafId = requestAnimationFrame(animate);
-        };
-
-        rafId = requestAnimationFrame(animate);
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(rafId);
-    };
-  }, [end]);
-
-  return (
-    <div ref={ref} className="text-6xl lg:text-8xl font-display tracking-tight">
-      {prefix}{count.toLocaleString()}{suffix}
-    </div>
-  );
-}
-
-const metrics = [
-  {
-    value: 40,
-    suffix: "%",
-    prefix: "+",
-    label: "Más conversiones de media en webs rediseñadas",
-  },
-  {
-    value: 98,
-    suffix: "",
-    prefix: "",
-    label: "Puntuación PageSpeed en todos nuestros proyectos",
-  },
-  {
-    value: 3,
-    suffix: "x",
-    prefix: "",
-    label: "Más tráfico orgánico tras optimización SEO",
-  },
-  {
-    value: 100,
-    suffix: "%",
-    prefix: "",
-    label: "De proyectos entregados en plazo",
-  },
+const commitments = [
+  { title: "Alcance antes de empezar", text: "Definimos funciones, contenidos y condiciones para que puedas valorar la propuesta.", href: "/servicios/diseno-web", link: "Cómo planteamos una web" },
+  { title: "Proyectos que puedes ver", text: "Conoce webs realizadas y las necesidades que resuelve cada proyecto.", href: "/proyectos", link: "Ver proyectos de LTEvo" },
+  { title: "Continuidad después del lanzamiento", text: "Elige un mantenimiento con tareas y coberturas concretas, según tu web.", href: "/servicios/mantenimiento-web", link: "Comparar los planes" },
+  { title: "SEO con seguimiento", text: "Revisamos consultas, páginas y contactos para decidir qué conviene mejorar.", href: "/servicios/seo", link: "Conocer el servicio SEO" },
 ];
 
 export function MetricsSection() {
-  return (
-    <section className="relative py-24 lg:py-32 border-y border-foreground/10">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        {/* Header */}
-        <div className="mb-16 lg:mb-24">
-          <h2 className="reveal text-4xl lg:text-6xl font-display tracking-tight">
-            Resultados que <br /> <span className="text-muted-foreground">hablan por sí solos.</span>
-          </h2>
-        </div>
-
-        {/* Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/10">
-          {metrics.map((metric, index) => (
-            <div
-              key={metric.label}
-              className="reveal bg-background p-8 lg:p-12"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <AnimatedCounter
-                end={metric.value}
-                suffix={metric.suffix}
-                prefix={metric.prefix}
-              />
-              <div className="mt-4 text-lg text-muted-foreground">{metric.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+  return <section className="py-24 lg:py-32 border-y border-foreground/10"><div className="max-w-[1400px] mx-auto px-6 lg:px-12"><h2 className="reveal text-4xl lg:text-6xl font-display tracking-tight mb-16">Criterios claros.<br /><span className="text-muted-foreground">Trabajo que puedes valorar.</span></h2><div className="grid md:grid-cols-2 gap-px bg-foreground/10">{commitments.map((item) => <div key={item.title} className="bg-background p-8 lg:p-12"><h3 className="text-2xl lg:text-3xl font-display mb-5">{item.title}</h3><p className="text-muted-foreground leading-relaxed mb-6">{item.text}</p><Link href={item.href} className="underline underline-offset-4 decoration-foreground/30">{item.link} →</Link></div>)}</div></div></section>;
 }

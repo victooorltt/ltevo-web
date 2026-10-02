@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 const projects = [
@@ -6,7 +7,7 @@ const projects = [
     number: "01",
     title: "Autocaravanas Bahía",
     description: "Web bilingüe para empresa de alquiler de autocaravanas en Alicante, con flota, mapa interactivo de rutas y solicitud de reserva.",
-    url: "https://www.autocaravanasbahia.es/",
+    url: "/proyectos/autocaravanas-bahia",
     image: "/portfolio/Autocaravanasbahia.webp",
     tags: ["Diseño Web", "Multiidioma"],
   },
@@ -22,7 +23,7 @@ const projects = [
     number: "03",
     title: "Jardinería El Cuetu",
     description: "Web para empresa de jardinería local con diseño orgánico, galería de trabajos y formulario de contacto integrado.",
-    url: "https://jardineria-elcuetu.vercel.app/",
+    url: "/proyectos/jardineria-el-cuetu",
     image: "/portfolio/cuetu.webp",
     tags: ["Diseño Web", "SEO Local"],
   },
@@ -68,10 +69,8 @@ function ProjectCard({
       className="reveal"
       style={{ animationDelay: `${index * 150}ms` }}
     >
-      <a
+      <Link
         href={project.url}
-        target="_blank"
-        rel="noopener noreferrer"
         className="group block rounded-3xl border border-foreground/[0.08] bg-card/60 hover:bg-card hover:border-foreground/20 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.07)] transition-all duration-500 overflow-hidden"
       >
         <div className="grid lg:grid-cols-2">
@@ -127,7 +126,7 @@ function ProjectCard({
           </div>
 
         </div>
-      </a>
+      </Link>
     </div>
   );
 }

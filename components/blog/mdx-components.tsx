@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowDown, CheckCircle2, AlertTriangle, Lightbulb, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,7 +28,7 @@ export function FlowStep({
   return (
     <div className="w-full md:flex-1 bg-background rounded-xl border border-foreground/10 p-4 shadow-2xs hover:border-foreground/20 transition-all flex flex-col justify-center">
       <div className="flex items-center justify-between gap-2 mb-1">
-        <h5 className="text-sm font-bold text-foreground leading-snug">{title}</h5>
+        <p className="text-sm font-bold text-foreground leading-snug">{title}</p>
         {badge && (
           <span className="font-mono text-[9px] font-semibold px-2 py-0.5 rounded-full bg-foreground/5 text-foreground/70 shrink-0">
             {badge}
@@ -86,9 +87,9 @@ export function FlowDiagram({ title, steps = [], children }: FlowDiagramProps) {
             <React.Fragment key={idx}>
               <div className="w-full md:flex-1 bg-background rounded-xl border border-foreground/10 p-4 shadow-2xs hover:border-foreground/20 transition-all flex flex-col justify-center">
                 <div className="flex items-center justify-between gap-2 mb-1">
-                  <h5 className="text-sm font-bold text-foreground leading-snug">
+                  <p className="text-sm font-bold text-foreground leading-snug">
                     {step.title}
-                  </h5>
+                  </p>
                   {step.badge && (
                     <span className="font-mono text-[9px] font-semibold px-2 py-0.5 rounded-full bg-foreground/5 text-foreground/70 shrink-0">
                       {step.badge}
@@ -147,7 +148,7 @@ export function SiloCluster({
             {badge}
           </span>
         )}
-        <h6 className="text-xs font-bold text-foreground leading-snug">{title}</h6>
+        <p className="text-xs font-bold text-foreground leading-snug">{title}</p>
       </div>
       {children && (
         <div className="text-[11px] text-foreground/70 mt-2 border-t border-foreground/5 pt-1.5 leading-tight">
@@ -178,9 +179,9 @@ export function TopicSilo({
         <div className="inline-block font-mono text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-background/20 text-background mb-1.5">
           {pillar?.badge || "Página Pilar (Money Page)"}
         </div>
-        <h5 className="text-base font-bold leading-tight text-background">
+        <p className="text-base font-bold leading-tight text-background">
           {pillar?.title}
-        </h5>
+        </p>
         {pillar?.desc && (
           <p className="text-xs text-background/80 mt-1">{pillar.desc}</p>
         )}
@@ -205,9 +206,9 @@ export function TopicSilo({
                   <span className="font-mono text-[9px] uppercase font-semibold px-2 py-0.5 rounded-md bg-foreground/5 text-muted-foreground block w-fit mx-auto mb-1.5">
                     {cluster.badge || `Soporte ${i + 1}`}
                   </span>
-                  <h6 className="text-xs font-bold text-foreground leading-snug">
+                  <p className="text-xs font-bold text-foreground leading-snug">
                     {cluster.title}
-                  </h6>
+                  </p>
                 </div>
                 {cluster.desc && (
                   <p className="text-[11px] text-foreground/70 mt-2 border-t border-foreground/5 pt-1.5 leading-tight">
@@ -273,9 +274,9 @@ export function Callout({ type = "info", title, children }: CalloutProps) {
         </div>
         <div className="flex-1 text-sm text-foreground/90 leading-relaxed">
           {title && (
-            <h5 className="font-bold text-foreground mb-1 text-sm leading-snug">
+            <p className="font-bold text-foreground mb-1 text-sm leading-snug">
               {title}
-            </h5>
+            </p>
           )}
           <div className="text-foreground/80">{children}</div>
         </div>
@@ -287,14 +288,14 @@ export function Callout({ type = "info", title, children }: CalloutProps) {
 // -----------------------------------------------------------------------------
 // 4. CtaService Component (Conversion CTA block for MDX posts)
 // -----------------------------------------------------------------------------
-type CtaServiceKey = "seo" | "diseno-web" | "mantenimiento-web" | "contacto";
+export type CtaServiceKey = "seo" | "diseno-web" | "mantenimiento-web" | "hosting" | "desarrollo-web" | "tiendas-online" | "contacto";
 
 interface CtaServiceProps {
   service?: CtaServiceKey;
   title?: string;
 }
 
-const CTA_SERVICE_CONFIG: Record<
+export const CTA_SERVICE_CONFIG: Record<
   CtaServiceKey,
   { label: string; heading: string; pitch: string; cta: string; href: string }
 > = {
@@ -319,6 +320,21 @@ const CTA_SERVICE_CONFIG: Record<
     cta: "Ver planes de mantenimiento",
     href: "/servicios/mantenimiento-web",
   },
+  hosting: {
+    label: "Hosting gestionado", heading: "¿Necesitas delegar tu alojamiento web?",
+    pitch: "Revisamos proveedor, migración y soporte para preparar una propuesta adecuada a tu web.",
+    cta: "Ver hosting gestionado", href: "/servicios/hosting",
+  },
+  "desarrollo-web": {
+    label: "Desarrollo web a medida", heading: "¿Tu negocio necesita funciones propias?",
+    pitch: "Definimos alcance, integraciones y fases para desarrollar una solución a medida.",
+    cta: "Ver desarrollo web a medida", href: "/servicios/desarrollo-web",
+  },
+  "tiendas-online": {
+    label: "Tiendas online", heading: "¿Quieres lanzar o mejorar tu tienda?",
+    pitch: "Valoramos catálogo, pagos y gestión antes de elegir la plataforma para tu negocio.",
+    cta: "Ver creación de tiendas online", href: "/servicios/tiendas-online",
+  },
   contacto: {
     label: "Hablemos de tu proyecto",
     heading: "Cuéntanos qué necesitas y te proponemos el camino",
@@ -329,16 +345,16 @@ const CTA_SERVICE_CONFIG: Record<
 };
 
 export function CtaService({ service = "contacto", title }: CtaServiceProps) {
-  const config = CTA_SERVICE_CONFIG[service];
+  const config = CTA_SERVICE_CONFIG[service] ?? CTA_SERVICE_CONFIG.contacto;
 
   return (
     <div className="my-8 rounded-xl border border-foreground/10 bg-foreground/[0.03] p-5 sm:p-6 font-sans not-prose">
       <span className="font-mono text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
         {config.label}
       </span>
-      <h5 className="font-display text-xl sm:text-2xl text-foreground leading-snug tracking-tight mt-2 mb-2">
+      <p className="font-display text-xl sm:text-2xl text-foreground leading-snug tracking-tight mt-2 mb-2">
         {title ?? config.heading}
-      </h5>
+      </p>
       <p className="text-sm text-muted-foreground leading-relaxed mb-5">
         {config.pitch}
       </p>
@@ -358,11 +374,23 @@ export function CtaService({ service = "contacto", title }: CtaServiceProps) {
 // -----------------------------------------------------------------------------
 // Component Registry Export
 // -----------------------------------------------------------------------------
+function headingText(children: React.ReactNode): string {
+  return React.Children.toArray(children).map((child) => {
+    if (typeof child === "string" || typeof child === "number") return String(child);
+    return React.isValidElement<{ children?: React.ReactNode }>(child) ? headingText(child.props.children) : "";
+  }).join("");
+}
+function headingId(children: React.ReactNode) {
+  return headingText(children).toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, "").trim().replace(/\s/g, "-");
+}
+function BlogImage({ src, alt = "", width, height }: React.ImgHTMLAttributes<HTMLImageElement>) {
+  if (typeof src !== "string" || !src.startsWith("/") || !width || !height) throw new Error("Las imágenes MDX necesitan ruta local, width y height.");
+  return <Image src={src} alt={alt} width={Number(width)} height={Number(height)} sizes="(min-width: 768px) 672px, calc(100vw - 48px)" className="h-auto w-full rounded-xl" />;
+}
 export const blogMdxComponents = {
-  FlowDiagram,
-  FlowStep,
-  TopicSilo,
-  SiloCluster,
-  Callout,
-  CtaService,
+  FlowDiagram, FlowStep, TopicSilo, SiloCluster, Callout, CtaService,
+  img: BlogImage,
+  h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => <h2 {...props} id={headingId(children)}>{children}</h2>,
+  h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => <h3 {...props} id={headingId(children)}>{children}</h3>,
+  h4: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => <h4 {...props} id={headingId(children)}>{children}</h4>,
 };

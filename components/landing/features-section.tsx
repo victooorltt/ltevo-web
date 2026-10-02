@@ -20,7 +20,7 @@ const features = [
     title: "Tiendas eCommerce",
     description: "Diseñamos y desarrollamos tu tienda online con todo lo necesario para vender: catálogo, pasarela de pago, gestión de pedidos y experiencia de compra impecable.",
     visual: "collab",
-    href: "/blog/prestashop-vs-woocommerce",
+    href: "/servicios/tiendas-online",
   },
   {
     number: "04",

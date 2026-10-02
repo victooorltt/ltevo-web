@@ -13,7 +13,7 @@ export default function NotFound() {
     <div className="relative min-h-[100dvh] bg-background text-foreground flex flex-col font-sans selection:bg-foreground selection:text-background">
       <Navigation />
 
-      <main className="flex-grow flex items-center justify-center px-6 pt-32 pb-24 lg:pt-40">
+      <main id="contenido" className="flex-grow flex items-center justify-center px-6 pt-32 pb-24 lg:pt-40">
         <div className="max-w-2xl mx-auto text-center">
           <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-4">
             Error 404

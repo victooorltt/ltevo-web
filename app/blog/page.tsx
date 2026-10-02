@@ -20,7 +20,23 @@ export const metadata: Metadata = {
     type: "website",
     // Al definir openGraph propio se pierde el og:image heredado del raíz
     // (app/opengraph-image.jpg por convención de fichero): lo restauramos.
-    images: [{ url: "/opengraph-image.jpg" }],
+    // El alt se declara explícito porque el array manual reemplaza el
+    // og:image:alt que Next inyecta desde app/opengraph-image.alt.txt.
+    images: [
+      {
+        url: "/opengraph-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "LTEvo - Agencia de Diseño Web en Oviedo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog de Estrategia Web, SEO y Diseño",
+    description:
+      "Artículos, guías y recursos prácticos sobre diseño web, posicionamiento SEO y desarrollo técnico para hacer crecer tu negocio.",
+    images: ["/opengraph-image.jpg"],
   },
 };
 
@@ -48,7 +64,7 @@ export default function BlogPage() {
       </section>
 
       {/* Blog Content */}
-      <main className="flex-grow py-16 lg:py-24 max-w-[1200px] mx-auto px-6 w-full">
+      <main id="contenido" className="flex-grow py-16 lg:py-24 max-w-[1200px] mx-auto px-6 w-full">
         {posts.length === 0 ? (
           <div className="py-20 text-center">
             <h2 className="text-3xl font-display mb-4">Aún no hay artículos publicados</h2>
@@ -68,9 +84,6 @@ export default function BlogPage() {
                       <span className="font-display text-4xl lg:text-6xl text-foreground/[0.04] font-bold block mb-2 select-none">
                         {formatDate(featuredPost.date) || "Blog"}
                       </span>
-                      <span className="font-mono text-[10px] tracking-wider text-muted-foreground/60 block">
-                        VOL: {featuredPost.volumen}
-                      </span>
                     </div>
                   </div>
                   {/* Portada (lazy) sobre el patrón; si no hay portada se ve el patrón */}
@@ -79,6 +92,7 @@ export default function BlogPage() {
                       src={featuredPost.coverImage}
                       alt={featuredPost.title}
                       fill
+                      priority
                       sizes="(min-width: 1200px) 640px, (min-width: 1024px) 55vw, calc(100vw - 48px)"
                       className="object-cover object-center opacity-85 transition-transform duration-700 group-hover:scale-105"
                     />
@@ -154,9 +168,9 @@ export default function BlogPage() {
                       </div>
                       
                       <Link href={`/blog/${post.slug}`} className="mb-3 block">
-                        <h4 className="text-xl font-display text-foreground leading-[1.2] hover:underline decoration-foreground/30 underline-offset-4 decoration-1 transition-all duration-300">
+                        <h2 className="text-xl font-display text-foreground leading-[1.2] hover:underline decoration-foreground/30 underline-offset-4 decoration-1 transition-all duration-300">
                           {post.title}
-                        </h4>
+                        </h2>
                       </Link>
                       
                       <p className="text-sm text-muted-foreground leading-relaxed font-light mb-6 flex-grow">
@@ -182,38 +196,11 @@ export default function BlogPage() {
         )}
       </main>
 
-      {/* Newsletter / CTA Section */}
       <section className="bg-stone-100 py-20 border-t border-foreground/5">
-        <div className="max-w-[1200px] mx-auto px-6 text-center">
-          <div className="max-w-2xl mx-auto">
-            <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground block mb-4">
-              Suscríbete para más
-            </span>
-            <h2 className="text-4xl lg:text-5xl font-display tracking-tight text-foreground mb-6 leading-none">
-              Estrategias de conversión directas a tu buzón
-            </h2>
-            <p className="text-muted-foreground leading-relaxed font-light mb-8">
-              Enviamos un correo quincenal con análisis reales, errores comunes que cometen las agencias y cómo optimizar tu web para generar leads cualificados.
-            </p>
-            
-            <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input 
-                type="email" 
-                placeholder="Tu correo electrónico" 
-                required
-                className="flex-grow px-5 py-3 rounded-full border border-foreground/10 bg-background text-sm focus:outline-none focus:border-foreground/30 transition-all font-sans"
-              />
-              <button 
-                type="submit" 
-                className="px-6 py-3 rounded-full bg-foreground text-background text-sm font-semibold hover:bg-foreground/90 transition-all font-sans shrink-0"
-              >
-                Suscribirse
-              </button>
-            </form>
-            <p className="text-[11px] text-muted-foreground/60 font-light mt-3">
-              Cero spam. Te puedes desapuntar con un solo clic.
-            </p>
-          </div>
+        <div className="max-w-2xl mx-auto px-6 text-center">
+          <h2 className="text-4xl lg:text-5xl font-display tracking-tight mb-6">Apliquemos estas ideas a tu negocio.</h2>
+          <p className="text-muted-foreground leading-relaxed mb-8">Si necesitas una web, mejorar su visibilidad o mantenerla, cuéntanos tu situación. Revisaremos qué servicio encaja y el alcance de una propuesta.</p>
+          <Link href="/contacto" className="inline-flex rounded-full bg-foreground text-background px-7 py-4 font-semibold">Solicitar una propuesta</Link>
         </div>
       </section>
 

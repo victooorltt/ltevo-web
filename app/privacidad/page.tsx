@@ -21,7 +21,7 @@ export const metadata = {
 
 export default function PrivacidadPage() {
   return (
-    <main className="bg-black text-white min-h-[100dvh]">
+    <main id="contenido" className="bg-black text-white min-h-[100dvh]">
       <div className="max-w-3xl mx-auto px-6 py-32 lg:py-40">
 
         {/* Back */}
@@ -49,8 +49,10 @@ export default function PrivacidadPage() {
               Personales (LOPDGDD), te informamos que el responsable del tratamiento de tus datos es:
             </p>
             <ul className="mt-4 space-y-1 text-white/50 text-sm font-mono">
-              <li><span className="text-white/70">Nombre:</span> LTEvo</li>
-              <li><span className="text-white/70">Localidad:</span> Oviedo, Asturias, España</li>
+              <li><span className="text-white/70">Responsable:</span> LTEvo</li>
+              <li><span className="text-white/70">NIF:</span> 71742225G</li>
+              <li><span className="text-white/70">Domicilio:</span> Calle Uría, 19, 33003 Oviedo, Asturias, España</li>
+              <li><span className="text-white/70">Teléfono:</span> +34 634 25 55 41</li>
               <li><span className="text-white/70">Email:</span> info@ltevo.com</li>
               <li><span className="text-white/70">Web:</span> ltevo.com</li>
             </ul>
@@ -63,12 +65,19 @@ export default function PrivacidadPage() {
               <li>Nombre y apellidos</li>
               <li>Dirección de correo electrónico</li>
               <li>Número de teléfono (opcional)</li>
-              <li>Nombre de empresa (opcional)</li>
+              <li>Servicio de interés (opcional)</li>
               <li>Contenido del mensaje</li>
             </ul>
             <p className="mt-3">
+              Tu envío al formulario implica que has leído esta política y que
+              aceptas el tratamiento de tus datos con la finalidad de responder
+              a tu solicitud. Puedes retirar ese consentimiento en cualquier
+              momento escribiendo a info@ltevo.com.
+            </p>
+            <p className="mt-3">
               También podemos recopilar datos de navegación de forma anónima mediante cookies técnicas y analíticas,
-              tal como se detalla en nuestra Política de Cookies.
+              tal como se detalla en nuestra Política de Cookies. Las analíticas
+              solo se activan si das tu consentimiento.
             </p>
           </section>
 

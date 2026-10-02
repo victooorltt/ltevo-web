@@ -21,7 +21,7 @@ export const metadata = {
 
 export default function CookiesPage() {
   return (
-    <main className="bg-black text-white min-h-[100dvh]">
+    <main id="contenido" className="bg-black text-white min-h-[100dvh]">
       <div className="max-w-3xl mx-auto px-6 py-32 lg:py-40">
 
         {/* Back */}
@@ -54,42 +54,93 @@ export default function CookiesPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">2. Cookies que utilizamos</h2>
 
+            <p className="mb-4">
+              Este es el inventario real de lo que este sitio puede instalar. Tu
+              navegador puede mostrar además cookies de otros sitios si navegas
+              desde esta página hacia un tercero.
+            </p>
+
             {/* Table */}
             <div className="overflow-x-auto mt-4">
               <table className="w-full text-sm border-collapse">
+                <caption className="sr-only">
+                  Inventario de cookies instaladas por ltevo.com, su tipo, finalidad y duración
+                </caption>
                 <thead>
                   <tr className="border-b border-white/10">
-                    <th className="text-left py-3 pr-4 text-white font-medium">Nombre</th>
-                    <th className="text-left py-3 pr-4 text-white font-medium">Tipo</th>
-                    <th className="text-left py-3 pr-4 text-white font-medium">Finalidad</th>
-                    <th className="text-left py-3 text-white font-medium">Duración</th>
+                    <th scope="col" className="text-left py-3 pr-4 text-white font-medium">Nombre</th>
+                    <th scope="col" className="text-left py-3 pr-4 text-white font-medium">Proveedor</th>
+                    <th scope="col" className="text-left py-3 pr-4 text-white font-medium">Tipo</th>
+                    <th scope="col" className="text-left py-3 pr-4 text-white font-medium">Finalidad</th>
+                    <th scope="col" className="text-left py-3 text-white font-medium">Duración</th>
                   </tr>
                 </thead>
                 <tbody className="text-white/50">
                   <tr className="border-b border-white/5">
+                    <td className="py-3 pr-4 font-mono text-xs">ltevo-consent-v1</td>
+                    <td className="py-3 pr-4">LTEvo</td>
+                    <td className="py-3 pr-4">Técnica (localStorage)</td>
+                    <td className="py-3 pr-4">Guarda en tu navegador qué categorías aceptaste y cuándo, para no volver a preguntarte</td>
+                    <td className="py-3">Hasta que la borres</td>
+                  </tr>
+                  <tr className="border-b border-white/5">
                     <td className="py-3 pr-4 font-mono text-xs">_ga</td>
+                    <td className="py-3 pr-4">Google LLC</td>
                     <td className="py-3 pr-4">Analítica</td>
-                    <td className="py-3 pr-4">Google Analytics — distingue usuarios únicos</td>
+                    <td className="py-3 pr-4">Distingue visitantes únicos y calcula páginas vistas</td>
                     <td className="py-3">2 años</td>
                   </tr>
                   <tr className="border-b border-white/5">
                     <td className="py-3 pr-4 font-mono text-xs">_ga_*</td>
+                    <td className="py-3 pr-4">Google LLC</td>
                     <td className="py-3 pr-4">Analítica</td>
-                    <td className="py-3 pr-4">Google Analytics — mantiene el estado de sesión</td>
+                    <td className="py-3 pr-4">Mantiene el estado de sesión de la medición</td>
                     <td className="py-3">2 años</td>
                   </tr>
                   <tr className="border-b border-white/5">
-                    <td className="py-3 pr-4 font-mono text-xs">cookie_consent</td>
-                    <td className="py-3 pr-4">Técnica</td>
-                    <td className="py-3 pr-4">Recuerda tu preferencia sobre cookies</td>
-                    <td className="py-3">1 año</td>
+                    <td className="py-3 pr-4 font-mono text-xs">_gid</td>
+                    <td className="py-3 pr-4">Google LLC</td>
+                    <td className="py-3 pr-4">Analítica</td>
+                    <td className="py-3 pr-4">Registra una visita única por ventana de 24 horas</td>
+                    <td className="py-3">24 horas</td>
+                  </tr>
+                  <tr className="border-b border-white/5">
+                    <td className="py-3 pr-4 font-mono text-xs">_gat, _gat_*</td>
+                    <td className="py-3 pr-4">Google LLC</td>
+                    <td className="py-3 pr-4">Analítica</td>
+                    <td className="py-3 pr-4">Limita las peticiones al servidor de Google Analytics</td>
+                    <td className="py-3">1 minuto</td>
+                  </tr>
+                  <tr className="border-b border-white/5">
+                    <td className="py-3 pr-4 font-mono text-xs">_gcl_au, _gcl_aw</td>
+                    <td className="py-3 pr-4">Google LLC</td>
+                    <td className="py-3 pr-4">Analítica</td>
+                    <td className="py-3 pr-4">Almacena y recupera eventos de conversión en Google Ads</td>
+                    <td className="py-3">3 meses</td>
+                  </tr>
+                  <tr className="border-b border-white/5">
+                    <td className="py-3 pr-4 font-mono text-xs">NID</td>
+                    <td className="py-3 pr-4">Google LLC</td>
+                    <td className="py-3 pr-4">Mapa (Google Maps)</td>
+                    <td className="py-3 pr-4">Identifica al visitante y memoriza sus preferencias de mapas</td>
+                    <td className="py-3">3 meses</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-mono text-xs">VISITOR_INFO1_LIVE, YSC</td>
+                    <td className="py-3 pr-4">Google LLC</td>
+                    <td className="py-3 pr-4">Mapa (Google Maps)</td>
+                    <td className="py-3 pr-4">Recoge el país, el idioma y su interacción con el mapa</td>
+                    <td className="py-3">6 meses / 6 meses</td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
             <p className="mt-4 text-sm text-white/40">
-              * Solo se cargan cookies analíticas si aceptas el uso de cookies no esenciales.
+              * Las cookies de Google Analytics y Google Maps no se descargan ni
+              funcionan hasta que las aceptas. Si no aceptas, el sitio funciona
+              con normalidad: en /contacto verás la dirección con un enlace a
+              Google Maps en lugar del mapa incrustado.
             </p>
           </section>
 
@@ -98,17 +149,28 @@ export default function CookiesPage() {
 
             <div className="space-y-4">
               <div className="p-4 border border-white/10 rounded-lg">
-                <h3 className="font-medium text-white mb-1">🔒 Cookies técnicas (necesarias)</h3>
+                <h3 className="font-medium text-white mb-1">Cookies técnicas (necesarias)</h3>
                 <p className="text-sm text-white/50">
-                  Imprescindibles para el funcionamiento del sitio. No requieren consentimiento.
-                  Se usan para recordar tu elección de cookies.
+                  Imprescindibles para el funcionamiento del sitio. No requieren
+                  consentimiento porque sin ellas el sitio no podría funcionar o
+                  no podría recordar tu elección. Se guardan en el almacenamiento
+                  local de tu navegador, no como cookies.
                 </p>
               </div>
               <div className="p-4 border border-white/10 rounded-lg">
-                <h3 className="font-medium text-white mb-1">📊 Cookies analíticas</h3>
+                <h3 className="font-medium text-white mb-1">Cookies analíticas</h3>
                 <p className="text-sm text-white/50">
-                  Nos permiten conocer cómo los usuarios interactúan con el sitio de forma anónima y agregada,
-                  para mejorar su funcionamiento. Requieren tu consentimiento previo.
+                  Nos permiten conocer de forma anónima y agregada cómo se usa el
+                  sitio, para mejorarlo. Son de Google Analytics y requieren tu
+                  consentimiento previo.
+                </p>
+              </div>
+              <div className="p-4 border border-white/10 rounded-lg">
+                <h3 className="font-medium text-white mb-1">Cookies de mapas</h3>
+                <p className="text-sm text-white/50">
+                  Las establece Google Maps al mostrar el mapa interactivo de
+                  nuestra ubicación en la página de contacto. Requieren tu
+                  consentimiento previo.
                 </p>
               </div>
             </div>
@@ -117,8 +179,10 @@ export default function CookiesPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">4. Gestión y desactivación</h2>
             <p>
-              Puedes aceptar o rechazar cookies no esenciales a través del banner que aparece en tu primera
-              visita. Además, puedes configurar tu navegador para bloquear o eliminar cookies:
+              Puedes aceptar, rechazar o cambiar tu decisión en cualquier momento
+              desde el botón <strong className="text-white/70">Cookies</strong>{" "}
+              que aparece en la esquina inferior izquierda de cualquier página.
+              También puedes bloquear o eliminar cookies desde tu navegador:
             </p>
             <ul className="mt-3 space-y-2 text-white/50 text-sm">
               <li>
@@ -144,20 +208,32 @@ export default function CookiesPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white mb-3">5. Cookies de terceros</h2>
+            <h2 className="text-xl font-semibold text-white mb-3">5. Terceros y transferencias internacionales</h2>
             <p>
-              Utilizamos Google Analytics, un servicio de análisis web de Google LLC. Google puede transferir
-              los datos recopilados a terceros cuando así lo exija la ley o cuando dichos terceros procesen
-              los datos en nombre de Google. Para más información, consulta la{" "}
+              Los dos únicos terceros con los que interactuamos son{" "}
+              <strong className="text-white/70">Google LLC</strong>, a través de
+              Google Tag Manager, Google Analytics y Google Maps. No utilizamos
+              otras redes de publicidad ni perfiles de terceros.
+            </p>
+            <p className="mt-3">
+              Google trata los datos conforme a su{" "}
               <a
                 href="https://policies.google.com/privacy"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white underline underline-offset-4"
               >
-                política de privacidad de Google
+                política de privacidad
               </a>
-              .
+              . Ambos servicios pueden procesar la información fuera del Espacio
+              Económico Europeo, en Estados Unidos, con las garantías que la
+              Comisión Europea ha aprobado para las transferencias internacionales
+              (art. 45 y 46 del RGPD).
+            </p>
+            <p className="mt-3">
+              Los logotipos de las tecnologías que usamos en ltevo.com se sirven
+              desde nuestro propio dominio, sin peticiones a ninguna plataforma
+              externa.
             </p>
           </section>
 

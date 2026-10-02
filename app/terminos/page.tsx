@@ -21,7 +21,7 @@ export const metadata = {
 
 export default function TerminosPage() {
   return (
-    <main className="bg-black text-white min-h-[100dvh]">
+    <main id="contenido" className="bg-black text-white min-h-[100dvh]">
       <div className="max-w-3xl mx-auto px-6 py-32 lg:py-40">
 
         {/* Back */}
@@ -43,13 +43,24 @@ export default function TerminosPage() {
         <div className="space-y-10 text-white/70 leading-relaxed">
 
           <section>
-            <h2 className="text-xl font-semibold text-white mb-3">1. Objeto y aceptación</h2>
+            <h2 className="text-xl font-semibold text-white mb-3">1. Titular, objeto y aceptación</h2>
             <p>
               Los presentes Términos de Uso regulan el acceso y la utilización del sitio web{" "}
-              <strong className="text-white">ltevo.com</strong> (en adelante, &quot;el Sitio&quot;), titularidad de LTEvo,
-              con domicilio en Oviedo, Asturias, España. El acceso al Sitio implica la aceptación plena y sin reservas
-              de estos términos. Si no estás de acuerdo, te rogamos que no utilices el Sitio.
+              <strong className="text-white">ltevo.com</strong> (en adelante, &quot;el Sitio&quot;). El acceso al Sitio
+              implica la aceptación plena y sin reservas de estos términos. Si no estás de acuerdo, te rogamos que
+              no utilices el Sitio.
             </p>
+            <p className="mt-3">
+              Datos de identificación del titular, exigidos por el art. 37 de la Ley 34/2002, de Servicios de la
+              Sociedad de la Información:
+            </p>
+            <ul className="mt-3 space-y-1 text-white/50 text-sm font-mono">
+              <li><span className="text-white/70">Titular:</span> LTEvo</li>
+              <li><span className="text-white/70">NIF:</span> 71742225G</li>
+              <li><span className="text-white/70">Domicilio:</span> Calle Uría, 19, 33003 Oviedo, Asturias, España</li>
+              <li><span className="text-white/70">Teléfono:</span> +34 634 25 55 41</li>
+              <li><span className="text-white/70">Email:</span> info@ltevo.com</li>
+            </ul>
           </section>
 
           <section>

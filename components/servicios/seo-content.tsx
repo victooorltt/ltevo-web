@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle2, BarChart3, Search, Code, TrendingUp, Link as LinkIcon, MapPin, ChevronDown } from "lucide-react";
+import { ArrowRight, CheckCircle2, BarChart3, Search, Code, TrendingUp, Link as LinkIcon, MapPin } from "lucide-react";
 import Link from "next/link";
 import { FaqSection } from "@/components/landing/faq-section";
 
@@ -19,35 +19,38 @@ type Faq = {
 
 export const faqs: Faq[] = [
   {
-    question: "¿Cuánto se tarda en ver los resultados del SEO?",
-    answer: "El SEO es una estrategia a medio y largo plazo. Por lo general, los primeros cambios en visibilidad se empiezan a notar a partir del tercer mes, y los resultados significativos en captación de leads consolidados se aprecian a partir del sexto mes.",
-    more: { text: "Te explicamos qué es el SEO y para qué sirve realmente en nuestra guía", href: "/blog/que-es-el-seo" },
+    question: "¿Cuánto cuesta contratar SEO en Oviedo o Asturias?",
+    answer: "El presupuesto depende del estado de tu web, tus servicios, la competencia y el trabajo de implementación y contenidos necesario. Tras una primera revisión, definimos prioridades, tareas y seguimiento. La propuesta concreta lo incluido y cualquier coste externo antes de empezar.",
   },
   {
-    question: "¿Qué diferencia hay entre SEO y SEM (Google Ads)?",
-    answer: "Con el SEM pagas a Google directamente por cada persona que hace clic en tus anuncios. Si dejas de pagar, tu visibilidad desaparece inmediatamente. Con el SEO, optimizas tu web para aparecer de forma orgánica. Requiere tiempo de optimización inicial, pero crea un flujo constante y gratuito de visitas cualificadas en el tiempo.",
+    question: "¿Cuándo podemos empezar a ver resultados?",
+    answer: "El SEO requiere tiempo para que los buscadores rastreen los cambios y para competir con otras webs. Algunas correcciones técnicas pueden reflejarse antes que el trabajo de contenidos o autoridad. Revisamos tendencias durante varios meses y ajustamos el plan a partir de los datos; no prometemos una fecha ni una posición concreta.",
+    more: { text: "Entender qué es el SEO", href: "/blog/que-es-el-seo" },
   },
   {
     question: "¿Garantizáis la primera posición en Google?",
-    answer: "Ninguna agencia honesta puede garantizar la primera posición exacta en Google ya que los algoritmos de clasificación dependen al 100% de Google y cambian constantemente. Lo que sí garantizamos es un aumento sólido y contrastable en la visibilidad orgánica de palabras clave estratégicas para captar clientes de valor.",
+    answer: "No. Las posiciones dependen del buscador, la competencia y la consulta de cada usuario. Acordamos acciones, prioridades y métricas verificables para evaluar el trabajo: visibilidad de búsquedas comerciales, clics y contactos recibidos cuando se dispone de medición.",
   },
   {
-    question: "¿Qué es el SEO local y por qué lo necesito?",
-    answer: "Consiste en optimizar tu presencia para búsquedas geolocalizadas (como 'agencia web en Oviedo'). Es imprescindible para negocios físicos o proveedores que ofrecen servicios en áreas geográficas concretas, ya que les permite aparecer directamente en Google Maps cuando los usuarios de su zona les buscan.",
+    question: "¿Qué recibo en una auditoría SEO?",
+    answer: "Un diagnóstico de los problemas técnicos, de contenido y de estructura que afectan a la web, junto con las oportunidades de búsqueda y un plan priorizado. La implementación, los contenidos nuevos y el seguimiento se detallan en la propuesta para saber qué se ejecuta y quién se encarga de cada tarea.",
   },
   {
-    question: "¿Es necesario realizar optimizaciones constantes?",
-    answer: "Sí. Google introduce constantes actualizaciones en su algoritmo y tus competidores siguen optimizando su web. Para proteger los rankings conseguidos, adaptar los contenidos a nuevas tendencias de búsqueda y seguir creciendo, el SEO requiere monitorización y mejoras continuas.",
+    question: "¿Trabajáis el SEO local y el Perfil de Empresa de Google?",
+    answer: "Sí. Revisamos páginas de servicio, zonas de atención, datos de contacto y el Perfil de Empresa cuando corresponde y disponemos de acceso. El objetivo es facilitar que clientes de tu zona encuentren una oferta relevante y puedan contactar. La ubicación y la competencia también influyen en los resultados locales.",
   },
   {
-    question: "¿Cómo ayuda el marcado de Schema.org / JSON-LD al posicionamiento?",
-    answer: "Los datos estructurados (Schema) son fragmentos de código estandarizados que se añaden a tu web para ayudar a Google a comprender el contexto y significado preciso del contenido (por ejemplo, si una página es un servicio, una empresa local, una receta o una pregunta frecuente). Al implementarlo de forma correcta, aumentamos las probabilidades de que tu sitio web muestre fragmentos enriquecidos (Rich Snippets) en las páginas de resultados de Google, lo que incrementa el CTR y atrae más clics con el mismo posicionamiento.",
-    more: { text: "Descubre qué son los rich snippets y cómo conseguirlos", href: "/blog/que-son-los-rich-snippets" },
+    question: "¿Podéis mejorar una web que ya está publicada?",
+    answer: "Sí. Primero revisamos su tecnología, contenido y accesos disponibles. Priorizamos los cambios útiles sobre la web existente; si una función, integración o rediseño requiere un desarrollo independiente, te explicamos el alcance y su presupuesto antes de realizarlo.",
+    more: { text: "Consultar desarrollo web a medida", href: "/servicios/desarrollo-web" },
   },
   {
-    question: "¿En qué consiste una campaña de Link Building ético y seguro?",
-    answer: "El enlazado externo es uno de los factores de clasificación más potentes de Google, pero también uno de los más sensibles. Huimos de la compra masiva de enlaces en granjas de spam que podrían provocar penalizaciones algorítmicas severas. En su lugar, diseñamos campañas de relaciones públicas digitales para conseguir menciones y enlaces editoriales en periódicos digitales relevantes, blogs especializados y portales de tu sector con tráfico orgánico real, garantizando un crecimiento seguro y duradero de la autoridad de tu marca.",
-    more: { text: "Aprende qué es el link juice y cómo aprovecharlo con tu enlazado interno", href: "/blog/que-es-el-link-juice" },
+    question: "¿Cómo sabré si el SEO me está trayendo clientes?",
+    answer: "Comparamos consultas y páginas en Search Console y, con los permisos y la medición adecuados, solicitudes de contacto y llamadas. Para conocer la rentabilidad también necesitamos distinguir contactos cualificados, presupuestos y ventas. Una subida de visitas por sí sola no demuestra que la captación esté mejorando.",
+  },
+  {
+    question: "¿El presupuesto SEO incluye anuncios, enlaces pagados o un rediseño?",
+    answer: "Esos trabajos y costes no se incluyen automáticamente. La propuesta distingue auditoría, implementación, contenidos y seguimiento, y especifica cualquier servicio adicional. Los anuncios de Google tienen una inversión y una gestión propias, distintas del posicionamiento orgánico.",
   },
 ];
 
@@ -55,32 +58,32 @@ export function SeoContent() {
   const seoServices = [
     {
       title: "Auditoría SEO Técnica",
-      description: "Analizamos el código de tu web, enlazado interno, velocidad LCP, rastreabilidad e indexación. Detectamos y resolvemos cualquier obstáculo para los rastreadores de Google.",
+      description: "Revisamos rastreo, indexación, velocidad y enlaces. Recibes un diagnóstico con problemas, páginas afectadas y prioridades de implementación.",
       icon: Code
     },
     {
-      title: "Estudio de Palabras Clave (Keyword Research)",
-      description: "Identificamos qué términos y preguntas reales busca tu cliente objetivo en Google. Enfocamos la estrategia en palabras clave con alta intención de compra.",
+      title: "Búsquedas con intención de contratar",
+      description: "Relacionamos las búsquedas de tu público con tus servicios y páginas. Priorizamos oportunidades comerciales y consultas próximas a posiciones competitivas.",
       icon: Search
     },
     {
       title: "SEO On-Page y Contenidos",
-      description: "Optimizamos metatítulos, encabezados H1-H3, atributos alt de imágenes y creamos contenidos enfocados a satisfacer la intención de búsqueda con rigor (E-E-A-T).",
+      description: "Revisamos títulos, encabezados, enlaces y contenido de servicios. Proponemos mejoras y artículos que ayuden a resolver dudas antes de contratar.",
       icon: TrendingUp
     },
     {
-      title: "Link Building de Calidad",
-      description: "Mejoramos la autoridad de tu dominio mediante la obtención de enlaces naturales y relevantes en medios digitales e industriales de prestigio.",
+      title: "Autoridad y referencias relevantes",
+      description: "Identificamos oportunidades de menciones y referencias de clientes, colaboradores y sitios de tu sector. Cualquier acción externa y su coste se acuerdan contigo.",
       icon: LinkIcon
     },
     {
       title: "SEO Local y Maps",
-      description: "Optimizamos tu ficha de Google Business Profile y geolocalizamos tu web para capturar el tráfico local en las ciudades donde operas.",
+      description: "Revisamos tu Perfil de Empresa y las páginas de servicio según las zonas donde atiendes, con datos de contacto coherentes y contenido útil para clientes locales.",
       icon: MapPin
     },
     {
       title: "Analítica y Monitorización",
-      description: "Configuramos herramientas como Google Search Console y Analytics. Hacemos seguimiento continuo de posiciones y te entregamos informes mensuales detallados.",
+      description: "Utilizamos Search Console y, cuando existe una configuración adecuada, Analytics. El seguimiento relaciona consultas, páginas y contactos para orientar las siguientes mejoras.",
       icon: BarChart3
     }
   ];
@@ -96,8 +99,8 @@ export function SeoContent() {
     {
       number: "01",
       title: "Diagnóstico Inicial",
-      description: "Realizamos una auditoría exhaustiva de la situación técnica actual y del histórico de visibilidad de tu web para entender de dónde partimos.",
-      link: { text: "Conoce qué es el crawl budget y por qué influye en tu auditoría técnica", href: "/blog/que-es-el-crawl-budget" }
+      description: "Revisamos la web y sus datos disponibles. Identificamos fallos técnicos y búsquedas comerciales para establecer un punto de partida verificable.",
+      link: { text: "Qué revisar si tu web no aparece en Google", href: "/blog/por-que-mi-web-no-aparece-en-google" }
     },
     {
       number: "02",
@@ -107,31 +110,31 @@ export function SeoContent() {
     {
       number: "03",
       title: "Ejecución y Enlaces",
-      description: "Implementamos los cambios directamente en tu CMS o código, reescribimos contenidos clave e iniciamos la captación de backlinks estratégicos."
+      description: "Implementamos las tareas acordadas en tu CMS o código y mejoramos páginas clave. Dejamos constancia de los cambios para poder valorar sus resultados."
     },
     {
       number: "04",
       title: "Medición y Ajustes",
-      description: "Revisamos los datos de rendimiento semanalmente. Adaptamos la estrategia ante actualizaciones de algoritmo o movimientos de la competencia."
+      description: "Comparamos el rendimiento por consultas y páginas, revisamos la captación cuando existe medición y acordamos las siguientes prioridades."
     }
   ];
 
   const valueProps = [
     {
-      title: "Más Visitas Orgánicas",
-      description: "Multiplicamos la visibilidad de tu negocio atrayendo a personas que ya están buscando activamente lo que vendes."
+      title: "Consultas comerciales",
+      description: "Priorizamos búsquedas de tus servicios y áreas de atención para llegar a personas que pueden convertirse en clientes."
     },
     {
-      title: "Inversión Sostenible",
-      description: "A diferencia de la publicidad pagada (PPC), el tráfico que consigues con el SEO no desaparece cuando dejas de invertir."
+      title: "Cambios priorizados",
+      description: "Ordenamos las tareas según los datos, el esfuerzo y su relación con tus objetivos comerciales."
     },
     {
-      title: "Mejora de Conversión",
-      description: "Atraer visitas no basta. Optimizamos la experiencia de usuario y la claridad de tu web para transformar las visitas en llamadas o ventas."
+      title: "Recorrido hacia el contacto",
+      description: "Revisamos cómo se presentan tus servicios y qué necesita el visitante para decidir y solicitar información."
     },
     {
-      title: "Autoridad de Marca",
-      description: "Estar en las primeras posiciones de Google proyecta una imagen de líder de mercado, construyendo confianza de manera natural."
+      title: "Trabajo verificable",
+      description: "Explicamos qué se ha cambiado y qué muestran los datos para que puedas valorar la evolución del servicio."
     }
   ];
 
@@ -169,14 +172,22 @@ export function SeoContent() {
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col items-center text-center z-10">
           <div className="reveal" style={{ animationDelay: "0.1s" }}>
             <h1 className="text-5xl lg:text-7xl font-display italic tracking-tight leading-[0.95] mb-6 text-white text-center">
-              Posicionamiento SEO <br /> Profesional
+              SEO en Oviedo <br /> y Asturias
             </h1>
           </div>
 
           <div className="reveal" style={{ animationDelay: "0.2s" }}>
             <p className="text-xl lg:text-2xl text-white/80 max-w-2xl leading-relaxed text-center mx-auto">
-              Optimizamos tu web técnica y estratégicamente para dominar las búsquedas de Google. Atrae leads cualificados sin pagar por cada clic.
+              Ayudamos a empresas y profesionales a mejorar su visibilidad cuando alguien busca contratar sus servicios. Auditoría, mejoras de la web, SEO local y seguimiento centrado en contactos y oportunidades de negocio.
             </p>
+          </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Button asChild size="lg" className="bg-white text-zinc-950 hover:bg-zinc-200 rounded-full px-8">
+              <Link href="/contacto?servicio=seo">Solicitar revisión inicial</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:text-white rounded-full px-8">
+              <a href="#alcance-seo">Ver qué incluye</a>
+            </Button>
           </div>
         </div>
       </section>
@@ -211,140 +222,22 @@ export function SeoContent() {
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/*  DEEP-DIVE: E-E-A-T & ESTRATEGIA DE CONTENIDOS               */}
-      {/* ============================================================ */}
-      <section className="py-24 lg:py-32 border-t border-foreground/10 bg-background relative overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 z-10">
-          <div className="reveal mb-16 lg:mb-20 text-center lg:text-left">
-            <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
-              Estrategia basada en E-E-A-T <br /> <span className="text-muted-foreground italic">y Captura del Intento de Búsqueda Real</span>
-            </h2>
-            <p className="text-muted-foreground max-w-3xl mt-6 leading-relaxed text-base">
-              El posicionamiento orgánico moderno va mucho más allá de rellenar una página con palabras clave repetitivas. Google premia la autoridad real, la experiencia contrastada y la utilidad para el usuario.
-            </p>
+      <section className="py-20 lg:py-28 border-t border-foreground/10 bg-background">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12">
+          <div>
+            <h2 className="text-3xl lg:text-4xl font-display mb-6">Una propuesta SEO con alcance claro</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">Empezamos por tus servicios, tu web y los datos disponibles. La propuesta detalla las páginas a trabajar, las tareas de auditoría e implementación, los contenidos acordados y cómo revisaremos la evolución.</p>
+            <p className="text-muted-foreground leading-relaxed">Así puedes comparar qué se hará, qué accesos necesitamos y qué depende de ti. Un rediseño, campañas de anuncios o costes de terceros requieren una valoración específica.</p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-            <div className="reveal h-full" style={{ animationDelay: "0.1s" }}>
-              <div className="group relative bg-zinc-50/20 border border-foreground/10 hover:border-foreground/35 p-8 rounded-lg transition-all duration-500 ease-out h-full flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1">
-                {/* Corner ornaments */}
-                <span className="absolute top-2 left-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-                <span className="absolute top-2 right-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-                <span className="absolute bottom-2 left-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-                <span className="absolute bottom-2 right-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-
-                {/* Radial gradient background */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.015),transparent_70%)] pointer-events-none" />
-
-                {/* Dot mesh background */}
-                <div
-                  className="absolute inset-0 opacity-[0.02] pointer-events-none"
-                  style={{
-                    backgroundImage: 'radial-gradient(currentColor 1px, transparent 1px)',
-                    backgroundSize: '16px 16px'
-                  }}
-                />
-
-                <div className="relative z-10 flex flex-col h-full justify-between">
-                  <div>
-                    {/* Index indicator */}
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="font-mono text-xs tracking-wider text-foreground/30 select-none">01</span>
-                    </div>
-                    <h3 className="text-2xl font-display mb-4 text-foreground">¿Qué es el E-E-A-T?</h3>
-                    {/* Dashed divider */}
-                    <div className="w-full border-t border-dashed border-foreground/10 my-4" />
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed text-sm">
-                    Corresponde a las siglas en inglés de Experiencia, Conocimiento, Autoridad y Fiabilidad (Experience, Expertise, Authoritativeness, Trustworthiness). Nos aseguramos de que el contenido de tu web demuestre de forma inequívoca estos pilares. Para ello, estructuramos páginas que presenten casos de estudio reales, certificaciones, perfiles profesionales de los autores de los contenidos y fuentes verificables que transmitan a Google y a los usuarios que tu negocio es de total confianza.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="reveal h-full" style={{ animationDelay: "0.2s" }}>
-              <div className="group relative bg-zinc-50/20 border border-foreground/10 hover:border-foreground/35 p-8 rounded-lg transition-all duration-500 ease-out h-full flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1">
-                {/* Corner ornaments */}
-                <span className="absolute top-2 left-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-                <span className="absolute top-2 right-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-                <span className="absolute bottom-2 left-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-                <span className="absolute bottom-2 right-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-
-                {/* Radial gradient background */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.015),transparent_70%)] pointer-events-none" />
-
-                {/* Dot mesh background */}
-                <div
-                  className="absolute inset-0 opacity-[0.02] pointer-events-none"
-                  style={{
-                    backgroundImage: 'radial-gradient(currentColor 1px, transparent 1px)',
-                    backgroundSize: '16px 16px'
-                  }}
-                />
-
-                <div className="relative z-10 flex flex-col h-full justify-between">
-                  <div>
-                    {/* Index indicator */}
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="font-mono text-xs tracking-wider text-foreground/30 select-none">02</span>
-                    </div>
-                    <h3 className="text-2xl font-display mb-4 text-foreground">Keyword Research Avanzado</h3>
-                    {/* Dashed divider */}
-                    <div className="w-full border-t border-dashed border-foreground/10 my-4" />
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed text-sm">
-                    No buscamos simplemente atraer tráfico de forma masiva e inútil, sino captar visitas transaccionales con alta intención de compra. Analizamos la semántica de búsqueda de tu público y filtramos palabras clave informativas, comparativas y de conversión. Entendiendo qué busca exactamente tu cliente potencial en cada fase de su decisión de compra, diseñamos una arquitectura de contenidos que responde a sus dudas y lo guía de manera fluida hacia el formulario de contacto o llamada telefónica.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="reveal md:col-span-2 h-full" style={{ animationDelay: "0.3s" }}>
-              <div className="group relative bg-zinc-50/20 border border-foreground/10 hover:border-foreground/35 p-8 rounded-lg transition-all duration-500 ease-out h-full flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1">
-                {/* Corner ornaments */}
-                <span className="absolute top-2 left-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-                <span className="absolute top-2 right-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-                <span className="absolute bottom-2 left-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-                <span className="absolute bottom-2 right-2 text-[9px] font-mono text-foreground/15 pointer-events-none select-none">+</span>
-
-                {/* Radial gradient background */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.015),transparent_70%)] pointer-events-none" />
-
-                {/* Dot mesh background */}
-                <div
-                  className="absolute inset-0 opacity-[0.02] pointer-events-none"
-                  style={{
-                    backgroundImage: 'radial-gradient(currentColor 1px, transparent 1px)',
-                    backgroundSize: '16px 16px'
-                  }}
-                />
-
-                <div className="relative z-10 flex flex-col h-full justify-between">
-                  <div>
-                    {/* Index indicator */}
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="font-mono text-xs tracking-wider text-foreground/30 select-none">03</span>
-                    </div>
-                  </div>
-
-                  {/* Content layout: horizontal on desktop, vertical on mobile */}
-                  <div className="flex flex-col md:flex-row md:items-stretch md:gap-8 justify-between mt-2">
-                    <div className="md:w-1/3 shrink-0">
-                      <h3 className="text-2xl font-display text-foreground">Optimización On-Page y Semántica</h3>
-                    </div>
-
-                    {/* Dividers */}
-                    <div className="block md:hidden w-full border-t border-dashed border-foreground/10 my-4" />
-                    <div className="hidden md:block w-px border-l border-dashed border-foreground/10 self-stretch my-1" />
-
-                    <p className="text-muted-foreground leading-relaxed text-sm md:w-2/3">
-                      Google procesa el contenido mediante modelos de procesamiento del lenguaje natural (PLN) avanzados. Por ello, optimizamos el contenido utilizando entidades semánticas y jerarquías claras de etiquetado (H1, H2, H3), microdatos en formato JSON-LD, y optimización de densidad léxica natural. Cada artículo, servicio o página de destino se diseña para responder de manera exhaustiva y superior a cualquier otro competidor del sector en el buscador.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div>
+            <h3 className="text-2xl font-display mb-6">Para empresas que necesitan captar contactos</h3>
+            <ul className="space-y-4 text-muted-foreground leading-relaxed">
+              <li>Tu web ya existe, pero no aparece para tus servicios o las visitas no llegan al formulario.</li>
+              <li>Necesitas mejorar la visibilidad en tu zona y presentar una oferta más clara.</li>
+              <li>Quieres priorizar cambios a partir de consultas, páginas y oportunidades reales.</li>
+            </ul>
+            <p className="mt-6 text-muted-foreground leading-relaxed">Si la web necesita funciones nuevas, valoramos el <Link className="underline underline-offset-4" href="/servicios/desarrollo-web">desarrollo a medida</Link>. Para cambios técnicos recurrentes, puedes consultar el <Link className="underline underline-offset-4" href="/servicios/mantenimiento-web">mantenimiento web</Link>.</p>
+            <Link href="/proyectos" className="inline-flex items-center gap-2 mt-6 underline underline-offset-4">Ver proyectos de LTEvo <ArrowRight className="w-4 h-4" aria-hidden="true" /></Link>
           </div>
         </div>
       </section>
@@ -352,14 +245,14 @@ export function SeoContent() {
       {/* ============================================================ */}
       {/*  SEO SERVICES LIST (PREMIUM DARK SECTION)                    */}
       {/* ============================================================ */}
-      <section className="relative py-24 lg:py-32 bg-zinc-950 text-white overflow-hidden border-t border-zinc-900">
+      <section id="alcance-seo" className="relative py-24 lg:py-32 bg-zinc-950 text-white overflow-hidden border-t border-zinc-900">
         {/* Ambient background glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, rgba(24, 24, 27, 0.1) 0%, transparent 70%)" }} />
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 z-10">
           <div className="reveal mb-16 lg:mb-24">
             <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-white">
-              Estrategias de SEO <br /> <span className="text-zinc-400 italic">que marcan la diferencia.</span>
+              Qué podemos trabajar <br /> <span className="text-zinc-400 italic">en tu estrategia SEO.</span>
             </h2>
           </div>
 
@@ -466,10 +359,10 @@ export function SeoContent() {
                 Posicionamiento SEO Local en Asturias: <br /> <span className="text-zinc-400 italic">Oviedo, Gijón y Avilés</span>
               </h2>
               <p className="text-zinc-400 leading-relaxed text-base mt-6">
-                Si tu negocio opera en el ámbito geográfico del Principado de Asturias, el SEO local es la herramienta más potente y rentable para capturar clientes en tu zona de influencia directa. Millones de búsquedas diarias contienen intención geográfica explícita e implícita.
+                Si atiendes a clientes en Asturias, conviene que tus páginas expliquen tus servicios y tus áreas de atención. Revisamos qué consultas locales tienen sentido para tu actividad y cuál es la página adecuada para responderlas.
               </p>
               <p className="text-zinc-400 leading-relaxed text-base mt-4">
-                En LTEvo nos especializamos en dominar el mercado asturiano. Optimizamos tu arquitectura web para posicionar en palabras clave locales clave y configuramos de forma experta tu perfil de Google Business Profile (antiguo Google My Business) para lograr la máxima visibilidad en el Mapa Local (Local Pack) de Google. Esto sitúa a tu negocio frente a los usuarios de Oviedo, Gijón y Avilés justo en el momento exacto en el que necesitan tus servicios.
+                Desde Oviedo trabajamos el contenido de servicios, el enlazado y el Perfil de Empresa de Google cuando corresponde a tu negocio. Para empresas que atienden en Gijón, Avilés u otras localidades, reflejamos las zonas reales y evitamos repetir páginas sin contenido propio.
               </p>
             </div>
 
@@ -479,15 +372,15 @@ export function SeoContent() {
                 <ul className="space-y-4 text-zinc-400 text-sm">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Consistencia NAP:</strong> Aseguramos que tu nombre, dirección y teléfono (Name, Address, Phone) sean 100% idénticos y coherentes en toda la web para ganar la confianza del buscador.</span>
+                    <span><strong>Datos de contacto coherentes:</strong> Revisamos nombre, dirección, teléfono y horarios en la web y en los perfiles accesibles.</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Reseñas y Señales Sociales:</strong> Implementamos estrategias para captar de forma legítima valoraciones positivas de cinco estrellas de tus clientes locales, aumentando drásticamente la conversión.</span>
+                    <span><strong>Reseñas auténticas:</strong> Facilitamos que tus clientes compartan su experiencia y que los visitantes puedan comprobar las valoraciones existentes.</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Contenido Geolocalizado:</strong> Redactamos y optimizamos páginas específicas de servicio geolocalizadas que responden a la perfección al interés del usuario asturiano.</span>
+                    <span><strong>Servicios y zonas reales:</strong> Mejoramos las páginas que explican tu oferta y dónde atiendes a tus clientes.</span>
                   </li>
                 </ul>
               </div>
@@ -509,18 +402,18 @@ export function SeoContent() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 text-center">
           <div className="reveal">
             <h2 className="text-4xl lg:text-7xl font-display italic tracking-tight mb-8">
-              ¿Listo para dominar las búsquedas de tu sector?
+              ¿Quieres saber qué mejorar en tu web?
             </h2>
             <p className="text-lg text-background/60 max-w-xl mx-auto mb-10 leading-relaxed font-sans">
-              Analizamos tu web actual sin coste y te mostramos dónde están tus principales oportunidades de crecimiento en Google.
+              Cuéntanos qué servicios quieres vender y comparte tu web. Hacemos una primera revisión sin coste para valorar tu situación y proponerte el alcance del trabajo SEO.
             </p>
             <Button
               size="lg"
               asChild
               className="bg-background hover:bg-background/90 text-foreground px-8 h-14 text-base rounded-full group inline-flex items-center"
             >
-              <Link href="/contacto">
-                Solicitar auditoría gratuita
+              <Link href="/contacto?servicio=seo">
+                Solicitar revisión inicial
                 <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>

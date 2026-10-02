@@ -48,9 +48,9 @@ export function LocalSeoSection() {
                 que trabaja con negocios de toda Asturias y del resto de España. Diseñamos y desarrollamos webs a medida con Next.js: rápidas, seguras y pensadas para convertir visitas en clientes, no solo para verse bien.
               </p>
               <p>
-                Más allá de la web corporativa, construimos desarrollo web a medida con integraciones de CRM, reservas o pagos, y{" "}
+                Más allá de la web corporativa, construimos <Link href="/servicios/desarrollo-web" className="text-foreground underline underline-offset-4">desarrollo web a medida</Link> con integraciones de CRM, reservas o pagos, y{" "}
                 <Link
-                  href="/blog/prestashop-vs-woocommerce"
+                  href="/servicios/tiendas-online"
                   className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors"
                 >
                   tiendas online
@@ -62,7 +62,7 @@ export function LocalSeoSection() {
                 >
                   posicionamiento SEO
                 </Link>{" "}
-                continuo.
+                continuo. También puedes delegar el <Link href="/servicios/hosting" className="text-foreground underline underline-offset-4">hosting gestionado</Link> y el <Link href="/servicios/mantenimiento-web" className="text-foreground underline underline-offset-4">mantenimiento de tu web</Link>.
               </p>
               <p>
                 Sin plantillas genéricas ni intermediarios: hablas directamente con el equipo que diseña, programa y posiciona tu web, de Oviedo para toda Asturias.

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { contactContext, trackEvent } from "@/lib/analytics";
+import { ConsentCheckbox, HoneypotField } from "@/components/landing/consent-checkbox";
 
 export function ContactSection() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -21,23 +23,46 @@ export function ContactSection() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
     setErrorMessage(null);
 
     try {
+      /* El checkbox de consentimiento y el honeypot no son controlados: no
+         viven en `form` y se perderían con JSON.stringify(form). El backend
+         exige `consent`, así que se leen del propio formulario. */
+      const formEl = e.currentTarget;
+      const consentEl = formEl.elements.namedItem("consent");
+      const websiteEl = formEl.elements.namedItem("website");
+      const payload = {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        // Este formulario no tiene selector de servicio, así que lo declara
+        // vacío y el correo mostrará "No indicado".
+        service: "",
+        message: form.message,
+        ...contactContext(),
+        sourcePath: "/",
+        plan: "",
+        consent: consentEl instanceof HTMLInputElement && consentEl.checked,
+        website:
+          websiteEl instanceof HTMLInputElement ? websiteEl.value : "",
+      };
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
 
       if (response.ok && data.success) {
+        trackEvent("generate_lead", { service: "otro", page_path: "/", form_location: "home" });
         setStatus("success");
       } else {
         setStatus("error");
@@ -90,6 +115,12 @@ export function ContactSection() {
 
           {/* Right — formulario */}
           <div className="reveal" style={{ animationDelay: "200ms" }}>
+            <div role="status" aria-live="polite" className="sr-only">
+              {status === "success" &&
+                "Mensaje enviado. Te responderemos en menos de 24 horas."}
+              {status === "error" &&
+                (errorMessage || "Hubo un error al enviar el mensaje.")}
+            </div>
             {status === "success" ? (
               <div className="rounded-xl border border-foreground/10 p-12 flex flex-col items-start gap-4 h-full justify-center">
                 <span className="font-mono text-xs text-muted-foreground">— Recibido —</span>
@@ -114,12 +145,14 @@ export function ContactSection() {
                 {/* Nombre y teléfono */}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-foreground/85">
+                    <label htmlFor="nombre-home" className="text-sm font-medium text-foreground/85">
                       Nombre <span className="text-foreground">*</span>
                     </label>
                     <input
+                      id="nombre-home"
                       type="text"
                       name="name"
+                      autoComplete="name"
                       required
                       placeholder="Tu nombre"
                       value={form.name}
@@ -129,12 +162,14 @@ export function ContactSection() {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-foreground/85">
+                    <label htmlFor="telefono-home" className="text-sm font-medium text-foreground/85">
                       Teléfono
                     </label>
                     <input
+                      id="telefono-home"
                       type="tel"
                       name="phone"
+                      autoComplete="tel"
                       placeholder="+34 600 000 000"
                       value={form.phone}
                       onChange={handleChange}
@@ -145,12 +180,14 @@ export function ContactSection() {
 
                 {/* Email — ancho completo */}
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium text-foreground/85">
+                  <label htmlFor="email-home" className="text-sm font-medium text-foreground/85">
                     Email <span className="text-foreground">*</span>
                   </label>
                   <input
+                    id="email-home"
                     type="email"
                     name="email"
+                    autoComplete="email"
                     required
                     placeholder="tu@email.com"
                     value={form.email}
@@ -163,10 +200,11 @@ export function ContactSection() {
 
                 {/* Mensaje */}
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium text-foreground/85">
+                  <label htmlFor="mensaje-home" className="text-sm font-medium text-foreground/85">
                     Mensaje <span className="text-foreground">*</span>
                   </label>
                   <textarea
+                    id="mensaje-home"
                     name="message"
                     required
                     rows={5}
@@ -179,10 +217,15 @@ export function ContactSection() {
 
                 {/* Mensaje de error */}
                 {status === "error" && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm rounded-xl">
+                  <div role="alert" className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm rounded-xl">
                     {errorMessage || "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo."}
                   </div>
                 )}
+
+                <ConsentCheckbox id="consentimiento-home" />
+
+                {/* Honeypot: invisible para personas, trampa para bots. */}
+                <HoneypotField />
 
                 {/* Submit */}
                 <Button

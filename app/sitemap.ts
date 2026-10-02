@@ -1,40 +1,25 @@
 import type { MetadataRoute } from "next";
-import { getAllPosts } from "../lib/blog";
+import { getAllPosts } from "@/lib/blog";
+import { SITE_URL, SEO_UPDATED_AT } from "@/lib/seo";
 
-/**
- * Última edición real de cada página estática, obtenida con
- * `git log -1 --format=%cs -- <ruta>` (comentada la ruta de origen).
- * Se hardcodean para que el sitemap no emita la fecha de build en cada deploy.
- */
-const pageLastModified = {
-  "/": "2026-06-19",                            // app/page.tsx
-  "/blog": "2026-06-21",                        // app/blog/page.tsx
-  "/contacto": "2026-06-20",                    // app/contacto/page.tsx
-  "/servicios/diseno-web": "2026-06-20",        // app/servicios/diseno-web/page.tsx
-  "/servicios/seo": "2026-06-20",               // app/servicios/seo/page.tsx
-  "/servicios/mantenimiento-web": "2026-06-20", // app/servicios/mantenimiento-web/page.tsx
-  "/privacidad": "2026-06-20",                  // app/privacidad/page.tsx
-  "/terminos": "2026-06-20",                    // app/terminos/page.tsx
-  "/cookies": "2026-06-20",                     // app/cookies/page.tsx
-} as const;
+const staticDates: Record<string, string> = {
+  "/": SEO_UPDATED_AT, "/blog": SEO_UPDATED_AT, "/contacto": SEO_UPDATED_AT,
+  "/servicios/diseno-web": SEO_UPDATED_AT, "/servicios/seo": SEO_UPDATED_AT,
+  "/servicios/mantenimiento-web": SEO_UPDATED_AT, "/servicios/hosting": SEO_UPDATED_AT,
+  "/servicios/desarrollo-web": SEO_UPDATED_AT, "/servicios/tiendas-online": SEO_UPDATED_AT,
+  "/proyectos": SEO_UPDATED_AT, "/proyectos/autocaravanas-bahia": SEO_UPDATED_AT,
+  "/proyectos/jardineria-el-cuetu": SEO_UPDATED_AT, "/sobre-nosotros": SEO_UPDATED_AT,
+  "/privacidad": "2026-06-20", "/terminos": "2026-06-20", "/cookies": "2026-06-20",
+};
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts();
-
+  const latestContentDate = posts.reduce((latest, post) => [latest, post.updatedAt ?? post.date].sort().at(-1)!, SEO_UPDATED_AT);
   return [
-    { url: "https://ltevo.com", lastModified: new Date(pageLastModified["/"]) },
-    { url: "https://ltevo.com/blog", lastModified: new Date(pageLastModified["/blog"]) },
-    // Artículos del blog: lastModified = fecha de publicación
-    ...posts.map((p) => ({
-      url: `https://ltevo.com/blog/${p.slug}`,
-      lastModified: new Date(p.date),
+    ...Object.entries(staticDates).map(([pathname, modified]) => ({
+      url: `${SITE_URL}${pathname === "/" ? "" : pathname}`,
+      lastModified: new Date(["/", "/blog"].includes(pathname) ? latestContentDate : modified),
     })),
-    { url: "https://ltevo.com/servicios/diseno-web", lastModified: new Date(pageLastModified["/servicios/diseno-web"]) },
-    { url: "https://ltevo.com/servicios/seo", lastModified: new Date(pageLastModified["/servicios/seo"]) },
-    { url: "https://ltevo.com/servicios/mantenimiento-web", lastModified: new Date(pageLastModified["/servicios/mantenimiento-web"]) },
-    { url: "https://ltevo.com/contacto", lastModified: new Date(pageLastModified["/contacto"]) },
-    { url: "https://ltevo.com/privacidad", lastModified: new Date(pageLastModified["/privacidad"]) },
-    { url: "https://ltevo.com/terminos", lastModified: new Date(pageLastModified["/terminos"]) },
-    { url: "https://ltevo.com/cookies", lastModified: new Date(pageLastModified["/cookies"]) },
+    ...posts.map((post) => ({ url: `${SITE_URL}/blog/${post.slug}`, lastModified: new Date(post.updatedAt ?? post.date) })),
   ];
 }

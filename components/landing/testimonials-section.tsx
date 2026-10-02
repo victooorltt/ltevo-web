@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { business } from "@/lib/business";
 
 interface Testimonial {
   quote: string;
@@ -129,6 +130,7 @@ export function TestimonialsSection() {
           <div className="flex-1 h-px bg-foreground/10" />
         </div>
 
+        <p className="mb-8"><a href={business.reviewUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 text-sm">Consulta LTEvo en Google y sus reseñas ↗</a></p>
         <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none -mx-6 px-6 py-8 -my-8 scroll-px-6 sm:mx-0 sm:px-0 sm:py-0 sm:my-0 sm:overflow-visible sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {testimonials.map((t, idx) => (
             <TestimonialCard key={idx} t={t} />

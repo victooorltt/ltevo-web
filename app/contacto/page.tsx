@@ -2,18 +2,32 @@ import type { Metadata } from "next";
 import { ContactoContent } from "@/components/servicios/contacto-content";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
+import { maintenancePlans, normalizeContactService } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Contacto en Oviedo y Presupuesto SEO en Asturias",
+  title: "Contacta con LTEvo · Presupuesto web y SEO en Oviedo",
   description:
-    "¿Necesitas una web o SEO? Contacta con LTEvo en Oviedo y solicita tu presupuesto gratis. Te respondemos en menos de 24 horas en Asturias.",
+    "Solicita una propuesta de diseño, desarrollo, SEO, hosting o mantenimiento. Cuéntanos tu proyecto y definimos alcance y presupuesto desde Oviedo.",
   alternates: { canonical: "/contacto" },
   openGraph: {
-    title: "Contacto en Oviedo y Presupuesto SEO en Asturias",
+    title: "Contacta con LTEvo · Presupuesto web y SEO en Oviedo",
     description:
-      "¿Necesitas una web o SEO? Contacta con LTEvo en Oviedo y solicita tu presupuesto gratis. Te respondemos en menos de 24 horas en Asturias.",
+      "Solicita una propuesta de diseño, desarrollo, SEO, hosting o mantenimiento. Cuéntanos tu proyecto y definimos alcance y presupuesto desde Oviedo.",
     url: "https://ltevo.com/contacto",
+    siteName: "LTEvo",
+    locale: "es_ES",
     type: "website",
+    // Al definir openGraph propio se pierde el og:image heredado del raíz
+    // (app/opengraph-image.jpg por convención de fichero): lo restauramos,
+    // incluyendo el alt para no perder el de app/opengraph-image.alt.txt.
+    images: [
+      {
+        url: "/opengraph-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "LTEvo - Agencia de Diseño Web en Oviedo",
+      },
+    ],
   },
 };
 
@@ -33,7 +47,10 @@ const jsonLd = {
   ]
 };
 
-export default function ContactoPage() {
+export default async function ContactoPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const params = await searchParams;
+  const service = normalizeContactService(typeof params.servicio === "string" ? params.servicio : "");
+  const plan = typeof params.plan === "string" && maintenancePlans.some((item) => item === params.plan) ? params.plan : "";
   return (
     <>
       <script
@@ -41,7 +58,11 @@ export default function ContactoPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Navigation />
-      <ContactoContent />
+      {/* /contacto era la única página sin landmark <main>: es el destino de
+          todos los CTA del sitio y el skip-link necesita un destino. */}
+      <main id="contenido">
+        <ContactoContent key={`${service}:${plan}`} initialService={service} initialPlan={plan} />
+      </main>
       <FooterSection />
     </>
   );

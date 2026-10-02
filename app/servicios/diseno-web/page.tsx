@@ -1,21 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { DisenoWebContent, faqs } from "@/components/servicios/diseno-web-content";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 
-export const metadata: Metadata = {
-  title: "Diseño de Páginas Web en Oviedo y Asturias",
-  description:
-    "Creamos páginas web profesionales, rápidas y a medida en Oviedo y Asturias. Diseño web adaptado a móviles y optimizado para SEO. ¡Pide presupuesto!",
-  alternates: { canonical: "/servicios/diseno-web" },
-  openGraph: {
-    title: "Diseño de Páginas Web en Oviedo y Asturias",
-    description:
-      "Creamos páginas web profesionales, rápidas y a medida en Oviedo y Asturias. Diseño web adaptado a móviles y optimizado para SEO. ¡Pide presupuesto!",
-    url: "https://ltevo.com/servicios/diseno-web",
-    type: "website",
-  },
-};
+export const metadata = pageMetadata("Diseño web a medida en Oviedo y Asturias", "Páginas web para empresas de Oviedo y Asturias: diseño, contenidos y funciones con alcance claro. Conoce proyectos de LTEvo y solicita presupuesto.", "/servicios/diseno-web");
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -31,10 +19,13 @@ const jsonLd = {
         "name": "LTEvo",
         "url": "https://ltevo.com"
       },
-      "areaServed": {
-        "@type": "Country",
-        "name": "España"
-      },
+      "areaServed": [
+        { "@type": "City", "name": "Oviedo" },
+        { "@type": "City", "name": "Gijón" },
+        { "@type": "City", "name": "Avilés" },
+        { "@type": "AdministrativeArea", "name": "Asturias" },
+        { "@type": "Country", "name": "España" }
+      ],
       "serviceType": "Web Design and Development"
     },
     {
@@ -72,7 +63,7 @@ const jsonLd = {
 
 export default function DisenoWebPage() {
   return (
-    <main className="relative min-h-[100dvh] overflow-x-hidden">
+    <main id="contenido" className="relative min-h-[100dvh] overflow-x-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

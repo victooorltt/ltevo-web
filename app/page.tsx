@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="relative min-h-[100dvh] overflow-x-hidden">
+    <main id="contenido" className="relative min-h-[100dvh] overflow-x-hidden">
       <Navigation />
       <HeroSection />
       <FeaturesSection />

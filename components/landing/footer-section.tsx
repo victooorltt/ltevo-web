@@ -11,10 +11,14 @@ const socialLinks = [
 const footerLinks = {
   Navegación: [
     { name: "Diseño Web",        href: "/servicios/diseno-web" },
+    { name: "Desarrollo a medida", href: "/servicios/desarrollo-web" },
+    { name: "Tiendas online", href: "/servicios/tiendas-online" },
+    { name: "Hosting gestionado", href: "/servicios/hosting" },
+    { name: "Sobre LTEvo", href: "/sobre-nosotros" },
     { name: "SEO",               href: "/servicios/seo"        },
     { name: "Mantenimiento Web", href: "/servicios/mantenimiento-web" },
     { name: "Blog",              href: "/blog"                  },
-    { name: "Portafolio",        href: "/#portfolio"            },
+    { name: "Portafolio",        href: "/proyectos"            },
     { name: "Contacto",          href: "/contacto"              },
   ],
   Legal: [
@@ -113,6 +117,7 @@ export function FooterSection() {
                 <li className="text-sm text-zinc-400 leading-relaxed">
                   Calle Uría, 19, 33003 Oviedo, Asturias
                 </li>
+                <li><a href="https://g.page/r/CasABkSyzoJWEBM/review" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">LTEvo en Google y reseñas ↗</a></li>
               </ul>
             </div>
           </div>

@@ -11,8 +11,7 @@ import {
   RefreshCw,
   Edit3,
   LifeBuoy,
-  AlertTriangle,
-  ChevronDown
+  AlertTriangle
 } from "lucide-react";
 import Link from "next/link";
 import { FaqSection } from "@/components/landing/faq-section";
@@ -32,25 +31,34 @@ type Faq = {
 
 export const faqs: Faq[] = [
   {
-    question: "¿Qué es el mantenimiento web y por qué es necesario?",
-    answer: "El mantenimiento web es un proceso de optimización constante y preventivo. Consiste en mantener actualizados el core del CMS (por ejemplo, WordPress), las librerías de desarrollo, los plugins de funciones y las configuraciones de seguridad. Sin este proceso, tu web se vuelve vulnerable a fallos técnicos y ataques externos, además de ralentizarse progresivamente.",
-    more: { text: "Entiende qué es el thin content y por qué está hundiendo tu SEO", href: "/blog/que-es-el-thin-content" },
+    question: "¿Podéis mantener una web que no ha desarrollado LTEvo?",
+    answer: "Sí, primero revisamos su tecnología, estado y accesos para confirmar la cobertura. Si tiene fallos previos, malware o necesita una puesta a punto antes de entrar en mantenimiento, te explicamos el trabajo y su presupuesto. El plan se acuerda después de esa revisión.",
   },
   {
-    question: "¿Puedo cambiar de plan o cancelar cuando quiera?",
-    answer: "Sí. No imponemos contratos de permanencia a largo plazo. Puedes solicitar un cambio de plan (escalar o reducir) o cancelar tu suscripción mensual notificándolo por email antes de que empiece el nuevo ciclo de facturación mensual.",
+    question: "¿Qué diferencia hay entre los planes de mantenimiento?",
+    answer: "Básico contempla copias semanales y actualizaciones mensuales. Profesional añade copias diarias, revisiones semanales y una hora de cambios de contenido al mes. Premium amplía la cobertura para tiendas y webs con más necesidades, con monitorización de caídas y tres horas de cambios de contenido al mes. Confirmamos la compatibilidad de estas tareas con tu web antes de contratar.",
   },
   {
-    question: "¿Qué sucede si necesito cambios que requieran más horas?",
-    answer: "Si las tareas del mes superan el tiempo disponible en tu plan contratado, te lo comunicaremos con antelación para ofrecerte dos opciones: realizar los cambios en el siguiente ciclo o presupuestar las horas extras requeridas bajo una tarifa especial con descuento por ser cliente habitual de mantenimiento.",
+    question: "¿Puedo cambiar de plan o cancelar?",
+    answer: "Los planes son mensuales y sin permanencia. Puedes solicitar un cambio de cobertura o cancelar por email antes del siguiente ciclo de facturación, según las condiciones acordadas.",
   },
   {
-    question: "¿El mantenimiento incluye el coste del hosting y dominio?",
-    answer: "No está incluido directamente en estos precios estándar, ya que cada proyecto tiene necesidades de servidor muy distintas. Sin embargo, ofrecemos servicios de alojamiento de alto rendimiento gestionados para nuestros clientes. Consúltanos y te facilitaremos un presupuesto unificado.",
+    question: "¿Qué ocurre si necesito más horas o una función nueva?",
+    answer: "Si una tarea supera el tiempo incluido, te informamos antes de ejecutarla y acordamos si se programa para otro ciclo o se presupuesta aparte. Nuevas funciones, rediseños o integraciones requieren un alcance propio; las horas de contenido se destinan a los cambios indicados en tu plan.",
+    more: { text: "Consultar desarrollo web a medida", href: "/servicios/desarrollo-web" },
   },
   {
-    question: "¿Ofrecéis garantía de limpieza ante virus o hackeos?",
-    answer: "Sí, en nuestro plan Premium incluimos una garantía total de limpieza y desinfección en caso de hackeo sin ningún coste añadido. En los planes Básico y Profesional, nos encargaremos de restaurar inmediatamente tu copia de seguridad más reciente y limpia de forma gratuita, y si es necesario desinfectar ficheros manualmente te presentaremos una tarifa especial.",
+    question: "¿Incluye hosting, dominio o una campaña SEO?",
+    answer: "Hosting y dominio se presupuestan por separado según las necesidades de tu proyecto. El mantenimiento cubre las tareas técnicas acordadas; una estrategia de posicionamiento, la redacción de artículos o un rediseño no se incluyen automáticamente.",
+    more: { text: "Ver hosting gestionado", href: "/servicios/hosting" },
+  },
+  {
+    question: "¿Qué hacéis si mi web sufre un ataque o se cae?",
+    answer: "Revisamos la incidencia y las copias disponibles para valorar la restauración. Premium incluye limpieza de malware según las condiciones del plan; en Básico y Profesional valoramos la recuperación y te informamos si se necesita trabajo adicional. El mantenimiento reduce riesgos, pero no elimina la posibilidad de fallos o ataques.",
+  },
+  {
+    question: "¿Cuándo tengo soporte y cómo se atienden las incidencias?",
+    answer: "La atención y los canales dependen del plan: email en Básico, email o chat prioritario en Profesional y atención telefónica y prioritaria en Premium. Antes de contratar, concretamos horarios, prioridades y condiciones de respuesta. Monitorizar una web no equivale a disponibilidad permanente de atención humana.",
   },
 ];
 
@@ -67,7 +75,7 @@ export function MantenimientoWebContent() {
 
   const benefits: Benefit[] = [
     {
-      title: "Tranquilidad Absoluta",
+      title: "Un responsable técnico",
       description: "Nos convertimos en tu departamento técnico. Delegas las tareas complejas de actualización, monitorización y seguridad para enfocarte en tu negocio.",
       icon: Shield,
       iconColor: "text-amber-500",
@@ -76,15 +84,15 @@ export function MantenimientoWebContent() {
     },
     {
       title: "Velocidad y Rendimiento",
-      description: "Analizamos de forma periódica los tiempos de respuesta del servidor y la optimización de caché, asegurando que tu web cargue al instante.",
+      description: "Revisamos tiempos de carga y recursos según tu plan para detectar problemas de rendimiento y valorar mejoras.",
       icon: Zap,
       iconColor: "text-sky-500",
       bgColor: "bg-sky-500/5",
       borderColor: "border-sky-500/10"
     },
     {
-      title: "Seguridad Blindada",
-      description: "Configuramos firewalls avanzados y realizamos monitorización activa. Protegemos tu base de datos y tus archivos frente a ataques de fuerza bruta.",
+      title: "Prevención y seguridad",
+      description: "Revisamos actualizaciones y medidas de seguridad compatibles con tu web. La frecuencia de escaneo y la cobertura dependen del plan contratado.",
       icon: Lock,
       iconColor: "text-emerald-500",
       bgColor: "bg-emerald-500/5",
@@ -92,7 +100,7 @@ export function MantenimientoWebContent() {
     },
     {
       title: "Copias de Seguridad (Backups)",
-      description: "Respaldamos tu sitio por completo periódicamente y almacenamos las copias de seguridad en servidores externos cifrados para una restauración inmediata.",
+      description: "Programamos copias semanales o diarias según el plan. Revisamos las copias disponibles cuando una incidencia requiere recuperar la web.",
       icon: Database,
       iconColor: "text-indigo-500",
       bgColor: "bg-indigo-500/5",
@@ -100,7 +108,7 @@ export function MantenimientoWebContent() {
     },
     {
       title: "Estabilidad y SEO",
-      description: "Detectamos fallos en tiempo real, enlaces rotos o caídas que puedan afectar negativamente a tu indexación y posicionamiento en Google.",
+      description: "Revisamos errores y enlaces según la cobertura contratada. El mantenimiento técnico ayuda a conservar una web usable; la estrategia SEO se contrata aparte.",
       icon: TrendingUp,
       iconColor: "text-rose-500",
       bgColor: "bg-rose-500/5",
@@ -120,7 +128,7 @@ export function MantenimientoWebContent() {
   const whyNeeded: WhyNeeded[] = [
     {
       title: "Prevención Activa de Hackeos",
-      description: "Los sistemas web desactualizados son el blanco principal de los ciberataques. Mantener el núcleo y los plugins al día reduce el riesgo de intrusión en un 95%.",
+      description: "Mantener el sistema y sus dependencias actualizados ayuda a corregir vulnerabilidades conocidas. Combinamos revisiones y copias de seguridad para reducir riesgos y facilitar la recuperación.",
       icon: AlertTriangle,
       iconColor: "text-amber-400"
     },
@@ -139,7 +147,7 @@ export function MantenimientoWebContent() {
     },
     {
       title: "Soporte Técnico Especializado",
-      description: "Ante cualquier imprevisto, caída del servidor o duda de configuración, dispones de una línea directa de comunicación con ingenieros de soporte.",
+      description: "Dispones de un canal de contacto para comunicar incidencias y dudas técnicas. La prioridad y la cobertura se concretan en las condiciones de tu plan.",
       icon: LifeBuoy,
       iconColor: "text-indigo-400"
     }
@@ -148,7 +156,7 @@ export function MantenimientoWebContent() {
   const pricingPlans = [
     {
       name: "Básico",
-      price: "29.99",
+      price: "29,99",
       period: "mes",
       description: "Ideal para blogs personales o webs corporativas con bajo volumen de actualización.",
       features: [
@@ -156,15 +164,15 @@ export function MantenimientoWebContent() {
         "Actualización mensual de plugins y core",
         "Firewall y seguridad perimetral básica",
         "Monitorización mensual de enlaces rotos",
-        "Soporte por email (resolución en 48h)",
+        "Soporte por email",
         "Sin permanencia contractual"
       ],
       popular: false,
-      buttonText: "MÁS INFO"
+      buttonText: "Consultar este plan"
     },
     {
       name: "Profesional",
-      price: "39.99",
+      price: "39,99",
       period: "mes",
       description: "El plan recomendado para negocios digitales y pymes que dependen de su web.",
       features: [
@@ -173,26 +181,26 @@ export function MantenimientoWebContent() {
         "Escaneo activo de seguridad y malware semanal",
         "1 hora de cambios de contenido al mes (acumulable)",
         "Optimización de base de datos y velocidad básica",
-        "Soporte prioritario por email/chat (resolución en 24h)"
+        "Soporte prioritario por email/chat"
       ],
       popular: true,
-      buttonText: "MÁS INFO"
+      buttonText: "Consultar este plan"
     },
     {
       name: "Premium",
-      price: "49.99",
+      price: "49,99",
       period: "mes",
       description: "Diseñado para tiendas online (WooCommerce) y plataformas web críticas.",
       features: [
         "Monitorización de caídas en tiempo real (Uptime 24/7)",
-        "Garantía de limpieza y desinfección de malware gratuita",
+        "Limpieza de malware según condiciones del plan",
         "Copias de seguridad diarias (almacenamiento externo dual)",
-        "Actualizaciones de seguridad críticas inmediatas",
-        "3 horas de cambios de contenido al mes (prioridad total)",
-        "Soporte telefónico y prioritario (<4h de respuesta)"
+        "Atención prioritaria a actualizaciones críticas",
+        "3 horas de cambios de contenido al mes",
+        "Soporte telefónico y prioritario"
       ],
       popular: false,
-      buttonText: "MÁS INFO"
+      buttonText: "Consultar este plan"
     }
   ];
 
@@ -233,14 +241,22 @@ export function MantenimientoWebContent() {
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col items-center text-center z-10">
           <div className="reveal" style={{ animationDelay: "0.1s" }}>
             <h1 className="text-5xl lg:text-7xl font-display italic tracking-tight leading-[0.95] mb-6 text-white text-center">
-              Mantenimiento Web <br /> Profesional
+              Mantenimiento web <br /> en Asturias y Oviedo
             </h1>
           </div>
 
           <div className="reveal" style={{ animationDelay: "0.2s" }}>
             <p className="text-xl lg:text-2xl text-white/80 max-w-2xl leading-relaxed text-center mx-auto">
-              Protege tu inversión digital. Asegura la máxima velocidad, estabilidad y seguridad para tu sitio web con el respaldo técnico que tu negocio merece.
+              Actualizaciones, copias de seguridad y soporte para empresas que quieren delegar el cuidado de su web. Desde Oviedo, atendemos negocios de Asturias y del resto de España con planes desde 29,99 € al mes más IVA, sin permanencia.
             </p>
+          </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Button asChild size="lg" className="bg-white text-zinc-950 hover:bg-zinc-200 rounded-full px-8">
+              <a href="#planes-mantenimiento">Comparar planes</a>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:text-white rounded-full px-8">
+              <Link href="/contacto?servicio=mantenimiento-web">Consultar mi web</Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -349,7 +365,7 @@ export function MantenimientoWebContent() {
       {/* ============================================================ */}
       {/*  SECTION 3: PRECIOS                                          */}
       {/* ============================================================ */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
+      <section id="planes-mantenimiento" className="py-24 lg:py-32 bg-zinc-50">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="reveal text-center mb-16 lg:mb-24">
             <span className="text-sm font-mono tracking-widest text-muted-foreground uppercase block mb-3">Planes adaptables</span>
@@ -357,7 +373,7 @@ export function MantenimientoWebContent() {
               Precios de Mantenimiento Web
             </h2>
             <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-              Elige la cobertura que mejor se adapte al volumen de tu sitio web. Sin contratos de permanencia.
+              Planes mensuales desde 29,99 € más IVA. Elige la cobertura según las necesidades de tu web, sin permanencia.
             </p>
           </div>
 
@@ -393,12 +409,13 @@ export function MantenimientoWebContent() {
                         {/* Price */}
                         <div className="flex items-baseline mb-8">
                           <span className="text-5xl font-display tracking-tight">
-                            {plan.price}€
+                            {plan.price} €
                           </span>
                           <span className={`text-sm ml-2 font-mono ${plan.popular ? "text-zinc-500" : "text-muted-foreground"}`}>
                             /{plan.period}
                           </span>
                         </div>
+                        <p className={`-mt-5 mb-8 text-sm ${plan.popular ? "text-zinc-400" : "text-muted-foreground"}`}>Más IVA. Consulta condiciones y alcance.</p>
 
                         {/* Features list */}
                         <ul className="space-y-4">
@@ -423,7 +440,7 @@ export function MantenimientoWebContent() {
                               : "bg-zinc-950 hover:bg-zinc-800 text-white"
                           }`}
                         >
-                          <Link href="/contacto">
+                          <Link href={`/contacto?servicio=mantenimiento-web&plan=${encodeURIComponent(plan.name)}`}>
                             {plan.buttonText}
                           </Link>
                         </Button>
@@ -437,10 +454,24 @@ export function MantenimientoWebContent() {
         </div>
       </section>
 
+      <section className="py-16 border-t border-foreground/10 bg-background">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-10">
+          <div>
+            <h2 className="text-3xl font-display mb-4">Antes de contratar el mantenimiento</h2>
+            <p className="text-muted-foreground leading-relaxed">Revisamos la tecnología, los accesos, las copias existentes y el estado de tu web para confirmar qué tareas podemos cubrir. La puesta a punto de problemas previos y los trabajos que superen el plan se valoran aparte, con tu aceptación.</p>
+            <p className="text-muted-foreground leading-relaxed mt-4">Consulta las condiciones y el alcance de cada plan. Las frecuencias de actualización, copias y atención se concretan según la compatibilidad y las necesidades de tu proyecto.</p>
+          </div>
+          <div>
+            <h3 className="text-2xl font-display mb-4">Qué se contrata por separado</h3>
+            <p className="text-muted-foreground leading-relaxed">El <Link className="underline underline-offset-4" href="/servicios/hosting">hosting y el dominio</Link>, los <Link className="underline underline-offset-4" href="/servicios/desarrollo-web">desarrollos nuevos</Link>, un rediseño y la <Link className="underline underline-offset-4" href="/servicios/seo">estrategia SEO</Link> requieren presupuesto propio. Si gestionas una <Link className="underline underline-offset-4" href="/servicios/tiendas-online">tienda online</Link>, revisamos también las funciones de venta para acordar su cobertura.</p>
+          </div>
+        </div>
+      </section>
+
       {/* ============================================================ */}
       {/*  FAQ SECTION                                                 */}
       {/* ============================================================ */}
-      <FaqSection faqs={faqs} includeJsonLd={false} />
+      <FaqSection title="Preguntas frecuentes sobre mantenimiento web" faqs={faqs} includeJsonLd={false} />
 
       {/* ============================================================ */}
       {/*  CTA SECTION                                                 */}
@@ -450,18 +481,18 @@ export function MantenimientoWebContent() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10 text-center">
           <div className="reveal">
             <h2 className="text-4xl lg:text-7xl font-display italic tracking-tight mb-8">
-              ¿Listo para mantener tu web siempre a punto?
+              ¿Qué mantenimiento necesita tu web?
             </h2>
             <p className="text-lg text-background/60 max-w-xl mx-auto mb-10 leading-relaxed font-sans">
-              Elige el plan que mejor se adapte a tu estructura o habla con uno de nuestros técnicos para resolver tus necesidades personalizadas.
+              Envíanos la dirección de tu web y cuéntanos qué necesitas. Revisamos su situación y te orientamos sobre la cobertura y las tareas que conviene priorizar.
             </p>
             <Button
               size="lg"
               asChild
               className="bg-background hover:bg-background/90 text-foreground px-8 h-14 text-base rounded-full group inline-flex items-center"
             >
-              <Link href="/contacto">
-                Contactar con soporte
+              <Link href="/contacto?servicio=mantenimiento-web">
+                Consultar mantenimiento
                 <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>

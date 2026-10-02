@@ -87,9 +87,14 @@ export function FaqSection({
             >
               <summary className="flex items-center justify-between gap-4 py-5 text-left text-lg font-display cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <span className="pr-2">{faq.question}</span>
-                <div className="size-8 rounded-full bg-foreground/[0.04] flex items-center justify-center text-muted-foreground group-open:bg-foreground group-open:text-background transition-all duration-300 shrink-0">
-                  <ChevronDown className="size-4 pointer-events-none transition-transform duration-300 group-open:rotate-180" />
-                </div>
+                {/* <span> y no <div>: summary solo admite phrasing content.
+                    Mismas clases exactas, así que el render es idéntico. */}
+                <span className="size-8 rounded-full bg-foreground/[0.04] flex items-center justify-center text-muted-foreground group-open:bg-foreground group-open:text-background transition-all duration-300 shrink-0">
+                  <ChevronDown
+                    aria-hidden="true"
+                    className="size-4 pointer-events-none transition-transform duration-300 group-open:rotate-180"
+                  />
+                </span>
               </summary>
               <p className="text-muted-foreground leading-relaxed pb-6 text-sm lg:text-base">
                 {faq.answer}

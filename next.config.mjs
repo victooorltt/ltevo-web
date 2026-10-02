@@ -17,6 +17,8 @@ const csp = [
 ].join("; ");
 
 const nextConfig = {
+  // No announce la pila tecnológica en cada respuesta.
+  poweredByHeader: false,
   typescript: {
     ignoreBuildErrors: false,
   },

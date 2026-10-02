@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle2, Zap, SlidersHorizontal, Search, Feather, Compass, Palette, Code2, Rocket, ChevronDown, Check, ArrowUpRight } from "lucide-react";
+import { ArrowRight, CheckCircle2, Zap, SlidersHorizontal, Search, Feather, Compass, Palette, Code2, Rocket, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { FaqSection } from "@/components/landing/faq-section";
 
@@ -18,33 +18,36 @@ type Faq = {
 
 export const faqs: Faq[] = [
   {
-    question: "¿Cuánto tiempo se tarda en diseñar y desarrollar una web?",
-    answer: "El plazo de entrega habitual varía entre 3 y 6 semanas. Proyectos más complejos o integraciones avanzadas pueden requerir más tiempo, el cual se detallará y acordará en la fase inicial de planificación.",
+    question: "¿Cuánto cuesta una página web para mi empresa?",
+    answer: "Presupuestamos cada proyecto según el número de páginas, el contenido disponible, el diseño y las funciones necesarias. Tras una primera conversación sin coste, recibirás una propuesta con alcance, entregables y plazo. El hosting, el mantenimiento y el trabajo SEO continuo se detallan por separado cuando los necesitas.",
   },
   {
-    question: "¿La web será totalmente autogestionable?",
-    answer: "Sí. Integramos sistemas gestores de contenido visuales para que puedas modificar de forma sencilla textos, imágenes, testimonios o añadir artículos al blog sin necesidad de conocimientos de programación.",
-    more: { text: "Aprende cómo crear un blog corporativo paso a paso", href: "/blog/como-crear-un-blog-corporativo" },
+    question: "¿Cuánto tarda el diseño de una web y qué tengo que aportar?",
+    answer: "El plazo habitual es de 3 a 6 semanas, una vez acordado el alcance y disponible el material necesario. Te pediremos información sobre tus servicios, marca, fotografías y objetivos. Si necesitas ayuda con contenidos o integraciones, lo incluimos en la planificación y el presupuesto.",
   },
   {
-    question: "¿Se adaptará correctamente a dispositivos móviles?",
-    answer: "Absolutamente. Todas nuestras webs se diseñan con filosofía Mobile-First. Probamos el comportamiento y el rendimiento en múltiples tamaños de pantalla para garantizar una experiencia óptima para todos tus usuarios.",
+    question: "¿Podré modificar el contenido de mi web?",
+    answer: "Si necesitas gestionar textos, imágenes o un blog, acordamos un sistema de edición y qué partes podrás modificar. Esa necesidad se define antes del desarrollo; no todas las webs requieren el mismo panel de gestión.",
+    more: { text: "Cómo preparar un blog corporativo", href: "/blog/como-crear-un-blog-corporativo" },
   },
   {
-    question: "¿Incluye soporte y mantenimiento posterior?",
-    answer: "Sí. Tras el lanzamiento incluimos 30 días de soporte de garantía gratuito. Posteriormente, ofrecemos planes opcionales de mantenimiento que cubren actualizaciones, copias de seguridad diarias, optimización periódica de velocidad y soporte telefónico/email.",
+    question: "¿Incluye diseño para móvil y configuración SEO?",
+    answer: "El diseño contempla móvil, tablet y ordenador. Configuramos títulos, descripciones, estructura de encabezados y los elementos técnicos acordados para que los buscadores puedan interpretar la web. Conseguir posiciones competitivas requiere analizar la demanda, la competencia y el trabajo SEO posterior.",
+    more: { text: "Consulta nuestro servicio de SEO en Asturias", href: "/servicios/seo" },
   },
   {
-    question: "¿Qué tecnologías utilizáis para el desarrollo?",
-    answer: "Evitamos plantillas lentas o pesadas. Utilizamos Next.js (App Router), React, TypeScript y Tailwind CSS. Esto garantiza la máxima velocidad de carga posible, alta seguridad contra ataques, y una adaptabilidad total a lo que exija el crecimiento de tu negocio.",
+    question: "¿Qué soporte tengo después del lanzamiento?",
+    answer: "Incluimos 30 días de soporte de garantía tras el lanzamiento. Para actualizaciones, copias de seguridad y asistencia continuada puedes contratar un plan de mantenimiento desde 29,99 € al mes más IVA. El alcance de la garantía y del plan se recoge en la propuesta.",
+    more: { text: "Comparar planes de mantenimiento web", href: "/servicios/mantenimiento-web" },
   },
   {
-    question: "¿Por qué es mejor Next.js que WordPress para el SEO?",
-    answer: "Next.js sobresale porque genera páginas HTML estáticas ultra ligeras directamente durante la compilación. A diferencia de WordPress, que requiere ejecutar código PHP en el servidor y realizar consultas complejas a la base de datos para cada visitante, Next.js entrega contenido inmediato a Googlebot. Además, incluye optimizaciones avanzadas de imágenes de forma nativa y una gestión del enrutado que garantiza una velocidad de carga inigualable, uno de los factores de posicionamiento móvil clave hoy en día.",
+    question: "¿Usáis WordPress o desarrolláis la web a medida?",
+    answer: "Trabajamos con Next.js, React, TypeScript y Tailwind CSS para desarrollar webs a medida. Elegimos la solución según tus funciones, edición de contenidos y presupuesto. La tecnología por sí sola no garantiza velocidad, seguridad ni posiciones en Google: también cuentan el diseño, la implementación y el mantenimiento.",
   },
   {
-    question: "¿Es posible integrar sistemas externos en el desarrollo a medida?",
-    answer: "Sí. Al no estar limitados por la arquitectura rígida de una plantilla o un CMS tradicional, podemos integrar cualquier servicio mediante APIs: desde sistemas de reserva, ERPs, CRMs (como Salesforce o HubSpot), pasarelas de pago avanzadas (Stripe, PayPal, Bizum) hasta herramientas personalizadas de automatización e inteligencia artificial. Esto permite que tu web escale sin límites técnicos conforme crezca tu empresa.",
+    question: "¿Puedo contratar una tienda online o integrar reservas y pagos?",
+    answer: "Sí. Una tienda online, un sistema de reservas o una integración con herramientas de tu empresa requiere definir procesos, proveedores y permisos. Lo valoramos como un proyecto con alcance propio, en lugar de incluirlo automáticamente en una web corporativa.",
+    more: { text: "Ver desarrollo web a medida", href: "/servicios/desarrollo-web" },
   },
 ];
 
@@ -79,8 +82,8 @@ export function DisenoWebContent() {
     },
     {
       number: "03",
-      title: "Desarrollo de Alta Performance",
-      description: "Programamos tu web utilizando Next.js, TypeScript y Tailwind CSS. El resultado es un código limpio, seguro, de carga ultrarrápida y preparado para el futuro.",
+      title: "Desarrollo y adaptación móvil",
+      description: "Desarrollamos las páginas y funciones acordadas, adaptamos el diseño a móvil y ordenador y revisamos navegación, formularios y tiempos de carga.",
       icon: Code2,
       iconColor: "text-emerald-400",
       glowColor: "rgba(52, 211, 153, 0.08)",
@@ -88,7 +91,7 @@ export function DisenoWebContent() {
     {
       number: "04",
       title: "Optimización SEO y Lanzamiento",
-      description: "Configuramos los metatítulos, meta descripciones y datos estructurados. Revisamos el rendimiento en buscadores y publicamos tu web sin interrupción del servicio.",
+      description: "Configuramos títulos, descripciones y datos estructurados pertinentes. Revisamos formularios y acceso a las páginas antes de publicar y acordamos cómo mantener la web.",
       icon: Rocket,
       iconColor: "text-indigo-400",
       glowColor: "rgba(129, 140, 248, 0.08)",
@@ -102,12 +105,12 @@ export function DisenoWebContent() {
     },
     {
       title: "Landing Pages de Conversión",
-      description: "Monopáginas ultra optimizadas para campañas de marketing digital enfocadas a obtener registros o ventas específicas."
+      description: "Páginas centradas en un servicio o campaña, con un mensaje claro y una llamada a solicitar información o presupuesto."
     },
     {
       title: "Tiendas Online (eCommerce)",
       description: "Soluciones completas de comercio electrónico con catálogos fluidos, gestión ágil de stock y pasarelas de pago seguras.",
-      link: { text: "¿PrestaShop o WooCommerce? Te ayudamos a elegir plataforma", href: "/blog/prestashop-vs-woocommerce" },
+      link: { text: "Consulta el servicio de tiendas online", href: "/servicios/tiendas-online" },
     },
     {
       title: "Portafolios Creativos",
@@ -115,7 +118,8 @@ export function DisenoWebContent() {
     },
     {
       title: "Aplicaciones Web a Medida",
-      description: "Desarrollos a medida con paneles de administración personalizados, integraciones API y funcionalidades dinámicas específicas."
+      description: "Desarrollos con paneles de administración, integraciones y funciones específicas, definidos y presupuestados como un proyecto propio.",
+      link: { text: "Ver desarrollo web a medida", href: "/servicios/desarrollo-web" }
     },
     {
       title: "Plataformas Inmobiliarias / Directorios",
@@ -125,14 +129,14 @@ export function DisenoWebContent() {
 
   const valueProps = [
     {
-      title: "Velocidad Extrema",
-      description: "Desarrollamos con Next.js logrando puntuaciones de 95+ en Google PageSpeed, reduciendo el rebote de usuarios de inmediato.",
+      title: "Rendimiento cuidado",
+      description: "Revisamos imágenes, recursos y tiempos de carga para facilitar el uso de tu web desde móvil y ordenador.",
       icon: Zap,
       iconColor: "text-amber-400/90"
     },
     {
-      title: "Autogestionable",
-      description: "Administra todo de forma visual e intuitiva. Sin necesidad de tocar una sola línea de código.",
+      title: "Edición de contenido",
+      description: "Acordamos qué contenido necesitas editar y el sistema de gestión que encaja con el día a día de tu empresa.",
       icon: SlidersHorizontal,
       iconColor: "text-sky-400/90"
     },
@@ -143,8 +147,8 @@ export function DisenoWebContent() {
       iconColor: "text-emerald-400/90"
     },
     {
-      title: "Enfoque Editorial",
-      description: "Combinamos tipografía sofisticada, espacio en blanco generoso y colores minimalistas para lograr un diseño premium.",
+      title: "Diseño para tu marca",
+      description: "Organizamos servicios, imágenes y llamadas a la acción con una identidad visual coherente con tu negocio.",
       icon: Feather,
       iconColor: "text-indigo-400/90"
     }
@@ -196,13 +200,13 @@ export function DisenoWebContent() {
 
             <div className="reveal w-full" style={{ animationDelay: "0.1s" }}>
               <h1 className="text-[3.5rem] sm:text-5xl lg:text-6xl xl:text-6xl font-display italic tracking-tight leading-[0.95] mb-8 text-foreground text-center lg:text-left">
-                Diseño Web Profesional <br /> a Medida
+                Diseño web en Oviedo <br /> y Asturias
               </h1>
             </div>
 
             <div className="reveal w-full" style={{ animationDelay: "0.2s" }}>
               <p className="text-[1.15rem] md:text-[1.2rem] lg:text-xl text-muted-foreground max-w-2xl leading-relaxed mb-10 text-center lg:text-left mx-auto lg:mx-0">
-                Desarrollamos páginas web premium, rápidas y orientadas a resultados. Diseñadas para transmitir autoridad y convertir visitas en clientes.
+                Diseñamos páginas web para empresas y profesionales que necesitan explicar sus servicios y recibir solicitudes de presupuesto. Desde Oviedo, trabajamos con negocios de Asturias y del resto de España.
               </p>
             </div>
 
@@ -213,7 +217,7 @@ export function DisenoWebContent() {
                   asChild
                   className="bg-foreground hover:bg-foreground/90 text-background rounded-full px-9 h-[3.75rem] text-[1.05rem] sm:px-8 sm:h-14 sm:text-base w-full sm:w-auto justify-center"
                 >
-                  <Link href="/contacto">Solicitar presupuesto</Link>
+                  <Link href="/contacto?servicio=diseno-web">Solicitar presupuesto</Link>
                 </Button>
                 <Button
                   size="lg"
@@ -221,7 +225,7 @@ export function DisenoWebContent() {
                   asChild
                   className="rounded-full px-9 h-[3.75rem] text-[1.05rem] sm:px-8 sm:h-14 sm:text-base border-foreground/20 hover:bg-foreground/5 bg-transparent w-full sm:w-auto justify-center"
                 >
-                  <a href="#proceso">Nuestro proceso</a>
+                  <Link href="/proyectos">Ver proyectos</Link>
                 </Button>
               </div>
             </div>
@@ -280,20 +284,20 @@ export function DisenoWebContent() {
             <div className="lg:col-span-7 flex flex-col justify-center">
               <div>
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium text-foreground/70 bg-foreground/[0.04] border border-foreground/[0.08] tracking-wide mb-4">
-                  Desarrollo a medida
+                  Web corporativa
                 </span>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display tracking-tight leading-[1.1] mb-6">
-                  Ingeniería que se nota <br />
-                  <span className="text-muted-foreground italic">en cada carga.</span>
+                  Una web que explica <br />
+                  <span className="text-muted-foreground italic">por qué contratarte.</span>
                 </h2>
               </div>
 
               <div className="text-muted-foreground leading-relaxed space-y-4 text-base lg:text-lg mb-8 font-light">
                 <p>
-                  La mayoría de páginas web se construyen sobre plantillas lentas, saturadas de plugins y código que tu empresa nunca va a necesitar. El resultado son webs pesadas que tardan en abrir y hacen perder clientes antes de que vean lo que ofreces.
+                  Una web corporativa debe explicar qué haces, a quién ayudas y cómo puede contactar contigo quien necesita tus servicios. Empezamos por esa estructura y por el material que demuestra tu trabajo.
                 </p>
                 <p>
-                  En LTEvo programamos cada sitio desde cero con Next.js y React. Creamos una estructura limpia, ultrarrápida y adaptada exactamente a tu negocio, pensada para transmitir máxima confianza y convertir cada visita en una oportunidad de venta.
+                  En LTEvo conectamos el diseño visual con páginas de servicio claras, navegación sencilla y formularios útiles. El presupuesto concreta páginas, funciones y revisiones para que sepas qué recibirás antes de empezar.
                 </p>
               </div>
 
@@ -302,19 +306,19 @@ export function DisenoWebContent() {
                 <div className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
                   <p className="text-sm lg:text-base text-foreground/90 leading-snug">
-                    <strong>Carga instantánea en móvil y ordenador:</strong> Tus clientes no esperan y Google premia tu posición en las búsquedas.
+                    <strong>Diseño adaptable:</strong> Navegación, lectura y contacto pensados para móvil y ordenador.
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
                   <p className="text-sm lg:text-base text-foreground/90 leading-snug">
-                    <strong>Diseño propio que transmite autoridad:</strong> Una imagen visual cuidada al detalle que diferencia tu marca de la competencia.
+                    <strong>Servicios y trabajo real:</strong> Una presentación de tu oferta con ejemplos, proyectos o testimonios verificables.
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
                   <p className="text-sm lg:text-base text-foreground/90 leading-snug">
-                    <strong>Sin sustos ni mantenimiento frágil:</strong> Sin plugins que se desactualizan o rompen la web de un día para otro.
+                    <strong>Lanzamiento y soporte:</strong> Revisión de la web y 30 días de soporte de garantía, con mantenimiento posterior opcional.
                   </p>
                 </div>
               </div>
@@ -322,10 +326,10 @@ export function DisenoWebContent() {
               {/* Enlace contextual al blog */}
               <div>
                 <Link
-                  href="/blog/diseno-web-vs-desarrollo-web"
+                  href="/servicios/desarrollo-web"
                   className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors inline-flex items-center gap-1.5 font-medium text-sm group"
                 >
-                  ¿Quieres saber qué diferencia una web a medida de una plantilla?
+                  ¿Necesitas una aplicación o integraciones a medida?
                   <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               </div>
@@ -346,6 +350,19 @@ export function DisenoWebContent() {
               </div>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 border-t border-foreground/10 bg-background">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-10">
+          <div>
+            <h2 className="text-3xl font-display mb-4">Qué incluye la propuesta de diseño web</h2>
+            <p className="text-muted-foreground leading-relaxed">Estructura de páginas, diseño visual, adaptación a dispositivos, desarrollo de las funciones acordadas y configuración SEO inicial. La propuesta define también quién aporta textos e imágenes, las revisiones y el calendario de lanzamiento.</p>
+          </div>
+          <div>
+            <h3 className="text-2xl font-display mb-4">Servicios que puedes añadir</h3>
+            <p className="text-muted-foreground leading-relaxed">El <Link className="underline underline-offset-4" href="/servicios/hosting">hosting gestionado</Link>, el <Link className="underline underline-offset-4" href="/servicios/mantenimiento-web">mantenimiento</Link> y la <Link className="underline underline-offset-4" href="/servicios/seo">estrategia SEO continua</Link> se valoran según tus necesidades. Una <Link className="underline underline-offset-4" href="/servicios/tiendas-online">tienda online</Link> o una integración requiere un alcance específico.</p>
           </div>
         </div>
       </section>
@@ -469,31 +486,31 @@ export function DisenoWebContent() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="reveal">
               <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-white leading-tight">
-                Desarrollo web local en <br /> <span className="text-zinc-400 italic">Oviedo y toda Asturias</span>
+                Diseño web para empresas de <br /> <span className="text-zinc-400 italic">Oviedo y toda Asturias</span>
               </h2>
               <p className="text-zinc-400 leading-relaxed text-base mt-6">
-                Como agencia afincada en Oviedo, entendemos las particularidades del mercado en el Principado de Asturias. Diseñar una web para el público asturiano requiere combinar una estética moderna y funcional con una optimización específica para los buscadores de la región.
+                Trabajamos desde Oviedo con empresas y profesionales de Asturias. Si vendes servicios en tu zona, organizamos la web para explicar tu actividad, tus áreas de atención y cómo solicitar presupuesto.
               </p>
               <p className="text-zinc-400 leading-relaxed text-base mt-4">
-                Ya sea que tu negocio se encuentre en Oviedo, Gijón, Avilés o en las zonas de las cuencas y el oriente, creamos una plataforma a tu medida que conecta directamente con tus clientes locales. Nos encargamos de estructurar tus servicios geográficamente, potenciando tu visibilidad local y asegurando que tu negocio lidere los resultados de búsqueda de Google Maps y las búsquedas locales de alta intención.
+                Atendemos proyectos en Oviedo, Gijón, Avilés y otras localidades del Principado mediante reuniones online. Si también necesitas captar clientes desde Google, podemos valorar una estrategia SEO como servicio complementario.
               </p>
             </div>
 
             <div className="reveal" style={{ animationDelay: "0.2s" }}>
               <div className="bg-zinc-900 border border-zinc-800 p-8 rounded-lg">
-                <h3 className="text-2xl font-display text-white mb-4">Cercanía y Garantía</h3>
+                <h3 className="text-2xl font-display text-white mb-4">Cómo trabajamos contigo</h3>
                 <ul className="space-y-4 text-zinc-400 text-sm">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Reuniones online:</strong> Nos gusta reunirnos y entender a fondo tu proyecto en videollamadas dónde podamos definir objetivos y planes.</span>
+                    <span><strong>Reuniones online:</strong> Nos gusta reunirnos y entender a fondo tu proyecto en videollamadas donde podamos definir objetivos y planes.</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Soporte inmediato:</strong> Olvídate de los tickets de soporte impersonales. Respondemos directamente con soluciones rápidas y eficaces.</span>
+                    <span><strong>Contacto directo:</strong> Acordamos contigo el alcance y resolvemos las dudas sobre diseño, contenido y publicación.</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Especialistas en SEO de Asturias:</strong> Conocemos el volumen de búsqueda y las palabras clave más rentables para captar clientes en el territorio regional.</span>
+                    <span><strong>Objetivos definidos:</strong> Priorizamos las páginas y acciones que ayudan a presentar tus servicios y facilitar el contacto.</span>
                   </li>
                 </ul>
               </div>
@@ -505,7 +522,7 @@ export function DisenoWebContent() {
       {/* ============================================================ */}
       {/*  FAQ SECTION                                                 */}
       {/* ============================================================ */}
-      <FaqSection faqs={faqs} includeJsonLd={false} />
+      <FaqSection title="Preguntas frecuentes sobre diseño web" faqs={faqs} includeJsonLd={false} />
 
       {/* ============================================================ */}
       {/*  CTA SECTION                                                 */}
@@ -525,7 +542,7 @@ export function DisenoWebContent() {
               asChild
               className="bg-background hover:bg-background/90 text-foreground px-8 h-14 text-base rounded-full group inline-flex items-center"
             >
-              <Link href="/contacto">
+              <Link href="/contacto?servicio=diseno-web">
                 Solicitar presupuesto gratis
                 <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
               </Link>

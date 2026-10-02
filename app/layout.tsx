@@ -4,7 +4,10 @@ import {
   Inter,
   JetBrains_Mono,
 } from "next/font/google";
-import Script from "next/script";
+import { AnalyticsConsent } from "@/components/landing/analytics-consent";
+import { CookieBanner } from "@/components/landing/cookie-banner";
+import { ConversionTracking } from "@/components/landing/conversion-tracking";
+import { business } from "@/lib/business";
 import "./globals.css";
 
 const instrumentSans = Instrument_Sans({
@@ -15,19 +18,33 @@ const instrumentSans = Instrument_Sans({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
+  /* No se precarga: solo se usa para el "™" de la nav y chips de 10px.
+     Precargarla competía con la imagen LCP por ancho de banda. */
+  preload: false,
 });
 
-/* Variable font (wght 100-900, sin limitar pesos). Se cargan normal + italic
-   porque varios titulares display usan `italic` (secciones de servicios). */
+/* Variable font (wght 100-900, sin limitar pesos).
+   `preload` es por instancia, no por estilo: para precargar solo el estilo
+   normal (el que usa el H1 del hero, y por tanto el LCP) hay que separar
+   normal e italic en dos instancias apuntando a la misma variable CSS. */
 const inter = Inter({
   subsets: ["latin"],
-  style: ["normal", "italic"],
+  style: ["normal"],
   variable: "--font-inter",
+});
+
+/* La cursiva solo aparece en titulares de páginas de servicio, nunca
+   above-the-fold: no compite con el LCP, así que no se precarga. */
+const interItalic = Inter({
+  subsets: ["latin"],
+  style: ["italic"],
+  variable: "--font-inter",
+  preload: false,
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Diseño Web Profesional en Oviedo y Asturias | LTEvo",
+    default: "Diseño y desarrollo web en Oviedo y Asturias | LTEvo",
     template: "%s | LTEvo",
   },
   description: "¿Buscas una web profesional que venda? Agencia de diseño web en Oviedo y Asturias. Creamos páginas web, tiendas online y SEO para hacer crecer tu negocio.",
@@ -45,7 +62,7 @@ export const metadata: Metadata = {
   creator: "LTEvo",
   metadataBase: new URL("https://ltevo.com"),
   openGraph: {
-    title: "Diseño Web Profesional en Oviedo y Asturias | LTEvo",
+    title: "Diseño y desarrollo web en Oviedo y Asturias | LTEvo",
     description: "¿Buscas una web profesional que venda? Agencia de diseño web en Oviedo y Asturias. Creamos páginas web, tiendas online y SEO para hacer crecer tu negocio.",
     url: "https://ltevo.com",
     siteName: "LTEvo",
@@ -53,7 +70,20 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
+    // summary_large_image sin `images` produce una tarjeta vacía: Next no
+    // deriva twitter:image de og:image. Reutilizamos la OG de raíz.
     card: "summary_large_image",
+    title: "Diseño y desarrollo web en Oviedo y Asturias | LTEvo",
+    description:
+      "¿Buscas una web profesional que venda? Agencia de diseño web en Oviedo y Asturias. Creamos páginas web, tiendas online y SEO para hacer crecer tu negocio.",
+    images: [
+      {
+        url: "/opengraph-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "LTEvo - Agencia de Diseño Web en Oviedo",
+      },
+    ],
   },
   robots: {
     index: true,
@@ -84,12 +114,26 @@ const jsonLd = {
       "@id": "https://ltevo.com/#business",
       "name": "LTEvo",
       "url": "https://ltevo.com",
-      "logo": "https://ltevo.com/icon.png",
-      "image": "https://ltevo.com/icon.png",
+      "logo": "https://ltevo.com/logo.svg",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://ltevo.com/opengraph-image.jpg",
+        "width": 1200,
+        "height": 630
+      },
       "email": "info@ltevo.com",
-      "telephone": "+34 634 25 55 41",
+      "telephone": "+34634255541",
+      /* LSSI art. 37.2.a: los datos de identificación fiscal del prestador
+         de servicios son de publicación obligatoria. */
+      "taxID": "71742225G",
       "priceRange": "€€",
-      "areaServed": "España",
+      "areaServed": [
+        { "@type": "City", "name": "Oviedo" },
+        { "@type": "City", "name": "Gijón" },
+        { "@type": "City", "name": "Avilés" },
+        { "@type": "AdministrativeArea", "name": "Asturias" },
+        { "@type": "Country", "name": "España" }
+      ],
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Calle Uría, 19",
@@ -116,6 +160,7 @@ const jsonLd = {
         "closes": "18:00"
       },
       "sameAs": [
+        business.reviewUrl,
         "https://www.linkedin.com/company/ltevo",
         "https://www.instagram.com/ltevo.web/",
         "https://x.com/ltevo_web",
@@ -133,33 +178,45 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${instrumentSans.variable} ${jetbrainsMono.variable} ${inter.variable} antialiased`}
+        className={`${instrumentSans.variable} ${jetbrainsMono.variable} ${inter.variable} ${interItalic.variable} antialiased`}
       >
-        <Script
-          id="gtm-script"
-          strategy="lazyOnload"
+        {/*
+          Google Consent Mode v2, paso 1: estado por defecto TODO DENEGADO.
+
+          Va como <script> plano y en el servidor, no como next/script, por
+          dos razones: en App Router `beforeInteractive` no está pensado para
+          el árbol de componentes (solo funciona en pages/_document), y este
+          snippet tiene que ejecutarse siempre, acepten o no, para que
+          gtm.js herede el denegado en lugar de sobrescribirlo. La carga del
+          container la hace <AnalyticsConsent /> solo si hay consentimiento.
+        */}
+        <script
+          id="gtm-consent-default"
           dangerouslySetInnerHTML={{
-            __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-MG6KCK8C');
-            `,
+            __html: `window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{
+  ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',
+  analytics_storage:'denied',functionality_storage:'granted',
+  security_storage:'granted',wait_for_update:500
+});`,
           }}
         />
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-MG6KCK8C"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript>
+        <AnalyticsConsent />
+        <ConversionTracking />
+        <CookieBanner />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {/* Skip to content (WCAG 2.4.1): invisible hasta que se navega con
+            teclado, momento en que aparece arriba a la izquierda. */}
+        <a
+          href="#contenido"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:rounded-lg focus:bg-foreground focus:px-4 focus:py-2 focus:text-background"
+        >
+          Saltar al contenido principal
+        </a>
         {children}
       </body>
     </html>

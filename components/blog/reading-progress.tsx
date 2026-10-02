@@ -40,9 +40,12 @@ export function ReadingProgressBar() {
 
   return (
     <div className="fixed top-0 left-0 w-full h-1 bg-stone-200/50 z-[100] pointer-events-none">
-      <div 
-        className="h-full bg-foreground/90 transition-all duration-75 ease-out"
-        style={{ width: `${progress}%` }}
+      {/* scaleX en lugar de width: animar `width` no es componible y fuerza
+          layout de todo el documento en cada frame de scroll. La barra se ve
+          idéntica: mismo origen, misma altura, misma opacidad. */}
+      <div
+        className="h-full w-full origin-left bg-foreground/90 transition-transform duration-75 ease-out"
+        style={{ transform: `scaleX(${progress / 100})` }}
       />
     </div>
   );
