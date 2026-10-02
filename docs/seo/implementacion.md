@@ -14,9 +14,9 @@ La intervención conserva las URLs existentes y añade servicios diferenciados, 
 
 ## Datos externos y publicación
 
-Fecha de despliegue: pendiente de comprobación del resultado del despliegue. El documento se actualizará cuando exista evidencia; no se toma la fecha de preparación como lanzamiento.
+Código publicado en producción el 2 de octubre de 2026, commit `ad7d2f6`, deployment `dpl_Ey2LBdjMyFpDDjSoVuxDg5Xcfuv3`, confirmado READY y alias ltevo.com sin errores. Workflow Web and blog quality de GitHub: run 37002322985, success. La referencia GSC es anterior al lanzamiento; no atribuir el histórico a estos cambios.
 
-GSC Wizard no permite ejecutar nuevas inspecciones en esta sesión porque la herramienta guarda historial y requiere aprobación externa. La respuesta `indexed: 0` del sitemap es un campo obsoleto, no un diagnóstico de desindexación.
+GSC Wizard no permite ejecutar nuevas inspecciones en esta sesión porque la herramienta guarda historial y requiere aprobación externa. También se rechazó el reenvío de sitemap por requerir aprobación, aunque el sitemap ya estaba registrado. La respuesta `indexed: 0` del sitemap es un campo obsoleto, no un diagnóstico de desindexación.
 
 La conexión Vercel permite listar proyectos, pero su herramienta `get_project` devuelve un error de parámetros (`idOrName` ausente) aun usando los parámetros publicados. El certificado de www requiere comprobar la configuración efectiva del dominio en Vercel antes de declarar la corrección.
 
@@ -30,3 +30,15 @@ La conexión Vercel permite listar proyectos, pero su herramienta `get_project` 
 ## Verificación
 
 Validación completada en una copia aislada en /tmp para respetar .git y .agents protegidos: 19 artículos con MDX válido; 11 pruebas de herramientas y 3 de contacto pasan; ESLint y TypeScript/build de producción correctos; 35 páginas del sitemap con 200, canonical propio y un H1; 404 reales. Navegación comprobada en móvil390px/tablet768px y escritorio1440px. Formulario con servicio/plan y evento generate_lead comprobados con respuesta simulada; el proveedor se prueba por separado con un mock. Consentimiento inicial denegado y revocación actualiza analytics_storage a denied. La verificación del navegador podrá simular una respuesta de éxito para comprobar la UI y el evento sin enviar un correo no solicitado; esa simulación no demuestra entrega de Resend.
+
+
+## Sincronizar la copia de trabajo
+
+`.git` está protegida en la sesión: publicación y commits se realizaron desde una copia aislada, sin modificar el índice local. Los archivos originales conservan todos los cambios. Para alinear Git sin borrar archivos, desde tu terminal de Windows en este repositorio:
+
+```powershell
+git fetch origin
+git reset --mixed origin/main
+```
+
+`--mixed` actualiza la referencia/índice y conserva el contenido de los archivos de trabajo; no utilices `--hard`. Instala después la skill con su INSTALL.md. El calendario Blog-web.txt y los snapshots GSC continúan locales e ignorados por Git.
