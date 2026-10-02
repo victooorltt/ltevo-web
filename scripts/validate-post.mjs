@@ -1,296 +1,268 @@
 #!/usr/bin/env node
-/**
- * validate-post.mjs — puertas de calidad SEO de un post, antes de publicarlo.
- *
- *   node scripts/validate-post.mjs <slug>
- *   node scripts/validate-post.mjs <slug> --update   # valida como revisión
- *
- * Sale con codigo 1 si falla cualquier puerta dura, de modo que no se puede
- * "dar por bueno" el post sin ejecutar esto.
- *
- * Solo Node, sin dependencias: funciona igual en WSL, Windows, macOS y en
- * cualquier agente. Las rutas se derivan del propio arbol de `app/` y de
- * `content/blog/`, asi que no hay lista de rutas que se pueda quedar obsoleta.
+/** Validate actual YAML + MDX, links/assets, authorship and component contracts.
+ * Body uses React contract adapters; production build/browser must verify actual app components.
+ * --update preserves HEAD's publication date. --all excludes drafts. No automatic SEO guarantees.
  */
-
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
+import matter from 'gray-matter';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { compileMDX } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
+import sharp from 'sharp';
 
-const ROOT = process.cwd();
-const BLOG_DIR = path.join(ROOT, 'content', 'blog');
-const APP_DIR = path.join(ROOT, 'app');
-const SUFFIX = ' | LTEvo';
-
-/* Vocabulario cerrado de tags (ver SKILL.md). Fuera de esta lista, falla. */
-const ALLOWED_TAGS = new Set([
-  'SEO', 'SEO Técnico', 'Diseño Web', 'E-commerce',
-  'WooCommerce', 'Marketing', 'Kit Digital', 'Estrategia Web',
-]);
-
-/* ---------------------------------------------------------------- */
-/*  Utilidades                                                       */
-/* ---------------------------------------------------------------- */
-
-const read = (p) => fs.readFileSync(p, 'utf8');
-const exists = (p) => fs.existsSync(p);
-
-function splitFrontmatter(raw) {
-  const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
-  if (!m) return null;
-  return { fm: m[1], body: m[2] };
+const TAGS = new Set(['SEO', 'SEO Técnico', 'Diseño Web', 'E-commerce', 'WooCommerce', 'Marketing', 'Kit Digital', 'Estrategia Web']);
+const PROPS = { FlowDiagram: ['title', 'steps'], FlowStep: ['title', 'subtitle', 'badge'], TopicSilo: ['pillar', 'clusters'], SiloCluster: ['title', 'badge'], Callout: ['type', 'title'], CtaService: ['service', 'title'] };
+const CTA = { seo: '/servicios/seo', 'diseno-web': '/servicios/diseno-web', 'mantenimiento-web': '/servicios/mantenimiento-web', hosting: '/servicios/hosting', 'desarrollo-web': '/servicios/desarrollo-web', 'tiendas-online': '/servicios/tiendas-online', contacto: '/contacto' };
+const HTML = new Set('a abbr b blockquote br code del details div em figcaption figure h2 h3 h4 h5 h6 hr i img kbd li ol p pre s small span strong sub summary sup table tbody td th thead tr ul'.split(' '));
+const read = (file) => fs.readFileSync(file, 'utf8');
+const walk = (node, visit) => { visit(node); for (const child of node.children || []) walk(child, visit); };
+const textOf = (node) => node.value || (node.children || []).map(textOf).join('');
+const headingId = (text) => text.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, '').trim().replace(/\s/g, '-');
+const isoDate = (value) => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value)) && new Date(value).toISOString().slice(0, 10) === value;
+function assetFile(root, url) {
+  const file = path.resolve(root, 'public', '.' + url);
+  return file.startsWith(path.resolve(root, 'public') + path.sep) ? file : null;
 }
-
-function fmValue(fm, key) {
-  const m = fm.match(new RegExp(`^${key}:\\s*"(.*)"\\s*$`, 'm'));
-  return m ? m[1] : undefined;
+function filesBelow(dir, accept) {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const full = path.join(dir, entry.name);
+    return entry.isDirectory() ? filesBelow(full, accept) : accept(entry.name) ? [full] : [];
+  });
 }
-
-function fmList(fm, key) {
-  const m = fm.match(new RegExp(`^${key}:\\s*\\[(.*)\\]\\s*$`, 'm'));
-  if (!m) return [];
-  return [...m[1].matchAll(/"([^"]*)"/g)].map((x) => x[1]);
-}
-
-/** Rutas publicas reales, derivadas de app/**\/page.tsx. */
-function realRoutes() {
-  const routes = new Set(['/']);
-  const walk = (dir) => {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        if (['node_modules', '.next', 'api'].includes(entry.name)) continue;
-        walk(full);
-      } else if (entry.name === 'page.tsx') {
-        const rel = path.relative(APP_DIR, path.dirname(full));
-        // Las rutas dinamicas (/blog/[slug]) no son URLs publicas por si mismas.
-        if (rel.includes('[')) continue;
-        routes.add(rel === '' ? '/' : '/' + rel.split(path.sep).join('/'));
-      }
-    }
-  };
-  walk(APP_DIR);
+function routeIndex(root) {
+  const routes = new Map(), app = path.join(root, 'app');
+  for (const file of filesBelow(app, (name) => /^page\.(tsx|jsx|js|ts|mdx)$/.test(name))) {
+    const parts = path.relative(app, path.dirname(file)).split(path.sep).filter((part) => part && !/^\(.*\)$/.test(part));
+    if (!parts.some((part) => part.startsWith('[') || part.startsWith('@'))) routes.set('/' + parts.join('/'), { source: file });
+  }
+  for (const file of filesBelow(path.join(root, 'content/blog'), (name) => /\.mdx?$/.test(name))) {
+    const post = matter(read(file));
+    if (post.data.draft !== true) routes.set('/blog/' + path.basename(file).replace(/\.mdx?$/, ''), { source: file, body: post.content });
+  }
   return routes;
 }
-
-function publishedSlugs() {
-  if (!exists(BLOG_DIR)) return new Set();
-  return new Set(
-    fs.readdirSync(BLOG_DIR)
-      .filter((f) => /\.mdx?$/.test(f))
-      .map((f) => '/blog/' + path.basename(f).replace(/\.mdx?$/, ''))
-  );
+function literal(expression) {
+  const node = expression?.type === 'Program' ? expression.body[0]?.expression : expression;
+  if (!node) throw new Error('expresión vacía');
+  if (node.type === 'Literal') return node.value;
+  if (node.type === 'ArrayExpression') return node.elements.map(literal);
+  if (node.type === 'UnaryExpression' && node.operator === '-' && node.argument.type === 'Literal' && typeof node.argument.value === 'number') return -node.argument.value;
+  if (node.type === 'ObjectExpression') return Object.fromEntries(node.properties.map((prop) => {
+    if (prop.type !== 'Property' || prop.computed || prop.method || prop.kind !== 'init') throw new Error('objeto no literal');
+    const key = prop.key.name ?? prop.key.value;
+    if (['__proto__', 'prototype', 'constructor'].includes(key)) throw new Error('clave no admitida');
+    return [key, literal(prop.value)];
+  }));
+  throw new Error(`solo se permiten datos literales, no ${node.type}`);
 }
-
-/** Dimensiones de cabecera, sin depender de sharp. */
-function imageSize(file) {
-  const b = fs.readFileSync(file);
-  if (b.length < 24) return null;
-  // WebP: VP8 / VP8L / VP8X
-  if (b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP') {
-    const tag = b.toString('ascii', 12, 16);
-    if (tag === 'VP8X') return { width: 1 + b.readUIntLE(24, 3), height: 1 + b.readUIntLE(27, 3) };
-    if (tag === 'VP8L') {
-      const n = b.readUInt32LE(21);
-      return { width: (n & 0x3fff) + 1, height: ((n >> 14) & 0x3fff) + 1 };
-    }
-    if (tag === 'VP8 ') {
-      return { width: b.readUInt16LE(26) & 0x3fff, height: b.readUInt16LE(28) & 0x3fff };
-    }
+function jsxProps(node) {
+  const props = {};
+  for (const attr of node.attributes || []) {
+    if (attr.type !== 'mdxJsxAttribute') throw new Error('spreads JSX no admitidos');
+    if (attr.name.startsWith('on') || attr.name === 'dangerouslySetInnerHTML') throw new Error(`atributo no admitido: ${attr.name}`);
+    props[attr.name] = attr.value === null ? true : typeof attr.value === 'string' ? attr.value : literal(attr.value.data?.estree);
   }
-  // PNG
-  if (b.readUInt32BE(0) === 0x89504e47) return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) };
-  // JPEG: recorrer marcadores hasta SOFn
-  if (b[0] === 0xff && b[1] === 0xd8) {
-    let i = 2;
-    while (i < b.length - 9) {
-      if (b[i] !== 0xff) { i++; continue; }
-      const marker = b[i + 1];
-      if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
-        return { height: b.readUInt16BE(i + 5), width: b.readUInt16BE(i + 7) };
-      }
-      i += 2 + b.readUInt16BE(i + 2);
-    }
+  return props;
+}
+function contractError(name, props) {
+  if (['FlowStep', 'SiloCluster'].includes(name) && (typeof props.title !== 'string' || !props.title.trim())) return `${name} requiere title`;
+  if (name === 'Callout' && props.type && !['tip', 'info', 'warning', 'success'].includes(props.type)) return 'Callout type no válido';
+  if (name === 'CtaService' && (typeof props.service !== 'string' || !CTA[props.service])) return 'CtaService requiere un service explícito válido';
+  if (name === 'TopicSilo' && props.pillar !== undefined && (!props.pillar || typeof props.pillar.title !== 'string')) return 'TopicSilo pillar requiere title';
+  for (const key of ['steps', 'clusters']) {
+    if (props[key] === undefined) continue;
+    const allowed = key === 'steps' ? ['title', 'subtitle', 'badge', 'description'] : ['title', 'badge', 'desc'];
+    if (!Array.isArray(props[key]) || props[key].some((item) => !item || typeof item.title !== 'string' || !item.title.trim() || Object.entries(item).some(([field, value]) => !allowed.includes(field) || typeof value !== 'string'))) return `${name} ${key} requiere objetos de texto con title y campos válidos`;
   }
+  if (name === 'TopicSilo' && props.pillar && Object.entries(props.pillar).some(([field, value]) => !['title', 'badge', 'desc'].includes(field) || typeof value !== 'string')) return 'TopicSilo pillar contiene campos no válidos';
+  for (const key of ['title', 'subtitle', 'badge']) if (props[key] !== undefined && typeof props[key] !== 'string') return `${name} ${key} debe ser texto`;
   return null;
 }
-
-const norm = (u) => {
-  const clean = u.split('#')[0].split('?')[0].replace(/\/+$/, '');
-  return clean === '' ? '/' : clean;
-};
-
-/* ---------------------------------------------------------------- */
-/*  Puertas                                                          */
-/* ---------------------------------------------------------------- */
-
-const args = process.argv.slice(2).filter((a) => a !== '--update');
-const slug = args[0];
-
-if (!slug) {
-  console.error('Uso: node scripts/validate-post.mjs <slug>');
-  process.exit(2);
-}
-
-const file = path.join(BLOG_DIR, `${slug}.mdx`);
-const fails = [];
-const warns = [];
-const pass = [];
-
-function check(cond, okMsg, failMsg) {
-  if (cond) pass.push(okMsg);
-  else fails.push(failMsg);
-  return cond;
-}
-
-if (!exists(file)) {
-  console.error(`\n  NO EXISTE content/blog/${slug}.mdx\n`);
-  process.exit(1);
-}
-
-const raw = read(file);
-const parts = splitFrontmatter(raw);
-
-if (!parts) {
-  console.error(`\n  Frontmatter ausente o mal formado en ${slug}.mdx\n`);
-  process.exit(1);
-}
-const { fm, body } = parts;
-
-/* --- Puerta 1: sin placeholders ni notas internas --- */
-const placeholders = raw.match(
-  /\[Photo Placeholder[^\]]*\]|\[Placeholder[^\]]*\]|(?<![\w-])(TODO|TBD|FIXME)(?![\w-])/g
-);
-check(!placeholders, 'sin placeholders', `placeholders sin resolver: ${placeholders?.join(', ')}`);
-
-/* --- Puerta 1b: sin diagramas ASCII ni tablas dibujadas con cajas ---
-   Solo se detectan caracteres de dibujo de caja (│ ├ └ ─ ┌ ┐ ▼ ▸ ▶), que no
-   aparecen en codigo real. Con un patron mas laxo (basado en pipes) saltaban
-   falsos positivos en posts que no tienen ningun diagrama. */
-const codeBlocks = [...body.matchAll(/```[a-z]*\r?\n([\s\S]*?)```/g)].map((m) => m[1]);
-const ascii = codeBlocks.find((b) =>
-  /[\u2502\u251C\u2514\u2500\u250C\u2510\u2518\u2508]{2,}/.test(b)
-);
-check(
-  !ascii,
-  'sin diagramas ASCII en bloques de codigo',
-  ascii
-    ? `diagrama ASCII dentro de un bloque de codigo ("${ascii.split('\n')[0].trim().slice(0, 42)}..."): en prose sale como terminal oscuro con scrollbar. Usar <FlowDiagram>, <TopicSilo> o tabla Markdown.`
-    : '',
-);
-
-/* --- Puerta 2: keyword y longitudes de metadatos --- */
-const keyword = (fmValue(fm, 'keyword') || '').trim().toLowerCase();
-const title = fmValue(fm, 'title') || '';
-const seoTitle = fmValue(fm, 'seoTitle');
-const excerpt = fmValue(fm, 'excerpt') || '';
-
-const plain = body.replace(/<[^>]+>/g, ' ');
-const first100 = plain.split(/\s+/).slice(0, 100).join(' ').toLowerCase();
-const h2 = [...body.matchAll(/^#{2,3}\s+(.*)$/gm)].map((m) => m[1]).join(' ').toLowerCase();
-
-if (keyword) {
-  const inH1 = keyword.includes(title.toLowerCase()) || title.toLowerCase().includes(keyword);
-
-  check(inH1, `keyword en el H1 ("${keyword}")`, `keyword ausente del H1 ("${keyword}")`);
-  check(first100.includes(keyword), 'keyword en las primeras 100 palabras', `keyword fuera de las primeras 100 palabras ("${keyword}")`);
-  check(h2.includes(keyword), 'keyword en algun H2/H3', `keyword ausente de todos los H2/H3 ("${keyword}")`);
-} else {
-  fails.push('falta `keyword` en el frontmatter');
-}
-
-const finalTitle = seoTitle || title;
-check(
-  finalTitle.length + SUFFIX.length <= 60,
-  `title final ${finalTitle.length + SUFFIX.length} chars (con "${SUFFIX.trim()}")`,
-  `title final ${finalTitle.length + SUFFIX.length} chars, supera 60 y Google lo trunca`,
-);
-check(
-  seoTitle !== undefined || finalTitle.length + SUFFIX.length <= 60,
-  'seoTitle presente',
-  'sin `seoTitle`: el title cae en el >60 de otros post',
-);
-check(
-  excerpt.length >= 120 && excerpt.length <= 158,
-  `excerpt ${excerpt.length} chars`,
-  `excerpt ${excerpt.length} chars, fuera del rango 120-158`,
-);
-
-/* --- Puerta 3: enlaces internos resueltos --- */
-const valid = new Set([...realRoutes(), ...publishedSlugs()].map(norm));
-const broken = [...new Set(
-  [...body.matchAll(/\]\((\/[^)\s]+)/g)].map((m) => m[1]).filter((h) => !norm(h).startsWith('/blog/categoria'))
-)].filter((h) => !valid.has(norm(h)));
-
-check(broken.length === 0, 'todos los enlaces internos resuelven', `enlaces internos rotos: ${broken.join(', ')}`);
-
-/* --- Puerta 4: enlaces externos y fuentes --- */
-const external = [...new Set([...body.matchAll(/\]\((https?:\/\/[^)\s]+)/g)].map((m) => m[1]))];
-const words = plain.split(/\s+/).filter(Boolean).length;
-const needsSource = /\d+\s*%|\b\d{2,}\s*(millones|mil)/i.test(plain);
-
-if (words < 300) {
-  fails.push(`solo ${words} palabras (minimo 300; recomendado >=1200 segun KD)`);
-} else {
-  pass.push(`${words} palabras`);
-}
-
-check(external.length >= 2, `${external.length} enlaces externos`, `solo ${external.length} enlaces externos (minimo 2)`);
-if (needsSource) {
-  warns.push('hay cifras en el texto: comprueba que cada una lleva su fuente enlazada');
-}
-
-/* --- Puerta 5: tags del vocabulario cerrado --- */
-const tags = fmList(fm, 'tags');
-const badTags = tags.filter((t) => !ALLOWED_TAGS.has(t));
-check(badTags.length === 0, `tags correctos (${tags.join(', ')})`, `tags fuera del vocabulario: ${badTags.join(', ')}`);
-
-/* --- Puerta 5b: autor real (aviso, no bloqueante hasta que exista /equipo) --- */
-const author = (fmValue(fm, 'author') || '').trim();
-if (author.toLowerCase() === 'equipo ltevo') {
-  warns.push('`author` sigue siendo la entidad "Equipo LTEvo": E-E-A-T no se cumple hasta que haya autor real con pagina de perfil');
-} else {
-  pass.push(`autor real: ${author}`);
-}
-
-/* --- Puerta 6: la portada existe y mide 1200x630 --- */
-const cover = fmValue(fm, 'coverImage');
-if (!cover) {
-  fails.push('falta `coverImage` en el frontmatter');
-} else {
-  const coverPath = path.join(ROOT, 'public', cover.replace(/^\//, ''));
-  if (!exists(coverPath)) {
-    fails.push(`la portada no existe: public${cover}`);
-  } else {
-    const size = imageSize(coverPath);
-    if (!size) {
-      warns.push(`no se pudo leer el tamaño de ${cover}`);
-    } else {
-      const ok1200 = size.width === 1200 && size.height === 630;
-      if (ok1200) pass.push(`portada ${size.width}x${size.height}`);
-      else fails.push(`portada ${size.width}x${size.height}; se requiere 1200x630 (og:image y recorte social)`);
+function routeHasAnchor(root, destination, anchor) {
+  if (destination.body) return [...destination.body.matchAll(/^#{2,6}\s+(.+)$/gm)].some((match) => headingId(match[1].replace(/[*`]/g, '')) === anchor) || destination.body.includes(`id="${anchor}"`);
+  const pending = [destination.source], seen = new Set();
+  while (pending.length) {
+    const file = pending.pop();
+    if (seen.has(file)) continue;
+    seen.add(file);
+    const source = read(file);
+    if (source.includes(`id="${anchor}"`) || source.includes(`id='${anchor}'`)) return true;
+    for (const match of source.matchAll(/(?:from\s+|import\s*)["'](@\/[^"']+|\.[^"']+)["']/g)) {
+      const base = match[1].startsWith('@/') ? path.join(root, match[1].slice(2)) : path.resolve(path.dirname(file), match[1]);
+      const next = ['', '.tsx', '.ts', '.jsx', '.js', '/index.tsx'].map((ext) => base + ext).find((candidate) => fs.existsSync(candidate) && fs.statSync(candidate).isFile());
+      if (next) pending.push(next);
     }
   }
+  return false;
 }
-
-/* ---------------------------------------------------------------- */
-/*  Informe                                                          */
-/* ---------------------------------------------------------------- */
-
-const tag = '\x1b[';
-const bold = (s) => `${tag}1m${s}${tag}0m`;
-const green = (s) => `${tag}32m${s}${tag}0m`;
-const red = (s) => `${tag}31m${s}${tag}0m`;
-const yellow = (s) => `${tag}33m${s}${tag}0m`;
-
-console.log(`\n  ${bold('Validacion del post')}  ${slug}\n`);
-for (const p of pass) console.log(`  ${green('OK  ')} ${p}`);
-for (const w of warns) console.log(`  ${yellow('AVISO')} ${w}`);
-for (const f of fails) console.log(`  ${red('FALLA')} ${f}`);
-
-console.log('');
-if (fails.length) {
-  console.log(red(`  ${fails.length} puerta(s) bloqueante(s) superada(s). NO publicar.\n`));
-  process.exit(1);
+export async function validatePost(slug, { root = process.cwd(), update = false } = {}) {
+  const errors = [], warnings = [];
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return { slug, errors: ['slug no válido'], warnings };
+  const file = ['mdx', 'md'].map((ext) => path.join(root, 'content/blog', `${slug}.${ext}`)).find(fs.existsSync);
+  if (!file) return { slug, errors: ['el artículo no existe'], warnings };
+  let data, body;
+  try { ({ data, content: body } = matter(read(file))); } catch (error) { return { slug, errors: [`YAML no válido: ${error.message}`], warnings }; }
+  for (const key of ['title', 'excerpt', 'keyword', 'author', 'authorProfile', 'coverImage']) if (typeof data[key] !== 'string' || !data[key].trim()) errors.push(`falta ${key} de texto`);
+  if (data.draft !== undefined && typeof data.draft !== 'boolean') errors.push('draft debe ser booleano YAML');
+  if (data.draft === true) errors.push('draft: true; completar y revisar antes de publicar');
+  if (!isoDate(data.date)) errors.push('date debe ser fecha real "YYYY-MM-DD" entre comillas');
+  if (data.updatedAt !== undefined && !isoDate(data.updatedAt)) errors.push('updatedAt debe ser fecha real "YYYY-MM-DD" entre comillas');
+  if (isoDate(data.date) && isoDate(data.updatedAt) && data.updatedAt < data.date) errors.push('updatedAt no puede ser anterior a date');
+  const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Madrid' });
+  if (isoDate(data.date) && data.date > today) errors.push('date futura: mantener draft hasta publicación');
+  if (isoDate(data.updatedAt) && data.updatedAt > today) errors.push('updatedAt futura');
+  if (update) {
+    if (!isoDate(data.updatedAt)) errors.push('--update requiere updatedAt');
+    try {
+      const old = matter(execFileSync('git', ['show', `HEAD:${path.relative(root, file).split(path.sep).join('/')}`], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })).data;
+      if (old.date !== data.date) errors.push('revisión debe conservar fecha original de publicación de HEAD');
+    } catch { warnings.push('sin versión HEAD: comprobar fecha original manualmente'); }
+  }
+  if (!Array.isArray(data.tags) || !data.tags.length || data.tags.some((tag) => !TAGS.has(tag))) errors.push('tags vacíos o fuera del vocabulario editorial');
+  if (String(data.seoTitle || data.title || '').length + 8 > 60) warnings.push('title largo: revisar ancho y claridad; no existe límite fijo de Google');
+  if (String(data.excerpt || '').length < 80 || String(data.excerpt || '').length > 180) warnings.push('excerpt muy corto/largo: revisar descripción y tarjeta');
+  const businessFile = path.join(root, 'lib/business.ts');
+  if (fs.existsSync(businessFile)) {
+    const businessSource = read(businessFile);
+    const knownAuthor = businessSource.match(/\bauthor:\s*["']([^"']+)["']/)?.[1];
+    const knownProfile = businessSource.match(/\bauthorProfile:\s*["']([^"']+)["']/)?.[1];
+    if (knownAuthor && data.author !== knownAuthor) errors.push('autor no coincide con la identidad confirmada de lib/business.ts');
+    if (knownProfile && data.authorProfile !== knownProfile) errors.push('authorProfile no coincide con el perfil confirmado de lib/business.ts');
+  }
+  if (!data.authorRole) warnings.push('verificar rol del autor/equipo en perfil; no inventar identidad');
+  if (/\bTODO\b|\bTBD\b/.test(body) || /\[\s*(?:photo\s+)?placeholder[^\]]*\]|Escribe (?:el contenido|una introducción)|Resume las ideas|\bBORRADOR EDITORIAL\b|word count|volumen mensual estimado|dificultad de.*\(KD\)/i.test(body)) errors.push('restos de borrador/instrucciones o métricas editoriales en cuerpo');
+  if (/```[^\n]*\n[^`]*[│├└─┌┐┘┤┬┴┼]/s.test(body)) errors.push('diagrama ASCII: usar tabla Markdown/componentes visuales');
+  const routes = routeIndex(root), currentUrl = `/blog/${slug}`, links = [], images = [], headings = new Set(), definitions = new Map();
+  let ctas = 0, tree, unsafe = false;
+  const collect = () => (parsed) => {
+    tree = parsed;
+    walk(parsed, (node) => {
+      if (node.type === 'definition') definitions.set(node.identifier, node.url);
+      if (node.type === 'heading') { if (node.depth === 1) errors.push('H1 añadido: title ya genera H1'); headings.add(headingId(textOf(node))); }
+      if (node.type === 'link') links.push(node.url);
+      if (node.type === 'image') { images.push(node.url); if (!node.alt?.trim()) errors.push(`imagen sin alt: ${node.url}`); }
+      if (node.type === 'mdxjsEsm') { errors.push('import/export no admitidos en artículos'); unsafe = true; }
+      if (['mdxTextExpression', 'mdxFlowExpression'].includes(node.type)) {
+        try { literal(node.data?.estree); } catch (error) { errors.push(`expresión MDX: ${error.message}`); unsafe = true; }
+      }
+      if (!['mdxJsxFlowElement', 'mdxJsxTextElement'].includes(node.type) || !node.name) return;
+      if (node.name === 'h1') errors.push('H1 JSX añadido');
+      if (!HTML.has(node.name) && !Object.hasOwn(PROPS, node.name)) { errors.push(`componente no registrado: ${node.name}`); unsafe = true; return; }
+      let props;
+      try { props = jsxProps(node); } catch (error) { errors.push(`${node.name}: ${error.message}`); unsafe = true; return; }
+      if (props.id) headings.add(props.id);
+      if (props.href !== undefined) links.push(props.href);
+      if (props.src !== undefined) images.push(props.src);
+      if (node.name === 'img') {
+        if (!props.src) errors.push('img JSX sin src');
+        if (!props.alt?.trim()) errors.push('img JSX sin alt');
+        if (!(Number(props.width) > 0 && Number(props.height) > 0)) errors.push('img JSX requiere width y height');
+      }
+      if (!PROPS[node.name]) return;
+      const unknown = Object.keys(props).filter((key) => !PROPS[node.name].includes(key));
+      if (unknown.length) errors.push(`${node.name}: props desconocidas ${unknown.join(', ')}`);
+      const problem = contractError(node.name, props); if (problem) errors.push(problem);
+      if (node.name === 'CtaService' && CTA[props.service]) { ctas++; links.push(CTA[props.service]); }
+    });
+    walk(parsed, (node) => {
+      if (['linkReference', 'imageReference'].includes(node.type)) {
+        const url = definitions.get(node.identifier);
+        if (!url) errors.push(`referencia sin destino: ${node.identifier}`);
+        else {
+          (node.type === 'linkReference' ? links : images).push(url);
+          if (node.type === 'imageReference' && !node.alt?.trim()) errors.push(`imagen sin alt: ${url}`);
+        }
+      }
+    });
+    if (unsafe) throw new Error('MDX solo admite contenido y datos literales');
+  };
+  const components = Object.fromEntries(Object.keys(PROPS).map((name) => [name, ({ children, title, service }) => React.createElement('div', null, title, children, service && React.createElement('a', { href: CTA[service] }, 'Ver servicio'))]));
+  try {
+    const compiled = await compileMDX({ source: body, components, options: { mdxOptions: { remarkPlugins: [remarkGfm, collect] } } });
+    renderToStaticMarkup(compiled.content);
+  } catch (error) { errors.push(`MDX no compila/renderiza: ${error.message}`); }
+  if (!ctas) errors.push('falta CtaService con service explícito');
+  if (tree && textOf(tree).trim().split(/\s+/).length < 300) warnings.push('contenido breve: evaluar si resuelve intención; no hay longitud mínima SEO');
+  const external = new Set();
+  function checkLink(raw, image = false) {
+    if (typeof raw !== 'string') { errors.push('enlace/imagen debe ser texto literal'); return; }
+    let url;
+    try { url = new URL(raw, `https://ltevo.com${currentUrl}`); } catch { errors.push(`URL no válida: ${raw}`); return; }
+    if (['mailto:', 'tel:'].includes(url.protocol) && !image) return;
+    if (!['https:', 'http:'].includes(url.protocol)) { errors.push(`protocolo no permitido: ${raw}`); return; }
+    if (!['ltevo.com', 'www.ltevo.com'].includes(url.hostname)) { if (image) errors.push(`imagen externa: descargar y comprobar derechos/dimensiones ${raw}`); else external.add(url.href); return; }
+    let pathname;
+    try { pathname = decodeURIComponent(url.pathname).replace(/\/+$/, '') || '/'; } catch { errors.push(`URL mal codificada: ${raw}`); return; }
+    const asset = assetFile(root, pathname);
+    if (asset && fs.existsSync(asset) && fs.statSync(asset).isFile()) return;
+    if (image) { errors.push(`imagen local no existe: ${raw}`); return; }
+    const destination = pathname === currentUrl ? { body } : routes.get(pathname);
+    if (!destination) { errors.push(`enlace interno sin página publicada: ${raw}`); return; }
+    if (!url.hash) return;
+    let anchor;
+    try { anchor = decodeURIComponent(url.hash.slice(1)); } catch { errors.push(`anchor mal codificado: ${raw}`); return; }
+    if (pathname === currentUrl ? !headings.has(anchor) : !routeHasAnchor(root, destination, anchor)) errors.push(`anchor no encontrado en ruta: ${raw}`);
+  }
+  for (const link of links) checkLink(link);
+  if (data.authorProfile) checkLink(data.authorProfile);
+  if (data.relatedSlugs !== undefined) {
+    if (!Array.isArray(data.relatedSlugs)) errors.push('relatedSlugs debe ser lista');
+    else for (const related of data.relatedSlugs) checkLink(`/blog/${related}`);
+  }
+  for (const image of images) {
+    checkLink(image, true);
+    const local = typeof image === 'string' && image.startsWith('/') ? assetFile(root, image.split(/[?#]/)[0]) : null;
+    if (local && fs.existsSync(local)) {
+      try { await sharp(local).metadata(); } catch (error) { errors.push(`imagen ilegible: ${image} (${error.message})`); }
+    }
+  }
+  if (external.size < 2) warnings.push(`${external.size} fuentes: verificar respaldo de afirmaciones; no imponer enlaces irrelevantes`);
+  if (typeof data.coverImage === 'string') {
+    checkLink(data.coverImage, true);
+    const cover = assetFile(root, data.coverImage);
+    if (cover && fs.existsSync(cover)) {
+      try {
+        const size = await sharp(cover).metadata();
+        if (!size.width || !size.height) errors.push('portada sin dimensiones legibles');
+        else if (size.width !== 1200 || size.height !== 630) warnings.push(`portada ${size.width}x${size.height}: estándar social 1200x630; declarar dimensiones reales`);
+      } catch (error) { errors.push(`portada ilegible: ${error.message}`); }
+    }
+  }
+  if (data.socialImage !== undefined) {
+    if (typeof data.socialImage !== 'string' || !data.socialImage.startsWith('/')) errors.push('socialImage debe ser una ruta local');
+    else {
+      checkLink(data.socialImage, true);
+      const social = assetFile(root, data.socialImage);
+      if (social && fs.existsSync(social)) {
+        try {
+          const size = await sharp(social).metadata();
+          if (size.width !== 1200 || size.height !== 630) errors.push('socialImage debe medir 1200x630, como declara la plantilla social');
+        } catch (error) { errors.push(`imagen social ilegible: ${error.message}`); }
+      }
+    }
+  }
+  return { slug, errors: [...new Set(errors)], warnings: [...new Set(warnings)] };
 }
-console.log(green('  Todas las puertas superadas. Puedes marcar la X y publicar.\n'));
-process.exit(0);
+async function main() {
+  const args = process.argv.slice(2);
+  if (!args.length || args.some((arg) => arg.startsWith('--') && !['--all', '--update'].includes(arg))) throw new Error('Uso: node scripts/validate-post.mjs <slug> [--update] | --all');
+  if (args.includes('--all') && args.some((arg) => !arg.startsWith('--'))) throw new Error('Usa --all o slugs, no ambos.');
+  const slugs = args.includes('--all') ? filesBelow(path.join(process.cwd(), 'content/blog'), (name) => /\.mdx?$/.test(name)).filter((file) => matter(read(file)).data.draft !== true).map((file) => path.basename(file).replace(/\.mdx?$/, '')) : args.filter((arg) => !arg.startsWith('--'));
+  if (!slugs.length) throw new Error('No hay artículos para validar.');
+  let failures = 0;
+  for (const slug of slugs) {
+    const result = await validatePost(slug, { update: args.includes('--update') });
+    console.log(`\n${result.errors.length ? 'FALLA' : 'OK'} ${slug}`);
+    for (const warning of result.warnings) console.log(`  AVISO ${warning}`);
+    for (const error of result.errors) console.log(`  ERROR ${error}`);
+    failures += result.errors.length;
+  }
+  console.log(`\n${failures ? `${failures} errores: no publicar.` : 'Comprobaciones locales superadas. Falta revisión editorial, build y página real antes de publicar.'}`);
+  process.exitCode = failures ? 1 : 0;
+}
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch((error) => { console.error(error.message); process.exitCode = 1; });

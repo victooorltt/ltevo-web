@@ -13,7 +13,8 @@
  *   --format F      webp (por defecto) | jpg | png | avif. Si cambia la extensión,
  *                   escribe un archivo nuevo en lugar de sobrescribir.
  *   --fit F         inside (por defecto) | cover | fill | contain.
- *   --force         Sobrescribe aunque el resultado pese igual o más.
+ *   --force         Sobrescribe aunque el resultado pese igual o más; no amplía.
+ *   --allow-enlargement Permite ampliar explícitamente una fuente menor (no añade detalle).
  *
  * Ejemplos:
  *   node scripts/optimize-image.js public/blog/mi-post.webp --width 900 --quality 78
@@ -30,22 +31,23 @@ const fs = require('fs');
 const path = require('path');
 
 function usage(exitCode = 0) {
-  console.log(`Uso: node scripts/optimize-image.js <ruta...> [--width N] [--height N] [--quality Q] [--format webp|jpg|png|avif] [--fit inside|cover|fill|contain] [--force]`);
+  console.log(`Uso: node scripts/optimize-image.js <ruta...> [--width N] [--height N] [--quality Q] [--format webp|jpg|png|avif] [--fit inside|cover|fill|contain] [--force] [--allow-enlargement]`);
   process.exit(exitCode);
 }
 
 function parseArgs(argv) {
-  const opts = { quality: 80, format: 'webp', fit: 'inside', force: false, width: null, height: null };
+  const opts = { quality: 80, format: 'webp', fit: 'inside', force: false, allowEnlargement: false, width: null, height: null };
   const files = [];
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     switch (a) {
-      case '--width': opts.width = parseInt(argv[++i], 10); break;
-      case '--height': opts.height = parseInt(argv[++i], 10); break;
-      case '--quality': case '-q': opts.quality = parseInt(argv[++i], 10); break;
-      case '--format': case '-f': opts.format = argv[++i].toLowerCase(); break;
+      case '--width': opts.width = Number(argv[++i]); break;
+      case '--height': opts.height = Number(argv[++i]); break;
+      case '--quality': case '-q': opts.quality = Number(argv[++i]); break;
+      case '--format': case '-f': opts.format = (argv[++i] || '').toLowerCase(); break;
       case '--fit': opts.fit = argv[++i]; break;
       case '--force': opts.force = true; break;
+      case '--allow-enlargement': opts.allowEnlargement = true; break;
       case '--help': case '-h': usage(0); break;
       default:
         if (a.startsWith('--')) { console.error(`Opción desconocida: ${a}`); usage(1); }
@@ -53,6 +55,12 @@ function parseArgs(argv) {
     }
   }
   if (!files.length) usage(1);
+  for (const key of ['width', 'height']) {
+    if (opts[key] !== null && (!Number.isInteger(opts[key]) || opts[key] < 1)) throw new Error(`--${key} requiere un entero positivo`);
+  }
+  if (!Number.isInteger(opts.quality) || opts.quality < 1 || opts.quality > 100) throw new Error('--quality debe estar entre 1 y 100');
+  if (!['inside', 'cover', 'fill', 'contain'].includes(opts.fit)) throw new Error('--fit no válido');
+  if (!['webp', 'jpg', 'jpeg', 'png', 'avif'].includes(opts.format)) throw new Error('--format no válido');
   if (!opts.width && !opts.height && !opts.force) {
     // Sin dimensión objetivo solo tiene sentido re-codificar; permitido, pero avisamos.
     console.error('Aviso: sin --width/--height solo se re-codifica a la misma dimensión.');
@@ -87,7 +95,7 @@ async function optimizeOne(file, opts) {
   const outPath =
     fmt === (FORMAT_BY_EXT[ext] || ext)
       ? file // mismo formato: in-place
-      : file.replace(/\.[^.]+$/, '') + '.' + (fmt === 'jpeg' ? 'jpg' : fmt);
+      : path.join(path.dirname(file), path.basename(file, path.extname(file)) + '.' + (fmt === 'jpeg' ? 'jpg' : fmt));
 
   let sharp;
   try {
@@ -103,7 +111,7 @@ async function optimizeOne(file, opts) {
   const inputBuf = fs.readFileSync(file);
   const meta = await sharp(inputBuf, { failOn: 'none' }).metadata();
 
-  const resize = { fit: opts.fit, withoutEnlargement: true };
+  const resize = { fit: opts.fit, withoutEnlargement: !opts.allowEnlargement };
   if (opts.width) resize.width = opts.width;
   if (opts.height) resize.height = opts.height;
   let pipeline = sharp(inputBuf, { failOn: 'none' }).resize(resize);
@@ -163,7 +171,8 @@ async function optimizeOne(file, opts) {
 
 async function main() {
   const { opts, files } = parseArgs(process.argv.slice(2));
-  const targets = files.flatMap(expandGlob);
+  const targets = [...new Set(files.flatMap(expandGlob))];
+  if (!targets.length) throw new Error('Ningún archivo coincide con las rutas/patrones.');
 
   const results = [];
   for (const t of targets) {
@@ -195,6 +204,7 @@ async function main() {
     }
   }
   console.log(`\nTotal reescrito: ${kb(totalBefore)} -> ${kb(totalAfter)}\n`);
+  if (results.some((result) => result.error)) process.exitCode = 1;
 
   function gain100(r) {
     return r.beforeBytes ? ((r.beforeBytes - r.afterBytes) / r.beforeBytes) * 100 : 0;

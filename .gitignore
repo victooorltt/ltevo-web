@@ -43,3 +43,6 @@ Thumbs.db
 # Test/linter caches
 coverage/
 .eslintcache
+# Search Console snapshots contain private business data; retain locally.
+/docs/seo/baseline-*.json
+/docs/seo/revision-*.json

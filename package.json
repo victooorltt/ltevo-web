@@ -7,7 +7,11 @@
     "dev": "next dev",
     "lint": "eslint .",
     "start": "next start",
-    "new-post": "node scripts/create-post.js"
+    "new-post": "node scripts/create-post.js",
+    "validate:posts": "node scripts/validate-post.mjs --all",
+    "test:blog-tools": "node --test scripts/validate-post.test.mjs scripts/blog-tools.test.mjs",
+    "seo:compare": "node scripts/seo-report.mjs",
+    "test:contact": "node --test scripts/contact-route.test.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "1.1.1",
