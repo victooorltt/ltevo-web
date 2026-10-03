@@ -25,8 +25,6 @@ export function ServiceLanding({ service }: { service: ServicePage }) {
         <section className="relative bg-zinc-950 text-white pt-40 pb-24 lg:pt-48 lg:pb-32 overflow-hidden">
           <Image src={service.image} alt="" fill sizes="100vw" priority className="object-cover opacity-20" />
           <div className="relative max-w-[1200px] mx-auto px-6 lg:px-12">
-            <Link href="/" className="text-sm text-white/60 hover:text-white">Inicio</Link>
-            <p className="font-mono text-xs uppercase tracking-widest text-white/60 mt-12 mb-5">LTEvo · Oviedo, Asturias</p>
             <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight max-w-4xl">{service.heading}</h1>
             <p className="mt-8 text-lg lg:text-xl leading-relaxed text-white/75 max-w-3xl">{service.intro}</p>
             <div className="flex flex-wrap gap-4 mt-10">

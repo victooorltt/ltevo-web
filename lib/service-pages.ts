@@ -19,7 +19,7 @@ export const servicePages: Record<string, ServicePage> = {
     description: "Alojamiento web con gestión técnica en Oviedo y Asturias. Revisamos servidor, migración, copias y soporte según tu web. Solicita una propuesta a medida.",
     heading: "Hosting gestionado en Oviedo y Asturias",
     intro: "Un alojamiento necesita algo más que espacio en un servidor. En LTEvo te ayudamos a elegirlo, configurarlo y mantenerlo para que tengas un interlocutor técnico cuando tu web necesita atención. Trabajamos desde Oviedo con empresas de Asturias y del resto de España.",
-    image: "/Hero-servicios-mantenimiento.webp",
+    image: "/Hero-servicios-hosting.webp",
     audience: ["Negocios que quieren delegar la gestión técnica del alojamiento.", "Empresas que van a lanzar una web o cambiar de proveedor.", "Tiendas y webs con necesidades de recursos distintas de un hosting básico."],
     inclusions: [
       { title: "Elegir el alojamiento adecuado", text: "Revisamos la tecnología, el catálogo, las visitas y las integraciones. Una web corporativa, una aplicación y una tienda necesitan configuraciones distintas. La propuesta define proveedor, recursos y costes recurrentes." },
@@ -46,7 +46,7 @@ export const servicePages: Record<string, ServicePage> = {
     description: "Desarrollamos aplicaciones y webs a medida en Oviedo y Asturias: reservas, pagos e integraciones. Define alcance, fases y presupuesto con LTEvo.",
     heading: "Desarrollo web a medida en Oviedo y Asturias",
     intro: "Cuando tu negocio necesita una función que una web estándar no resuelve, el desarrollo a medida permite construirla alrededor de tu forma de trabajar. En LTEvo diseñamos y programamos webs y aplicaciones desde Oviedo, con un alcance definido antes de empezar.",
-    image: "/Hero-servicios-diseno-web.webp",
+    image: "/Hero-servicios-desarrollo-web.webp",
     audience: ["Empresas que necesitan reservas, formularios o procesos propios.", "Negocios que quieren conectar su web con otras herramientas.", "Proyectos que necesitan una aplicación con usuarios, datos o un panel de gestión."],
     inclusions: [
       { title: "Definición funcional", text: "Convertimos tu necesidad en recorridos y funcionalidades concretas. Acordamos qué personas usarán el sistema, qué datos necesitan y qué tareas deben poder completar. Así el presupuesto tiene límites verificables." },
@@ -73,7 +73,7 @@ export const servicePages: Record<string, ServicePage> = {
     description: "Creamos tiendas online para empresas de Oviedo y Asturias. Catálogo, pagos, envíos y gestión con una plataforma elegida según tu negocio. Pide presupuesto.",
     heading: "Tiendas online en Oviedo y Asturias",
     intro: "Una tienda online tiene que permitir comprar y también facilitar tu trabajo diario. En LTEvo definimos catálogo, pagos, envíos y gestión antes de elegir la plataforma. Creamos proyectos de comercio electrónico desde Oviedo para empresas de Asturias y España.",
-    image: "/Hero-servicios-diseno-web.webp",
+    image: "/Hero-servicios-tiendas-online.webp",
     audience: ["Comercios que van a empezar a vender por internet.", "Empresas con una tienda que necesitan mejorar la compra o la gestión.", "Negocios que deben conectar catálogo, pagos y procesos externos."],
     inclusions: [
       { title: "Plataforma y catálogo", text: "Valoramos número de productos, variantes, idiomas y necesidades de gestión. Comparamos una plataforma de comercio electrónico con una solución a medida según el alcance; no existe una herramienta mejor para todos los negocios." },

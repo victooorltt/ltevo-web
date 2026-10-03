@@ -142,52 +142,49 @@ export function SeoContent() {
     <>
 
       {/* ============================================================ */}
-      {/*  HERO                                                        */}
+      {/*  HERO: Fondo oscuro con foto a la derecha y texto a la izq   */}
       {/* ============================================================ */}
-      <section className="relative bg-zinc-950 text-white py-48 lg:py-52 overflow-hidden min-h-[60vh] flex items-center justify-center">
-        {/* Background Image */}
-        <Image
-          src="/Hero-servicios-seo.webp"
-          alt="Posicionamiento SEO Profesional"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center z-0"
-        />
-
-        {/* Dark Overlay for readability */}
-        <div className="absolute inset-0 bg-black/60 z-0" />
-
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={`grid-h-${i}`}
-              className="absolute h-px bg-white"
-              style={{ top: `${16.6 * (i + 1)}%`, left: 0, right: 0 }}
+      <section className="relative bg-zinc-950 text-white pt-36 pb-24 lg:pt-48 lg:pb-36 overflow-hidden min-h-[75vh] flex items-center">
+        {/* Foto a la derecha con fundido a la izquierda */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 lg:left-auto lg:right-0 lg:w-[54%] h-full">
+            <Image
+              src="/Hero-servicios-seo-v2.webp"
+              alt="Posicionamiento SEO en Oviedo y Asturias"
+              fill
+              priority
+              sizes="(min-width: 1024px) 54vw, 100vw"
+              className="object-cover object-center lg:object-right opacity-70 lg:opacity-90"
             />
-          ))}
+            {/* Degradados suaves para fundir la imagen hacia el texto a la izquierda */}
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/70 to-transparent lg:hidden" />
+            <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/80 via-30% to-transparent hidden lg:block" />
+          </div>
         </div>
 
-        <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col items-center text-center z-10">
-          <div className="reveal" style={{ animationDelay: "0.1s" }}>
-            <h1 className="text-5xl lg:text-7xl font-display italic tracking-tight leading-[0.95] mb-6 text-white text-center">
-              SEO en Oviedo <br /> y Asturias
-            </h1>
-          </div>
+        {/* Contenido a la izquierda */}
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 w-full">
+          <div className="max-w-2xl">
+            <div className="reveal" style={{ animationDelay: "0.1s" }}>
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-display tracking-tight leading-[1.05] text-white">
+                SEO en Oviedo <br /> y Asturias
+              </h1>
+            </div>
 
-          <div className="reveal" style={{ animationDelay: "0.2s" }}>
-            <p className="text-xl lg:text-2xl text-white/80 max-w-2xl leading-relaxed text-center mx-auto">
-              Ayudamos a empresas y profesionales a mejorar su visibilidad cuando alguien busca contratar sus servicios. Auditoría, mejoras de la web, SEO local y seguimiento centrado en contactos y oportunidades de negocio.
-            </p>
-          </div>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Button asChild size="lg" className="bg-white text-zinc-950 hover:bg-zinc-200 rounded-full px-8">
-              <Link href="/contacto?servicio=seo">Solicitar revisión inicial</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:text-white rounded-full px-8">
-              <a href="#alcance-seo">Ver qué incluye</a>
-            </Button>
+            <div className="reveal" style={{ animationDelay: "0.2s" }}>
+              <p className="mt-8 text-lg lg:text-xl text-white/75 max-w-xl leading-relaxed">
+                Ayudamos a empresas y profesionales a mejorar su visibilidad cuando alguien busca contratar sus servicios. Auditoría, mejoras de la web, SEO local y seguimiento centrado en contactos y oportunidades de negocio.
+              </p>
+            </div>
+
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Button asChild size="lg" className="bg-white text-zinc-950 hover:bg-zinc-200 rounded-full px-8 h-14 text-base font-semibold">
+                <Link href="/contacto?servicio=seo">Solicitar revisión inicial</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:text-white rounded-full px-8 h-14 text-base">
+                <a href="#alcance-seo">Ver qué incluye</a>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
