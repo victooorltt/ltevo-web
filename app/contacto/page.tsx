@@ -1,49 +1,28 @@
-import type { Metadata } from "next";
+import { breadcrumbs, jsonLdString, pageMetadata, SITE_URL } from "@/lib/seo";
 import { ContactoContent } from "@/components/servicios/contacto-content";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 import { maintenancePlans, normalizeContactService } from "@/lib/services";
 
-export const metadata: Metadata = {
-  title: "Contacta con LTEvo · Presupuesto web y SEO en Oviedo",
-  description:
-    "Solicita una propuesta de diseño, desarrollo, SEO, hosting o mantenimiento. Cuéntanos tu proyecto y definimos alcance y presupuesto desde Oviedo.",
-  alternates: { canonical: "/contacto" },
-  openGraph: {
-    title: "Contacta con LTEvo · Presupuesto web y SEO en Oviedo",
-    description:
-      "Solicita una propuesta de diseño, desarrollo, SEO, hosting o mantenimiento. Cuéntanos tu proyecto y definimos alcance y presupuesto desde Oviedo.",
-    url: "https://ltevo.com/contacto",
-    siteName: "LTEvo",
-    locale: "es_ES",
-    type: "website",
-    // Al definir openGraph propio se pierde el og:image heredado del raíz
-    // (app/opengraph-image.jpg por convención de fichero): lo restauramos,
-    // incluyendo el alt para no perder el de app/opengraph-image.alt.txt.
-    images: [
-      {
-        url: "/opengraph-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "LTEvo - Agencia de Diseño Web en Oviedo",
-      },
-    ],
-  },
-};
+const description = "Solicita una propuesta de diseño, desarrollo web, SEO, hosting o mantenimiento. Cuéntanos tu proyecto y definimos alcance y presupuesto desde Oviedo.";
+export const metadata = pageMetadata("Contacto y presupuesto de web o SEO en Oviedo", description, "/contacto");
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "ContactPage",
+      "@id": `${SITE_URL}/contacto#webpage`,
       "name": "Contacto — LTEvo",
-      "description": "Ponte en contacto con LTEvo para solicitar un presupuesto sin compromiso para tu proyecto de diseño web, SEO o mantenimiento.",
-      "url": "https://ltevo.com/contacto",
+      description,
+      "url": `${SITE_URL}/contacto`,
+      "inLanguage": "es-ES",
+      "isPartOf": { "@id": `${SITE_URL}/#website` },
       "mainEntity": {
-        "@type": "ProfessionalService",
-        "@id": "https://ltevo.com/#business"
+        "@id": `${SITE_URL}/#business`
       }
-    }
+    },
+    breadcrumbs([{ name: "Inicio", path: "/" }, { name: "Contacto", path: "/contacto" }]),
   ]
 };
 
@@ -55,7 +34,7 @@ export default async function ContactoPage({ searchParams }: { searchParams: Pro
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }}
       />
       <Navigation />
       {/* /contacto era la única página sin landmark <main>: es el destino de

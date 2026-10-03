@@ -43,13 +43,13 @@ export function DesarrolloWebContent({ service }: { service: ServicePage }) {
                 href={contactHref(service.slug)}
                 className="inline-flex items-center gap-3 rounded-full bg-white text-zinc-950 px-7 py-4 font-semibold hover:bg-white/90 transition-colors"
               >
-                Solicitar presupuesto <ArrowUpRight className="size-4" />
+                Presupuesto a medida <ArrowUpRight className="size-4" />
               </Link>
               <Link
                 href="#alcance"
                 className="rounded-full border border-white/25 px-7 py-4 hover:bg-white/10 transition-colors"
               >
-                Qué incluye el servicio
+                Funciones y entrega
               </Link>
             </div>
           </div>
@@ -62,7 +62,7 @@ export function DesarrolloWebContent({ service }: { service: ServicePage }) {
       <section id="alcance" className="max-w-[1200px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid lg:grid-cols-[1fr_2fr] gap-12 lg:gap-20">
           <div>
-            <h2 className="font-display text-3xl lg:text-4xl tracking-tight">Una propuesta que encaje con tu negocio.</h2>
+            <h2 className="font-display text-3xl lg:text-4xl tracking-tight">Funciones a medida para tu proceso de trabajo.</h2>
             <ul className="mt-8 space-y-5 text-muted-foreground">
               {service.audience.map((text) => (
                 <li key={text} className="flex gap-3 leading-relaxed">
@@ -101,13 +101,13 @@ export function DesarrolloWebContent({ service }: { service: ServicePage }) {
             </div>
             <div>
               <h2 className="font-display text-3xl lg:text-4xl tracking-tight mb-6">
-                Arquitectura limpia, datos seguros e integraciones sólidas.
+                Reservas, datos e integraciones con una arquitectura clara.
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                El valor de un desarrollo a medida reside en su estabilidad y fiabilidad técnica. En LTEvo programamos con Next.js, React, TypeScript y bases de datos estructuradas, priorizando la claridad del código, la velocidad de respuesta y la seguridad en cada punto de contacto.
+                Un desarrollo a medida debe resolver tareas concretas: consultar disponibilidad, gestionar usuarios, recoger solicitudes o conectar información. Diseñamos los recorridos y programamos validaciones, permisos y estados de error, con una tecnología adecuada para el proyecto.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Conectamos pasarelas de pago (Stripe, Redsys), sistemas de reservas, CRMs y software de facturación con validación estricta de datos. Todo el código desarrollado es propiedad de tu empresa, sin dependencias cautivas ni costes ocultos.
+                Estudiamos pagos, reservas, CRM y facturación a partir de las APIs disponibles. La propuesta concreta las integraciones, la entrega y el uso del código, los accesos y las licencias externas. Así sabrás cómo operar y mantener la solución después del lanzamiento.
               </p>
             </div>
           </div>
@@ -119,7 +119,7 @@ export function DesarrolloWebContent({ service }: { service: ServicePage }) {
       {/* ============================================================ */}
       <section className="bg-stone-100 border-b border-foreground/10 py-20">
         <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
-          <h2 className="font-display text-3xl lg:text-5xl tracking-tight mb-12">Antes de contratar.</h2>
+          <h2 className="font-display text-3xl lg:text-5xl tracking-tight mb-12">Alcance, entrega y soporte del desarrollo.</h2>
           <div className="grid md:grid-cols-3 gap-10">
             {service.decisions.map((item) => (
               <div key={item.title}>
@@ -134,7 +134,7 @@ export function DesarrolloWebContent({ service }: { service: ServicePage }) {
       {/* ============================================================ */}
       {/*  SECCIÓN 3 (ORIGINAL): FaqSection                            */}
       {/* ============================================================ */}
-      <FaqSection faqs={service.faqs} includeJsonLd={false} />
+      <FaqSection title="Preguntas sobre desarrollo web a medida" faqs={service.faqs} includeJsonLd={false} />
 
       {/* ============================================================ */}
       {/*  SECCIÓN 4 (ORIGINAL): Cierre y enlaces relacionados        */}
@@ -142,19 +142,19 @@ export function DesarrolloWebContent({ service }: { service: ServicePage }) {
       <section className="max-w-[1200px] mx-auto px-6 lg:px-12 py-20">
         <div className="grid md:grid-cols-2 gap-12">
           <div>
-            <h2 className="font-display text-3xl lg:text-4xl tracking-tight mb-5">Cuéntanos qué necesitas resolver.</h2>
+            <h2 className="font-display text-3xl lg:text-4xl tracking-tight mb-5">Definamos qué debe hacer tu aplicación.</h2>
             <p className="text-muted-foreground leading-relaxed mb-8">
-              Revisamos tu situación y definimos alcance, condiciones y presupuesto antes de empezar. La primera conversación es sin compromiso.
+              Cuéntanos quién utilizará la solución, qué tareas debe resolver y qué herramientas necesita conectar. Definiremos funciones, fases y presupuesto antes de empezar.
             </p>
             <Link
               href={contactHref(service.slug)}
               className="inline-flex rounded-full bg-foreground text-background px-7 py-4 font-semibold"
             >
-              Pedir una propuesta
+              Pedir presupuesto de desarrollo
             </Link>
           </div>
           <div className="md:pl-10 md:border-l border-foreground/10">
-            <h3 className="font-semibold mb-5">Para seguir valorando tu proyecto</h3>
+            <h3 className="font-semibold mb-5">Para definir tu proyecto de desarrollo</h3>
             <ul className="space-y-4">
               {service.related.map((item) => (
                 <li key={item.href}>

@@ -94,7 +94,7 @@ export function ContactSection() {
             </h2>
 
             <p className="text-lg text-muted-foreground leading-relaxed mb-12 max-w-md">
-              Cuéntanos qué necesitas y te respondemos en menos de 24 horas con una propuesta sin compromiso.
+              Cuéntanos qué necesitas. Revisamos tu proyecto para definir alcance, calendario y presupuesto sin compromiso.
             </p>
 
             <div className="space-y-4">
@@ -117,7 +117,7 @@ export function ContactSection() {
           <div className="reveal" style={{ animationDelay: "200ms" }}>
             <div role="status" aria-live="polite" className="sr-only">
               {status === "success" &&
-                "Mensaje enviado. Te responderemos en menos de 24 horas."}
+                "Mensaje enviado. Revisaremos tu consulta y te responderemos por email."}
               {status === "error" &&
                 (errorMessage || "Hubo un error al enviar el mensaje.")}
             </div>
@@ -126,7 +126,7 @@ export function ContactSection() {
                 <span className="font-mono text-xs text-muted-foreground">— Recibido —</span>
                 <h3 className="text-3xl font-display">¡Mensaje enviado!</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Gracias por contactarnos. Te responderemos en menos de 24 horas.
+                  Gracias por contactarnos. Revisaremos tu consulta y te responderemos por email.
                 </p>
                 <button
                   onClick={() => {

@@ -1,23 +1,8 @@
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
+import { CookiePreferencesButton } from "@/components/landing/cookie-preferences-button";
 
-export const metadata = {
-  title: "Términos y Condiciones - Agencia Web en Oviedo",
-  description: "Lee los términos de uso y condiciones legales para nuestros servicios de diseño web y posicionamiento SEO en Oviedo y Asturias.",
-  alternates: {
-    canonical: "/terminos",
-  },
-  openGraph: {
-    title: "Términos y Condiciones - Agencia Web en Oviedo",
-    description: "Lee los términos de uso y condiciones legales para nuestros servicios de diseño web y posicionamiento SEO en Oviedo y Asturias.",
-    url: "/terminos",
-    siteName: "LTEvo",
-    locale: "es_ES",
-    type: "website",
-    // Al definir openGraph propio se pierde el og:image heredado del raíz
-    // (app/opengraph-image.jpg por convención de fichero): lo restauramos.
-    images: [{ url: "/opengraph-image.jpg" }],
-  },
-};
+export const metadata = pageMetadata("Términos de uso", "Consulta las condiciones de uso de la web de LTEvo, sus datos de contacto y la información sobre sus contenidos y enlaces.", "/terminos");
 
 export default function TerminosPage() {
   return (
@@ -146,6 +131,7 @@ export default function TerminosPage() {
 
         {/* Footer links */}
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-wrap gap-6 text-sm text-white/30">
+          <CookiePreferencesButton className="hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" />
           <Link href="/privacidad" className="hover:text-white transition-colors">Política de privacidad</Link>
           <Link href="/cookies" className="hover:text-white transition-colors">Política de cookies</Link>
           <Link href="/" className="hover:text-white transition-colors">ltevo.com</Link>

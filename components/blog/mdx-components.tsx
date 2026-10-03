@@ -307,16 +307,16 @@ export const CTA_SERVICE_CONFIG: Record<
     href: "/servicios/seo",
   },
   "diseno-web": {
-    label: "Diseño y desarrollo web",
+    label: "Diseño web para empresas",
     heading: "¿Tu web está lista para convertir visitas en clientes?",
-    pitch: "Diseñamos y desarrollamos webs a medida, rápidas y optimizadas para Google, con un diseño que transmite confianza desde el primer clic.",
+    pitch: "Definimos estructura, diseño y contenidos para presentar tus servicios y facilitar solicitudes de presupuesto, con un alcance claro desde el inicio.",
     cta: "Ver diseño web a medida",
     href: "/servicios/diseno-web",
   },
   "mantenimiento-web": {
     label: "Mantenimiento web",
     heading: "¿Tu web necesita un equipo técnico que la cuide?",
-    pitch: "Actualizaciones, copias de seguridad, seguridad y mejoras continuas para que tu web esté siempre rápida, estable y protegida.",
+    pitch: "Actualizaciones, copias de seguridad y soporte técnico con un alcance definido según el plan y las necesidades de tu web.",
     cta: "Ver planes de mantenimiento",
     href: "/servicios/mantenimiento-web",
   },
@@ -390,7 +390,7 @@ function BlogImage({ src, alt = "", width, height }: React.ImgHTMLAttributes<HTM
 export const blogMdxComponents = {
   FlowDiagram, FlowStep, TopicSilo, SiloCluster, Callout, CtaService,
   img: BlogImage,
-  h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => <h2 {...props} id={headingId(children)}>{children}</h2>,
-  h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => <h3 {...props} id={headingId(children)}>{children}</h3>,
-  h4: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => <h4 {...props} id={headingId(children)}>{children}</h4>,
+  h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => <h2 {...props} id={props.id ?? headingId(children)}>{children}</h2>,
+  h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => <h3 {...props} id={props.id ?? headingId(children)}>{children}</h3>,
+  h4: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => <h4 {...props} id={props.id ?? headingId(children)}>{children}</h4>,
 };

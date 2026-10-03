@@ -19,10 +19,8 @@ import { FaqSection } from "@/components/landing/faq-section";
 /* Nota: componente de servidor. El reveal es CSS scroll-driven y las FAQs
    usan <details>/<summary> nativos, sin JS. */
 
-/* Fuente única de las FAQs: se renderizan aquí (details/summary) y alimentan
-   el JSON-LD FAQPage de app/servicios/mantenimiento-web/page.tsx para que el
-   schema nunca se desincronice de lo visible. El campo opcional `more` añade
-   un enlace contextual al blog SOLO en el render; el schema usa question/answer. */
+/* FAQs visibles con <details>/<summary>. El campo `more` añade un enlace
+   contextual al servicio o artículo que amplía la respuesta. */
 type Faq = {
   question: string;
   answer: string;
@@ -32,7 +30,7 @@ type Faq = {
 export const faqs: Faq[] = [
   {
     question: "¿Podéis mantener una web que no ha desarrollado LTEvo?",
-    answer: "Sí, primero revisamos su tecnología, estado y accesos para confirmar la cobertura. Si tiene fallos previos, malware o necesita una puesta a punto antes de entrar en mantenimiento, te explicamos el trabajo y su presupuesto. El plan se acuerda después de esa revisión.",
+    answer: "Sí, primero revisamos tecnología, estado, accesos y copias existentes para confirmar la cobertura. En WordPress y WooCommerce valoramos sistema, temas, plugins y funciones de venta; en una web de código, dependencias, despliegue y datos. Los problemas previos o una puesta a punto se valoran aparte antes del alta.",
   },
   {
     question: "¿Qué diferencia hay entre los planes de mantenimiento?",
@@ -44,7 +42,7 @@ export const faqs: Faq[] = [
   },
   {
     question: "¿Qué ocurre si necesito más horas o una función nueva?",
-    answer: "Si una tarea supera el tiempo incluido, te informamos antes de ejecutarla y acordamos si se programa para otro ciclo o se presupuesta aparte. Nuevas funciones, rediseños o integraciones requieren un alcance propio; las horas de contenido se destinan a los cambios indicados en tu plan.",
+    answer: "Las horas de contenido cubren los cambios acordados; funciones nuevas, rediseños y redacción se valoran aparte. La propuesta concreta cómo solicitar tareas y las condiciones de acumulación de horas. Si una petición supera la cobertura, te informamos antes de ejecutarla y acordamos su presupuesto o programación.",
     more: { text: "Consultar desarrollo web a medida", href: "/servicios/desarrollo-web" },
   },
   {
@@ -54,7 +52,7 @@ export const faqs: Faq[] = [
   },
   {
     question: "¿Qué hacéis si mi web sufre un ataque o se cae?",
-    answer: "Revisamos la incidencia y las copias disponibles para valorar la restauración. Premium incluye limpieza de malware según las condiciones del plan; en Básico y Profesional valoramos la recuperación y te informamos si se necesita trabajo adicional. El mantenimiento reduce riesgos, pero no elimina la posibilidad de fallos o ataques.",
+    answer: "Revisamos la incidencia y las copias disponibles para decidir qué se puede recuperar. La propuesta concreta restauración y costes adicionales; Premium incluye limpieza de malware según sus condiciones. En una tienda valoramos también pedidos y datos posteriores a la copia antes de restaurar. Te informamos del alcance de la intervención.",
   },
   {
     question: "¿Cuándo tengo soporte y cómo se atienden las incidencias?",
@@ -100,7 +98,7 @@ export function MantenimientoWebContent() {
     },
     {
       title: "Copias de Seguridad (Backups)",
-      description: "Programamos copias semanales o diarias según el plan. Revisamos las copias disponibles cuando una incidencia requiere recuperar la web.",
+      description: "Programamos copias semanales o diarias según el plan. Acordamos qué datos se guardan, su retención y cómo se valorará una restauración ante una incidencia.",
       icon: Database,
       iconColor: "text-indigo-500",
       bgColor: "bg-indigo-500/5",
@@ -134,16 +132,16 @@ export function MantenimientoWebContent() {
     },
     {
       title: "Compatibilidad de Actualizaciones",
-      description: "Actualizar sin supervisión profesional puede provocar que los plugins entren en conflicto e inhabiliten la web. Hacemos pruebas previas controladas.",
+      description: "Antes de actualizar, revisamos compatibilidad y copias disponibles. Después comprobamos las funciones acordadas, como formularios o compra, según la tecnología y la cobertura del plan.",
       icon: RefreshCw,
       iconColor: "text-sky-400"
     },
     {
       title: "Ediciones y Cambios de Contenido",
-      description: "Actualizar textos, subir nuevos posts de blog, modificar precios o banners requiere tiempo. Lo procesamos de forma limpia y rápida por ti.",
+      description: "Aplicamos cambios de textos, precios, imágenes o artículos dentro de las horas y tareas incluidas. Las funciones nuevas y la redacción de contenido requieren un alcance propio.",
       icon: Edit3,
       iconColor: "text-emerald-400",
-      link: { text: "Evita el thin content en tu web con estos consejos", href: "/blog/que-es-el-thin-content" },
+      link: { text: "Qué incluye el mantenimiento web y cómo comparar planes", href: "/blog/que-incluye-mantenimiento-web" },
     },
     {
       title: "Soporte Técnico Especializado",
@@ -179,7 +177,7 @@ export function MantenimientoWebContent() {
         "Copias de seguridad diarias",
         "Actualización semanal de plugins y core",
         "Escaneo activo de seguridad y malware semanal",
-        "1 hora de cambios de contenido al mes (acumulable)",
+        "1 hora mensual de contenido, acumulable según propuesta",
         "Optimización de base de datos y velocidad básica",
         "Soporte prioritario por email/chat"
       ],
@@ -313,7 +311,7 @@ export function MantenimientoWebContent() {
 
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 z-10">
           <div className="reveal mb-16 lg:mb-24">
-            <span className="text-sm font-mono tracking-widest text-zinc-500 uppercase block mb-3">Prevención correctiva</span>
+            <span className="text-sm font-mono tracking-widest text-zinc-500 uppercase block mb-3">Cuidado técnico periódico</span>
             <h2 className="text-4xl lg:text-6xl font-display tracking-tight text-white">
               ¿Por qué necesitas un plan <br /> <span className="text-zinc-400 italic">de Mantenimiento Web?</span>
             </h2>
@@ -452,8 +450,8 @@ export function MantenimientoWebContent() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-10">
           <div>
             <h2 className="text-3xl font-display mb-4">Antes de contratar el mantenimiento</h2>
-            <p className="text-muted-foreground leading-relaxed">Revisamos la tecnología, los accesos, las copias existentes y el estado de tu web para confirmar qué tareas podemos cubrir. La puesta a punto de problemas previos y los trabajos que superen el plan se valoran aparte, con tu aceptación.</p>
-            <p className="text-muted-foreground leading-relaxed mt-4">Consulta las condiciones y el alcance de cada plan. Las frecuencias de actualización, copias y atención se concretan según la compatibilidad y las necesidades de tu proyecto.</p>
+            <p className="text-muted-foreground leading-relaxed">Antes del alta revisamos tecnología, accesos, estado y copias. En WordPress y WooCommerce concretamos actualizaciones de sistema, temas, plugins y funciones de venta. En webs de código revisamos dependencias, despliegue y datos para confirmar tareas y cobertura; cada plataforma requiere un alcance propio.</p>
+            <p className="text-muted-foreground leading-relaxed mt-4">La propuesta concreta frecuencia y retención de copias, restauración, atención y cambios de contenido. La puesta a punto de problemas previos y los trabajos que superen el plan se valoran aparte, con tu aceptación. Puedes usar nuestra <Link className="underline underline-offset-4" href="/blog/que-incluye-mantenimiento-web">guía para comparar mantenimiento web</Link> al revisar la cobertura.</p>
           </div>
           <div>
             <h3 className="text-2xl font-display mb-4">Qué se contrata por separado</h3>

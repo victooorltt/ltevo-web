@@ -1,23 +1,8 @@
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
+import { CookiePreferencesButton } from "@/components/landing/cookie-preferences-button";
 
-export const metadata = {
-  title: "Política de Privacidad de la Agencia Web en Oviedo",
-  description: "Política de privacidad de LTEvo. Descubre cómo protegemos tus datos personales en nuestra agencia de diseño web y SEO en Oviedo y Asturias.",
-  alternates: {
-    canonical: "/privacidad",
-  },
-  openGraph: {
-    title: "Política de Privacidad de la Agencia Web en Oviedo",
-    description: "Política de privacidad de LTEvo. Descubre cómo protegemos tus datos personales en nuestra agencia de diseño web y SEO en Oviedo y Asturias.",
-    url: "/privacidad",
-    siteName: "LTEvo",
-    locale: "es_ES",
-    type: "website",
-    // Al definir openGraph propio se pierde el og:image heredado del raíz
-    // (app/opengraph-image.jpg por convención de fichero): lo restauramos.
-    images: [{ url: "/opengraph-image.jpg" }],
-  },
-};
+export const metadata = pageMetadata("Política de privacidad", "Consulta cómo LTEvo trata los datos del formulario de contacto, sus finalidades y conservación, y cómo ejercer tus derechos.", "/privacidad");
 
 export default function PrivacidadPage() {
   return (
@@ -33,7 +18,7 @@ export default function PrivacidadPage() {
         </Link>
 
         <p className="text-xs text-white/30 font-mono uppercase tracking-widest mb-4">
-          Última actualización: abril 2026
+          Última actualización: 3 de octubre de 2026
         </p>
 
         <h1 className="text-4xl lg:text-5xl font-display text-white mb-12 leading-tight">
@@ -75,9 +60,10 @@ export default function PrivacidadPage() {
               momento escribiendo a info@ltevo.com.
             </p>
             <p className="mt-3">
-              También podemos recopilar datos de navegación de forma anónima mediante cookies técnicas y analíticas,
-              tal como se detalla en nuestra Política de Cookies. Las analíticas
-              solo se activan si das tu consentimiento.
+              Con tu permiso, Google Analytics puede tratar identificadores del navegador
+              y datos técnicos para medir el uso de la web. El mapa integrado de Google
+              requiere una elección independiente. Consulta los detalles y gestiona
+              las categorías desde nuestra <Link href="/cookies" className="text-white underline underline-offset-4">Política de Cookies</Link>.
             </p>
           </section>
 
@@ -150,6 +136,7 @@ export default function PrivacidadPage() {
 
         {/* Footer links */}
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-wrap gap-6 text-sm text-white/30">
+          <CookiePreferencesButton className="hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" />
           <Link href="/terminos" className="hover:text-white transition-colors">Términos de uso</Link>
           <Link href="/cookies" className="hover:text-white transition-colors">Política de cookies</Link>
           <Link href="/" className="hover:text-white transition-colors">ltevo.com</Link>

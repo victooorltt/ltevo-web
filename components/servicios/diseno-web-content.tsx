@@ -6,10 +6,8 @@ import { FaqSection } from "@/components/landing/faq-section";
 
 /* Nota: componente de servidor; el reveal es CSS scroll-driven. */
 
-/* Fuente única de las FAQs: se renderizan aquí (details/summary) y alimentan
-   el JSON-LD FAQPage de app/servicios/diseno-web/page.tsx para que el schema
-   nunca se desincronice de lo visible. El campo opcional `more` añade un
-   enlace contextual al blog SOLO en el render; el schema usa question/answer. */
+/* FAQs visibles con <details>/<summary>. El campo `more` añade un enlace
+   contextual al servicio o artículo que amplía la respuesta. */
 type Faq = {
   question: string;
   answer: string;
@@ -32,7 +30,7 @@ export const faqs: Faq[] = [
   },
   {
     question: "¿Incluye diseño para móvil y configuración SEO?",
-    answer: "El diseño contempla móvil, tablet y ordenador. Configuramos títulos, descripciones, estructura de encabezados y los elementos técnicos acordados para que los buscadores puedan interpretar la web. Conseguir posiciones competitivas requiere analizar la demanda, la competencia y el trabajo SEO posterior.",
+    answer: "El diseño contempla móvil, tablet y ordenador. Configuramos títulos, descripciones, encabezados y los elementos técnicos acordados, y revisamos las páginas y el contacto antes de publicar. Si sustituimos una web existente, valoramos las URLs y redirecciones necesarias. La estrategia SEO continua se define por separado.",
     more: { text: "Consulta nuestro servicio de SEO en Asturias", href: "/servicios/seo" },
   },
   {
@@ -43,6 +41,11 @@ export const faqs: Faq[] = [
   {
     question: "¿Usáis WordPress o desarrolláis la web a medida?",
     answer: "Trabajamos con Next.js, React, TypeScript y Tailwind CSS para desarrollar webs a medida. Elegimos la solución según tus funciones, edición de contenidos y presupuesto. La tecnología por sí sola no garantiza velocidad, seguridad ni posiciones en Google: también cuentan el diseño, la implementación y el mantenimiento.",
+  },
+  {
+    question: "¿Qué accesos y materiales recibo al terminar?",
+    answer: "La propuesta concreta accesos a la web y a los servicios asociados, qué contenidos podrás editar y las condiciones de entrega y uso del código. También identificamos las licencias y cuentas de terceros necesarias. Si quieres gestionar contenido o cambiar de proveedor en el futuro, lo definimos antes de empezar.",
+    more: { text: "Cómo comparar una propuesta de diseño web", href: "/blog/como-elegir-agencia-de-diseno-web" },
   },
   {
     question: "¿Puedo contratar una tienda online o integrar reservas y pagos?",
@@ -66,7 +69,7 @@ export function DisenoWebContent() {
     {
       number: "01",
       title: "Estrategia y Planificación",
-      description: "Analizamos tu modelo de negocio, competencia y objetivos. Definimos la estructura del sitio y el mapa web estratégico para maximizar la conversión.",
+      description: "Definimos tus servicios, público y objetivo de contacto. Acordamos las páginas, el material necesario y las funciones para preparar una propuesta con alcance y calendario.",
       icon: Compass,
       iconColor: "text-amber-400",
       glowColor: "rgba(251, 191, 36, 0.08)",
@@ -74,7 +77,7 @@ export function DisenoWebContent() {
     {
       number: "02",
       title: "Diseño Visual de Experiencia (UI/UX)",
-      description: "Diseñamos un prototipo a medida único para tu marca. Cuidamos la navegación, tipografías y el recorrido de los usuarios para lograr una experiencia impecable.",
+      description: "Preparamos la propuesta visual con tu identidad y contenido. Revisamos contigo la navegación, la presentación de servicios y las llamadas a contactar antes de desarrollar.",
       icon: Palette,
       iconColor: "text-sky-400",
       glowColor: "rgba(56, 189, 248, 0.08)",
@@ -101,7 +104,8 @@ export function DisenoWebContent() {
   const typesOfWebs: { title: string; description: string; link?: { text: string; href: string } }[] = [
     {
       title: "Webs Corporativas",
-      description: "Páginas profesionales diseñadas para transmitir confianza, detallar servicios y captar nuevos clientes cualificados."
+      description: "Páginas de empresa y servicios con trabajos reales, información de contacto y una estructura que facilita solicitar presupuesto.",
+      link: { text: "Ver la web de Jardinería El Cuetu", href: "/proyectos/jardineria-el-cuetu" }
     },
     {
       title: "Landing Pages de Conversión",
@@ -114,7 +118,7 @@ export function DisenoWebContent() {
     },
     {
       title: "Portafolios Creativos",
-      description: "Presentaciones visualmente impecables para agencias, arquitectos, fotógrafos y profesionales que venden con el impacto visual."
+      description: "Galerías y páginas de proyecto para que profesionales y empresas puedan enseñar su trabajo, explicar cada servicio y facilitar una consulta."
     },
     {
       title: "Aplicaciones Web a Medida",
@@ -123,7 +127,8 @@ export function DisenoWebContent() {
     },
     {
       title: "Plataformas Inmobiliarias / Directorios",
-      description: "Sistemas complejos con buscadores avanzados, filtrado dinámico en tiempo real y bases de datos robustas."
+      description: "Proyectos con catálogo y filtros que requieren definir datos, búsqueda y gestión. Estas funciones se valoran en el alcance de desarrollo.",
+      link: { text: "Consultar desarrollo funcional", href: "/servicios/desarrollo-web" }
     }
   ];
 
@@ -142,7 +147,7 @@ export function DisenoWebContent() {
     },
     {
       title: "Preparado para SEO",
-      description: "Código semántico e indexación limpia estructurada desde el primer día para ponérselo fácil a Google.",
+      description: "Preparamos títulos, encabezados y enlaces que ayuden a entender tus servicios. Revisamos el acceso a las páginas y las rutas al publicar.",
       icon: Search,
       iconColor: "text-emerald-400/90"
     },
@@ -206,7 +211,7 @@ export function DisenoWebContent() {
 
             <div className="reveal w-full" style={{ animationDelay: "0.2s" }}>
               <p className="text-[1.15rem] md:text-[1.2rem] lg:text-xl text-muted-foreground max-w-2xl leading-relaxed mb-10 text-center lg:text-left mx-auto lg:mx-0">
-                Diseñamos páginas web para empresas y profesionales que necesitan explicar sus servicios y recibir solicitudes de presupuesto. Desde Oviedo, trabajamos con negocios de Asturias y del resto de España.
+                Diseñamos webs corporativas y páginas de servicio para empresas que necesitan presentar su trabajo y recibir solicitudes de presupuesto. Desde Oviedo, trabajamos con negocios de Asturias y del resto de España.
               </p>
             </div>
 
@@ -294,10 +299,10 @@ export function DisenoWebContent() {
 
               <div className="text-muted-foreground leading-relaxed space-y-4 text-base lg:text-lg mb-8 font-light">
                 <p>
-                  Una web corporativa debe explicar qué haces, a quién ayudas y cómo puede contactar contigo quien necesita tus servicios. Empezamos por esa estructura y por el material que demuestra tu trabajo.
+                  Una web corporativa debe explicar tus servicios, mostrar trabajos y facilitar el contacto. En <Link className="underline underline-offset-4" href="/proyectos/jardineria-el-cuetu">Jardinería El Cuetu</Link>, la identidad visual, la galería y el formulario permiten pasar de conocer la actividad a consultar un trabajo.
                 </p>
                 <p>
-                  En LTEvo conectamos el diseño visual con páginas de servicio claras, navegación sencilla y formularios útiles. El presupuesto concreta páginas, funciones y revisiones para que sepas qué recibirás antes de empezar.
+                  El alcance cambia cuando necesitas funciones propias. La web bilingüe de <Link className="underline underline-offset-4" href="/proyectos/autocaravanas-bahia">Autocaravanas Bahía</Link> reúne flota, rutas y solicitud de reserva. Definimos diseño y contenido junto con las funciones que requiere cada proyecto.
                 </p>
               </div>
 
@@ -358,7 +363,7 @@ export function DisenoWebContent() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-10">
           <div>
             <h2 className="text-3xl font-display mb-4">Qué incluye la propuesta de diseño web</h2>
-            <p className="text-muted-foreground leading-relaxed">Estructura de páginas, diseño visual, adaptación a dispositivos, desarrollo de las funciones acordadas y configuración SEO inicial. La propuesta define también quién aporta textos e imágenes, las revisiones y el calendario de lanzamiento.</p>
+            <p className="text-muted-foreground leading-relaxed">Estructura de páginas, diseño visual, adaptación a dispositivos, funciones acordadas y configuración SEO inicial. Definimos quién aporta textos e imágenes, las revisiones y el calendario. La entrega concreta accesos, edición de contenidos y las comprobaciones de formularios y navegación.</p>
           </div>
           <div>
             <h3 className="text-2xl font-display mb-4">Servicios que puedes añadir</h3>
@@ -535,7 +540,7 @@ export function DisenoWebContent() {
               ¿Listo para impulsar tu presencia digital?
             </h2>
             <p className="text-lg text-background/60 max-w-xl mx-auto mb-10 leading-relaxed font-sans">
-              Consigue una propuesta a medida sin compromiso. Cuéntanos qué necesitas y trazaremos el mejor camino tecnológico para conseguirlo.
+              Cuéntanos qué servicios quieres presentar, comparte tu web si ya existe y qué material tienes disponible. Definimos páginas, contenido, funciones y presupuesto antes de empezar.
             </p>
             <Button
               size="lg"

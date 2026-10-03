@@ -1,5 +1,7 @@
 # Preparación SEO y captación · 2 de octubre de 2026
 
+Revisión posterior: [mejoras locales del 3 de octubre](revision-local-2026-10-03.md), preparadas sobre el rediseño del usuario y pendientes de su comprobación en Windows. Esa revisión no se ha publicado; la fecha y las comprobaciones de producción que figuran a continuación corresponden al lanzamiento anterior.
+
 La intervención conserva las URLs existentes y añade servicios diferenciados, casos de proyecto y autoría. Los datos iniciales están en `baseline-2026-10-02.json`; las revisiones quincenales siguen `seguimiento.md`.
 
 ## Cambios preparados

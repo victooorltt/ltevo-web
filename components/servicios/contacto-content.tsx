@@ -4,6 +4,8 @@ import { useSyncExternalStore, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown, MapPin } from "lucide-react";
 import { contactContext, trackEvent } from "@/lib/analytics";
+import { business } from "@/lib/business";
+import { CookiePreferencesButton } from "@/components/landing/cookie-preferences-button";
 import {
   getConsent,
   getServerConsent,
@@ -17,7 +19,7 @@ import { ConsentCheckbox, HoneypotField } from "@/components/landing/consent-che
 
 /**
  * El iframe de Google Maps se montaba siempre, con lo que Google escribía
- * cookies (NID, VISITOR_INFO1_LIVE…) en la primera visita y sin que nadie
+ * cookies de terceros en la primera visita y sin que nadie
  * hubiera dado permiso. Ahora el iframe solo existe si hay consentimiento;
  * sin él se muestra un aviso con un enlace a la dirección, que además es
  * mejor para SEO local que un mapa dentro de un iframe.
@@ -46,10 +48,8 @@ function MapConsent() {
           >
             abrir la ubicación en Google Maps
           </a>{" "}
-          sin activar cookies de terceros, o habilitarla desde el botón{" "}
-          <span className="font-mono text-[10px] tracking-widest uppercase text-foreground/70">
-            Cookies
-          </span>
+          en una pestaña nueva, o activar el mapa en{" "}
+          <CookiePreferencesButton className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 focus-visible:outline-2 focus-visible:outline-offset-4" />
           .
         </p>
       </div>
@@ -151,9 +151,9 @@ export function ContactoContent({ initialService = "", initialPlan = "" }: { ini
     "w-full rounded-xl border border-foreground/10 bg-foreground/[0.02] px-4 py-3 text-base md:text-sm text-foreground placeholder:text-foreground/40 transition-colors duration-200 focus:outline-none focus:border-foreground/40 focus:bg-foreground/[0.04]";
 
   /* ---- contact details ------------------------------------------- */
-  const contactDetails = [
-    { label: "Email", value: "info@ltevo.com" },
-    { label: "Teléfono", value: "+34 634 25 55 41" },
+  const contactDetails: { label: string; value: string; href?: string }[] = [
+    { label: "Email", value: business.email, href: `mailto:${business.email}` },
+    { label: "Teléfono", value: "+34 634 25 55 41", href: `tel:${business.telephone}` },
     { label: "Ubicación", value: "Oviedo, Asturias" },
     { label: "Horario", value: "Lunes - Viernes, 9:00 - 18:00" },
   ];
@@ -171,13 +171,13 @@ export function ContactoContent({ initialService = "", initialPlan = "" }: { ini
         <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="reveal" style={{ animationDelay: "0.1s" }}>
             <h1 className="text-4xl lg:text-6xl font-display italic tracking-tight leading-[0.95] mb-6 text-center">
-              Contacta con Nosotros
+              Contacta con LTEvo
             </h1>
           </div>
 
           <div className="reveal" style={{ animationDelay: "0.2s" }}>
             <p className="text-lg lg:text-xl text-background/60 max-w-2xl leading-relaxed text-center mx-auto">
-              Cuéntanos tu proyecto y te respondemos en menos de 24 horas
+              Cuéntanos tu proyecto y preparemos una propuesta sin compromiso.
             </p>
           </div>
         </div>
@@ -197,8 +197,8 @@ export function ContactoContent({ initialService = "", initialPlan = "" }: { ini
                 </h2>
 
                 <p className="text-lg text-muted-foreground leading-relaxed mb-12 max-w-md">
-                  Cuéntanos qué necesitas y te respondemos en menos de 24 horas
-                  con una propuesta sin compromiso.
+                  Comparte tu web y el servicio que necesitas. Revisamos tu situación
+                  para definir alcance, calendario y presupuesto contigo.
                 </p>
 
                 <div className="space-y-4">
@@ -208,7 +208,7 @@ export function ContactoContent({ initialService = "", initialPlan = "" }: { ini
                         {item.label}
                       </span>
                       <span className="text-lg text-foreground">
-                        {item.value}
+                        {item.href ? <a href={item.href}>{item.value}</a> : item.value}
                       </span>
                     </div>
                   ))}
@@ -224,7 +224,7 @@ export function ContactoContent({ initialService = "", initialPlan = "" }: { ini
                     había ningún aviso. Visualmente no añade nada. */}
                 <div role="status" aria-live="polite" className="sr-only">
                   {status === "success" &&
-                    "Mensaje enviado. Te responderemos en menos de 24 horas."}
+                    "Mensaje enviado. Revisaremos tu consulta y te responderemos por email."}
                   {status === "error" &&
                     (errorMessage ?? "No hemos podido enviar tu mensaje.")}
                 </div>
@@ -237,8 +237,8 @@ export function ContactoContent({ initialService = "", initialPlan = "" }: { ini
                       ¡Mensaje enviado!
                     </h3>
                     <p className="text-muted-foreground leading-relaxed">
-                      Gracias por contactarnos. Te responderemos en menos de 24
-                      horas.
+                      Gracias por contactarnos. Revisaremos tu consulta y te
+                      responderemos por email para concretar el siguiente paso.
                     </p>
                     <button
                       onClick={() => {

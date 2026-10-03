@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { business } from "@/lib/business";
+import { CookiePreferencesButton } from "@/components/landing/cookie-preferences-button";
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 const socialLinks = [
@@ -18,7 +20,7 @@ const footerLinks = {
     { name: "SEO",               href: "/servicios/seo"        },
     { name: "Mantenimiento Web", href: "/servicios/mantenimiento-web" },
     { name: "Blog",              href: "/blog"                  },
-    { name: "Portafolio",        href: "/proyectos"            },
+    { name: "Proyectos",         href: "/proyectos"            },
     { name: "Contacto",          href: "/contacto"              },
   ],
   Legal: [
@@ -46,7 +48,7 @@ export function FooterSection() {
               </Link>
 
               <p className="text-white/70 leading-relaxed mb-8 max-w-xs">
-                Agencia de diseño web en Oviedo. Creamos webs que convierten visitas en clientes.
+                Diseño y desarrollo web desde Oviedo. Webs, SEO y mantenimiento para empresas de Asturias y toda España.
               </p>
 
               <ul className="flex items-center gap-3">
@@ -90,6 +92,11 @@ export function FooterSection() {
                       )}
                     </li>
                   ))}
+                  {title === "Legal" && (
+                    <li>
+                      <CookiePreferencesButton className="text-left text-sm text-zinc-400 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" />
+                    </li>
+                  )}
                 </ul>
               </div>
             ))}
@@ -100,7 +107,7 @@ export function FooterSection() {
               <ul className="space-y-4">
                 <li>
                   <a
-                    href="tel:+34634255541"
+                    href={`tel:${business.telephone}`}
                     className="text-sm text-zinc-400 hover:text-white transition-colors block"
                   >
                     +34 634 25 55 41
@@ -108,7 +115,7 @@ export function FooterSection() {
                 </li>
                 <li>
                   <a
-                    href="mailto:info@ltevo.com"
+                    href={`mailto:${business.email}`}
                     className="text-sm text-zinc-400 hover:text-white transition-colors block"
                   >
                     info@ltevo.com
@@ -117,7 +124,7 @@ export function FooterSection() {
                 <li className="text-sm text-zinc-400 leading-relaxed">
                   Calle Uría, 19, 33003 Oviedo, Asturias
                 </li>
-                <li><a href="https://g.page/r/CasABkSyzoJWEBM/review" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">LTEvo en Google y reseñas ↗</a></li>
+                <li><a href={business.reviewUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">LTEvo en Google y reseñas ↗</a></li>
               </ul>
             </div>
           </div>

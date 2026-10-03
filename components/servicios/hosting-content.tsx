@@ -43,13 +43,13 @@ export function HostingContent({ service }: { service: ServicePage }) {
                 href={contactHref(service.slug)}
                 className="inline-flex items-center gap-3 rounded-full bg-white text-zinc-950 px-7 py-4 font-semibold hover:bg-white/90 transition-colors"
               >
-                Solicitar presupuesto <ArrowUpRight className="size-4" />
+                Consultar alojamiento <ArrowUpRight className="size-4" />
               </Link>
               <Link
                 href="#alcance"
                 className="rounded-full border border-white/25 px-7 py-4 hover:bg-white/10 transition-colors"
               >
-                Qué incluye el servicio
+                Alojamiento y gestión
               </Link>
             </div>
           </div>
@@ -62,7 +62,7 @@ export function HostingContent({ service }: { service: ServicePage }) {
       <section id="alcance" className="max-w-[1200px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid lg:grid-cols-[1fr_2fr] gap-12 lg:gap-20">
           <div>
-            <h2 className="font-display text-3xl lg:text-4xl tracking-tight">Una propuesta que encaje con tu negocio.</h2>
+            <h2 className="font-display text-3xl lg:text-4xl tracking-tight">Alojamiento web con gestión técnica y soporte.</h2>
             <ul className="mt-8 space-y-5 text-muted-foreground">
               {service.audience.map((text) => (
                 <li key={text} className="flex gap-3 leading-relaxed">
@@ -101,13 +101,13 @@ export function HostingContent({ service }: { service: ServicePage }) {
             </div>
             <div>
               <h2 className="font-display text-3xl lg:text-4xl tracking-tight mb-6">
-                Infraestructura de alta velocidad, copias diarias y soporte directo.
+                Hosting, copias de seguridad y un contacto técnico.
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                Tu web necesita estabilidad, baja latencia y la tranquilidad de contar con un equipo técnico vigilando su disponibilidad. Configuramos servidores optimizados con almacenamiento NVMe, certificados SSL automáticos y copias de seguridad aisladas.
+                Elegimos y configuramos el alojamiento según la tecnología, el tráfico y la operativa de tu web. Concretamos HTTPS, recursos, copias y revisión de disponibilidad, con frecuencia de respaldo y retención definidas para tu proyecto.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Nos encargamos de las migraciones sin caídas de servicio, la configuración de DNS y registros de correo (SPF, DKIM, DMARC), y te ofrecemos un interlocutor técnico directo para resolver cualquier duda o incidencia de inmediato.
+                Planificamos la migración, comprobamos la web y coordinamos el cambio de DNS para reducir interrupciones. Si el alcance incluye correo, revisamos su traslado y los registros del dominio. Tendrás un contacto técnico y canales de atención acordados para tramitar incidencias.
               </p>
             </div>
           </div>
@@ -119,7 +119,7 @@ export function HostingContent({ service }: { service: ServicePage }) {
       {/* ============================================================ */}
       <section className="bg-stone-100 border-b border-foreground/10 py-20">
         <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
-          <h2 className="font-display text-3xl lg:text-5xl tracking-tight mb-12">Antes de contratar.</h2>
+          <h2 className="font-display text-3xl lg:text-5xl tracking-tight mb-12">Recursos, accesos y coste de tu alojamiento.</h2>
           <div className="grid md:grid-cols-3 gap-10">
             {service.decisions.map((item) => (
               <div key={item.title}>
@@ -134,7 +134,7 @@ export function HostingContent({ service }: { service: ServicePage }) {
       {/* ============================================================ */}
       {/*  SECCIÓN 3 (ORIGINAL): FaqSection                            */}
       {/* ============================================================ */}
-      <FaqSection faqs={service.faqs} includeJsonLd={false} />
+      <FaqSection title="Preguntas sobre hosting gestionado" faqs={service.faqs} includeJsonLd={false} />
 
       {/* ============================================================ */}
       {/*  SECCIÓN 4 (ORIGINAL): Cierre y enlaces relacionados        */}
@@ -142,19 +142,19 @@ export function HostingContent({ service }: { service: ServicePage }) {
       <section className="max-w-[1200px] mx-auto px-6 lg:px-12 py-20">
         <div className="grid md:grid-cols-2 gap-12">
           <div>
-            <h2 className="font-display text-3xl lg:text-4xl tracking-tight mb-5">Cuéntanos qué necesitas resolver.</h2>
+            <h2 className="font-display text-3xl lg:text-4xl tracking-tight mb-5">Revisemos dónde y cómo alojar tu web.</h2>
             <p className="text-muted-foreground leading-relaxed mb-8">
-              Revisamos tu situación y definimos alcance, condiciones y presupuesto antes de empezar. La primera conversación es sin compromiso.
+              Envíanos tu URL, el proveedor actual y qué quieres trasladar o mejorar. Revisaremos web, dominio y correo para proponerte una migración y una gestión con costes claros.
             </p>
             <Link
               href={contactHref(service.slug)}
               className="inline-flex rounded-full bg-foreground text-background px-7 py-4 font-semibold"
             >
-              Pedir una propuesta
+              Pedir propuesta de hosting
             </Link>
           </div>
           <div className="md:pl-10 md:border-l border-foreground/10">
-            <h3 className="font-semibold mb-5">Para seguir valorando tu proyecto</h3>
+            <h3 className="font-semibold mb-5">Hosting y continuidad de tu web</h3>
             <ul className="space-y-4">
               {service.related.map((item) => (
                 <li key={item.href}>

@@ -1,3 +1,4 @@
+import { GA4_DISABLE_KEY } from "@/lib/analytics-config";
 import type { Metadata, Viewport } from "next";
 import {
   Instrument_Sans,
@@ -8,6 +9,7 @@ import { AnalyticsConsent } from "@/components/landing/analytics-consent";
 import { CookieBanner } from "@/components/landing/cookie-banner";
 import { ConversionTracking } from "@/components/landing/conversion-tracking";
 import { business } from "@/lib/business";
+import { HOME_TITLE, HOME_DESCRIPTION, jsonLdString } from "@/lib/seo";
 import "./globals.css";
 
 const instrumentSans = Instrument_Sans({
@@ -44,26 +46,16 @@ const interItalic = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Diseño y desarrollo web en Oviedo y Asturias | LTEvo",
+    default: `${HOME_TITLE} | LTEvo`,
     template: "%s | LTEvo",
   },
-  description: "¿Buscas una web profesional que venda? Agencia de diseño web en Oviedo y Asturias. Creamos páginas web, tiendas online y SEO para hacer crecer tu negocio.",
-  keywords: [
-    "diseño web oviedo",
-    "agencia web asturias",
-    "seo oviedo",
-    "tienda online asturias",
-    "desarrollo web oviedo",
-    "paginas web profesionales",
-    "agencia diseño web oviedo",
-    "ecommerce asturias",
-  ],
+  description: HOME_DESCRIPTION,
   authors: [{ name: "LTEvo" }],
   creator: "LTEvo",
   metadataBase: new URL("https://ltevo.com"),
   openGraph: {
-    title: "Diseño y desarrollo web en Oviedo y Asturias | LTEvo",
-    description: "¿Buscas una web profesional que venda? Agencia de diseño web en Oviedo y Asturias. Creamos páginas web, tiendas online y SEO para hacer crecer tu negocio.",
+    title: `${HOME_TITLE} | LTEvo`,
+    description: HOME_DESCRIPTION,
     url: "https://ltevo.com",
     siteName: "LTEvo",
     locale: "es_ES",
@@ -73,9 +65,8 @@ export const metadata: Metadata = {
     // summary_large_image sin `images` produce una tarjeta vacía: Next no
     // deriva twitter:image de og:image. Reutilizamos la OG de raíz.
     card: "summary_large_image",
-    title: "Diseño y desarrollo web en Oviedo y Asturias | LTEvo",
-    description:
-      "¿Buscas una web profesional que venda? Agencia de diseño web en Oviedo y Asturias. Creamos páginas web, tiendas online y SEO para hacer crecer tu negocio.",
+    title: `${HOME_TITLE} | LTEvo`,
+    description: HOME_DESCRIPTION,
     images: [
       {
         url: "/opengraph-image.jpg",
@@ -123,8 +114,6 @@ const jsonLd = {
       },
       "email": "info@ltevo.com",
       "telephone": "+34634255541",
-      /* LSSI art. 37.2.a: los datos de identificación fiscal del prestador
-         de servicios son de publicación obligatoria. */
       "taxID": "71742225G",
       "priceRange": "€€",
       "areaServed": [
@@ -181,19 +170,15 @@ export default function RootLayout({
         className={`${instrumentSans.variable} ${jetbrainsMono.variable} ${inter.variable} ${interItalic.variable} antialiased`}
       >
         {/*
-          Google Consent Mode v2, paso 1: estado por defecto TODO DENEGADO.
-
-          Va como <script> plano y en el servidor, no como next/script, por
-          dos razones: en App Router `beforeInteractive` no está pensado para
-          el árbol de componentes (solo funciona en pages/_document), y este
-          snippet tiene que ejecutarse siempre, acepten o no, para que
-          gtm.js herede el denegado en lugar de sobrescribirlo. La carga del
-          container la hace <AnalyticsConsent /> solo si hay consentimiento.
+          Inicializa Consent Mode y el bloqueo GA antes de cualquier etiqueta.
+          AnalyticsConsent carga GTM únicamente tras una decisión válida;
+          la revocación mantiene GA bloqueado sin recargar la página.
         */}
         <script
           id="gtm-consent-default"
           dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];
+            __html: `window[${JSON.stringify(GA4_DISABLE_KEY)}]=true;
+window.dataLayer=window.dataLayer||[];
 function gtag(){dataLayer.push(arguments);}
 gtag('consent','default',{
   ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',
@@ -207,7 +192,7 @@ gtag('consent','default',{
         <CookieBanner />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }}
         />
         {/* Skip to content (WCAG 2.4.1): invisible hasta que se navega con
             teclado, momento en que aparece arriba a la izquierda. */}

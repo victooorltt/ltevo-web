@@ -2,8 +2,8 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 
 /* Sección FAQ reutilizable. Server component: <details>/<summary> nativos con
-   acordeón animado estilo Apple. Si no se pasan props, usa las FAQs de la home
-   y genera el JSON-LD de schema.org. */
+   acordeón animado estilo Apple. Si no se pasan props, usa las FAQs de la home.
+   El marcado FAQ es opcional: Google retiró ese resultado enriquecido en 2026. */
 export type FaqItem = {
   question: string;
   answer: string;
@@ -13,23 +13,27 @@ export type FaqItem = {
 export const homeFaqs: FaqItem[] = [
   {
     question: "¿Cuánto cuesta una página web?",
-    answer: "Depende del alcance del proyecto: cada web se presupuesta a medida tras una primera conversación sin coste, con una propuesta cerrada y sin sorpresas. Para el mantenimiento posterior dispones de planes mensuales desde 29,99 € al mes, sin permanencia.",
+    answer: "El precio depende de las páginas, contenidos y funciones. Tras una primera conversación sin coste, preparamos una propuesta con entregables, revisiones y calendario. Hosting, dominio y SEO continuo se detallan por separado; el mantenimiento comienza en 29,99 € al mes más IVA.",
+    more: { text: "Consultar diseño de páginas web", href: "/servicios/diseno-web" },
   },
   {
     question: "¿Cuánto tardáis en tener mi web lista?",
-    answer: "El plazo habitual de entrega es de entre 3 y 6 semanas. Los proyectos con integraciones avanzadas pueden requerir más tiempo, y lo acordamos contigo en la fase inicial de planificación.",
+    answer: "El calendario se fija después de definir las páginas y funciones. También depende de los textos, imágenes, accesos y revisiones necesarios. Una tienda o una aplicación con integraciones requiere su propia planificación, que se recoge en la propuesta.",
   },
   {
     question: "¿Incluye soporte y mantenimiento una vez lanzada la web?",
-    answer: "Sí. Tras el lanzamiento incluimos 30 días de soporte de garantía gratuito. Después puedes contratar un plan de mantenimiento mensual con copias de seguridad, actualizaciones y soporte prioritario, siempre sin permanencia.",
+    answer: "Incluimos 30 días de soporte de garantía tras el lanzamiento, con el alcance definido en la propuesta. Para atención continuada puedes contratar mantenimiento mensual sin permanencia: las copias, actualizaciones y canales de soporte dependen del plan y la tecnología de tu web.",
+    more: { text: "Comparar mantenimiento y precios", href: "/servicios/mantenimiento-web" },
   },
   {
     question: "¿Mi web va a aparecer en Google?",
-    answer: "Todas nuestras webs se entregan con una base SEO técnica sólida: código semántico, datos estructurados y carga ultrarrápida. Para posicionar de forma competitiva acompañamos el proyecto con una estrategia SEO continua; los primeros resultados suelen notarse a partir del tercer mes.",
+    answer: "Preparamos la estructura, los títulos y la configuración técnica acordados para facilitar el rastreo y la comprensión de la web. La indexación y las posiciones las decide Google. Para competir por búsquedas de contratación, el SEO continuo trabaja contenidos, técnica, enlaces y seguimiento de contactos.",
+    more: { text: "Conocer el servicio SEO", href: "/servicios/seo" },
   },
   {
     question: "¿Con qué tecnologías desarrolláis?",
-    answer: "Trabajamos con Next.js, React, TypeScript y Tailwind CSS. Evitamos plantillas lentas: así garantizamos la máxima velocidad de carga, seguridad y una web totalmente autogestionable que crece con tu negocio.",
+    answer: "Desarrollamos a medida con Next.js, React y TypeScript cuando encajan con el proyecto. Para una tienda valoramos la plataforma según catálogo y operativa. Acordamos qué contenido podrás editar, los accesos y la formación; la elección de tecnología depende de tus necesidades.",
+    more: { text: "Ver desarrollo web e integraciones", href: "/servicios/desarrollo-web" },
   },
 ];
 
@@ -44,7 +48,7 @@ export function FaqSection({
   badge = "Resolvemos tus dudas",
   title = "Preguntas frecuentes",
   faqs = homeFaqs,
-  includeJsonLd = true,
+  includeJsonLd = false,
 }: FaqSectionProps = {}) {
   const faqJsonLd = {
     "@context": "https://schema.org",

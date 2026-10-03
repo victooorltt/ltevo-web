@@ -7,10 +7,8 @@ import { FaqSection } from "@/components/landing/faq-section";
 /* Nota: componente de servidor. El reveal es CSS scroll-driven y las FAQs
    usan <details>/<summary> nativos, sin JS. */
 
-/* Fuente única de las FAQs: se renderizan aquí (details/summary) y alimentan
-   el JSON-LD FAQPage de app/servicios/seo/page.tsx para que el schema
-   nunca se desincronice de lo visible. El campo opcional `more` añade un
-   enlace contextual al blog SOLO en el render; el schema usa question/answer. */
+/* FAQs visibles con <details>/<summary>. El campo `more` añade un enlace
+   contextual al servicio o artículo que amplía la respuesta. */
 type Faq = {
   question: string;
   answer: string;
@@ -33,7 +31,7 @@ export const faqs: Faq[] = [
   },
   {
     question: "¿Qué recibo en una auditoría SEO?",
-    answer: "Un diagnóstico de los problemas técnicos, de contenido y de estructura que afectan a la web, junto con las oportunidades de búsqueda y un plan priorizado. La implementación, los contenidos nuevos y el seguimiento se detallan en la propuesta para saber qué se ejecuta y quién se encarga de cada tarea.",
+    answer: "Un diagnóstico con URLs afectadas, problemas detectados y comprobaciones, más un mapa de consultas y páginas y un plan priorizado. Las tareas indican el cambio recomendado, quién debe realizarlo y cómo comprobarlo. La implementación, los contenidos nuevos y el seguimiento se detallan en la propuesta.",
   },
   {
     question: "¿Trabajáis el SEO local y el Perfil de Empresa de Google?",
@@ -58,17 +56,17 @@ export function SeoContent() {
   const seoServices = [
     {
       title: "Auditoría SEO Técnica",
-      description: "Revisamos rastreo, indexación, velocidad y enlaces. Recibes un diagnóstico con problemas, páginas afectadas y prioridades de implementación.",
+      description: "Revisamos rastreo, indexación, rendimiento y enlaces. El diagnóstico identifica cada URL afectada, el problema, la comprobación realizada y el cambio recomendado.",
       icon: Code
     },
     {
       title: "Búsquedas con intención de contratar",
-      description: "Relacionamos las búsquedas de tu público con tus servicios y páginas. Priorizamos oportunidades comerciales y consultas próximas a posiciones competitivas.",
+      description: "Asignamos una página a cada intención comercial. Revisamos qué consultas ya aparecen, cuáles encajan con tu oferta y dónde varias páginas compiten por la misma búsqueda.",
       icon: Search
     },
     {
       title: "SEO On-Page y Contenidos",
-      description: "Revisamos títulos, encabezados, enlaces y contenido de servicios. Proponemos mejoras y artículos que ayuden a resolver dudas antes de contratar.",
+      description: "Proponemos y aplicamos los títulos, encabezados, enlaces y contenidos acordados. Cada página debe explicar la oferta, responder dudas y facilitar una solicitud de presupuesto.",
       icon: TrendingUp
     },
     {
@@ -83,7 +81,7 @@ export function SeoContent() {
     },
     {
       title: "Analítica y Monitorización",
-      description: "Utilizamos Search Console y, cuando existe una configuración adecuada, Analytics. El seguimiento relaciona consultas, páginas y contactos para orientar las siguientes mejoras.",
+      description: "Comparamos clics, impresiones, CTR y posición por consultas y páginas en periodos equivalentes. Con medición disponible, añadimos contactos y su cualificación para valorar la captación.",
       icon: BarChart3
     }
   ];
@@ -99,23 +97,23 @@ export function SeoContent() {
     {
       number: "01",
       title: "Diagnóstico Inicial",
-      description: "Revisamos la web y sus datos disponibles. Identificamos fallos técnicos y búsquedas comerciales para establecer un punto de partida verificable.",
+      description: "Inventariamos las páginas y revisamos Search Console, contenido y acceso a buscadores. Entregamos un diagnóstico de problemas y oportunidades, con las páginas y consultas afectadas.",
       link: { text: "Qué revisar si tu web no aparece en Google", href: "/blog/por-que-mi-web-no-aparece-en-google" }
     },
     {
       number: "02",
       title: "Planificación Estratégica",
-      description: "Definimos un plan de optimización priorizando las acciones técnicas que tendrán mayor y más rápido impacto en tu volumen de negocio."
+      description: "El plan ordena las tareas por prioridad comercial y esfuerzo. Cada acción identifica página, cambio, responsable y accesos necesarios; la propuesta delimita qué vamos a ejecutar."
     },
     {
       number: "03",
-      title: "Ejecución y Enlaces",
-      description: "Implementamos las tareas acordadas en tu CMS o código y mejoramos páginas clave. Dejamos constancia de los cambios para poder valorar sus resultados."
+      title: "Implementación y comprobación",
+      description: "Aplicamos los cambios acordados en tu CMS o código. El registro recoge páginas, fechas y tareas completadas; revisamos enlaces, contenido y contacto después de los cambios."
     },
     {
       number: "04",
       title: "Medición y Ajustes",
-      description: "Comparamos el rendimiento por consultas y páginas, revisamos la captación cuando existe medición y acordamos las siguientes prioridades."
+      description: "El seguimiento compara consultas comerciales, páginas y contactos disponibles. Distinguimos el trabajo realizado de su evolución en buscadores y decidimos las siguientes mejoras con los datos."
     }
   ];
 
@@ -223,8 +221,8 @@ export function SeoContent() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12">
           <div>
             <h2 className="text-3xl lg:text-4xl font-display mb-6">Una propuesta SEO con alcance claro</h2>
-            <p className="text-muted-foreground leading-relaxed mb-4">Empezamos por tus servicios, tu web y los datos disponibles. La propuesta detalla las páginas a trabajar, las tareas de auditoría e implementación, los contenidos acordados y cómo revisaremos la evolución.</p>
-            <p className="text-muted-foreground leading-relaxed">Así puedes comparar qué se hará, qué accesos necesitamos y qué depende de ti. Un rediseño, campañas de anuncios o costes de terceros requieren una valoración específica.</p>
+            <p className="text-muted-foreground leading-relaxed mb-4">La propuesta distingue tres entregables: diagnóstico con páginas y problemas, plan de acciones y registro del trabajo acordado. Definimos también qué consultas comerciales revisar y cómo comprobar la captación cuando existe medición.</p>
+            <p className="text-muted-foreground leading-relaxed">Por ejemplo, una tarea del plan puede identificar una página de servicio, sus dudas sin responder, el contenido que se añadirá y cómo revisar después sus consultas y contactos. Es un ejemplo del formato de trabajo; las acciones concretas se deciden tras revisar tu web.</p>
           </div>
           <div>
             <h3 className="text-2xl font-display mb-6">Para empresas que necesitan captar contactos</h3>
@@ -233,7 +231,7 @@ export function SeoContent() {
               <li>Necesitas mejorar la visibilidad en tu zona y presentar una oferta más clara.</li>
               <li>Quieres priorizar cambios a partir de consultas, páginas y oportunidades reales.</li>
             </ul>
-            <p className="mt-6 text-muted-foreground leading-relaxed">Si la web necesita funciones nuevas, valoramos el <Link className="underline underline-offset-4" href="/servicios/desarrollo-web">desarrollo a medida</Link>. Para cambios técnicos recurrentes, puedes consultar el <Link className="underline underline-offset-4" href="/servicios/mantenimiento-web">mantenimiento web</Link>.</p>
+            <p className="mt-6 text-muted-foreground leading-relaxed">Si la web necesita funciones nuevas, valoramos el <Link className="underline underline-offset-4" href="/servicios/desarrollo-web">desarrollo a medida</Link>. Para cambios técnicos recurrentes, puedes consultar el <Link className="underline underline-offset-4" href="/servicios/mantenimiento-web">mantenimiento web</Link>. Conoce a <Link className="underline underline-offset-4" href="/sobre-nosotros">Víctor Lasheras y el trabajo de LTEvo</Link>.</p>
             <Link href="/proyectos" className="inline-flex items-center gap-2 mt-6 underline underline-offset-4">Ver proyectos de LTEvo <ArrowRight className="w-4 h-4" aria-hidden="true" /></Link>
           </div>
         </div>

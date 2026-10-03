@@ -9,7 +9,7 @@ const staticDates: Record<string, string> = {
   "/servicios/desarrollo-web": SEO_UPDATED_AT, "/servicios/tiendas-online": SEO_UPDATED_AT,
   "/proyectos": SEO_UPDATED_AT, "/proyectos/autocaravanas-bahia": SEO_UPDATED_AT,
   "/proyectos/jardineria-el-cuetu": SEO_UPDATED_AT, "/sobre-nosotros": SEO_UPDATED_AT,
-  "/privacidad": "2026-06-20", "/terminos": "2026-06-20", "/cookies": "2026-06-20",
+  "/privacidad": "2026-10-03", "/terminos": "2026-06-20", "/cookies": "2026-10-03",
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {

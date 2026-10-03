@@ -1,14 +1,15 @@
-import { getConsent } from "@/lib/consent";
+import { hasAnalyticsConsent } from "@/lib/consent";
+import { GA4_DISABLE_KEY, GA4_MEASUREMENT_ID, type AnalyticsWindow } from "@/lib/analytics-config";
 
 type EventParameters = Record<string, string | number | boolean>;
-const measurementId = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || "G-NWCDHBY9Z1";
 
 /** No personal data; events are sent only after analytics consent. */
 export function trackEvent(event: string, parameters: EventParameters = {}) {
-  if (typeof window === "undefined" || getConsent()?.analytics !== true) return;
-  const analyticsWindow = window as Window & { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void };
+  if (typeof window === "undefined" || !hasAnalyticsConsent()) return;
+  const analyticsWindow = window as AnalyticsWindow;
+  if (analyticsWindow[GA4_DISABLE_KEY] !== false) return;
   analyticsWindow.dataLayer ??= [];
-  const payload = { ...parameters, send_to: measurementId, ...(window.location.hostname === "localhost" ? { debug_mode: true } : {}) };
+  const payload = { ...parameters, send_to: GA4_MEASUREMENT_ID, ...(window.location.hostname === "localhost" ? { debug_mode: true } : {}) };
   // Use the Google tag already published in GTM. A plain custom-event object
   // would require additional GTM tags and would not reach GA4 by itself.
   if (analyticsWindow.gtag) analyticsWindow.gtag("event", event, payload);

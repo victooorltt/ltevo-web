@@ -1,52 +1,41 @@
-import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 import { getAllPosts, hasRealCover, formatDate } from "@/lib/blog";
+import { breadcrumbs, jsonLdString, pageMetadata, SITE_URL } from "@/lib/seo";
+import { business } from "@/lib/business";
 
-export const metadata: Metadata = {
-  title: "Blog de Estrategia Web, SEO y Diseño",
-  description: "Artículos, guías y recursos prácticos sobre diseño web, posicionamiento SEO y desarrollo técnico para hacer crecer tu negocio.",
-  alternates: {
-    canonical: "/blog",
-  },
-  openGraph: {
-    title: "Blog de Estrategia Web, SEO y Diseño",
-    description: "Artículos, guías y recursos prácticos sobre diseño web, posicionamiento SEO y desarrollo técnico para hacer crecer tu negocio.",
-    url: "/blog",
-    siteName: "LTEvo",
-    locale: "es_ES",
-    type: "website",
-    // Al definir openGraph propio se pierde el og:image heredado del raíz
-    // (app/opengraph-image.jpg por convención de fichero): lo restauramos.
-    // El alt se declara explícito porque el array manual reemplaza el
-    // og:image:alt que Next inyecta desde app/opengraph-image.alt.txt.
-    images: [
-      {
-        url: "/opengraph-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "LTEvo - Agencia de Diseño Web en Oviedo",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog de Estrategia Web, SEO y Diseño",
-    description:
-      "Artículos, guías y recursos prácticos sobre diseño web, posicionamiento SEO y desarrollo técnico para hacer crecer tu negocio.",
-    images: ["/opengraph-image.jpg"],
-  },
-};
+export const metadata = pageMetadata(
+  "Guías de diseño web, SEO y mantenimiento",
+  "Guías de LTEvo para elegir una web, entender el SEO y comparar mantenimiento. Criterios, fuentes y próximos pasos para tomar decisiones sobre tu negocio.",
+  "/blog",
+);
 
 export default function BlogPage() {
   const posts = getAllPosts();
   const featuredPost = posts[0];
   const gridPosts = posts.slice(1);
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage", "@id": `${SITE_URL}/blog#page`, url: `${SITE_URL}/blog`,
+        name: "Guías de diseño web, SEO y mantenimiento", inLanguage: "es",
+        isPartOf: { "@id": `${SITE_URL}/#website` }, mainEntity: { "@id": `${SITE_URL}/blog#blog` },
+      },
+      {
+        "@type": "Blog", "@id": `${SITE_URL}/blog#blog`, url: `${SITE_URL}/blog`, name: "Blog de LTEvo",
+        publisher: { "@id": `${SITE_URL}/#business` },
+        blogPost: posts.map((post) => ({ "@id": `${SITE_URL}/blog/${post.slug}#article` })),
+      },
+      breadcrumbs([{ name: "Inicio", path: "/" }, { name: "Blog", path: "/blog" }]),
+    ],
+  };
 
   return (
     <div className="relative min-h-[100dvh] bg-background text-foreground flex flex-col font-sans selection:bg-foreground selection:text-background">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(schema) }} />
       <Navigation />
       
       {/* Hero Section */}
@@ -54,10 +43,10 @@ export default function BlogPage() {
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="max-w-3xl">
             <h1 className="text-5xl lg:text-7xl font-display tracking-tight text-foreground mb-6 leading-[0.95]">
-              Ideas, Estrategias y Desarrollo Web
+              Guías de diseño web, SEO y mantenimiento
             </h1>
             <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl font-light">
-              Guías detalladas paso a paso sobre SEO, diseño de conversión y desarrollo a medida sin rodeos teóricos.
+              Criterios y guías prácticas para elegir una web, mejorar su visibilidad y comparar servicios antes de contratar.
             </p>
           </div>
         </div>
@@ -121,7 +110,7 @@ export default function BlogPage() {
                   
                   <div className="flex items-center justify-between pt-4 border-t border-foreground/5">
                     <span className="text-xs text-muted-foreground font-mono">
-                      Por <span className="text-foreground font-medium">{featuredPost.author}</span>
+                      Por <Link href={featuredPost.authorProfile ?? business.authorProfile} className="text-foreground font-medium">{featuredPost.author}</Link>
                     </span>
                     <Link href={`/blog/${featuredPost.slug}`} className="group/btn inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide hover:gap-2.5 transition-all duration-300">
                       Leer artículo
@@ -135,9 +124,9 @@ export default function BlogPage() {
             {/* Grid Posts */}
             {gridPosts.length > 0 && (
               <div className="space-y-12">
-                <h3 className="font-mono text-xs uppercase tracking-widest text-muted-foreground border-b border-foreground/5 pb-4">
-                  Más Publicaciones
-                </h3>
+                <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground border-b border-foreground/5 pb-4">
+                  Más publicaciones
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
                   {gridPosts.map((post) => (
                     <article key={post.slug} className="group flex flex-col h-full border-b border-foreground/5 pb-8 md:border-b-0 md:pb-0">
@@ -168,9 +157,9 @@ export default function BlogPage() {
                       </div>
                       
                       <Link href={`/blog/${post.slug}`} className="mb-3 block">
-                        <h2 className="text-xl font-display text-foreground leading-[1.2] hover:underline decoration-foreground/30 underline-offset-4 decoration-1 transition-all duration-300">
+                        <h3 className="text-xl font-display text-foreground leading-[1.2] hover:underline decoration-foreground/30 underline-offset-4 decoration-1 transition-all duration-300">
                           {post.title}
-                        </h2>
+                        </h3>
                       </Link>
                       
                       <p className="text-sm text-muted-foreground leading-relaxed font-light mb-6 flex-grow">
@@ -199,7 +188,7 @@ export default function BlogPage() {
       <section className="bg-stone-100 py-20 border-t border-foreground/5">
         <div className="max-w-2xl mx-auto px-6 text-center">
           <h2 className="text-4xl lg:text-5xl font-display tracking-tight mb-6">Apliquemos estas ideas a tu negocio.</h2>
-          <p className="text-muted-foreground leading-relaxed mb-8">Si necesitas una web, mejorar su visibilidad o mantenerla, cuéntanos tu situación. Revisaremos qué servicio encaja y el alcance de una propuesta.</p>
+          <p className="text-muted-foreground leading-relaxed mb-8">Consulta nuestros servicios de <Link href="/servicios/diseno-web">diseño web</Link>, <Link href="/servicios/seo">posicionamiento SEO</Link> y <Link href="/servicios/mantenimiento-web">mantenimiento web</Link>. Cuéntanos tu situación y definimos el alcance de una propuesta.</p>
           <Link href="/contacto" className="inline-flex rounded-full bg-foreground text-background px-7 py-4 font-semibold">Solicitar una propuesta</Link>
         </div>
       </section>

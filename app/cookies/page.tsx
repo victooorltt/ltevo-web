@@ -1,76 +1,55 @@
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
+import { CookiePreferencesButton } from "@/components/landing/cookie-preferences-button";
 
-export const metadata = {
-  title: "Política de Cookies - Agencia Web en Oviedo",
-  description: "Consulta la política de cookies de LTEvo. Infórmate sobre cómo utilizamos las cookies en nuestra web de diseño y SEO en Oviedo y Asturias.",
-  alternates: {
-    canonical: "/cookies",
-  },
-  openGraph: {
-    title: "Política de Cookies - Agencia Web en Oviedo",
-    description: "Consulta la política de cookies de LTEvo. Infórmate sobre cómo utilizamos las cookies en nuestra web de diseño y SEO en Oviedo y Asturias.",
-    url: "/cookies",
-    siteName: "LTEvo",
-    locale: "es_ES",
-    type: "website",
-    // Al definir openGraph propio se pierde el og:image heredado del raíz
-    // (app/opengraph-image.jpg por convención de fichero): lo restauramos.
-    images: [{ url: "/opengraph-image.jpg" }],
-  },
-};
+export const metadata = pageMetadata("Política de cookies", "Consulta las cookies de LTEvo, sus finalidades y cómo gestionar tus preferencias de analítica y mapas en la web.", "/cookies");
 
 export default function CookiesPage() {
   return (
     <main id="contenido" className="bg-black text-white min-h-[100dvh]">
       <div className="max-w-3xl mx-auto px-6 py-32 lg:py-40">
-
-        {/* Back */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white transition-colors mb-12"
-        >
+        <Link href="/" className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white transition-colors mb-12">
           ← Volver al inicio
         </Link>
-
         <p className="text-xs text-white/30 font-mono uppercase tracking-widest mb-4">
-          Última actualización: abril 2026
+          Última actualización: 3 de octubre de 2026
         </p>
-
         <h1 className="text-4xl lg:text-5xl font-display text-white mb-12 leading-tight">
           Política de Cookies
         </h1>
 
         <div className="space-y-10 text-white/70 leading-relaxed">
+          <section>
+            <h2 className="text-xl font-semibold text-white mb-3">Tu elección, siempre accesible</h2>
+            <p>
+              Puedes navegar y contactar con LTEvo sin aceptar analítica ni mapas.
+              Estos servicios de Google solo se activan con tu permiso. El botón
+              «Configurar cookies», disponible en el pie de página, permite
+              revisar o retirar tu elección.
+            </p>
+            <CookiePreferencesButton className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full border border-white/25 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" />
+          </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white mb-3">1. ¿Qué son las cookies?</h2>
+            <h2 className="text-xl font-semibold text-white mb-3">1. Qué son las cookies y el almacenamiento local</h2>
             <p>
-              Las cookies son pequeños archivos de texto que los sitios web almacenan en tu navegador o dispositivo
-              cuando los visitas. Sirven para recordar tus preferencias, mejorar tu experiencia de navegación
-              y recopilar información estadística anónima sobre el uso del sitio.
+              Las cookies son pequeños archivos que un sitio o un servicio guarda
+              en tu navegador. Pueden recordar preferencias o identificar un
+              navegador para medir visitas. El almacenamiento local cumple una
+              función similar, pero sus datos no se envían automáticamente con
+              cada petición: LTEvo lo utiliza para recordar tu decisión.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white mb-3">2. Cookies que utilizamos</h2>
-
-            <p className="mb-4">
-              Este es el inventario real de lo que este sitio puede instalar. Tu
-              navegador puede mostrar además cookies de otros sitios si navegas
-              desde esta página hacia un tercero.
-            </p>
-
-            {/* Table */}
+            <h2 className="text-xl font-semibold text-white mb-3">2. Qué utiliza esta web</h2>
             <div className="overflow-x-auto mt-4">
               <table className="w-full text-sm border-collapse">
-                <caption className="sr-only">
-                  Inventario de cookies instaladas por ltevo.com, su tipo, finalidad y duración
-                </caption>
+                <caption className="sr-only">Almacenamiento y servicios de cookies de LTEvo, con su finalidad y duración</caption>
                 <thead>
                   <tr className="border-b border-white/10">
-                    <th scope="col" className="text-left py-3 pr-4 text-white font-medium">Nombre</th>
+                    <th scope="col" className="text-left py-3 pr-4 text-white font-medium">Nombre o servicio</th>
                     <th scope="col" className="text-left py-3 pr-4 text-white font-medium">Proveedor</th>
-                    <th scope="col" className="text-left py-3 pr-4 text-white font-medium">Tipo</th>
                     <th scope="col" className="text-left py-3 pr-4 text-white font-medium">Finalidad</th>
                     <th scope="col" className="text-left py-3 text-white font-medium">Duración</th>
                   </tr>
@@ -79,190 +58,123 @@ export default function CookiesPage() {
                   <tr className="border-b border-white/5">
                     <td className="py-3 pr-4 font-mono text-xs">ltevo-consent-v1</td>
                     <td className="py-3 pr-4">LTEvo</td>
-                    <td className="py-3 pr-4">Técnica (localStorage)</td>
-                    <td className="py-3 pr-4">Guarda en tu navegador qué categorías aceptaste y cuándo, para no volver a preguntarte</td>
-                    <td className="py-3">Hasta que la borres</td>
+                    <td className="py-3 pr-4">Recuerda en localStorage las categorías elegidas y la fecha de tu decisión.</td>
+                    <td className="py-3">La elección se renueva a los 12 meses, o antes si cambia la configuración.</td>
                   </tr>
                   <tr className="border-b border-white/5">
                     <td className="py-3 pr-4 font-mono text-xs">_ga</td>
-                    <td className="py-3 pr-4">Google LLC</td>
-                    <td className="py-3 pr-4">Analítica</td>
-                    <td className="py-3 pr-4">Distingue visitantes únicos y calcula páginas vistas</td>
-                    <td className="py-3">2 años</td>
+                    <td className="py-3 pr-4">Google Analytics</td>
+                    <td className="py-3 pr-4">Distingue navegadores para elaborar estadísticas de uso. Solo con permiso de analítica.</td>
+                    <td className="py-3">Hasta 2 años, según la configuración de Google Analytics.</td>
                   </tr>
                   <tr className="border-b border-white/5">
                     <td className="py-3 pr-4 font-mono text-xs">_ga_*</td>
-                    <td className="py-3 pr-4">Google LLC</td>
-                    <td className="py-3 pr-4">Analítica</td>
-                    <td className="py-3 pr-4">Mantiene el estado de sesión de la medición</td>
-                    <td className="py-3">2 años</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3 pr-4 font-mono text-xs">_gid</td>
-                    <td className="py-3 pr-4">Google LLC</td>
-                    <td className="py-3 pr-4">Analítica</td>
-                    <td className="py-3 pr-4">Registra una visita única por ventana de 24 horas</td>
-                    <td className="py-3">24 horas</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3 pr-4 font-mono text-xs">_gat, _gat_*</td>
-                    <td className="py-3 pr-4">Google LLC</td>
-                    <td className="py-3 pr-4">Analítica</td>
-                    <td className="py-3 pr-4">Limita las peticiones al servidor de Google Analytics</td>
-                    <td className="py-3">1 minuto</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3 pr-4 font-mono text-xs">_gcl_au, _gcl_aw</td>
-                    <td className="py-3 pr-4">Google LLC</td>
-                    <td className="py-3 pr-4">Analítica</td>
-                    <td className="py-3 pr-4">Almacena y recupera eventos de conversión en Google Ads</td>
-                    <td className="py-3">3 meses</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3 pr-4 font-mono text-xs">NID</td>
-                    <td className="py-3 pr-4">Google LLC</td>
-                    <td className="py-3 pr-4">Mapa (Google Maps)</td>
-                    <td className="py-3 pr-4">Identifica al visitante y memoriza sus preferencias de mapas</td>
-                    <td className="py-3">3 meses</td>
+                    <td className="py-3 pr-4">Google Analytics</td>
+                    <td className="py-3 pr-4">Mantiene información de la sesión de medición. Solo con permiso de analítica.</td>
+                    <td className="py-3">Hasta 2 años, según la configuración de Google Analytics.</td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-4 font-mono text-xs">VISITOR_INFO1_LIVE, YSC</td>
-                    <td className="py-3 pr-4">Google LLC</td>
-                    <td className="py-3 pr-4">Mapa (Google Maps)</td>
-                    <td className="py-3 pr-4">Recoge el país, el idioma y su interacción con el mapa</td>
-                    <td className="py-3">6 meses / 6 meses</td>
+                    <td className="py-3 pr-4">Google Maps</td>
+                    <td className="py-3 pr-4">Google</td>
+                    <td className="py-3 pr-4">Carga el mapa interactivo de Contacto. Puede utilizar cookies propias de Google para sus preferencias y funcionamiento.</td>
+                    <td className="py-3">Nombres y duración según Google, el navegador y la sesión del usuario.</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-
-            <p className="mt-4 text-sm text-white/40">
-              * Las cookies de Google Analytics y Google Maps no se descargan ni
-              funcionan hasta que las aceptas. Si no aceptas, el sitio funciona
-              con normalidad: en /contacto verás la dirección con un enlace a
-              Google Maps en lugar del mapa incrustado.
+            <p className="mt-4 text-sm text-white/50">
+              Google Tag Manager carga la etiqueta de Analytics cuando aceptas la
+              analítica. La web mantiene denegadas las opciones de publicidad.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white mb-3">3. Clasificación de cookies</h2>
-
+            <h2 className="text-xl font-semibold text-white mb-3">3. Las categorías que puedes elegir</h2>
             <div className="space-y-4">
               <div className="p-4 border border-white/10 rounded-lg">
-                <h3 className="font-medium text-white mb-1">Cookies técnicas (necesarias)</h3>
+                <h3 className="font-medium text-white mb-1">Necesarias</h3>
                 <p className="text-sm text-white/50">
-                  Imprescindibles para el funcionamiento del sitio. No requieren
-                  consentimiento porque sin ellas el sitio no podría funcionar o
-                  no podría recordar tu elección. Se guardan en el almacenamiento
-                  local de tu navegador, no como cookies.
+                  Conservan tu elección en el almacenamiento local de este
+                  navegador. No activan analítica ni mapas y permanecen habilitadas
+                  para recordar las preferencias.
                 </p>
               </div>
               <div className="p-4 border border-white/10 rounded-lg">
-                <h3 className="font-medium text-white mb-1">Cookies analíticas</h3>
+                <h3 className="font-medium text-white mb-1">Analítica de la web</h3>
                 <p className="text-sm text-white/50">
-                  Nos permiten conocer de forma anónima y agregada cómo se usa el
-                  sitio, para mejorarlo. Son de Google Analytics y requieren tu
-                  consentimiento previo.
+                  Google Analytics mide páginas e interacciones para elaborar
+                  estadísticas de uso. Puede tratar identificadores del navegador
+                  y datos técnicos. El formulario no envía nombre, email, teléfono ni mensaje
+                  a los eventos de analítica.
                 </p>
               </div>
               <div className="p-4 border border-white/10 rounded-lg">
-                <h3 className="font-medium text-white mb-1">Cookies de mapas</h3>
+                <h3 className="font-medium text-white mb-1">Mapa de Google</h3>
                 <p className="text-sm text-white/50">
-                  Las establece Google Maps al mostrar el mapa interactivo de
-                  nuestra ubicación en la página de contacto. Requieren tu
-                  consentimiento previo.
+                  Permite cargar un mapa de Google Maps en Contacto. Sin este
+                  permiso mostramos la dirección y un enlace para abrir Google Maps
+                  en otra pestaña, donde se aplican las preferencias y políticas de Google.
                 </p>
               </div>
             </div>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white mb-3">4. Gestión y desactivación</h2>
+            <h2 className="text-xl font-semibold text-white mb-3">4. Cómo cambiar o retirar tu elección</h2>
             <p>
-              Puedes aceptar, rechazar o cambiar tu decisión en cualquier momento
-              desde el botón <strong className="text-white/70">Cookies</strong>{" "}
-              que aparece en la esquina inferior izquierda de cualquier página.
-              También puedes bloquear o eliminar cookies desde tu navegador:
+              «Aceptar todas» activa las dos categorías opcionales. «Rechazar»
+              mantiene ambas desactivadas. En «Configurar cookies» puedes elegir
+              cada una por separado y pulsar «Guardar mi selección». Cerrar el
+              panel o pulsar Escape descarta los cambios sin guardarlos.
             </p>
-            <ul className="mt-3 space-y-2 text-white/50 text-sm">
-              <li>
-                <strong className="text-white/70">Chrome:</strong>{" "}
-                Configuración → Privacidad y seguridad → Cookies
-              </li>
-              <li>
-                <strong className="text-white/70">Firefox:</strong>{" "}
-                Opciones → Privacidad y seguridad → Cookies y datos del sitio
-              </li>
-              <li>
-                <strong className="text-white/70">Safari:</strong>{" "}
-                Preferencias → Privacidad → Gestionar datos del sitio
-              </li>
-              <li>
-                <strong className="text-white/70">Edge:</strong>{" "}
-                Configuración → Privacidad, búsqueda y servicios → Cookies
-              </li>
-            </ul>
             <p className="mt-3">
-              Ten en cuenta que deshabilitar ciertas cookies puede afectar al funcionamiento del sitio.
+              Al retirar el permiso de analítica, desactivamos la medición de
+              Analytics y eliminamos las cookies de Analytics accesibles en nuestro
+              dominio. Al retirar el de mapas, dejamos de mostrar el mapa integrado.
+              LTEvo no puede borrar desde su dominio las cookies que Google haya
+              guardado en el suyo: puedes eliminarlas desde los ajustes del navegador.
+            </p>
+            <p className="mt-3">
+              Recordamos la elección durante 12 meses. Si borras los datos de la
+              web, usas otro navegador o cambian las categorías, volveremos a
+              pedirte una decisión. Si el navegador bloquea el almacenamiento,
+              la elección solo se conserva durante la sesión de esta página.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white mb-3">5. Terceros y transferencias internacionales</h2>
+            <h2 className="text-xl font-semibold text-white mb-3">5. Información de Google</h2>
             <p>
-              Los dos únicos terceros con los que interactuamos son{" "}
-              <strong className="text-white/70">Google LLC</strong>, a través de
-              Google Tag Manager, Google Analytics y Google Maps. No utilizamos
-              otras redes de publicidad ni perfiles de terceros.
+              Analytics y Maps son servicios de Google. Para conocer su tratamiento
+              de datos, sus cookies y la información sobre transferencias
+              internacionales, consulta su{" "}
+              <a href="https://policies.google.com/privacy?hl=es" target="_blank" rel="noopener noreferrer" className="text-white underline underline-offset-4">política de privacidad</a>{" "}
+              y su explicación sobre{" "}
+              <a href="https://policies.google.com/technologies/cookies?hl=es" target="_blank" rel="noopener noreferrer" className="text-white underline underline-offset-4">el uso de cookies</a>.
             </p>
             <p className="mt-3">
-              Google trata los datos conforme a su{" "}
-              <a
-                href="https://policies.google.com/privacy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white underline underline-offset-4"
-              >
-                política de privacidad
-              </a>
-              . Ambos servicios pueden procesar la información fuera del Espacio
-              Económico Europeo, en Estados Unidos, con las garantías que la
-              Comisión Europea ha aprobado para las transferencias internacionales
-              (art. 45 y 46 del RGPD).
-            </p>
-            <p className="mt-3">
-              Los logotipos de las tecnologías que usamos en ltevo.com se sirven
-              desde nuestro propio dominio, sin peticiones a ninguna plataforma
-              externa.
+              Las imágenes y los logotipos de esta web se sirven desde nuestro
+              propio dominio. Abrir enlaces a sitios externos no modifica la
+              elección de cookies que has guardado en LTEvo.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white mb-3">6. Actualizaciones</h2>
+            <h2 className="text-xl font-semibold text-white mb-3">6. Actualizaciones y contacto</h2>
             <p>
-              Podemos actualizar esta Política de Cookies cuando sea necesario para reflejar cambios en las
-              cookies que utilizamos o por otras razones operativas, legales o reglamentarias. Te recomendamos
-              revisarla periódicamente.
+              Actualizamos esta información cuando cambian los servicios o su
+              configuración. Si tienes dudas, escríbenos a{" "}
+              <a href="mailto:info@ltevo.com" className="text-white underline underline-offset-4">info@ltevo.com</a>.
             </p>
           </section>
-
-          <section>
-            <h2 className="text-xl font-semibold text-white mb-3">7. Contacto</h2>
-            <p>
-              Si tienes preguntas sobre el uso de cookies, escríbenos a{" "}
-              <strong className="text-white">info@ltevo.com</strong>.
-            </p>
-          </section>
-
         </div>
 
-        {/* Footer links */}
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-wrap gap-6 text-sm text-white/30">
+          <CookiePreferencesButton className="hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" />
           <Link href="/privacidad" className="hover:text-white transition-colors">Política de privacidad</Link>
           <Link href="/terminos" className="hover:text-white transition-colors">Términos de uso</Link>
           <Link href="/" className="hover:text-white transition-colors">ltevo.com</Link>
         </div>
-
       </div>
     </main>
   );

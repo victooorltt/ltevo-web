@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { HOME_TITLE, HOME_DESCRIPTION, pageMetadata } from "@/lib/seo";
 import { Navigation } from "@/components/landing/navigation";
 import { HeroSection } from "@/components/landing/hero-section";
 import { FeaturesSection } from "@/components/landing/features-section";
@@ -13,10 +13,9 @@ import { FooterSection } from "@/components/landing/footer-section";
 import { PortfolioSection } from "@/components/landing/portfolio-section";
 import { ContactSection } from "@/components/landing/contact-section";
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "/",
-  },
+export const metadata = {
+  ...pageMetadata(HOME_TITLE, HOME_DESCRIPTION, "/"),
+  title: { absolute: `${HOME_TITLE} | LTEvo` },
 };
 
 export default function Home() {

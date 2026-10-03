@@ -1,166 +1,195 @@
-/**
- * Consentimiento de cookies (RGPD art. 6.1.a y 7; LSSI art. 22.2).
- *
- * Hay dos categorías opcionales porque son las dos únicas que instalan
- * cookies o hacen peticiones a terceros:
- *
- *   analytics  → Google Tag Manager / GA4 (`_ga`, `_ga_*`, `_gid`, `_gat*`…)
- *   maps       → iframe de Google Maps en /contacto
- *
- * `necessary` nunca se apaga: sostiene la memoria de la propia decisión y
- * queda exenta de consentimiento bajo el art. 22.2 LSSI.
- *
- * La decisión se guarda en localStorage y no en una cookie. Así el
- * documento `cookie_consent` que declaraba la política de cookies deja de
- * ser una afirmación falsa: ahora la política describe exactamente lo que
- * hace el código, y el sitio no vuelve a escribir cookies antes de que el
- * usuario acepte.
- */
+import { GA4_DISABLE_KEY, type AnalyticsWindow } from "@/lib/analytics-config";
 
 export type ConsentCategory = "necessary" | "analytics" | "maps";
-
 export interface Consent {
   necessary: true;
   analytics: boolean;
   maps: boolean;
-  /** Fecha ISO de la decisión, para poder auditarla. */
   date: string;
-  /**
-   * Versión del esquema. Si algún día cambian las categorías, subirla
-   * invalida las decisiones antiguas y obliga a volver a preguntar
-   * (art. 7.3 RGPD: el consentimiento debe poder revocarse y renovarse).
-   */
   version: number;
 }
 
+// Keep valid v1 decisions; only invalid, expired or changed-purpose records need renewal.
 export const CONSENT_VERSION = 1;
 export const CONSENT_STORAGE_KEY = "ltevo-consent-v1";
-
-/**
- * Categorías que requieren consentimiento previo. Tipado como solo esas
- * dos para que el mapa de textos y de flags del banner no pueda incluir
- * `necessary` por error.
- */
+export const CONSENT_MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
 export const OPTIONAL_CATEGORIES = ["analytics", "maps"] as const;
-
 export type OptionalCategory = (typeof OPTIONAL_CATEGORIES)[number];
-
-/**
- * Estado por defecto antes de que el usuario decida: todo denegado salvo
- * lo estrictamente necesario. Es lo que se envía a Google Consent Mode
- * antes de cargar GTM.
- */
 export const DEFAULT_CONSENT: Consent = {
-  necessary: true,
-  analytics: false,
-  maps: false,
-  date: "",
-  version: CONSENT_VERSION,
+  necessary: true, analytics: false, maps: false, date: "", version: CONSENT_VERSION,
 };
+export const CONSENT_EVENT = "ltevo:consent";
+export const CONSENT_PREFERENCES_EVENT = "ltevo:consent-preferences";
+let memoryOnlyDecision = false;
 
-/**
- * localStorage puede lanzar (modo privado de Safari, cookies de terceros
- * bloqueadas, contextos embebidos). Cualquier fallo se trata como "sin
- * decisión tomada", que es el estado prudente.
- */
+function validDecision(value: unknown, now = Date.now()): value is Consent {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const record = value as Partial<Consent>;
+  if (record.necessary !== true || record.version !== CONSENT_VERSION ||
+      typeof record.analytics !== "boolean" || typeof record.maps !== "boolean" ||
+      typeof record.date !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(record.date)) return false;
+  const timestamp = Date.parse(record.date);
+  if (!Number.isFinite(timestamp) || timestamp > now || now - timestamp >= CONSENT_MAX_AGE_MS) return false;
+  // Date.parse normalizes impossible calendar dates; reject those rather than keeping consent.
+  const canonicalDate = record.date.includes(".") ? record.date : record.date.replace("Z", ".000Z");
+  return new Date(timestamp).toISOString() === canonicalDate;
+}
+
 export function readConsent(): Consent | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.localStorage.getItem(CONSENT_STORAGE_KEY);
     if (!raw) return null;
-    const parsed = JSON.parse(raw) as Partial<Consent>;
-    if (parsed.version !== CONSENT_VERSION) return null;
+    const parsed: unknown = JSON.parse(raw);
+    if (!validDecision(parsed)) return null;
     return {
-      necessary: true,
-      analytics: parsed.analytics === true,
-      maps: parsed.maps === true,
-      date: typeof parsed.date === "string" ? parsed.date : "",
-      version: CONSENT_VERSION,
+      necessary: true, analytics: parsed.analytics, maps: parsed.maps,
+      date: parsed.date, version: CONSENT_VERSION,
     };
-  } catch {
-    return null;
-  }
+  } catch { return null; }
 }
 
 export function saveConsent(next: { analytics: boolean; maps: boolean }): Consent {
   const consent: Consent = {
-    necessary: true,
-    analytics: next.analytics,
-    maps: next.maps,
-    date: new Date().toISOString(),
-    version: CONSENT_VERSION,
+    necessary: true, analytics: next.analytics === true, maps: next.maps === true,
+    date: new Date().toISOString(), version: CONSENT_VERSION,
   };
-  try {
-    window.localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(consent));
-  } catch {
-    // Si no se puede persistir, la decisión sigue valiendo en memoria
-    // durante esta sesión, pero no se recordará al recargar.
+  memoryOnlyDecision = false;
+  if (typeof window !== "undefined") {
+    try { window.localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(consent)); }
+    catch { memoryOnlyDecision = true; /* Keep the decision in this tab when persistence fails. */ }
   }
   return consent;
 }
 
-/* ------------------------------------------------------------------ */
-/*  Store observable                                                  */
-/* ------------------------------------------------------------------ */
-
-/**
- * El consentimiento es estado externo (vive en localStorage), no estado de
- * React. Leerlo con useState + useEffect provoca un setState síncrono en el
- * efecto, que React marca como cascada de renders y que además produce un
- * primer render con el banner oculto y luego visible.
- *
- * `useSyncExternalStore` es la primitiva que existe justo para esto:
- * snapshot estable en el servidor, suscripción a los cambios y sin cascadas.
- */
-
-/** Evento que el banner dispara en cada decisión. */
-export const CONSENT_EVENT = "ltevo:consent";
-
-/**
- * Caché del valor leído. `useSyncExternalStore` exige que getSnapshot
- * devuelva SIEMPRE la misma referencia si el estado no ha cambiado, así que
- * no se puede devolver un objeto recién parseado en cada llamada.
- */
-let snapshot: Consent | null = null;
-let snapshotLoaded = false;
-
-const listeners = new Set<() => void>();
-
-/** Valor en servidor: nunca hay consentimiento durante el prerender. */
-export function getServerConsent(): null {
-  return null;
+/** Delete only visible first-party Analytics cookies, never form/consent storage or third-party cookies. */
+function clearAnalyticsCookies() {
+  const hostname = window.location.hostname;
+  const domains = new Set(["", hostname, `.${hostname}`]);
+  if (hostname === "ltevo.com" || hostname.endsWith(".ltevo.com")) {
+    domains.add("ltevo.com"); domains.add(".ltevo.com");
+  }
+  const paths = new Set(["/"]);
+  const segments = window.location.pathname.split("/").filter(Boolean);
+  for (let index = 1; index <= segments.length; index++) {
+    const pathname = `/${segments.slice(0, index).join("/")}`;
+    paths.add(pathname); paths.add(`${pathname}/`);
+  }
+  try {
+    const names = document.cookie.split(";").map((cookie) => cookie.split("=")[0].trim())
+      .filter((name) => /^_ga(?:_|$)|^_gid$|^_gat(?:_|$)/.test(name));
+    for (const name of names) for (const domain of domains) for (const pathname of paths) {
+      document.cookie = `${name}=; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${pathname}${domain ? `; domain=${domain}` : ""}; SameSite=Lax`;
+    }
+  } catch { /* Cookie access can be blocked; the runtime opt-out remains active. */ }
 }
 
+/** Apply immediately, before any render/load/event can use the new state. GTM itself cannot be unloaded. */
+function applyConsentRuntime(consent: Consent | null) {
+  if (typeof window === "undefined") return;
+  const analytics = consent?.analytics === true && validDecision(consent);
+  const analyticsWindow = window as AnalyticsWindow;
+  analyticsWindow[GA4_DISABLE_KEY] = !analytics;
+  analyticsWindow.gtag?.("consent", "update", {
+    analytics_storage: analytics ? "granted" : "denied",
+    ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied",
+  });
+  if (!analytics) clearAnalyticsCookies();
+}
+
+let snapshot: Consent | null = null;
+let snapshotLoaded = false;
+let expiryTimer: ReturnType<typeof setTimeout> | undefined;
+const listeners = new Set<() => void>();
+export function getServerConsent(): null { return null; }
 export function getConsent(): Consent | null {
-  if (!snapshotLoaded) {
-    snapshot = readConsent();
-    snapshotLoaded = true;
-  }
+  if (!snapshotLoaded) { snapshot = readConsent(); snapshotLoaded = true; }
   return snapshot;
 }
 
-export function subscribeConsent(onStoreChange: () => void): () => void {
-  listeners.add(onStoreChange);
-  window.addEventListener(CONSENT_EVENT, onStoreChange);
-  return () => {
-    listeners.delete(onStoreChange);
-    window.removeEventListener(CONSENT_EVENT, onStoreChange);
-  };
+/** Event senders also check age directly, including after a background tab resumes. */
+export function hasAnalyticsConsent(): boolean {
+  const consent = getConsent();
+  return consent?.analytics === true && validDecision(consent);
 }
 
-/**
- * Registra una decisión y notifica a todos los suscriptores. Sustituye a
- * `saveConsent` en los componentes: además de persistir, actualiza la caché
- * del store y emite el evento, así que el mapa y el banner se sincronizan.
- */
+function notifyConsent() {
+  // React subscribers use the set once; the public event is for other integrations.
+  for (const listener of listeners) listener();
+  window.dispatchEvent(new Event(CONSENT_EVENT));
+}
+function scheduleExpiry() {
+  if (expiryTimer !== undefined) clearTimeout(expiryTimer);
+  expiryTimer = undefined;
+  if (!snapshot || listeners.size === 0) return;
+  const remaining = Date.parse(snapshot.date) + CONSENT_MAX_AGE_MS - Date.now();
+  expiryTimer = setTimeout(() => {
+    if (snapshot && !validDecision(snapshot)) {
+      snapshot = null;
+      applyConsentRuntime(null);
+      notifyConsent();
+    }
+    scheduleExpiry();
+  }, Math.max(0, Math.min(remaining, 2_147_483_647)));
+}
+function adoptSnapshot(next: Consent | null) {
+  if (snapshot === next || (snapshot && next && snapshot.date === next.date &&
+      snapshot.analytics === next.analytics && snapshot.maps === next.maps && snapshot.version === next.version)) return false;
+  snapshot = next;
+  snapshotLoaded = true;
+  return true;
+}
+function onResume() {
+  if (document.visibilityState === "hidden") return;
+  const next = memoryOnlyDecision ? (validDecision(snapshot) ? snapshot : null) : readConsent();
+  if (adoptSnapshot(next)) {
+    applyConsentRuntime(snapshot);
+    notifyConsent();
+  }
+  scheduleExpiry();
+}
+function onStorageChange(event: StorageEvent) {
+  if (event.key !== null && event.key !== CONSENT_STORAGE_KEY) return;
+  try { if (event.storageArea !== window.localStorage) return; } catch { return; }
+  memoryOnlyDecision = false;
+  if (adoptSnapshot(readConsent())) {
+    applyConsentRuntime(snapshot);
+    notifyConsent();
+  }
+  scheduleExpiry();
+}
+export function subscribeConsent(onStoreChange: () => void): () => void {
+  listeners.add(onStoreChange);
+  if (listeners.size === 1) {
+    window.addEventListener("storage", onStorageChange);
+    window.addEventListener("pageshow", onResume);
+    window.addEventListener("focus", onResume);
+    document.addEventListener("visibilitychange", onResume);
+    const current = getConsent();
+    const changed = adoptSnapshot(memoryOnlyDecision ? (validDecision(current) ? current : null) : readConsent());
+    applyConsentRuntime(snapshot);
+    scheduleExpiry();
+    if (changed) onStoreChange();
+  }
+  return () => {
+    listeners.delete(onStoreChange);
+    if (listeners.size === 0) {
+      window.removeEventListener("storage", onStorageChange);
+      window.removeEventListener("pageshow", onResume);
+      window.removeEventListener("focus", onResume);
+      document.removeEventListener("visibilitychange", onResume);
+      if (expiryTimer !== undefined) clearTimeout(expiryTimer);
+      expiryTimer = undefined;
+    }
+  };
+}
 export function decideConsent(next: { analytics: boolean; maps: boolean }): void {
   snapshot = saveConsent(next);
   snapshotLoaded = true;
-  const analyticsWindow = window as Window & { gtag?: (...args: unknown[]) => void };
-  analyticsWindow.gtag?.("consent", "update", {
-    analytics_storage: next.analytics ? "granted" : "denied",
-    ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied",
-  });
-  window.dispatchEvent(new Event(CONSENT_EVENT));
-  for (const listener of listeners) listener();
+  applyConsentRuntime(snapshot);
+  scheduleExpiry();
+  notifyConsent();
+}
+export function openConsentPreferences(): void {
+  if (typeof window !== "undefined") window.dispatchEvent(new Event(CONSENT_PREFERENCES_EVENT));
 }

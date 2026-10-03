@@ -8,7 +8,8 @@ import { ReadingProgressBar } from "@/components/blog/reading-progress";
 import { getPostBySlug, getAllPosts, hasRealCover, formatDate } from "@/lib/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import { jsonLdString } from "@/lib/seo";
+import { jsonLdString, SITE_URL } from "@/lib/seo";
+import { contactHref } from "@/lib/services";
 import { business } from "@/lib/business";
 import { imageDimensions } from "@/lib/images";
 import { CTA_SERVICE_CONFIG, type CtaServiceKey, blogMdxComponents } from "@/components/blog/mdx-components";
@@ -35,6 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const socialSize = imageDimensions(post.socialImage ?? post.coverImage);
+  const authorUrl = new URL(post.authorProfile ?? business.authorProfile, SITE_URL).toString();
   return {
     // seoTitle (si existe) acorta el <title> SEO; el H1 visible sigue usando post.title.
     title: post.seoTitle ?? post.title,
@@ -42,7 +44,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: `/blog/${post.slug}`,
     },
-    authors: [{ name: post.author, url: post.authorProfile }],
+    authors: [{ name: post.author, url: authorUrl }],
     twitter: { card: "summary_large_image", title: post.seoTitle ?? post.title, description: post.excerpt, images: [post.socialImage ?? post.coverImage ?? "/opengraph-image.jpg"] },
     openGraph: {
       title: post.title,
@@ -51,7 +53,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: `/blog/${post.slug}`,
       publishedTime: post.date,
       modifiedTime: post.updatedAt ?? post.date,
-      authors: [post.author],
+      authors: [authorUrl],
       tags: post.tags,
       // Solo declaramos images si el post tiene portada real; el fallback
       // /images/blog/default.jpg no existe y heredaría el OG global del raíz.
@@ -78,24 +80,29 @@ export default async function BlogDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  // Related posts: scoring por intersección de tags (case-insensitive),
-  // desempate por fecha más reciente. Top 2.
+  // Prioriza la selección editorial en su orden; después, afinidad de tags.
+  // La fecha y el slug hacen estable el desempate.
   const allPosts = getAllPosts();
   const relatedPosts = allPosts
     .filter((p) => p.slug !== post.slug)
-    .map((p) => ({
-      post: p,
-      score: (post.relatedSlugs?.includes(p.slug) ? 100 : 0) + (p.tags ?? []).filter((t) =>
-        post.tags?.some((tt) => tt.toLowerCase() === t.toLowerCase())
-      ).length,
-    }))
+    .map((p) => {
+      const editorialIndex = post.relatedSlugs?.indexOf(p.slug) ?? -1;
+      return {
+        post: p,
+        score: (editorialIndex >= 0 ? 1000 - editorialIndex : 0) + (p.tags ?? []).filter((t) =>
+          post.tags?.some((tt) => tt.toLowerCase() === t.toLowerCase())
+        ).length / 100,
+      };
+    })
     .filter((item) => item.score > 0)
-    .sort((a, b) => b.score - a.score || (a.post.date < b.post.date ? 1 : -1))
+    .sort((a, b) => b.score - a.score || b.post.date.localeCompare(a.post.date) || a.post.slug.localeCompare(b.post.slug))
     .slice(0, 2)
     .map((r) => r.post);
 
-  const ctaKey = post.ctaService && post.ctaService in CTA_SERVICE_CONFIG ? post.ctaService as CtaServiceKey : "contacto";
+  const ctaKey = post.ctaService && Object.hasOwn(CTA_SERVICE_CONFIG, post.ctaService) ? post.ctaService as CtaServiceKey : "contacto";
   const cta = CTA_SERVICE_CONFIG[ctaKey];
+  const inquiryHref = ctaKey === "contacto" ? "/contacto" : contactHref(ctaKey);
+  const authorUrl = new URL(post.authorProfile ?? business.authorProfile, SITE_URL).toString();
 
   // JSON-LD: BlogPosting + BreadcrumbList (mismo patrón que las páginas de servicio)
   const jsonLd = {
@@ -105,6 +112,8 @@ export default async function BlogDetailPage({ params }: PageProps) {
         "@type": "BlogPosting",
         "@id": `https://ltevo.com/blog/${post.slug}#article`,
         headline: post.title,
+        url: `${SITE_URL}/blog/${post.slug}`,
+        isPartOf: { "@type": "Blog", "@id": `${SITE_URL}/blog#blog`, url: `${SITE_URL}/blog`, name: "Blog de LTEvo" },
         description: post.excerpt,
         ...(hasRealCover(post) ? { image: `https://ltevo.com${post.socialImage ?? post.coverImage}` } : {}),
         datePublished: post.date,
@@ -113,9 +122,9 @@ export default async function BlogDetailPage({ params }: PageProps) {
         dateModified: post.updatedAt ?? post.date,
         author: {
           "@type": post.author === business.author ? "Person" : "Organization",
-          "@id": `https://ltevo.com${post.authorProfile ?? "/sobre-nosotros"}${post.author === business.author ? "#victor-lasheras" : "#team"}`,
+          "@id": `${authorUrl}${post.author === business.author ? "#victor-lasheras" : "#team"}`,
           name: post.author,
-          url: `https://ltevo.com${post.authorProfile ?? "/sobre-nosotros"}`
+          url: authorUrl
         },
         publisher: {
           "@type": "Organization",
@@ -129,9 +138,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
           "@type": "WebPage",
           "@id": `https://ltevo.com/blog/${post.slug}`
         },
-        /* `keyword` es la query objetivo que ya se investigó en el frontmatter
-           (con volumen y KD). `tags` son etiquetas de navegación: se pierden
-           como señal y, además, no tienen ninguna URL de destino. */
+        // Describe el tema; las métricas editoriales nunca se imprimen.
         keywords: [post.keyword, ...(post.tags ?? [])].filter(Boolean).join(", "),
         inLanguage: "es"
       },
@@ -182,7 +189,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
             <span>{post.readingTime}</span>
             <span>•</span>
             <span>
-              Por <Link href={post.authorProfile ?? "/sobre-nosotros"} className="text-foreground font-medium underline underline-offset-4">{post.author}</Link>
+              Por <Link href={post.authorProfile ?? business.authorProfile} title={post.authorRole ?? business.authorRole} className="text-foreground font-medium underline underline-offset-4">{post.author}</Link>
             </span>
           </div>
 
@@ -234,9 +241,9 @@ export default async function BlogDetailPage({ params }: PageProps) {
       {relatedPosts.length > 0 && (
         <section className="bg-stone-50 py-16 border-t border-b border-foreground/5">
           <div className="max-w-4xl mx-auto px-6">
-            <h3 className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-8 text-center border-b border-foreground/5 pb-4">
-              Artículos Relacionados
-            </h3>
+            <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-8 text-center border-b border-foreground/5 pb-4">
+              Artículos relacionados
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
               {relatedPosts.map((rPost) => (
                 <article key={rPost.slug} className="group flex flex-col h-full">
@@ -260,9 +267,9 @@ export default async function BlogDetailPage({ params }: PageProps) {
                     <span>{rPost.readingTime}</span>
                   </div>
                   <Link href={`/blog/${rPost.slug}`}>
-                    <h4 className="text-xl font-display text-foreground leading-[1.2] hover:underline decoration-foreground/30 underline-offset-4 decoration-1 transition-all duration-300">
+                    <h3 className="text-xl font-display text-foreground leading-[1.2] hover:underline decoration-foreground/30 underline-offset-4 decoration-1 transition-all duration-300">
                       {rPost.title}
-                    </h4>
+                    </h3>
                   </Link>
                 </article>
               ))}
@@ -285,10 +292,10 @@ export default async function BlogDetailPage({ params }: PageProps) {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/contacto"
+              href={inquiryHref}
               className="px-6 py-3 rounded-full bg-foreground text-background text-sm font-semibold hover:bg-foreground/90 transition-all font-sans"
             >
-              Solicitar Presupuesto Gratis
+              Solicitar una propuesta
             </Link>
             <Link
               href={cta.href}

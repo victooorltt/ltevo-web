@@ -15,7 +15,7 @@ export function LocalSeoSection() {
             <div className="relative rounded-3xl overflow-hidden border border-foreground/[0.08] aspect-[4/3] lg:aspect-auto lg:h-full min-h-[320px] shadow-[0_12px_32px_-12px_rgba(0,0,0,0.06)] bg-foreground/[0.03]">
               <Image
                 src="/oviedo-studio.webp"
-                alt="Estudio de diseño web LTEvo en Oviedo, Asturias"
+                alt="Espacio de trabajo para diseño y desarrollo web"
                 fill
                 sizes="(min-width: 1024px) 40vw, calc(100vw - 48px)"
                 className="object-cover"
@@ -45,27 +45,27 @@ export function LocalSeoSection() {
                 >
                   diseño web en Oviedo
                 </Link>{" "}
-                que trabaja con negocios de toda Asturias y del resto de España. Diseñamos y desarrollamos webs a medida con Next.js: rápidas, seguras y pensadas para convertir visitas en clientes, no solo para verse bien.
+                que trabaja con negocios de toda Asturias y del resto de España. Creamos webs corporativas con una oferta clara, navegación adaptada al móvil y formularios para solicitar presupuesto.
               </p>
               <p>
-                Más allá de la web corporativa, construimos <Link href="/servicios/desarrollo-web" className="text-foreground underline underline-offset-4">desarrollo web a medida</Link> con integraciones de CRM, reservas o pagos, y{" "}
+                Para funciones propias e integraciones de CRM, reservas o pagos, ofrecemos <Link href="/servicios/desarrollo-web" className="text-foreground underline underline-offset-4">desarrollo web a medida</Link>. También creamos{" "}
                 <Link
                   href="/servicios/tiendas-online"
                   className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors"
                 >
                   tiendas online
                 </Link>{" "}
-                capaces de vender a cualquier hora. Y si quieres que tus clientes te encuentren en Google, acompañamos el proyecto con{" "}
+                con catálogo, pagos y gestión de pedidos. Para mejorar la visibilidad de tus servicios en Google, puedes complementar tu web con{" "}
                 <Link
                   href="/servicios/seo"
                   className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors"
                 >
                   posicionamiento SEO
                 </Link>{" "}
-                continuo. También puedes delegar el <Link href="/servicios/hosting" className="text-foreground underline underline-offset-4">hosting gestionado</Link> y el <Link href="/servicios/mantenimiento-web" className="text-foreground underline underline-offset-4">mantenimiento de tu web</Link>.
+                y seguimiento. También puedes delegar el <Link href="/servicios/hosting" className="text-foreground underline underline-offset-4">hosting gestionado</Link> y el <Link href="/servicios/mantenimiento-web" className="text-foreground underline underline-offset-4">mantenimiento de tu web</Link>.
               </p>
               <p>
-                Sin plantillas genéricas ni intermediarios: hablas directamente con el equipo que diseña, programa y posiciona tu web, de Oviedo para toda Asturias.
+                Hablas directamente con quien trabaja en tu proyecto. Conoce a <Link href="/sobre-nosotros" className="text-foreground underline underline-offset-4">Víctor Lasheras y LTEvo</Link>, consulta nuestros <Link href="/proyectos" className="text-foreground underline underline-offset-4">proyectos de diseño y desarrollo</Link> y compara el alcance antes de contratar.
               </p>
             </div>
           </div>
