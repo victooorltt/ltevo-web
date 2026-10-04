@@ -26,7 +26,7 @@ const COPY: Record<OptionalCategory, { label: string; detail: string }> = {
   },
 };
 
-const choiceButton = "min-h-11 rounded-full border border-foreground/20 bg-card px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-foreground/40 hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground motion-reduce:transition-none";
+const choiceButton = "min-h-11 rounded-full border border-foreground/20 bg-card px-3 py-2 text-sm font-medium text-foreground transition-colors hover:border-foreground/40 hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground motion-reduce:transition-none";
 const subscribeToHydration = () => () => {};
 const clientReady = () => true;
 const serverReady = () => false;
@@ -83,36 +83,33 @@ export function CookieBanner() {
       {hydrated && consent === null && (
         <aside
           aria-labelledby="cookie-banner-title"
-          className="fixed inset-x-4 bottom-4 z-[120] mx-auto max-h-[calc(100dvh_-_2rem)] max-w-[1120px] overflow-y-auto rounded-3xl border border-foreground/10 bg-background p-6 text-foreground shadow-[0_8px_40px_rgba(0,0,0,0.12)] sm:inset-x-6 sm:p-7 lg:bottom-6"
+          className="fixed inset-x-3 bottom-3 z-[120] mx-auto max-h-[calc(100dvh_-_2rem)] max-w-[1120px] overflow-y-auto rounded-2xl border border-foreground/10 bg-background px-4 py-3 text-foreground shadow-[0_4px_24px_rgba(0,0,0,0.08)] sm:inset-x-6 sm:px-5 lg:bottom-5"
         >
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
             <div className="min-w-0 flex-1">
-              <h2 id="cookie-banner-title" className="font-display text-xl tracking-tight sm:text-2xl">
-                Tú decides qué cookies usar.
+              <h2 id="cookie-banner-title" className="font-display text-base tracking-tight">
+                Cookies
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Recordamos tu elección. Con tu permiso, usamos Google Analytics
-                para mejorar la web y Google Maps para mostrar la ubicación.
-                Puedes rechazarlos y seguir navegando.{" "}
+              <p className="mt-0.5 text-sm leading-5 text-muted-foreground">
+                Usamos cookies de Google para analítica y mapas.{" "}
                 <Link href="/cookies" className="underline underline-offset-4 decoration-foreground/30 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4">
                   Más información
                 </Link>
-                .
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-2.5 lg:w-[430px] lg:shrink-0 lg:grid-cols-3">
-              <button type="button" onClick={() => decide({ analytics: false, maps: false })} className={choiceButton}>
-                Rechazar
-              </button>
+            <div className="grid grid-cols-3 gap-2 md:w-[390px] md:shrink-0">
               <button type="button" onClick={() => decide({ analytics: true, maps: true })} className={choiceButton}>
                 Aceptar todas
+              </button>
+              <button type="button" onClick={() => decide({ analytics: false, maps: false })} className={choiceButton}>
+                Rechazar
               </button>
               <button
                 type="button"
                 onClick={openPreferences}
                 aria-haspopup="dialog"
                 aria-controls="cookie-preferences"
-                className="col-span-2 min-h-11 rounded-full px-5 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground motion-reduce:transition-none lg:col-span-1"
+                className="min-h-11 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground motion-reduce:transition-none"
               >
                 Configurar
               </button>
@@ -190,8 +187,8 @@ export function CookieBanner() {
           </div>
 
           <div className="mt-7 grid grid-cols-2 gap-2.5">
-            <button type="button" onClick={() => decide({ analytics: false, maps: false })} className={choiceButton}>Rechazar todas</button>
             <button type="button" onClick={() => decide({ analytics: true, maps: true })} className={choiceButton}>Aceptar todas</button>
+            <button type="button" onClick={() => decide({ analytics: false, maps: false })} className={choiceButton}>Rechazar todas</button>
             <button
               type="button"
               onClick={() => decide(draft)}
