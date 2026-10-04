@@ -65,7 +65,7 @@ export const servicePages: Record<string, ServicePage> = {
       { question: "¿Podéis integrar pagos o reservas?", answer: "Estudiamos la integración concreta y las opciones del proveedor. El alcance incluye los flujos acordados y sus pruebas; las tarifas o licencias de terceros se detallan por separado." },
       { question: "¿Una aplicación a medida será autogestionable?", answer: "Las tareas que quieras gestionar deben incluirse en el alcance del panel. No todas las funcionalidades son editables por defecto: acordamos qué podrás cambiar y la formación necesaria." },
     ],
-    related: [{ title: "Diseño de páginas web para empresas", href: "/servicios/diseno-web" }, { title: "Creación de tiendas online", href: "/servicios/tiendas-online" }, { title: "Proyecto bilingüe con mapa y solicitud de reserva", href: "/proyectos/autocaravanas-bahia" }],
+    related: [{ title: "Diseño de páginas web para empresas", href: "/servicios/diseno-web" }, { title: "Creación de tiendas online", href: "/servicios/tiendas-online" }, { title: "Ver proyectos web de LTEvo", href: "/proyectos" }],
   },
   "tiendas-online": {
     slug: "tiendas-online",

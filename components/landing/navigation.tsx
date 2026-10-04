@@ -78,6 +78,7 @@ export function Navigation() {
   const hasDarkHero =
     pathname === "/" ||
     pathname === "/contacto" ||
+    pathname === "/proyectos" ||
     pathname === "/servicios/seo" ||
     pathname === "/servicios/mantenimiento-web" ||
     pathname === "/servicios/hosting" ||

@@ -105,7 +105,7 @@ export function DisenoWebContent() {
     {
       title: "Webs Corporativas",
       description: "Páginas de empresa y servicios con trabajos reales, información de contacto y una estructura que facilita solicitar presupuesto.",
-      link: { text: "Ver la web de Jardinería El Cuetu", href: "/proyectos/jardineria-el-cuetu" }
+      link: { text: "Ver proyectos de LTEvo", href: "/proyectos" }
     },
     {
       title: "Landing Pages de Conversión",
@@ -299,10 +299,10 @@ export function DisenoWebContent() {
 
               <div className="text-muted-foreground leading-relaxed space-y-4 text-base lg:text-lg mb-8 font-light">
                 <p>
-                  Una web corporativa debe explicar tus servicios, mostrar trabajos y facilitar el contacto. En <Link className="underline underline-offset-4" href="/proyectos/jardineria-el-cuetu">Jardinería El Cuetu</Link>, la identidad visual, la galería y el formulario permiten pasar de conocer la actividad a consultar un trabajo.
+                  Una web corporativa debe explicar tus servicios, mostrar trabajos y facilitar el contacto. En <a className="underline underline-offset-4" href="https://jardineria-elcuetu.vercel.app/" target="_blank" rel="noopener noreferrer">Jardinería El Cuetu</a>, la identidad visual, la galería y el formulario permiten pasar de conocer la actividad a consultar un trabajo.
                 </p>
                 <p>
-                  El alcance cambia cuando necesitas funciones propias. La web bilingüe de <Link className="underline underline-offset-4" href="/proyectos/autocaravanas-bahia">Autocaravanas Bahía</Link> reúne flota, rutas y solicitud de reserva. Definimos diseño y contenido junto con las funciones que requiere cada proyecto.
+                  El alcance cambia cuando necesitas funciones propias. La web bilingüe de <a className="underline underline-offset-4" href="https://www.autocaravanasbahia.es/" target="_blank" rel="noopener noreferrer">Autocaravanas Bahía</a> reúne flota, rutas y solicitud de reserva. Definimos diseño y contenido junto con las funciones que requiere cada proyecto.
                 </p>
               </div>
 
