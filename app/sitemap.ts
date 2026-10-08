@@ -7,6 +7,7 @@ const staticDates: Record<string, string> = {
   "/servicios/diseno-web": SEO_UPDATED_AT, "/servicios/seo": SEO_UPDATED_AT,
   "/servicios/mantenimiento-web": SEO_UPDATED_AT, "/servicios/hosting": SEO_UPDATED_AT,
   "/servicios/desarrollo-web": SEO_UPDATED_AT, "/servicios/tiendas-online": SEO_UPDATED_AT,
+  "/servicios/agentes-ia": SEO_UPDATED_AT,
   "/proyectos": SEO_UPDATED_AT, "/sobre-nosotros": SEO_UPDATED_AT,
   "/privacidad": "2026-10-03", "/terminos": "2026-06-20", "/cookies": "2026-10-03",
 };

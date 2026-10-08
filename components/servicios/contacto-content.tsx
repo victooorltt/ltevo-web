@@ -335,6 +335,7 @@ export function ContactoContent({ initialService = "", initialPlan = "" }: { ini
                           <option value="desarrollo-web">Desarrollo web a medida</option>
                           <option value="hosting">Hosting gestionado</option>
                           <option value="ecommerce">Tienda Online</option>
+                          <option value="agentes-ia">Agentes de IA y automatización</option>
                           <option value="mantenimiento">Mantenimiento Web</option>
                           <option value="otro">Otro</option>
                         </select>

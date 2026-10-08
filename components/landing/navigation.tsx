@@ -21,6 +21,7 @@ const navLinks: NavLink[] = [
       { name: "Diseño Web", href: "/servicios/diseno-web" },
       { name: "Desarrollo a medida", href: "/servicios/desarrollo-web" },
       { name: "Tiendas online", href: "/servicios/tiendas-online" },
+      { name: "Agentes de IA y automatizaciones", href: "/servicios/agentes-ia" },
       { name: "SEO y Posicionamiento", href: "/servicios/seo" },
       { name: "Mantenimiento Web", href: "/servicios/mantenimiento-web" },
       { name: "Hosting gestionado", href: "/servicios/hosting" },
@@ -83,7 +84,9 @@ export function Navigation() {
     pathname === "/servicios/mantenimiento-web" ||
     pathname === "/servicios/hosting" ||
     pathname === "/servicios/desarrollo-web" ||
-    pathname === "/servicios/tiendas-online";
+    pathname === "/servicios/tiendas-online" ||
+    pathname === "/servicios/agentes-ia" ||
+    pathname === "/agentes-ia";
   const showWhiteText = !isScrolled && hasDarkHero;
   const floating = isScrolled || isMobileMenuOpen;
 
@@ -210,12 +213,12 @@ export function Navigation() {
                       }
                     }}
                   >
-                    <div className="bg-background/95 backdrop-blur-xl border border-foreground/10 rounded-sm shadow-[0_8px_30px_rgba(0,0,0,0.08)] min-w-[220px] py-2">
+                    <div className="bg-background/95 backdrop-blur-xl border border-foreground/10 rounded-sm shadow-[0_8px_30px_rgba(0,0,0,0.08)] min-w-[270px] py-2">
                       {link.dropdown.map((item) => (
                         <Link
                           key={item.name}
                           href={item.href}
-                          className="block px-6 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-foreground/3 transition-all duration-200"
+                          className="block px-6 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-foreground/3 transition-all duration-200 whitespace-nowrap"
                         >
                           {item.name}
                         </Link>

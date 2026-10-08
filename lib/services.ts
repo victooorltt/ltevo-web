@@ -5,6 +5,7 @@ export const contactServices = {
   ecommerce: "Tienda online",
   mantenimiento: "Mantenimiento web",
   hosting: "Hosting gestionado",
+  "agentes-ia": "Agentes de IA y automatización",
   otro: "Otro",
 } as const;
 

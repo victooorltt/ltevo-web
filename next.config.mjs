@@ -36,6 +36,15 @@ const nextConfig = {
       },
     ];
   },
-}
+  async redirects() {
+    return [
+      {
+        source: '/agentes-ia',
+        destination: '/servicios/agentes-ia',
+        permanent: true,
+      },
+    ];
+  },
+};
 
 export default nextConfig

@@ -94,4 +94,72 @@ export const servicePages: Record<string, ServicePage> = {
     ],
     related: [{ title: "PrestaShop frente a WooCommerce", href: "/blog/prestashop-vs-woocommerce" }, { title: "Qué es un TPV virtual", href: "/blog/tpv-virtual-que-es" }, { title: "Mantenimiento de tiendas y webs", href: "/servicios/mantenimiento-web" }],
   },
+  "agentes-ia": {
+    slug: "agentes-ia",
+    title: "Agentes de IA y Automatizaciones para Empresas | LTEvo",
+    description: "Desarrollo e integración de agentes de IA y automatizaciones para empresas. Optimiza procesos, ahorra tiempo y conecta herramientas con LTEvo.",
+    heading: "Agentes de IA y automatizaciones para empresas",
+    intro: "Diseñamos e implementamos agentes de inteligencia artificial y flujos de automatización que conectan tus herramientas, gestionan tareas repetitivas y aceleran la toma de decisiones. Desde Oviedo, ayudamos a empresas a aplicar IA práctica con objetivos medibles, control y seguridad.",
+    image: "/Hero-servicios-agentes-ia.webp",
+    audience: [
+      "Empresas que pierden horas en tareas manuales entre CRM, correos y hojas de cálculo.",
+      "Negocios que buscan agentes de soporte y atención comercial 24/7 conectados a sus datos.",
+      "Equipos que necesitan automatizar extracción de documentos, presupuestos o gestión operativa.",
+    ],
+    inclusions: [
+      {
+        title: "Auditoría de procesos y viabilidad",
+        text: "Analizamos tus flujos de trabajo actuales para identificar cuellos de botella y tareas repetitivas donde la IA y la automatización aportan un retorno de inversión real y medible antes de programar.",
+      },
+      {
+        title: "Desarrollo de agentes de IA a medida",
+        text: "Creamos agentes inteligentes especializados (atención al cliente, cualificación de leads, análisis documental, soporte interno) conectados a tus bases de conocimiento y fuentes de datos con permisos estrictos.",
+      },
+      {
+        title: "Automatización de flujos e integraciones",
+        text: "Conectamos tu web, CRM (HubSpot, Holded, Notion, etc.), ERP, WhatsApp, correo y herramientas internas mediante APIs y plataformas como n8n, eliminando fricciones y errores manuales entre plataformas.",
+      },
+      {
+        title: "Supervisión, seguridad y control humano",
+        text: "Implementamos sistemas con trazabilidad completa, control de fallos y validación humana (human-in-the-loop) para garantizar precisión, privacidad de datos y fiabilidad operativa.",
+      },
+    ],
+    decisions: [
+      {
+        title: "Automatización clásica vs. agentes inteligentes",
+        text: "No todo requiere IA generativa. Cuando una regla fija o webhook resuelve el problema de forma más rápida y económica, usamos automatización directa; reservamos los agentes inteligentes para razonar, clasificar o interactuar en lenguaje natural.",
+      },
+      {
+        title: "Privacidad y soberanía de los datos",
+        text: "Tus datos corporativos no se utilizan para entrenar modelos públicos. Seleccionamos arquitecturas privadas y seguras compatibles con el RGPD, con credenciales encriptadas y políticas estrictas de retención.",
+      },
+      {
+        title: "Implementación por fases e impacto medible",
+        text: "Comenzamos por un caso de uso prioritario con métricas claras (tiempo ahorrado, velocidad de respuesta, tasa de resolución). Una vez validado y en producción, escalamos a los siguientes procesos de la empresa.",
+      },
+    ],
+    faqs: [
+      {
+        question: "¿Qué tipo de procesos se pueden automatizar con agentes de IA?",
+        answer: "Desde responder dudas de clientes y agendar reuniones hasta extraer datos de facturas y contratos, redactar propuestas, sincronizar pedidos entre sistemas o monitorizar alertas de stock y negocio.",
+      },
+      {
+        question: "¿Qué diferencia hay entre un chatbot tradicional y un agente de IA?",
+        answer: "Un chatbot clásico responde con árboles de decisión cerrados y respuestas rígidas. Un agente de IA comprende el contexto, consulta tus documentos o APIs en tiempo real y ejecuta acciones concretas (como crear un ticket o enviar un correo).",
+      },
+      {
+        question: "¿Es seguro conectar la IA a los datos y herramientas de mi empresa?",
+        answer: "Sí, diseñamos la solución con arquitecturas seguras, control de accesos por roles y mecanismos 'human-in-the-loop' para que acciones críticas requieran confirmación de tu equipo. Además, garantizamos el cumplimiento del RGPD.",
+      },
+      {
+        question: "¿Cuánto cuesta y qué tiempo requiere implementar un agente de IA?",
+        answer: "El coste y plazo dependen de la complejidad de los flujos, las APIs a conectar y el volumen de datos. Tras una sesión inicial para evaluar el alcance, te entregamos una propuesta detallada con costes de desarrollo y mantenimiento definidos.",
+      },
+    ],
+    related: [
+      { title: "Desarrollo de aplicaciones y webs a medida", href: "/servicios/desarrollo-web" },
+      { title: "Diseño web para empresas", href: "/servicios/diseno-web" },
+      { title: "Mantenimiento y soporte web continuado", href: "/servicios/mantenimiento-web" },
+    ],
+  },
 };
