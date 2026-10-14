@@ -13,7 +13,6 @@
 - [Desarrollo web](https://ltevo.com/servicios/desarrollo-web): Aplicaciones, funciones e integraciones a medida.
 - [Tiendas online](https://ltevo.com/servicios/tiendas-online): Catálogo, pagos, envíos y gestión.
 - [Proyectos](https://ltevo.com/proyectos): Casos y alcance de webs realizadas.
-- [Sobre LTEvo](https://ltevo.com/sobre-nosotros): Víctor Lasheras, trabajo y contacto.
 
 ## Blog
 

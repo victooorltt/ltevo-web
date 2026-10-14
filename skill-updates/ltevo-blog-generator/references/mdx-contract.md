@@ -7,7 +7,7 @@ Usa YAML real (`gray-matter`): admite comentarios y listas multilínea. Fechas I
 - `draft: true`: oculto de listado, rutas, acceso y sitemap hasta revisión.
 - `date`: publicación original inmutable, sin falsa frescura.
 - `updatedAt`: fecha real de revisión sustantiva, no futura ni anterior a publicación; no añadir por cambios cosméticos.
-- `author`: Víctor Lasheras confirmado; perfil `/sobre-nosotros` y rol basado en hechos. El validador coteja autor/perfil con `lib/business.ts`. Antes de añadir otro autor, amplía la fuente de identidades confirmadas y su perfil; un equipo debe figurar como organización honesta, sin fingir persona.
+- `author`: Víctor Lasheras confirmado; perfil `/contacto` y rol basado en hechos. El validador coteja autor/perfil con `lib/business.ts`. Antes de añadir otro autor, amplía la fuente de identidades confirmadas y su perfil; un equipo debe figurar como organización honesta, sin fingir persona.
 - `seoTitle`: fiel y claro; la app añade LTEvo. 60 caracteres es aviso de ancho, no límite universal.
 - `excerpt`: razón concreta para leer; aviso fuera de 80–180, sin garantía de aparición en Google.
 - `keyword`: propósito editorial, sin coincidencia exacta obligatoria.

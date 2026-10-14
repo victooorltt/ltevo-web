@@ -29,7 +29,7 @@ function createDraft(post) {
     seoTitle: post.title,
     date: new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Madrid' }),
     author: 'Víctor Lasheras',
-    authorProfile: '/sobre-nosotros',
+    authorProfile: '/contacto',
     authorRole: 'Diseño, desarrollo web y SEO en LTEvo',
     semana: post.week,
     keyword: post.keyword,

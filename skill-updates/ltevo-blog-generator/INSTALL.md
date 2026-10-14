@@ -11,7 +11,7 @@ Copy-Item -Path ".\skill-updates\ltevo-blog-generator\*" -Destination ".\.agents
 
 Copia también `references/` y `assets/`; reemplazar solo `SKILL.md` dejaría enlaces a recursos ausentes. Recarga la skill en Antigravity después de copiar. El registro de skills debe refrescarse tras instalar (si utilizas Gentle AI: `gentle-ai skill-registry refresh`); no indica que la skill activa haya cambiado antes de la copia.
 
-La autorización de autoría corresponde a Víctor Lasheras y su perfil en `/sobre-nosotros`, con información confirmada por LTEvo. Las pruebas/experiencia que se incluyan en nuevos artículos requieren hechos documentados.
+La autorización de autoría corresponde a Víctor Lasheras y su perfil en `/contacto`, con información confirmada por LTEvo. Las pruebas/experiencia que se incluyan en nuevos artículos requieren hechos documentados.
 
 Comprueba desde el repositorio:
 

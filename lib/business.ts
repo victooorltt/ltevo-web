@@ -5,5 +5,5 @@ export const business = {
   email: "info@ltevo.com",
   telephone: "+34634255541",
   reviewUrl: "https://g.page/r/CasABkSyzoJWEBM/review",
-  authorProfile: "/sobre-nosotros",
+  authorProfile: "/contacto",
 } as const;

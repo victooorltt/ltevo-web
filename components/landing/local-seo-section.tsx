@@ -65,7 +65,7 @@ export function LocalSeoSection() {
                 y seguimiento. También puedes delegar el <Link href="/servicios/hosting" className="text-foreground underline underline-offset-4">hosting gestionado</Link> y el <Link href="/servicios/mantenimiento-web" className="text-foreground underline underline-offset-4">mantenimiento de tu web</Link>.
               </p>
               <p>
-                Hablas directamente con quien trabaja en tu proyecto. Conoce a <Link href="/sobre-nosotros" className="text-foreground underline underline-offset-4">Víctor Lasheras y LTEvo</Link>, consulta nuestros <Link href="/proyectos" className="text-foreground underline underline-offset-4">proyectos de diseño y desarrollo</Link> y compara el alcance antes de contratar.
+                Hablas directamente con quien trabaja en tu proyecto. Conoce a Víctor Lasheras y el equipo de LTEvo, consulta nuestros <Link href="/proyectos" className="text-foreground underline underline-offset-4">proyectos de diseño y desarrollo</Link> y compara el alcance antes de contratar.
               </p>
             </div>
           </div>

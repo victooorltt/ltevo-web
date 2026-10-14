@@ -231,7 +231,7 @@ export function SeoContent() {
               <li>Necesitas mejorar la visibilidad en tu zona y presentar una oferta más clara.</li>
               <li>Quieres priorizar cambios a partir de consultas, páginas y oportunidades reales.</li>
             </ul>
-            <p className="mt-6 text-muted-foreground leading-relaxed">Si la web necesita funciones nuevas, valoramos el <Link className="underline underline-offset-4" href="/servicios/desarrollo-web">desarrollo a medida</Link>. Para cambios técnicos recurrentes, puedes consultar el <Link className="underline underline-offset-4" href="/servicios/mantenimiento-web">mantenimiento web</Link>. Conoce a <Link className="underline underline-offset-4" href="/sobre-nosotros">Víctor Lasheras y el trabajo de LTEvo</Link>.</p>
+            <p className="mt-6 text-muted-foreground leading-relaxed">Si la web necesita funciones nuevas, valoramos el <Link className="underline underline-offset-4" href="/servicios/desarrollo-web">desarrollo a medida</Link>. Para cambios técnicos recurrentes, puedes consultar el <Link className="underline underline-offset-4" href="/servicios/mantenimiento-web">mantenimiento web</Link>. Hablas directamente con Víctor Lasheras y el equipo de LTEvo.</p>
             <Link href="/proyectos" className="inline-flex items-center gap-2 mt-6 underline underline-offset-4">Ver proyectos de LTEvo <ArrowRight className="w-4 h-4" aria-hidden="true" /></Link>
           </div>
         </div>

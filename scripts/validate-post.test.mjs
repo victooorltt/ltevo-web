@@ -10,14 +10,14 @@ import { validatePost } from './validate-post.mjs';
 
 async function fixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ltevo-post-'));
-  for (const directory of ['content/blog', 'public/blog', 'app/sobre-nosotros', 'app/servicios/seo', 'components', 'lib']) fs.mkdirSync(path.join(root, directory), { recursive: true });
+  for (const directory of ['content/blog', 'public/blog', 'app/contacto', 'app/servicios/seo', 'components', 'lib']) fs.mkdirSync(path.join(root, directory), { recursive: true });
   fs.writeFileSync(path.join(root, 'app/page.tsx'), 'import Hero from "@/components/hero"; export default function Page() { return <Hero/>; }');
   fs.writeFileSync(path.join(root, 'components/hero.tsx'), 'export default function Hero() { return <section id="servicios"/>; }');
-  fs.writeFileSync(path.join(root, 'app/sobre-nosotros/page.tsx'), 'export default function Page() { return null; }');
+  fs.writeFileSync(path.join(root, 'app/contacto/page.tsx'), 'export default function Page() { return null; }');
   fs.writeFileSync(path.join(root, 'app/servicios/seo/page.tsx'), 'export default function Page() { return null; }');
-  fs.writeFileSync(path.join(root, 'lib/business.ts'), 'export const business = { author: "Víctor Lasheras", authorProfile: "/sobre-nosotros" };');
+  fs.writeFileSync(path.join(root, 'lib/business.ts'), 'export const business = { author: "Víctor Lasheras", authorProfile: "/contacto" };');
   await sharp({ create: { width: 1200, height: 630, channels: 3, background: '#ffffff' } }).webp().toFile(path.join(root, 'public/blog/prueba.webp'));
-  const data = { title: 'Una respuesta natural', seoTitle: 'Guía para decidir', date: '2026-06-01', author: 'Víctor Lasheras', authorProfile: '/sobre-nosotros', authorRole: 'LTEvo', keyword: 'palabra clave con variante', coverImage: '/blog/prueba.webp', excerpt: 'Una guía concreta para tomar una decisión informada sobre el servicio SEO y sus posibilidades.', tags: ['SEO'] };
+  const data = { title: 'Una respuesta natural', seoTitle: 'Guía para decidir', date: '2026-06-01', author: 'Víctor Lasheras', authorProfile: '/contacto', authorRole: 'LTEvo', keyword: 'palabra clave con variante', coverImage: '/blog/prueba.webp', excerpt: 'Una guía concreta para tomar una decisión informada sobre el servicio SEO y sus posibilidades.', tags: ['SEO'] };
   const body = '## Decidir con información\n\nTodo lo necesario se explica aquí. [Servicios](/#servicios), [Google](https://developers.google.com/search) y [Documentación](https://schema.org).\n\n<CtaService service="seo" />\n';
   const write = (changes = {}, content = body) => fs.writeFileSync(path.join(root, 'content/blog/prueba.mdx'), matter.stringify(content, { ...data, ...changes }));
   write();

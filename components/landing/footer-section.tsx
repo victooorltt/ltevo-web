@@ -16,7 +16,6 @@ const footerLinks = {
     { name: "Desarrollo a medida", href: "/servicios/desarrollo-web" },
     { name: "Tiendas online", href: "/servicios/tiendas-online" },
     { name: "Hosting gestionado", href: "/servicios/hosting" },
-    { name: "Sobre LTEvo", href: "/sobre-nosotros" },
     { name: "SEO",               href: "/servicios/seo"        },
     { name: "Mantenimiento Web", href: "/servicios/mantenimiento-web" },
     { name: "Blog",              href: "/blog"                  },
