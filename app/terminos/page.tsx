@@ -50,12 +50,12 @@ export default function TerminosPage() {
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">2. Servicios ofrecidos</h2>
-            <p>LTEvo ofrece servicios profesionales de tecnología e inteligencia artificial para empresas:</p>
+            <p>LTEvo ofrece servicios profesionales de diseño web, desarrollo y estrategia digital para empresas:</p>
             <ul className="mt-3 space-y-2 list-disc list-inside text-white/50">
-              <li>Consultoría sobre IA y plan de aplicación</li>
-              <li>Automatización de procesos inteligente</li>
-              <li>Chatbots y agentes de voz con IA</li>
-              <li>Diseño y desarrollo de sitios web</li>
+              <li>Diseño web y desarrollo a medida</li>
+              <li>Posicionamiento SEO y optimización web</li>
+              <li>Diseño y desarrollo de tiendas online</li>
+              <li>Mantenimiento web y hosting gestionado</li>
             </ul>
             <p className="mt-3">
               Las condiciones específicas de cada servicio contratado se detallarán en el presupuesto u
