@@ -29,8 +29,12 @@ type Faq = {
 
 export const faqs: Faq[] = [
   {
+    question: "¿Dais soporte de mantenimiento web en Oviedo, Gijón y toda Asturias?",
+    answer: "Sí. Aunque atendemos a clientes de toda España, gran parte de las webs corporativas y tiendas online que mantenemos son de empresas de Oviedo, Gijón, Avilés y el resto de Asturias. Disponemos de comunicación directa y soporte ágil para resolver incidencias técnicas, actualizaciones y copias sin esperas.",
+  },
+  {
     question: "¿Podéis mantener una web que no ha desarrollado LTEvo?",
-    answer: "Sí, primero revisamos tecnología, estado, accesos y copias existentes para confirmar la cobertura. En WordPress y WooCommerce valoramos sistema, temas, plugins y funciones de venta; en una web de código, dependencias, despliegue y datos. Los problemas previos o una puesta a punto se valoran aparte antes del alta.",
+    answer: "Sí. Somos especialistas en mantenimiento web en Asturias y soporte para WordPress, WooCommerce y desarrollos a medida. Primero revisamos tecnología, estado, accesos y copias existentes para confirmar la cobertura. Los problemas previos o una puesta a punto inicial se valoran aparte antes del alta.",
   },
   {
     question: "¿Qué diferencia hay entre los planes de mantenimiento?",
