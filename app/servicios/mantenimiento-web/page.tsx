@@ -13,6 +13,10 @@ const schema = servicePageSchema({
   name: "Mantenimiento web en Asturias y Oviedo",
   description,
   serviceType: "Mantenimiento web y soporte técnico",
+  subjectOf: [
+    { name: "Qué incluye el mantenimiento web y cómo elegir plan", path: "/blog/que-incluye-mantenimiento-web" },
+    { name: "Por Qué mi Web no Aparece en Google (y Cómo Solucionarlo)", path: "/blog/por-que-mi-web-no-aparece-en-google" },
+  ],
   offers: maintenancePlans.map((name, index) => ({
     "@type": "Offer" as const,
     name,

@@ -27,7 +27,14 @@ export default function BlogPage() {
       {
         "@type": "Blog", "@id": `${SITE_URL}/blog#blog`, url: `${SITE_URL}/blog`, name: "Blog de LTEvo",
         publisher: { "@id": `${SITE_URL}/#business` },
-        blogPost: posts.map((post) => ({ "@id": `${SITE_URL}/blog/${post.slug}#article` })),
+        blogPost: posts.map((post) => ({
+          "@type": "BlogPosting",
+          "@id": `${SITE_URL}/blog/${post.slug}#article`,
+          url: `${SITE_URL}/blog/${post.slug}`,
+          headline: post.title,
+          datePublished: post.date,
+          dateModified: post.updatedAt ?? post.date,
+        })),
       },
       breadcrumbs([{ name: "Inicio", path: "/" }, { name: "Blog", path: "/blog" }]),
     ],

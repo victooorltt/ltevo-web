@@ -6,13 +6,19 @@ import { HostingContent } from "@/components/servicios/hosting-content";
 
 const service = servicePages["hosting"];
 const path = "/servicios/hosting";
-export const metadata = pageMetadata(service.title, service.description, path);
+const description = "Hosting gestionado y alojamiento web en Oviedo y Asturias: servidor, migración, copias de seguridad y soporte técnico. Solicita una propuesta a medida.";
+export const metadata = pageMetadata(service.title, description, path);
 
 const schema = servicePageSchema({
   path,
   name: service.heading,
-  description: service.description,
-  serviceType: "Alojamiento web gestionado",
+  description,
+  serviceType: "Hosting gestionado y alojamiento web para empresas",
+  subjectOf: [
+    { name: "Qué incluye el mantenimiento web y cómo elegir plan", path: "/blog/que-incluye-mantenimiento-web" },
+    { name: "Qué es el Crawl Budget y Cómo Optimizarlo en tu Web", path: "/blog/que-es-el-crawl-budget" },
+    { name: "PrestaShop vs WooCommerce: Cuál Elegir para tu Tienda Online", path: "/blog/prestashop-vs-woocommerce" },
+  ],
 });
 
 export default function Page() {

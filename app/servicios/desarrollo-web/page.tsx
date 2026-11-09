@@ -12,7 +12,12 @@ const schema = servicePageSchema({
   path,
   name: service.heading,
   description: service.description,
-  serviceType: "Desarrollo de aplicaciones web e integraciones a medida",
+  serviceType: "Desarrollo web a medida, aplicaciones web e integraciones",
+  subjectOf: [
+    { name: "Qué es un Framework de Desarrollo Web (y Por Qué lo Usamos en Cada Proyecto)", path: "/blog/que-es-un-framework-de-desarrollo-web" },
+    { name: "Las Mejores Herramientas de Desarrollo Web que Usan los Profesionales", path: "/blog/herramientas-de-desarrollo-web" },
+    { name: "Diseño Web vs Desarrollo Web: La Guía para Entender la Diferencia", path: "/blog/diseno-web-vs-desarrollo-web" },
+  ],
 });
 
 export default function Page() {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const SITE_URL = "https://ltevo.com";
 // Actualizar solo al cambiar el contenido de las páginas estáticas.
-export const SEO_UPDATED_AT = "2026-10-03";
+export const SEO_UPDATED_AT = "2026-11-09";
 export const HOME_TITLE = "Diseño y desarrollo web en Oviedo y Asturias";
 export const HOME_DESCRIPTION = "Diseño y desarrollo web para empresas de Oviedo y Asturias. Webs corporativas, tiendas online, SEO y mantenimiento. Consulta proyectos y pide presupuesto.";
 
@@ -37,6 +37,7 @@ type ServicePageSchemaOptions = {
   name: string;
   description: string;
   serviceType: string;
+  subjectOf?: { name: string; path: string }[];
   offers?: {
     "@type": "Offer";
     name: string;
@@ -51,7 +52,7 @@ type ServicePageSchemaOptions = {
   }[];
 };
 
-export function servicePageSchema({ path, name, description, serviceType, offers }: ServicePageSchemaOptions) {
+export function servicePageSchema({ path, name, description, serviceType, subjectOf, offers }: ServicePageSchemaOptions) {
   const url = `${SITE_URL}${path}`;
   return {
     "@context": "https://schema.org",
@@ -66,6 +67,16 @@ export function servicePageSchema({ path, name, description, serviceType, offers
         isPartOf: { "@id": `${SITE_URL}/#website` },
         mainEntity: { "@id": `${url}#service` },
         breadcrumb: { "@id": `${url}#breadcrumb` },
+        ...(subjectOf?.length
+          ? {
+              subjectOf: subjectOf.map((g) => ({
+                "@type": "Article",
+                "@id": `${SITE_URL}${g.path}#article`,
+                url: `${SITE_URL}${g.path}`,
+                headline: g.name,
+              })),
+            }
+          : {}),
       },
       {
         "@type": "Service",

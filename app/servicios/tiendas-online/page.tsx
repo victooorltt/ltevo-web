@@ -12,7 +12,12 @@ const schema = servicePageSchema({
   path,
   name: service.heading,
   description: service.description,
-  serviceType: "Diseño y desarrollo de tiendas online",
+  serviceType: "Diseño y desarrollo de tiendas online y ecommerce",
+  subjectOf: [
+    { name: "PrestaShop vs WooCommerce: Cuál Elegir para tu Tienda Online", path: "/blog/prestashop-vs-woocommerce" },
+    { name: "TPV Virtual: Qué Es y Cómo Cobrar con Tarjeta en tu Tienda Online", path: "/blog/tpv-virtual-que-es" },
+    { name: "Cómo Usar Yoast SEO en WooCommerce Paso a Paso", path: "/blog/yoast-seo-woocommerce" },
+  ],
 });
 
 export default function Page() {
