@@ -40,6 +40,7 @@
 - [Qué es un Framework de Desarrollo Web (y Por Qué lo Usamos en Cada Proyecto)](https://ltevo.com/blog/que-es-un-framework-de-desarrollo-web): Qué es un framework web, comparativa entre Next.js, React y Laravel, y ventajas frente a código sin estructura. (2026-10-21)
 - [Las Mejores Herramientas de Desarrollo Web que Usan los Profesionales](https://ltevo.com/blog/herramientas-de-desarrollo-web): Ecosistema de herramientas profesionales para diseño en Figma, editores modernos, testing de rendimiento y despliegue continuo. (2026-10-28)
 - [Inteligencia Artificial en Diseño Web: Cómo Está Cambiando el Sector](https://ltevo.com/blog/inteligencia-artificial-en-diseno-web): Impacto de la IA en wireframing, redacción y código, riesgos de webs genéricas y por qué el criterio humano sigue siendo decisivo. (2026-11-04)
+- [Cuánto Cuesta una Página Web en Asturias (Precios Reales en 2026)](https://ltevo.com/blog/cuanto-cuesta-una-pagina-web-asturias): Desglose de precios según tipo de web, factores que encarecen el proyecto, costes de mantenimiento y cómo pedir presupuesto. (2026-11-11)
 
 ## Información
 
