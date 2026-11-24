@@ -14,12 +14,12 @@ Procedimiento estandarizado para publicar artículos de blog orientados a posici
 ```
 1. Blog-web.txt ──> 2. Keyword sin canibalizar + elegir post sin "X"
                               │
-4. Portada IA        3. Redactar .mdx (answer-first)
+4. Portada IA        3. Redactar .mdx (answer-first + CTR BOFU)
    1200x630                 │
                               v
           5. VALIDAR (validate-post.mjs) ── falla --> arreglar
                               │ pasa
-                    6. Marcar "X" + llms.txt + commit + push
+     6. Marcar "X" + llms.txt + JSON-LD servicio + push a main + URLs GSC
 ```
 
 ---
@@ -83,19 +83,29 @@ title: "[Idea de Titular]"                # para el <h1> y la tarjeta
 seoTitle: "[≤52 chars]"                   # para el <title> de la SERP
 date: "YYYY-MM-DD"                        # publicación, nunca se cambia
 updatedAt: "YYYY-MM-DD"                   # SOLO al revisar un post ya publicado
-author: "[Nombre real]"
+author: "Víctor Lasheras"                 # debe coincidir con lib/business.ts
+authorProfile: "/contacto"                # debe coincidir con lib/business.ts
+authorRole: "Diseño, desarrollo web y SEO en LTEvo"
 semana: "Semana X"
 keyword: "[keyword exacta a posicionar]"
 volumen: "[Volumen]"
 kd: [KD]
 competidor: "[Competidor]"
 coverImage: "/blog/[slug].webp"
+socialImage: "/blog/[slug]-og.jpg"        # copia JPG 1200x630 para redes sociales
 excerpt: "[120-158 chars, con la keyword y una razón para clicar]"
 tags: ["SEO", "Diseño Web"]               # solo del vocabulario cerrado (Paso 3bis)
+ctaService: "diseno-web"                  # diseno-web | desarrollo-web | tiendas-online | seo | mantenimiento-web | hosting | contacto
+relatedSlugs: ["slug-1", "slug-2"]        # 2-3 posts publicados del mismo clúster
 ---
 ```
 
 `seoTitle` ≤52 caracteres (el template añade `" | LTEvo"`; a partir de ~60 Google trunca). `excerpt` entre 120 y 158.
+
+#### Regla de CTR para artículos comerciales (BOFU)
+Cuando el artículo ataque intención comercial (precios, presupuestos, tarifas, auditorías, comparativas o migraciones), incluir siempre un **gancho verificable de clic** en `seoTitle` y/o `excerpt`:
+- El año vigente o un rango de precio real mencionado dentro del artículo (p. ej. `Precios 2026`, `desde 800 €`, `desde 350 €`, `desde 29,99 €/mes`).
+- Nunca inventar cifras ni prometer algo que no esté justificado en el cuerpo del post.
 
 ### Vocabulario cerrado de `tags`
 
@@ -170,15 +180,20 @@ Si falla: corregir el post y volver a pasar el comando. Nunca marcar la `X` con 
 
 1. Insertar la `X` en la fila de `Blog-web.txt` manteniendo el alineado.
 2. Añadir el post a `public/llms.txt` (título, resumen y fecha). Si no, ese índice se queda desfasado.
-3. ⛔ **No compiles nada.** No `pnpm build`, ni `npx tsc --noEmit`, ni `next dev`, ni `pnpm lint`. Los agentes corren en WSL sobre el disco de Windows por `/mnt/c`, donde el doble arranque de Node lo multiplica por diez. **Se encarga quien escribe, desde su terminal de Windows.** El único comando que se ejecuta desde aquí es el validador del Paso 5 (menos de un segundo). Si el validador pasa, el post se da por bueno y el commit sale sin más comprobaciones.
-
-4. `git branch --show-current` — nunca hacer push directo a `main`.
-5. Commit y push (sin menciones de IA ni `Co-Authored-By`). Ojo: `Blog-web.txt` está en `.gitignore`, así que **no** se añade al commit; el calendario editorial es local:
+3. **Conectar el artículo en el `JSON-LD` de su servicio (0 cambios visuales):**
+   - Si `ctaService` corresponde a una página de servicio (`diseno-web`, `desarrollo-web`, `tiendas-online`, `seo`, `mantenimiento-web` o `hosting`), añadir `{ name: "<title>", path: "/blog/<slug>" }` al inicio del array `subjectOf` en `app/servicios/<ctaService>/page.tsx` (solo en el esquema `servicePageSchema`, **sin tocar ningún JSX ni elemento visible de la página**).
+   - Actualizar `SEO_UPDATED_AT` en `lib/seo.ts` a la fecha del día (`YYYY-MM-DD`) para que `sitemap.xml` refleje la actualización.
+4. ⛔ **No compiles nada en WSL.** No `pnpm build`, ni `npx tsc --noEmit`, ni `next dev`, ni `pnpm lint`. Los agentes corren en WSL sobre el disco de Windows por `/mnt/c`, donde el doble arranque de Node y los binarios nativos de Windows (`sharp`) bloquean o ralentizan el build. El único comando de validación que se ejecuta aquí es `node scripts/validate-post.mjs <slug>` (y comprobar longitudes YAML si `sharp` falla en WSL).
+5. Comprobar con `git branch --show-current` que estás en `main`. En este repositorio los posts validados se publican **directamente en `main`** para desplegar en Vercel.
+6. Commit y push (sin menciones de IA ni `Co-Authored-By`). Ojo: `Blog-web.txt` está en `.gitignore`, así que **no** se añade al commit; el calendario editorial es local:
    ```bash
-   git add content/blog/$SLUG.mdx public/blog/$SLUG.webp public/llms.txt
+   git add content/blog/$SLUG.mdx public/blog/$SLUG.webp public/blog/$SLUG-og.jpg public/llms.txt app/servicios/$CTA_SERVICE/page.tsx lib/seo.ts
    git commit -m "feat(blog): add post $SLUG and cover image"
-   git push
+   git push origin main
    ```
+7. **Entrega lista para Search Console:** Al responder al usuario tras el `push`, incluir siempre al final un bloque listo para copiar y pegar en Google Search Console (*Inspeccionar URL → Solicitar indexación*):
+   - `https://ltevo.com/blog/<slug>`
+   - `https://ltevo.com/servicios/<ctaService>` *(si se actualizó su `JSON-LD`)*
 
 ---
 
@@ -186,17 +201,19 @@ Si falla: corregir el post y volver a pasar el comando. Nunca marcar la `X` con 
 
 Bloqueante si cualquiera falla:
 
-- [ ] ¿El `.mdx` y la portada existen, y la portada mide **1200×630**?
+- [ ] ¿El `.mdx`, la portada `.webp` y el `-og.jpg` existen y miden **1200×630**?
 - [ ] ¿Sin placeholders, TODOs ni notas internas?
 - [ ] ¿**Sin diagramas ASCII ni tablas dibujadas con caracteres de caja**?
 - [ ] ¿**Ningún enlace interno roto**? (Paso 5)
 - [ ] ¿La keyword está en el **H1**, en las **primeras 100 palabras** y en **≥1 H2**?
-- [ ] ¿`seoTitle` ≤52 y `excerpt` entre 120 y 158 caracteres?
+- [ ] ¿`seoTitle` ≤52 y `excerpt` entre 120 y 158 caracteres (con gancho verificable de CTR si es BOFU)?
+- [ ] ¿Frontmatter completo (`author`, `authorProfile`, `authorRole`, `socialImage`, `ctaService`, `relatedSlugs`)?
 - [ ] ¿**≥2 enlaces externos** de autoridad, y **toda estadística con su fuente**?
 - [ ] ¿1-3 enlaces internos con anchor descriptivo hacia destinos existentes?
 - [ ] ¿Hay un bloque de experiencia propia y autor con nombre real?
 - [ ] ¿≥2 visuales en el cuerpo y ≥1 tabla?
 - [ ] ¿Tags del vocabulario cerrado, sin inventar?
-- [ ] ¿CTA final hacia los servicios de LTEvo?
-- [ ] ¿Se validó el build (`tsc` + `build`) y se comprobó la rama?
-- [ ] ¿Se marcó la `X`, se actualizó `llms.txt`, y se hizo commit + push?
+- [ ] ¿CTA final (`<CtaService service="..." />`) hacia el servicio de LTEvo correspondiente?
+- [ ] ¿Pasó `validate-post.mjs <slug>` sin errores (sin ejecutar `pnpm build` ni `tsc` en WSL)?
+- [ ] ¿Se marcó la `X` en `Blog-web.txt`, se actualizó `llms.txt`, se añadió a `subjectOf` del servicio y `SEO_UPDATED_AT`, y se hizo commit + push a `main`?
+- [ ] ¿Se entregaron al usuario las URLs listas para «Solicitar indexación» en Search Console?
