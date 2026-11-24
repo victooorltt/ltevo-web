@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const SITE_URL = "https://ltevo.com";
 // Actualizar solo al cambiar el contenido de las páginas estáticas.
-export const SEO_UPDATED_AT = "2026-11-09";
+export const SEO_UPDATED_AT = "2026-11-24";
 export const HOME_TITLE = "Diseño y desarrollo web en Oviedo y Asturias";
 export const HOME_DESCRIPTION = "Diseño y desarrollo web para empresas de Oviedo y Asturias. Webs corporativas, tiendas online, SEO y mantenimiento. Consulta proyectos y pide presupuesto.";
 

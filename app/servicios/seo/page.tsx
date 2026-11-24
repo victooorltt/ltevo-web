@@ -13,6 +13,7 @@ const schema = servicePageSchema({
   description,
   serviceType: "Agencia SEO, posicionamiento web orgánico y SEO local",
   subjectOf: [
+    { name: "Auditoría SEO en Asturias: Precios, Qué Incluye y Cómo Pedirla", path: "/blog/auditoria-seo-asturias-precios" },
     { name: "Por Qué mi Web no Aparece en Google (y Cómo Solucionarlo)", path: "/blog/por-que-mi-web-no-aparece-en-google" },
     { name: "Qué es el SEO y Para Qué Sirve Realmente (Guía 2026)", path: "/blog/que-es-el-seo" },
     { name: "12 Beneficios Reales de Tener un Blog Corporativo en tu Web", path: "/blog/beneficios-blog-corporativo" },

@@ -13,6 +13,7 @@ const schema = servicePageSchema({
   description,
   serviceType: "Diseño de páginas web y webs corporativas",
   subjectOf: [
+    { name: "Cuánto Cuesta una Página Web en Asturias (Precios Reales en 2026)", path: "/blog/cuanto-cuesta-una-pagina-web-asturias" },
     { name: "Cómo elegir una agencia de diseño web", path: "/blog/como-elegir-agencia-de-diseno-web" },
     { name: "UX y UI: Qué Son y Por Qué tu Web los Necesita para Vender Más", path: "/blog/que-es-ux-y-ui" },
     { name: "Cómo Crear un Blog Corporativo Paso a Paso (Sin Morir en el Intento)", path: "/blog/como-crear-un-blog-corporativo" },
