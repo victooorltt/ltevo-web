@@ -14,6 +14,7 @@ const schema = servicePageSchema({
   description,
   serviceType: "Mantenimiento web y soporte técnico",
   subjectOf: [
+    { name: "Mantenimiento WordPress en Asturias: Qué Incluye y Tarifas", path: "/blog/mantenimiento-wordpress-asturias" },
     { name: "Qué incluye el mantenimiento web y cómo elegir plan", path: "/blog/que-incluye-mantenimiento-web" },
     { name: "Por Qué mi Web no Aparece en Google (y Cómo Solucionarlo)", path: "/blog/por-que-mi-web-no-aparece-en-google" },
   ],
